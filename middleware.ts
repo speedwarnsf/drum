@@ -1,20 +1,16 @@
-import { auth } from "@/auth";
-import type { NextRequest } from "next/server";
+import { withAuth } from "next-auth/middleware";
 
-type AuthRequest = NextRequest & { auth?: unknown };
-
-export default auth((req: AuthRequest) => {
-  const isLoggedIn = !!req.auth;
-  const { pathname } = req.nextUrl;
-
-  if (!isLoggedIn && pathname.startsWith("/drum")) {
-    const url = new URL("/login", req.nextUrl);
-    url.searchParams.set("next", pathname);
-    return Response.redirect(url);
+export default withAuth(
+  () => undefined,
+  {
+    pages: {
+      signIn: "/login",
+    },
+    callbacks: {
+      authorized: ({ token }) => !!token,
+    },
   }
-
-  return;
-});
+);
 
 export const config = {
   matcher: ["/drum/:path*"],

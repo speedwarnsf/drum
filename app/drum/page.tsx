@@ -1,7 +1,8 @@
-import { auth } from "@/auth";
+import { authOptions } from "@/auth";
+import { getServerSession } from "next-auth";
 
 export default async function DrumHome() {
-  const session = await auth();
+  const session = await getServerSession(authOptions);
 
   return (
     <main className="shell">

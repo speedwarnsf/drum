@@ -1,10 +1,10 @@
-import NextAuth from "next-auth";
+import type { NextAuthOptions } from "next-auth";
 import Credentials from "next-auth/providers/credentials";
 
 const adminEmail = process.env.DRUM_ADMIN_EMAIL;
 const adminPassword = process.env.DRUM_ADMIN_PASSWORD;
 
-export const { auth, signIn, signOut, handlers } = NextAuth({
+export const authOptions: NextAuthOptions = {
   session: { strategy: "jwt" },
   providers: [
     Credentials({
@@ -29,4 +29,4 @@ export const { auth, signIn, signOut, handlers } = NextAuth({
   pages: {
     signIn: "/login",
   },
-});
+};
