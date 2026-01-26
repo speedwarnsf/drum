@@ -1,11 +1,12 @@
 import type { NextAuthOptions } from "next-auth";
 import Credentials from "next-auth/providers/credentials";
 
-const adminEmail = process.env.DRUM_ADMIN_EMAIL;
-const adminPassword = process.env.DRUM_ADMIN_PASSWORD;
+const adminEmail = (process.env.DRUM_ADMIN_EMAIL || "").trim().toLowerCase();
+const adminPassword = process.env.DRUM_ADMIN_PASSWORD || "";
 
 export const authOptions: NextAuthOptions = {
   session: { strategy: "jwt" },
+  secret: process.env.NEXTAUTH_SECRET,
   providers: [
     Credentials({
       name: "Credentials",
@@ -14,19 +15,16 @@ export const authOptions: NextAuthOptions = {
         password: { label: "Password", type: "password" },
       },
       async authorize(credentials) {
-        const email = (credentials?.email ?? "").toString().trim().toLowerCase();
-        const password = (credentials?.password ?? "").toString();
+        const email = String(credentials?.email || "").trim().toLowerCase();
+        const password = String(credentials?.password || "");
 
         if (!adminEmail || !adminPassword) return null;
-
-        if (email === adminEmail.toLowerCase() && password === adminPassword) {
+        if (email === adminEmail && password === adminPassword) {
           return { id: "drum-admin", email };
         }
         return null;
       },
     }),
   ],
-  pages: {
-    signIn: "/login",
-  },
+  pages: { signIn: "/login" },
 };
