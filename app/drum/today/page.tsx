@@ -2,6 +2,8 @@
 
 import React, { useEffect, useMemo, useState } from "react";
 import Shell from "../_ui/Shell";
+import Metronome from "../_ui/Metronome";
+import Timer from "../_ui/Timer";
 import {
   buildTodaysPlan,
   loadProfile,
@@ -11,10 +13,8 @@ import {
 
 export default function DrumTodayPage() {
   const [profile, setProfile] = useState<Profile | null>(null);
-  const [activeBlock, setActiveBlock] = useState<number | null>(null);
-  const [secondsLeft, setSecondsLeft] = useState<number>(0);
-  const [isRunning, setIsRunning] = useState(false);
-  const [isComplete, setIsComplete] = useState(false);
+  const [activeBlock, setActiveBlock] = useState<string | null>(null);
+  const [metroBpm, setMetroBpm] = useState<number>(60);
 
   useEffect(() => {
     const p = loadProfile();
@@ -33,70 +33,20 @@ export default function DrumTodayPage() {
   if (!plan) return null;
 
   useEffect(() => {
-    if (!isRunning) return;
-    if (secondsLeft <= 0) {
-      setIsRunning(false);
-      setIsComplete(true);
-      return;
-    }
-    const id = window.setInterval(() => {
-      setSecondsLeft((prev) => Math.max(0, prev - 1));
-    }, 1000);
-    return () => window.clearInterval(id);
-  }, [isRunning, secondsLeft]);
-
-  const startTimer = (blockIndex: number, minutesText: string) => {
-    const minutes = parseMinutes(minutesText);
-    if (!minutes) return;
-    setActiveBlock(blockIndex);
-    setSecondsLeft(Math.round(minutes * 60));
-    setIsRunning(true);
-    setIsComplete(false);
-  };
-
-  const toggleTimer = (blockIndex: number, minutesText: string) => {
-    if (activeBlock !== blockIndex) {
-      startTimer(blockIndex, minutesText);
-      return;
-    }
-    if (isRunning) {
-      setIsRunning(false);
-      return;
-    }
-    if (secondsLeft <= 0) {
-      startTimer(blockIndex, minutesText);
-      return;
-    }
-    setIsRunning(true);
-  };
+    const bpm = parseBpm(plan.metronome);
+    if (bpm) setMetroBpm(bpm);
+  }, [plan.metronome]);
 
   return (
     <Shell
       title="Today's Practice Card"
       subtitle={`${plan.minutes} minutes • Metronome: ${plan.metronome} • Focus: ${plan.focus}`}
     >
-      {isComplete ? (
-        <div
-          className="timer-flash"
-          onClick={() => setIsComplete(false)}
-          role="button"
-          tabIndex={0}
-          onKeyDown={(e) => {
-            if (e.key === "Enter" || e.key === " ") setIsComplete(false);
-          }}
-          aria-label="Timer complete. Click to dismiss."
-        >
-          <div className="timer-flash-inner">
-            <div className="kicker">Time</div>
-            <div className="timer-flash-title">Block Complete</div>
-            <div className="timer-flash-sub">Click anywhere to continue.</div>
-          </div>
-        </div>
-      ) : null}
-
       <section className="card">
         <p>{plan.contextLine}</p>
       </section>
+
+      <Metronome bpm={metroBpm} />
 
       {plan.blocks.map((b, idx) => (
         <article key={idx} className="card">
@@ -105,20 +55,12 @@ export default function DrumTodayPage() {
             <div className="meta">{b.time}</div>
           </div>
 
-          <button
-            type="button"
-            className={`timer ${activeBlock === idx ? "timer-active" : ""}`}
-            onClick={() => toggleTimer(idx, b.time)}
-            aria-pressed={activeBlock === idx && isRunning}
-          >
-            <span className="timer-label">Tap to {activeBlock === idx && isRunning ? "pause" : "start"}</span>
-            <span className="timer-readout">
-              {formatTime(activeBlock === idx ? secondsLeft : parseMinutes(b.time) * 60)}
-            </span>
-            <span className="timer-state">
-              {activeBlock === idx && isRunning ? "Running" : "Idle"}
-            </span>
-          </button>
+          <Timer
+            id={`block-${idx}`}
+            durationSeconds={Math.round(parseMinutes(b.time) * 60)}
+            activeId={activeBlock}
+            onActiveChange={setActiveBlock}
+          />
 
           <ul style={{ marginTop: 0 }}>
             {b.bullets.map((x, i) => (
@@ -167,9 +109,7 @@ function parseMinutes(text: string) {
   return match ? Number(match[1]) : 0;
 }
 
-function formatTime(totalSeconds: number) {
-  const safe = Math.max(0, Math.floor(totalSeconds));
-  const minutes = Math.floor(safe / 60);
-  const seconds = safe % 60;
-  return `${String(minutes).padStart(2, "0")}:${String(seconds).padStart(2, "0")}`;
+function parseBpm(text: string) {
+  const match = text.match(/(\d+)\s*BPM/i);
+  return match ? Number(match[1]) : 60;
 }

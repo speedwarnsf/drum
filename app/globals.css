@@ -193,6 +193,42 @@ main.shell.shell-tight {
   color: var(--ink-muted);
 }
 
+.metronome {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.metronome-title {
+  font-size: clamp(20px, 4vw, 30px);
+  font-family: var(--font-dm-mono), ui-monospace, monospace;
+  margin-top: 6px;
+}
+
+.metronome-sub {
+  color: var(--ink-muted);
+  font-size: 13px;
+  margin-top: 4px;
+}
+
+.metronome-led {
+  margin-top: 14px;
+  width: 100%;
+  height: 14px;
+  border-radius: 999px;
+  background: linear-gradient(90deg, #f1a41f 0%, #f7c96b 50%, #f1a41f 100%);
+  box-shadow: inset -3px -3px 8px var(--shadow-hi),
+    inset 3px 3px 8px rgba(120, 60, 0, 0.45);
+  opacity: 0.5;
+}
+
+.metronome-led-on {
+  animation: ledPulse 600ms ease-in-out infinite;
+  opacity: 1;
+}
+
 .timer-flash {
   position: fixed;
   inset: 0;
@@ -339,6 +375,16 @@ li {
   }
   50% {
     filter: saturate(1.2) brightness(1.06);
+  }
+}
+
+@keyframes ledPulse {
+  0%,
+  100% {
+    filter: brightness(0.9);
+  }
+  50% {
+    filter: brightness(1.2);
   }
 }
 
