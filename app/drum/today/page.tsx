@@ -2,48 +2,85 @@
 
 /* eslint-disable react-hooks/set-state-in-effect */
 import React, { useEffect, useMemo, useState } from "react";
+import { useSearchParams } from "next/navigation";
 import Shell from "../_ui/Shell";
 import Metronome from "../_ui/Metronome";
 import Timer from "../_ui/Timer";
 import {
   buildTodaysPlan,
   loadProfile,
+  loadSessions,
+  saveLastPlan,
   PracticePlan,
   Profile,
+  StoredSession,
 } from "../_lib/drumMvp";
 
 export default function DrumTodayPage() {
+  const searchParams = useSearchParams();
+  const sessionId = searchParams.get("session");
   const [profile, setProfile] = useState<Profile | null>(null);
   const [activeBlock, setActiveBlock] = useState<string | null>(null);
   const [metroBpm, setMetroBpm] = useState<number>(60);
+  const [sessionPlan, setSessionPlan] = useState<PracticePlan | null>(null);
+  const [sessionMeta, setSessionMeta] = useState<StoredSession | null>(null);
+  const [sessions, setSessions] = useState<StoredSession[]>([]);
 
   useEffect(() => {
+    const allSessions = loadSessions();
+    setSessions(allSessions);
+    if (sessionId) {
+      const match = allSessions.find((item) => item.id === sessionId) ?? null;
+      setSessionPlan(match ? match.plan : null);
+      setSessionMeta(match);
+      return;
+    }
+    setSessionPlan(null);
+    setSessionMeta(null);
     const p = loadProfile();
     if (!p) {
       window.location.href = "/drum/start";
       return;
     }
     setProfile(p);
-  }, []);
+  }, [sessionId]);
 
   const plan: PracticePlan | null = useMemo(() => {
+    if (sessionPlan) return sessionPlan;
     if (!profile) return null;
     return buildTodaysPlan(profile);
-  }, [profile]);
+  }, [profile, sessionPlan]);
 
   useEffect(() => {
     if (!plan) return;
+    if (!sessionPlan) {
+      saveLastPlan(plan);
+    }
     const bpm = parseBpm(plan.metronome);
     if (bpm) setMetroBpm(bpm);
-  }, [plan]);
+  }, [plan, sessionPlan]);
 
   if (!plan) return null;
 
   return (
     <Shell
-      title="Today's Practice Card"
+      title={sessionMeta ? "Saved Practice Card" : "Today's Practice Card"}
       subtitle={`${plan.minutes} minutes • Metronome: ${plan.metronome} • Focus: ${plan.focus}`}
     >
+      {sessionMeta ? (
+        <section className="card">
+          <div className="kicker">History</div>
+          <p className="sub">
+            Viewing a saved session from {formatDate(sessionMeta.ts)}.
+          </p>
+          <div className="row">
+            <a href="/drum/today" className="btn btn-ghost">
+              Back to today
+            </a>
+          </div>
+        </section>
+      ) : null}
+
       <section className="card">
         <p>{plan.contextLine}</p>
       </section>
@@ -118,6 +155,23 @@ export default function DrumTodayPage() {
           </a>
         </div>
       </article>
+
+      <section className="card">
+        <h2 className="card-title">Practice history</h2>
+        {sessions.length ? (
+          <ul style={{ marginTop: 0 }}>
+            {sessions.map((entry) => (
+              <li key={entry.id}>
+                <a href={`/drum/today?session=${entry.id}`} className="btn btn-ghost">
+                  {formatDate(entry.ts)} - {entry.plan.focus} ({entry.plan.minutes} min)
+                </a>
+              </li>
+            ))}
+          </ul>
+        ) : (
+          <p className="sub">No history yet. Log a session to save it here.</p>
+        )}
+      </section>
     </Shell>
   );
 }
@@ -130,5 +184,14 @@ function parseMinutes(text: string) {
 function parseBpm(text: string) {
   const match = text.match(/(\d+)\s*BPM/i);
   return match ? Number(match[1]) : 60;
+}
+
+function formatDate(ts: string) {
+  const date = new Date(ts);
+  return date.toLocaleDateString(undefined, {
+    month: "short",
+    day: "numeric",
+    year: "numeric",
+  });
 }
 /* eslint-enable react-hooks/set-state-in-effect */

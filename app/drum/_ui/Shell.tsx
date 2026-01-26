@@ -31,6 +31,9 @@ export default function Shell({
             <a href="/drum/today" className="btn btn-ghost">
               Today
             </a>
+            <a href="/drum/history" className="btn btn-ghost">
+              History
+            </a>
             <a href="/drum/journal" className="btn btn-ghost">
               Log
             </a>

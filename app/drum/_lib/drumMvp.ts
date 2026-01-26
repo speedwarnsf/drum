@@ -42,6 +42,15 @@ export type PracticePlan = {
 
 const KEY_PROFILE = "drum_mvp_profile";
 const KEY_LOGS = "drum_mvp_logs";
+const KEY_SESSIONS = "drum_mvp_sessions";
+const KEY_LAST_PLAN = "drum_mvp_last_plan";
+
+export type StoredSession = {
+  id: string;
+  ts: string;
+  plan: PracticePlan;
+  log: LogEntry;
+};
 
 function safeJsonParse<T>(raw: string | null): T | null {
   if (!raw) return null;
@@ -67,17 +76,51 @@ export function loadLogs(): LogEntry[] {
   return safeJsonParse<LogEntry[]>(localStorage.getItem(KEY_LOGS)) ?? [];
 }
 
-export function saveLog(entry: Omit<LogEntry, "ts">) {
+export function saveLog(entry: Omit<LogEntry, "ts">, plan?: PracticePlan) {
   if (typeof window === "undefined") return;
   const logs = loadLogs();
-  logs.push({ ...entry, ts: new Date().toISOString() });
+  const log: LogEntry = { ...entry, ts: new Date().toISOString() };
+  logs.push(log);
   localStorage.setItem(KEY_LOGS, JSON.stringify(logs));
+  if (plan) {
+    saveSession(log, plan);
+  }
+}
+
+export function loadSessions(): StoredSession[] {
+  if (typeof window === "undefined") return [];
+  return safeJsonParse<StoredSession[]>(localStorage.getItem(KEY_SESSIONS)) ?? [];
+}
+
+export function saveSession(log: LogEntry, plan: PracticePlan) {
+  if (typeof window === "undefined") return;
+  const sessions = loadSessions();
+  const session: StoredSession = {
+    id: makeId(),
+    ts: log.ts,
+    plan,
+    log,
+  };
+  sessions.unshift(session);
+  localStorage.setItem(KEY_SESSIONS, JSON.stringify(sessions));
+}
+
+export function saveLastPlan(plan: PracticePlan) {
+  if (typeof window === "undefined") return;
+  localStorage.setItem(KEY_LAST_PLAN, JSON.stringify(plan));
+}
+
+export function loadLastPlan(): PracticePlan | null {
+  if (typeof window === "undefined") return null;
+  return safeJsonParse<PracticePlan>(localStorage.getItem(KEY_LAST_PLAN));
 }
 
 export function clearAllLocal() {
   if (typeof window === "undefined") return;
   localStorage.removeItem(KEY_PROFILE);
   localStorage.removeItem(KEY_LOGS);
+  localStorage.removeItem(KEY_SESSIONS);
+  localStorage.removeItem(KEY_LAST_PLAN);
 }
 
 function lastLog(): LogEntry | null {
@@ -206,4 +249,8 @@ export function buildTodaysPlan(profile: Profile): PracticePlan {
     closure: "Stop here. More time today will not help.",
     setupGuide,
   };
+}
+
+function makeId() {
+  return `${Date.now()}_${Math.random().toString(36).slice(2, 8)}`;
 }

@@ -3,7 +3,13 @@
 /* eslint-disable react-hooks/set-state-in-effect */
 import React, { useEffect, useState } from "react";
 import Shell from "../_ui/Shell";
-import { loadProfile, saveLog, loadLogs, clearAllLocal } from "../_lib/drumMvp";
+import {
+  loadProfile,
+  saveLog,
+  loadLogs,
+  clearAllLocal,
+  loadLastPlan,
+} from "../_lib/drumMvp";
 
 export default function DrumJournalPage() {
   const [ready, setReady] = useState(false);
@@ -33,11 +39,12 @@ export default function DrumJournalPage() {
         <form
           onSubmit={(e) => {
             e.preventDefault();
+            const plan = loadLastPlan();
             saveLog({
               broke,
               felt,
               note: note.trim() ? note.trim() : undefined,
-            });
+            }, plan ?? undefined);
             window.location.href = "/drum/today";
           }}
           className="form-grid"
