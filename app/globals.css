@@ -148,6 +148,83 @@ main.shell.shell-tight {
   gap: 12px;
 }
 
+.timer {
+  width: 100%;
+  border: 1px solid var(--stroke);
+  border-radius: 16px;
+  padding: 14px 16px;
+  margin: 10px 0 12px;
+  background: radial-gradient(120px 90px at 12% 20%, #ffd376 0%, transparent 70%),
+    radial-gradient(140px 110px at 90% 0%, #f0a11d 0%, transparent 60%),
+    linear-gradient(160deg, #f3b12a 0%, #f2a620 100%);
+  box-shadow: inset -4px -4px 10px var(--shadow-hi),
+    inset 4px 4px 10px var(--shadow-lo);
+  display: grid;
+  gap: 6px;
+  text-align: left;
+  cursor: pointer;
+  transition: transform 120ms ease, box-shadow 120ms ease;
+}
+
+.timer:hover {
+  transform: translateY(-1px);
+}
+
+.timer-active {
+  box-shadow: inset -2px -2px 8px var(--shadow-hi),
+    inset 6px 6px 12px rgba(120, 60, 0, 0.45);
+}
+
+.timer-label {
+  font-size: 12px;
+  color: var(--ink-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  font-family: var(--font-dm-mono), ui-monospace, monospace;
+}
+
+.timer-readout {
+  font-size: clamp(22px, 4vw, 32px);
+  font-family: var(--font-dm-mono), ui-monospace, monospace;
+}
+
+.timer-state {
+  font-size: 12px;
+  color: var(--ink-muted);
+}
+
+.timer-flash {
+  position: fixed;
+  inset: 0;
+  background: radial-gradient(circle at 50% 40%, #ffe08e 0%, #f5b124 60%, #d98c12 100%);
+  z-index: 20;
+  display: grid;
+  place-items: center;
+  animation: flashPulse 900ms ease-in-out infinite;
+  cursor: pointer;
+}
+
+.timer-flash-inner {
+  background: var(--panel);
+  border-radius: 20px;
+  padding: 22px 26px;
+  border: 1px solid var(--stroke);
+  box-shadow: inset -6px -6px 14px var(--shadow-hi),
+    inset 6px 6px 14px var(--shadow-lo);
+  text-align: center;
+}
+
+.timer-flash-title {
+  font-size: clamp(24px, 4vw, 36px);
+  margin-top: 8px;
+}
+
+.timer-flash-sub {
+  margin-top: 6px;
+  color: var(--ink-muted);
+  font-size: 13px;
+}
+
 .btn {
   display: inline-flex;
   align-items: center;
@@ -252,6 +329,16 @@ li {
   to {
     transform: translateY(0);
     opacity: 1;
+  }
+}
+
+@keyframes flashPulse {
+  0%,
+  100% {
+    filter: saturate(1);
+  }
+  50% {
+    filter: saturate(1.2) brightness(1.06);
   }
 }
 
