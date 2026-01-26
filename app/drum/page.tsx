@@ -1,9 +1,4 @@
-import { authOptions } from "@/auth";
-import { getServerSession } from "next-auth";
-
 export default async function DrumHome() {
-  const session = await getServerSession(authOptions);
-
   return (
     <main className="shell">
       <header className="shell-header">
@@ -26,7 +21,6 @@ export default async function DrumHome() {
                 Log
               </a>
             </div>
-            <p className="tiny">Signed in as: {session?.user?.email}</p>
           </div>
         </div>
       </header>

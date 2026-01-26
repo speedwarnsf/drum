@@ -11,11 +11,8 @@ export default function Home() {
               feel like a trusted, analog teacher.
             </p>
             <div className="row">
-              <a className="btn" href="/login">
-                Log in
-              </a>
-              <a className="btn btn-ghost" href="/drum">
-                Go to /drum
+              <a className="btn" href="/drum">
+                Start
               </a>
             </div>
             <p className="tiny">Private beta for dyorkmusic.com/drum</p>

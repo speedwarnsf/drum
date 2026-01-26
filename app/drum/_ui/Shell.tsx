@@ -1,6 +1,5 @@
 "use client";
 
-import { signOut } from "next-auth/react";
 import React from "react";
 
 export default function Shell({
@@ -35,12 +34,6 @@ export default function Shell({
             <a href="/drum/journal" className="btn btn-ghost">
               Log
             </a>
-            <button
-              onClick={() => signOut({ callbackUrl: "/login" })}
-              className="btn"
-            >
-              Log out
-            </button>
           </div>
         </div>
       </header>
