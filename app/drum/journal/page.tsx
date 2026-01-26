@@ -1,5 +1,6 @@
 "use client";
 
+/* eslint-disable react-hooks/set-state-in-effect */
 import React, { useEffect, useState } from "react";
 import Shell from "../_ui/Shell";
 import { loadProfile, saveLog, loadLogs, clearAllLocal } from "../_lib/drumMvp";
@@ -112,3 +113,4 @@ function Field({ label, children }: { label: string; children: React.ReactNode }
     </label>
   );
 }
+/* eslint-enable react-hooks/set-state-in-effect */

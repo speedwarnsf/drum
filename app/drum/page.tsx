@@ -20,7 +20,7 @@ export default async function DrumHome() {
                 Start setup
               </a>
               <a className="btn btn-ghost" href="/drum/today">
-                Today's card
+                {"Today's card"}
               </a>
               <a className="btn btn-ghost" href="/drum/journal">
                 Log

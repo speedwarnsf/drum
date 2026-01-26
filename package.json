@@ -20,6 +20,7 @@
     "@types/react-dom": "^19",
     "eslint": "^9",
     "eslint-config-next": "16.1.4",
+    "tsconfig-paths": "^4.2.0",
     "typescript": "^5",
     "vercel": "^50.5.0"
   }

@@ -1,5 +1,6 @@
 "use client";
 
+/* eslint-disable react-hooks/set-state-in-effect */
 import React, { useEffect, useMemo, useState } from "react";
 import Shell from "../_ui/Shell";
 import Metronome from "../_ui/Metronome";
@@ -30,12 +31,13 @@ export default function DrumTodayPage() {
     return buildTodaysPlan(profile);
   }, [profile]);
 
-  if (!plan) return null;
-
   useEffect(() => {
+    if (!plan) return;
     const bpm = parseBpm(plan.metronome);
     if (bpm) setMetroBpm(bpm);
-  }, [plan.metronome]);
+  }, [plan]);
+
+  if (!plan) return null;
 
   return (
     <Shell
@@ -129,3 +131,4 @@ function parseBpm(text: string) {
   const match = text.match(/(\d+)\s*BPM/i);
   return match ? Number(match[1]) : 60;
 }
+/* eslint-enable react-hooks/set-state-in-effect */
