@@ -23,6 +23,12 @@ export type PracticeBlock = {
   stop?: string[];
 };
 
+export type SetupGuide = {
+  title: string;
+  items: string[];
+  defaultOpen?: boolean;
+};
+
 export type PracticePlan = {
   minutes: number;
   metronome: string;
@@ -31,6 +37,7 @@ export type PracticePlan = {
   blocks: PracticeBlock[];
   reflection: string[];
   closure: string;
+  setupGuide?: SetupGuide;
 };
 
 const KEY_PROFILE = "drum_mvp_profile";
@@ -81,6 +88,7 @@ function lastLog(): LogEntry | null {
 export function buildTodaysPlan(profile: Profile): PracticePlan {
   const minutes = Number(profile.minutes || 15);
   const log = lastLog();
+  const dayIndex = loadLogs().length + 1;
 
   const needsSimpler =
     !!log &&
@@ -94,7 +102,8 @@ export function buildTodaysPlan(profile: Profile): PracticePlan {
       ? "First coordination step"
       : "Comfort + time";
 
-  const metronome = "60 BPM (quarters)";
+  const metronomeBpm = needsSimpler ? 55 : canAdvance ? 65 : dayIndex <= 2 ? 55 : 60;
+  const metronome = `${metronomeBpm} BPM (quarters)`;
 
   const contextLine = !log
     ? "First session: we're building comfort and even sound. No rushing."
@@ -127,6 +136,7 @@ export function buildTodaysPlan(profile: Profile): PracticePlan {
       "Play one snare hit per click, alternating hands.",
       "Say \"1\" out loud on each hit.",
       "Goal: land with the click (do not chase it).",
+      ...(dayIndex <= 2 ? ["Stay at this tempo; accuracy is the win."] : []),
     ],
     stop: ["If you drift twice in a row: pause, breathe, restart."],
   });
@@ -167,6 +177,25 @@ export function buildTodaysPlan(profile: Profile): PracticePlan {
     "One short note (optional).",
   ];
 
+  const setupGuideItems = [
+    "Throne: thighs slope slightly downward; feet flat on pedals.",
+    "Snare: rim just above thigh line; elbows relaxed at your sides.",
+    "Hi-hat: close enough that shoulders stay low; no reaching.",
+    "Sticks: thumb-index fulcrum, fingers support; avoid squeezing.",
+    "Feel check: wrists loose, forearms quiet, breathe normally.",
+  ];
+
+  const shouldShowSetup =
+    dayIndex <= 7 || needsSimpler || (log && log.broke === "control");
+
+  const setupGuide = shouldShowSetup
+    ? {
+        title: "Setup check",
+        items: setupGuideItems,
+        defaultOpen: dayIndex <= 2,
+      }
+    : undefined;
+
   return {
     minutes,
     metronome,
@@ -175,5 +204,6 @@ export function buildTodaysPlan(profile: Profile): PracticePlan {
     blocks,
     reflection,
     closure: "Stop here. More time today will not help.",
+    setupGuide,
   };
 }

@@ -46,6 +46,22 @@ export default function DrumTodayPage() {
         <p>{plan.contextLine}</p>
       </section>
 
+      {plan.setupGuide ? (
+        <details className="setup-guide" open={plan.setupGuide.defaultOpen}>
+          <summary>
+            <span className="setup-title">{plan.setupGuide.title}</span>
+            <span className="setup-sub">Tap to expand or collapse</span>
+          </summary>
+          <div className="setup-body">
+            <ul>
+              {plan.setupGuide.items.map((item, idx) => (
+                <li key={idx}>{item}</li>
+              ))}
+            </ul>
+          </div>
+        </details>
+      ) : null}
+
       <Metronome bpm={metroBpm} />
 
       {plan.blocks.map((b, idx) => (
