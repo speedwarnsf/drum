@@ -17,6 +17,9 @@ export default async function DrumHome() {
               <a className="btn btn-ghost" href="/drum/today">
                 {"Today's card"}
               </a>
+              <a className="btn btn-ghost" href="/drum/method">
+                Method + syllabus
+              </a>
               <a className="btn btn-ghost" href="/drum/journal">
                 Log
               </a>
@@ -31,6 +34,13 @@ export default async function DrumHome() {
           <p>
             A small number of deliberate blocks. Each block has a purpose and a
             stop cue.
+          </p>
+        </article>
+        <article className="card">
+          <h2 className="card-title">Text + audio method</h2>
+          <p>
+            No video dependency. You develop your internal clock, listening,
+            and clean sound faster.
           </p>
         </article>
         <article className="card">

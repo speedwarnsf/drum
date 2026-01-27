@@ -132,6 +132,7 @@ export function buildTodaysPlan(profile: Profile): PracticePlan {
   const minutes = Number(profile.minutes || 15);
   const log = lastLog();
   const dayIndex = loadLogs().length + 1;
+  const brokeTime = log?.broke === "time";
 
   const needsSimpler =
     !!log &&
@@ -163,6 +164,7 @@ export function buildTodaysPlan(profile: Profile): PracticePlan {
     time: "5 min",
     bullets: [
       "Sit comfortably; shoulders down; breathe.",
+      "Stand for 30 seconds: step side-to-side with the pulse and sing \"boom-chack\".",
       "Light grip; let the stick rebound.",
       "Single hits on snare, one hand at a time (no metronome).",
       "Goal: even volume, relaxed motion.",
@@ -178,6 +180,10 @@ export function buildTodaysPlan(profile: Profile): PracticePlan {
       `Metronome: ${metronome}`,
       "Play one snare hit per click, alternating hands.",
       "Say \"1\" out loud on each hit.",
+      "Speak the groove as a sound: \"boom\" for kick, \"chack\" for snare.",
+      ...(brokeTime
+        ? ["Treat the click as the \"a\" of the beat (1-e-&-a). Hold the time inside."]
+        : []),
       "Goal: land with the click (do not chase it).",
       ...(dayIndex <= 2 ? ["Stay at this tempo; accuracy is the win."] : []),
     ],
@@ -199,6 +205,19 @@ export function buildTodaysPlan(profile: Profile): PracticePlan {
     });
   }
 
+  if (brokeTime) {
+    blocks.push({
+      title: "Block C2 - Gap timer check",
+      time: "2 min",
+      bullets: [
+        "Set the click for 3 bars on, 1 bar off (or mute it manually).",
+        "Keep a simple groove while the click is silent.",
+        "When it returns, are you still aligned?",
+      ],
+      stop: ["If you lose it twice, slow down 5 BPM and retry."],
+    });
+  }
+
   if (canAdvance) {
     blocks.push({
       title: "Block D - Tiny coordination add-on",
@@ -217,14 +236,18 @@ export function buildTodaysPlan(profile: Profile): PracticePlan {
   const reflection = [
     "What broke first? (time / control / coordination / feel / nothing)",
     "How did it feel? (easier / about right / harder)",
+    "Record 20-30 seconds and listen back.",
+    "Do kick + snare sound like one thick note or two flams?",
+    "Is the space between hi-hat notes even?",
     "One short note (optional).",
   ];
 
   const setupGuideItems = [
-    "Throne: thighs slope slightly downward; feet flat on pedals.",
-    "Snare: rim just above thigh line; elbows relaxed at your sides.",
+    "Throne: sit tall; imagine your feet are heavy and steady.",
+    "Snare: close enough that elbows rest at your sides.",
     "Hi-hat: close enough that shoulders stay low; no reaching.",
-    "Sticks: thumb-index fulcrum, fingers support; avoid squeezing.",
+    "Grip: hold the stick like a small bird—secure, never squeezing.",
+    "Motion: let the stick rebound like a soft wave, not a hammer.",
     "Feel check: wrists loose, forearms quiet, breathe normally.",
   ];
 
