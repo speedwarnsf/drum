@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { DM_Mono, Space_Grotesk } from "next/font/google";
+import Image from "next/image";
 import "./globals.css";
 
 const spaceGrotesk = Space_Grotesk({
@@ -26,6 +27,14 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${spaceGrotesk.variable} ${dmMono.variable}`}>
+        <Image
+          className="global-logo"
+          src="/media/repodrumlogo.gif"
+          alt="Drum Repo"
+          width={130}
+          height={130}
+          priority
+        />
         {children}
       </body>
     </html>

@@ -1,7 +1,6 @@
 "use client";
 
 import React from "react";
-import Image from "next/image";
 
 export default function Shell({
   title,
@@ -17,17 +16,7 @@ export default function Shell({
       <header className="shell-header">
         <div className="shell-head">
           <div>
-            <div className="brand">
-              <Image
-                className="brand-logo"
-                src="/media/repodrumlogo.gif"
-                alt="Drum Repo"
-                width={140}
-                height={28}
-                priority
-              />
-              <div className="kicker">Drum Practice System</div>
-            </div>
+            <div className="kicker">Adaptive Drum Instructor</div>
             <h1 className="title">{title}</h1>
             {subtitle ? <p className="sub">{subtitle}</p> : null}
           </div>

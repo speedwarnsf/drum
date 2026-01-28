@@ -71,7 +71,7 @@ main.shell {
 .hero {
   border-radius: 18px;
   border: 1px solid var(--stroke);
-  background: var(--bg);
+  background: transparent;
   overflow: hidden;
   margin-bottom: 18px;
 }
@@ -81,8 +81,8 @@ main.shell {
   width: 100%;
   height: clamp(180px, 32vw, 280px);
   object-fit: cover;
-  opacity: 0.5;
-  transform: translate(18px, 10px);
+  opacity: 1;
+  transform: translate(-14px, 18px) scale(0.75);
 }
 
 main.shell.shell-tight {
@@ -111,18 +111,14 @@ main.shell.shell-tight {
   flex-wrap: wrap;
 }
 
-.brand {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
-.brand-logo {
-  width: auto;
-  height: 28px;
-  margin-left: 6px;
-  margin-top: 4px;
-  image-rendering: auto;
+.global-logo {
+  position: fixed;
+  top: 12px;
+  left: 12px;
+  width: 130px;
+  height: 130px;
+  z-index: 6;
+  pointer-events: none;
 }
 
 .kicker {
