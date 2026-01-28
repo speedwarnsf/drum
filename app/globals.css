@@ -70,7 +70,6 @@ main.shell {
 
 .hero {
   border-radius: 18px;
-  border: 1px solid var(--stroke);
   background: transparent;
   overflow: hidden;
   margin-bottom: 18px;
@@ -80,9 +79,9 @@ main.shell {
   display: block;
   width: 100%;
   height: clamp(180px, 32vw, 280px);
-  object-fit: cover;
+  object-fit: contain;
   opacity: 1;
-  transform: translate(-14px, 18px) scale(0.75);
+  transform: translate(140px, 18px) scale(0.75);
 }
 
 main.shell.shell-tight {
