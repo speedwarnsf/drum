@@ -1,16 +1,6 @@
 export default async function DrumHome() {
   return (
     <main className="shell">
-      <section className="hero" aria-label="Drum video">
-        <video
-          className="hero-video"
-          src="/media/YellowDrum.mp4"
-          autoPlay
-          muted
-          loop
-          playsInline
-        />
-      </section>
       <header className="shell-header">
         <div className="shell-head">
           <div>

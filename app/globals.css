@@ -63,6 +63,11 @@ main.shell {
   z-index: 1;
 }
 
+.hero-shell {
+  margin-bottom: 0;
+  padding-bottom: 0;
+}
+
 .hero {
   border-radius: 18px;
   border: 1px solid var(--stroke);
