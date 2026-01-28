@@ -31,8 +31,8 @@ export default function RootLayout({
           className="global-logo"
           src="/media/repodrumlogo.gif"
           alt="Drum Repo"
-          width={180}
-          height={180}
+          width={200}
+          height={200}
           priority
         />
         {children}

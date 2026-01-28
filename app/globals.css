@@ -78,10 +78,11 @@ main.shell {
 .hero-video {
   display: block;
   width: 100%;
-  height: clamp(180px, 32vw, 280px);
+  height: clamp(200px, 36vw, 320px);
   object-fit: contain;
   opacity: 1;
-  transform: translate(140px, 18px) scale(0.75);
+  transform: translate(140px, 18px);
+  clip-path: inset(3px 0 3px 0);
 }
 
 main.shell.shell-tight {
@@ -114,8 +115,8 @@ main.shell.shell-tight {
   position: fixed;
   top: 12px;
   left: 12px;
-  width: 180px;
-  height: 180px;
+  width: 200px;
+  height: 200px;
   z-index: 6;
   pointer-events: none;
 }
