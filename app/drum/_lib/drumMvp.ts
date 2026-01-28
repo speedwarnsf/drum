@@ -85,6 +85,7 @@ export function saveLog(entry: Omit<LogEntry, "ts">, plan?: PracticePlan) {
   if (plan) {
     saveSession(log, plan);
   }
+  void syncLogToSupabase(log, plan);
 }
 
 export function loadSessions(): StoredSession[] {
@@ -276,4 +277,19 @@ export function buildTodaysPlan(profile: Profile): PracticePlan {
 
 function makeId() {
   return `${Date.now()}_${Math.random().toString(36).slice(2, 8)}`;
+}
+
+async function syncLogToSupabase(log: LogEntry, plan?: PracticePlan) {
+  const { getSupabaseClient } = await import("./supabaseClient");
+  const supabase = getSupabaseClient();
+  if (!supabase) return;
+  const { data: userData } = await supabase.auth.getUser();
+  const user = userData?.user;
+  if (!user) return;
+  await supabase.from("drum_sessions").insert({
+    user_id: user.id,
+    ts: log.ts,
+    log,
+    plan: plan ?? null,
+  });
 }

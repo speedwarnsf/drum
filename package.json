@@ -9,6 +9,7 @@
     "lint": "eslint"
   },
   "dependencies": {
+    "@supabase/supabase-js": "^2.49.1",
     "next": "16.1.4",
     "react": "19.2.3",
     "react-dom": "19.2.3"
@@ -21,6 +22,6 @@
     "eslint-config-next": "16.1.4",
     "tsconfig-paths": "^4.2.0",
     "typescript": "^5",
-    "vercel": "^50.5.0"
+    "vercel": "^50.8.1"
   }
 }
