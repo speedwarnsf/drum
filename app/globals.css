@@ -81,7 +81,7 @@ main.shell {
   height: clamp(200px, 36vw, 320px);
   object-fit: contain;
   opacity: 1;
-  transform: translate(140px, 18px);
+  transform: translate(72px, 58px) scale(1.2);
   clip-path: inset(3px 0 3px 0);
 }
 
