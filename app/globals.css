@@ -71,7 +71,7 @@ main.shell {
 .hero {
   border-radius: 18px;
   background: transparent;
-  overflow: hidden;
+  overflow: visible;
   margin-bottom: 18px;
 }
 
@@ -81,7 +81,7 @@ main.shell {
   height: clamp(200px, 36vw, 320px);
   object-fit: contain;
   opacity: 1;
-  transform: translate(72px, 58px) scale(1.2);
+  transform: translate(101px, 78px) scale(1.2);
   clip-path: inset(3px 0 3px 0);
 }
 
