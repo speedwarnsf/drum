@@ -37,6 +37,9 @@ export default function Shell({
             <a href="/drum/login" className="btn btn-ghost">
               Login
             </a>
+            <a href="/drum/signup" className="btn btn-ghost">
+              Sign up
+            </a>
             <a href="/drum/history" className="btn btn-ghost">
               History
             </a>
