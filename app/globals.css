@@ -111,6 +111,20 @@ main.shell.shell-tight {
   flex-wrap: wrap;
 }
 
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.brand-logo {
+  width: auto;
+  height: 28px;
+  margin-left: 6px;
+  margin-top: 4px;
+  image-rendering: auto;
+}
+
 .kicker {
   font-family: var(--font-dm-mono), ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
     "Liberation Mono", "Courier New", monospace;
