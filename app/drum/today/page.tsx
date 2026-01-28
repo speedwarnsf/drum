@@ -1,7 +1,7 @@
 "use client";
 
 /* eslint-disable react-hooks/set-state-in-effect */
-import React, { useEffect, useMemo, useState } from "react";
+import React, { Suspense, useEffect, useMemo, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import Shell from "../_ui/Shell";
 import Metronome from "../_ui/Metronome";
@@ -17,6 +17,14 @@ import {
 } from "../_lib/drumMvp";
 
 export default function DrumTodayPage() {
+  return (
+    <Suspense fallback={null}>
+      <DrumTodayInner />
+    </Suspense>
+  );
+}
+
+function DrumTodayInner() {
   const searchParams = useSearchParams();
   const sessionId = searchParams.get("session");
   const [profile, setProfile] = useState<Profile | null>(null);
