@@ -39,7 +39,7 @@ export default async function DrumHome() {
           <h2 className="card-title">Focused practice</h2>
           <p>
             A small number of deliberate blocks. Each block has a purpose and a
-            stop cue.
+            stop cue that turns effort into feedback.
           </p>
         </article>
         <article className="card">
