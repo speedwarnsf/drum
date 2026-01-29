@@ -6,6 +6,7 @@ import { getSupabaseClient } from "../_lib/supabaseClient";
 export default function LessonCredits() {
   const supabase = useMemo(() => getSupabaseClient(), []);
   const [credits, setCredits] = useState<number | null>(null);
+  const [hasEntitlement, setHasEntitlement] = useState<boolean | null>(null);
   const [lessonCount, setLessonCount] = useState<number | null>(null);
   const [open, setOpen] = useState(false);
 
@@ -21,8 +22,10 @@ export default function LessonCredits() {
         .maybeSingle();
       if (ent?.lesson_credits !== undefined && ent?.lesson_credits !== null) {
         setCredits(ent.lesson_credits);
+        setHasEntitlement(true);
       } else {
         setCredits(0);
+        setHasEntitlement(false);
       }
       const { count } = await supabase
         .from("drum_sessions")
@@ -34,7 +37,7 @@ export default function LessonCredits() {
     });
   }, [supabase]);
 
-  if (credits === null) return null;
+  if (credits === null || hasEntitlement === null) return null;
 
   const nextLesson = lessonCount !== null ? lessonCount + 1 : null;
 
@@ -44,7 +47,9 @@ export default function LessonCredits() {
         {nextLesson ? `Lesson #${nextLesson}` : "Lesson"}
       </button>
       {open ? (
-        <div className="credits-panel">Credits remaining: {credits}</div>
+        <div className="credits-panel">
+          Credits remaining: {hasEntitlement ? credits : "∞"}
+        </div>
       ) : null}
     </div>
   );
