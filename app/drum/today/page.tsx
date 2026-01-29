@@ -9,6 +9,7 @@ import Timer from "../_ui/Timer";
 import {
   buildTodaysPlan,
   loadProfile,
+  loadRemoteSessions,
   loadSessions,
   saveLastPlan,
   PracticePlan,
@@ -35,14 +36,34 @@ function DrumTodayInner() {
   const [sessions, setSessions] = useState<StoredSession[]>([]);
 
   useEffect(() => {
-    const allSessions = loadSessions();
-    setSessions(allSessions);
-    if (sessionId) {
-      const match = allSessions.find((item) => item.id === sessionId) ?? null;
-      setSessionPlan(match ? match.plan : null);
-      setSessionMeta(match);
-      return;
-    }
+    let mounted = true;
+    const local = loadSessions();
+    const setAll = (list: StoredSession[]) => {
+      if (!mounted) return;
+      setSessions(list);
+      if (sessionId) {
+        const match = list.find((item) => item.id === sessionId) ?? null;
+        setSessionPlan(match ? match.plan : null);
+        setSessionMeta(match);
+      }
+    };
+    setAll(local);
+    loadRemoteSessions().then((remote) => {
+      const map = new Map<string, StoredSession>();
+      local.forEach((s) => map.set(s.id, s));
+      remote.forEach((s) => map.set(s.id, s));
+      const merged = Array.from(map.values()).sort(
+        (a, b) => new Date(b.ts).getTime() - new Date(a.ts).getTime()
+      );
+      setAll(merged);
+    });
+    return () => {
+      mounted = false;
+    };
+  }, [sessionId]);
+
+  useEffect(() => {
+    if (sessionId) return;
     setSessionPlan(null);
     setSessionMeta(null);
     const p = loadProfile();

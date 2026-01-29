@@ -279,6 +279,34 @@ function makeId() {
   return `${Date.now()}_${Math.random().toString(36).slice(2, 8)}`;
 }
 
+export async function loadRemoteSessions(): Promise<StoredSession[]> {
+  if (typeof window === "undefined") return [];
+  const { getSupabaseClient } = await import("./supabaseClient");
+  const supabase = getSupabaseClient();
+  if (!supabase) return [];
+  const { data: userData } = await supabase.auth.getUser();
+  const user = userData?.user;
+  if (!user) return [];
+  const { data, error } = await supabase
+    .from("drum_sessions")
+    .select("id, ts, log, plan")
+    .eq("user_id", user.id)
+    .order("ts", { ascending: false });
+  if (error || !data) return [];
+  const rows = data as {
+    id: string;
+    ts: string;
+    log: LogEntry;
+    plan: PracticePlan | null;
+  }[];
+  return rows.map((row) => ({
+    id: row.id,
+    ts: row.ts,
+    plan: row.plan as PracticePlan,
+    log: row.log as LogEntry,
+  }));
+}
+
 async function syncLogToSupabase(log: LogEntry, plan?: PracticePlan) {
   const { getSupabaseClient } = await import("./supabaseClient");
   const supabase = getSupabaseClient();

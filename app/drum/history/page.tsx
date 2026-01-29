@@ -3,13 +3,28 @@
 /* eslint-disable react-hooks/set-state-in-effect */
 import React, { useEffect, useState } from "react";
 import Shell from "../_ui/Shell";
-import { loadSessions, StoredSession } from "../_lib/drumMvp";
+import { loadRemoteSessions, loadSessions, StoredSession } from "../_lib/drumMvp";
 
 export default function DrumHistoryPage() {
   const [sessions, setSessions] = useState<StoredSession[]>([]);
 
   useEffect(() => {
-    setSessions(loadSessions());
+    let mounted = true;
+    const local = loadSessions();
+    setSessions(local);
+    loadRemoteSessions().then((remote) => {
+      if (!mounted) return;
+      const map = new Map<string, StoredSession>();
+      local.forEach((s) => map.set(s.id, s));
+      remote.forEach((s) => map.set(s.id, s));
+      const merged = Array.from(map.values()).sort(
+        (a, b) => new Date(b.ts).getTime() - new Date(a.ts).getTime()
+      );
+      setSessions(merged);
+    });
+    return () => {
+      mounted = false;
+    };
   }, []);
 
   return (
