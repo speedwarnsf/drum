@@ -17,6 +17,12 @@ export default async function DrumHome() {
               <a className="btn btn-ghost" href="/drum/today">
                 {"Today's card"}
               </a>
+              <a className="btn btn-ghost" href="/drum/login">
+                Login
+              </a>
+              <a className="btn btn-ghost" href="/drum/signup">
+                Sign up
+              </a>
               <a className="btn btn-ghost" href="/drum/method">
                 Method + syllabus
               </a>
