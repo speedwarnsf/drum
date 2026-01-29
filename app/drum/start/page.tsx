@@ -87,7 +87,7 @@ export default function DrumStartPage() {
           </button>
 
           <p className="tiny">
-            Stored locally in your browser (no accounts / database yet).
+            Profile is stored locally; practice logs sync to your account when logged in.
           </p>
         </form>
       </section>
