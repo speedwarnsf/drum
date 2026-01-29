@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { DM_Mono, Space_Grotesk } from "next/font/google";
 import Image from "next/image";
+import HeroVideo from "./drum/_ui/HeroVideo";
 import "./globals.css";
 
 const spaceGrotesk = Space_Grotesk({
@@ -35,6 +36,11 @@ export default function RootLayout({
           height={200}
           priority
         />
+        <div className="shell hero-shell" aria-label="Drum video">
+          <section className="hero">
+            <HeroVideo />
+          </section>
+        </div>
         {children}
       </body>
     </html>

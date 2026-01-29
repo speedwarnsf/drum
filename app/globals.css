@@ -110,6 +110,7 @@ main.shell.shell-tight {
   display: flex;
   gap: 10px;
   flex-wrap: wrap;
+  align-items: center;
 }
 
 .global-logo {
@@ -153,6 +154,16 @@ main.shell.shell-tight {
 .card-title {
   margin-bottom: 8px;
   font-size: 18px;
+}
+
+.credits {
+  padding: 8px 10px;
+  border-radius: 12px;
+  border: 1px solid var(--stroke);
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  font-family: var(--font-dm-mono), ui-monospace, monospace;
 }
 
 .meta {

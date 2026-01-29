@@ -1,6 +1,7 @@
 "use client";
 
 import React from "react";
+import LessonCredits from "./LessonCredits";
 
 export default function Shell({
   title,
@@ -46,6 +47,7 @@ export default function Shell({
             <a href="/drum/journal" className="btn btn-ghost">
               Log
             </a>
+            <LessonCredits />
           </div>
         </div>
       </header>
