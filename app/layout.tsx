@@ -28,14 +28,16 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${spaceGrotesk.variable} ${dmMono.variable}`}>
-        <Image
-          className="global-logo"
-          src="/media/repodrumlogo.gif"
-          alt="Drum Repo"
-          width={200}
-          height={200}
-          priority
-        />
+        <a href="/drum" aria-label="RepoDrum home">
+          <Image
+            className="global-logo"
+            src="/media/repodrumlogo.gif"
+            alt="Drum Repo"
+            width={200}
+            height={200}
+            priority
+          />
+        </a>
         <div className="shell hero-shell" aria-label="Drum video">
           <section className="hero">
             <HeroVideo />

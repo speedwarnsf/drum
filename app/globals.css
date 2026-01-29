@@ -121,7 +121,7 @@ main.shell.shell-tight {
   width: 200px;
   height: 200px;
   z-index: 6;
-  pointer-events: none;
+  pointer-events: auto;
 }
 
 .kicker {
@@ -165,6 +165,24 @@ main.shell.shell-tight {
   letter-spacing: 0.08em;
   text-transform: uppercase;
   font-family: var(--font-dm-mono), ui-monospace, monospace;
+  background: var(--panel-deep);
+  cursor: pointer;
+}
+
+.credits-wrap {
+  position: relative;
+}
+
+.credits-panel {
+  position: absolute;
+  right: 0;
+  top: calc(100% + 6px);
+  padding: 8px 10px;
+  border-radius: 12px;
+  border: 1px solid var(--stroke);
+  background: var(--panel);
+  font-size: 12px;
+  white-space: nowrap;
 }
 
 .meta {

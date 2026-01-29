@@ -6,6 +6,8 @@ import { getSupabaseClient } from "../_lib/supabaseClient";
 export default function LessonCredits() {
   const supabase = useMemo(() => getSupabaseClient(), []);
   const [credits, setCredits] = useState<number | null>(null);
+  const [lessonCount, setLessonCount] = useState<number | null>(null);
+  const [open, setOpen] = useState(false);
 
   useEffect(() => {
     if (!supabase) return;
@@ -22,10 +24,28 @@ export default function LessonCredits() {
       } else {
         setCredits(0);
       }
+      const { count } = await supabase
+        .from("drum_sessions")
+        .select("id", { count: "exact", head: true })
+        .eq("user_id", user.id);
+      if (count !== null && count !== undefined) {
+        setLessonCount(count);
+      }
     });
   }, [supabase]);
 
   if (credits === null) return null;
 
-  return <div className="credits">Credits: {credits}</div>;
+  const nextLesson = lessonCount !== null ? lessonCount + 1 : null;
+
+  return (
+    <div className="credits-wrap">
+      <button className="credits" type="button" onClick={() => setOpen(!open)}>
+        {nextLesson ? `Lesson #${nextLesson}` : "Lesson"}
+      </button>
+      {open ? (
+        <div className="credits-panel">Credits remaining: {credits}</div>
+      ) : null}
+    </div>
+  );
 }

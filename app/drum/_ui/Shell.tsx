@@ -23,9 +23,6 @@ export default function Shell({
           </div>
 
           <div className="shell-nav">
-            <a href="/drum" className="btn btn-ghost">
-              Home
-            </a>
             <a href="/drum/start" className="btn btn-ghost">
               Setup
             </a>
