@@ -104,12 +104,28 @@ function DrumTodayInner() {
           window.location.href = "/drum/signup";
           return;
         }
+        if (res.status === 200 && sessions.length === 0) {
+          fetch("/api/admin/seed-sessions", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ accessToken: token }),
+          }).then(() => {
+            loadRemoteSessions().then((remote) => {
+              if (remote.length) {
+                const merged = remote.sort(
+                  (a, b) => new Date(b.ts).getTime() - new Date(a.ts).getTime()
+                );
+                setSessions(merged);
+              }
+            });
+          });
+        }
         setCreditsReady(true);
       }).catch(() => {
         setCreditsReady(true);
       });
     });
-  }, [profile, supabase]);
+  }, [profile, supabase, sessions.length]);
 
   useEffect(() => {
     if (!profile || !creditsReady || sessionPlan || aiPlan || aiFailed) return;
