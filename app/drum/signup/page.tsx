@@ -62,6 +62,7 @@ export default function DrumSignupPage() {
         pack: pack.packKey,
         userId,
         email,
+        origin: window.location.origin,
       }),
     });
     const data = await res.json();

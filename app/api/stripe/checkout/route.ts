@@ -13,8 +13,15 @@ export async function POST(req: Request) {
   }
 
   const origin = req.headers.get("origin") || "";
-  const successUrl = body.successUrl || `${origin}/drum/checkout/success?session_id={CHECKOUT_SESSION_ID}`;
-  const cancelUrl = body.cancelUrl || `${origin}/drum/checkout/cancel`;
+  const base =
+    body.origin ||
+    process.env.NEXT_PUBLIC_SITE_URL ||
+    origin ||
+    "https://www.dyorkmusic.com";
+  const cleanBase = String(base).replace(/\/$/, "");
+  const successUrl =
+    body.successUrl || `${cleanBase}/drum/checkout/success?session_id={CHECKOUT_SESSION_ID}`;
+  const cancelUrl = body.cancelUrl || `${cleanBase}/drum/checkout/cancel`;
 
   const session = await stripe.checkout.sessions.create({
     mode: "payment",
