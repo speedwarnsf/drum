@@ -185,6 +185,15 @@ main.shell.shell-tight {
   white-space: nowrap;
 }
 
+.build-tag {
+  margin-top: 16px;
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #6a3e00;
+  font-family: var(--font-dm-mono), ui-monospace, monospace;
+}
+
 .meta {
   color: var(--ink-muted);
   font-size: 12px;

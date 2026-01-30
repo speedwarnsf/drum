@@ -1,6 +1,7 @@
 "use client";
 
 import React from "react";
+import BuildTag from "./BuildTag";
 import LessonCredits from "./LessonCredits";
 
 export default function Shell({
@@ -50,6 +51,7 @@ export default function Shell({
       </header>
 
       {children}
+      <BuildTag />
     </main>
   );
 }
