@@ -2,6 +2,7 @@
 
 import React from "react";
 import BuildTag from "./BuildTag";
+import { AuthNavLinks, AuthSetupLink } from "./AuthControls";
 import LessonCredits from "./LessonCredits";
 
 export default function Shell({
@@ -24,21 +25,14 @@ export default function Shell({
           </div>
 
           <div className="shell-nav">
-            <a href="/drum/start" className="btn btn-ghost">
-              Setup
-            </a>
+            <AuthSetupLink />
             <a href="/drum/today" className="btn btn-ghost">
               Today
             </a>
             <a href="/drum/method" className="btn btn-ghost">
               Method
             </a>
-            <a href="/drum/login" className="btn btn-ghost">
-              Login
-            </a>
-            <a href="/drum/signup" className="btn btn-ghost">
-              Sign up
-            </a>
+            <AuthNavLinks />
             <a href="/drum/history" className="btn btn-ghost">
               History
             </a>

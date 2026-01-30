@@ -1,3 +1,5 @@
+import { AuthHomeButtons, AuthSetupButton } from "./_ui/AuthControls";
+
 export default async function DrumHome() {
   return (
     <main className="shell">
@@ -11,18 +13,11 @@ export default async function DrumHome() {
               with clear stop points.
             </p>
             <div className="row">
-              <a className="btn" href="/drum/start">
-                Start setup
-              </a>
+              <AuthSetupButton />
               <a className="btn btn-ghost" href="/drum/today">
                 {"Today's card"}
               </a>
-              <a className="btn btn-ghost" href="/drum/login">
-                Login
-              </a>
-              <a className="btn btn-ghost" href="/drum/signup">
-                Sign up
-              </a>
+              <AuthHomeButtons />
               <a className="btn btn-ghost" href="/drum/method">
                 Method + syllabus
               </a>
