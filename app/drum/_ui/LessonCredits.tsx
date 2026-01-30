@@ -32,6 +32,15 @@ export default function LessonCredits() {
         setCredits(0);
         setHasEntitlement(false);
       }
+      const { data: profile } = await supabase
+        .from("drum_profiles")
+        .select("session_count")
+        .eq("user_id", user.id)
+        .maybeSingle();
+      if (profile?.session_count !== undefined && profile?.session_count !== null) {
+        setLessonCount(profile.session_count);
+        return;
+      }
       const { count } = await supabase
         .from("drum_sessions")
         .select("id", { count: "exact", head: true })
