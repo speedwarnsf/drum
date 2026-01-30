@@ -33,6 +33,7 @@ export type PracticePlan = {
   minutes: number;
   metronome: string;
   focus: string;
+  coachLine?: string;
   contextLine: string;
   blocks: PracticeBlock[];
   reflection: string[];
@@ -160,6 +161,8 @@ export function buildTodaysPlan(profile: Profile): PracticePlan {
         ? "Last session was stable. Today we add one tiny coordination element."
         : "We're reinforcing the foundation before adding complexity.";
 
+  const coachLine = "Slow is strength. Fewer notes, cleaner sound.";
+
   const blocks: PracticeBlock[] = [];
 
   blocks.push({
@@ -269,6 +272,7 @@ export function buildTodaysPlan(profile: Profile): PracticePlan {
     minutes,
     metronome,
     focus,
+    coachLine,
     contextLine,
     blocks,
     reflection,

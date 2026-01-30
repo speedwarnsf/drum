@@ -13,6 +13,7 @@ import {
   loadProfileFromSupabase,
   loadRemoteSessions,
   loadSessions,
+  loadLastPlan,
   saveLastPlan,
   saveProfile,
   PracticePlan,
@@ -38,6 +39,8 @@ function DrumTodayInner() {
   const [sessionPlan, setSessionPlan] = useState<PracticePlan | null>(null);
   const [sessionMeta, setSessionMeta] = useState<StoredSession | null>(null);
   const [sessions, setSessions] = useState<StoredSession[]>([]);
+  const [aiPlan, setAiPlan] = useState<PracticePlan | null>(null);
+  const [aiFailed, setAiFailed] = useState(false);
   const [creditsReady, setCreditsReady] = useState(false);
 
   useEffect(() => {
@@ -108,12 +111,50 @@ function DrumTodayInner() {
     });
   }, [profile, supabase]);
 
+  useEffect(() => {
+    if (!profile || !creditsReady || sessionPlan || aiPlan || aiFailed) return;
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), 12000);
+    const recentLogs = loadSessions()
+      .slice(0, 3)
+      .map((s) => s.log);
+    const dayIndex = recentLogs.length ? recentLogs.length + 1 : 1;
+    fetch("/api/lesson/generate", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        profile,
+        recentLogs,
+        dayIndex,
+        lastPlan: loadLastPlan(),
+      }),
+      signal: controller.signal,
+    })
+      .then((res) => {
+        if (!res.ok) throw new Error("AI generation failed");
+        return res.json();
+      })
+      .then((data) => {
+        const plan = (data?.plan || null) as PracticePlan | null;
+        if (plan) {
+          setAiPlan(plan);
+          saveLastPlan(plan);
+        } else {
+          setAiFailed(true);
+        }
+      })
+      .catch(() => setAiFailed(true))
+      .finally(() => clearTimeout(timeout));
+  }, [profile, creditsReady, sessionPlan, aiPlan, aiFailed]);
+
   const plan: PracticePlan | null = useMemo(() => {
     if (sessionPlan) return sessionPlan;
     if (!profile) return null;
     if (!creditsReady) return null;
+    if (aiPlan) return aiPlan;
+    if (!aiFailed) return null;
     return buildTodaysPlan(profile);
-  }, [profile, sessionPlan, creditsReady]);
+  }, [profile, sessionPlan, creditsReady, aiPlan, aiFailed]);
 
   useEffect(() => {
     if (!plan) return;
@@ -146,6 +187,7 @@ function DrumTodayInner() {
       ) : null}
 
       <section className="card">
+        {plan.coachLine ? <div className="kicker">{plan.coachLine}</div> : null}
         <p>{plan.contextLine}</p>
       </section>
 
