@@ -200,22 +200,7 @@ main.shell.shell-tight {
   font-family: var(--font-dm-mono), ui-monospace, monospace;
 }
 
-.debug-pill {
-  position: fixed;
-  right: 12px;
-  bottom: 12px;
-  z-index: 7;
-  padding: 6px 10px;
-  border-radius: 999px;
-  border: 1px solid var(--stroke);
-  background: var(--panel);
-  font-size: 11px;
-  font-family: var(--font-dm-mono), ui-monospace, monospace;
-  max-width: calc(100vw - 24px);
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
+ 
 
 .meta {
   color: var(--ink-muted);

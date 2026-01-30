@@ -8,8 +8,6 @@ export default function LessonCredits() {
   const [credits, setCredits] = useState<number | null>(null);
   const [hasEntitlement, setHasEntitlement] = useState<boolean | null>(null);
   const [isAdmin, setIsAdmin] = useState(false);
-  const [adminEmailValue, setAdminEmailValue] = useState<string | null>(null);
-  const [userEmail, setUserEmail] = useState<string | null>(null);
   const [lessonCount, setLessonCount] = useState<number | null>(null);
   const [open, setOpen] = useState(false);
 
@@ -19,8 +17,6 @@ export default function LessonCredits() {
     supabase.auth.getUser().then(async ({ data }) => {
       const user = data.user;
       if (!user) return;
-      setAdminEmailValue(adminEmail);
-      setUserEmail(user.email ?? null);
       const adminMatch =
         !!adminEmail &&
         !!user.email &&
@@ -48,17 +44,27 @@ export default function LessonCredits() {
           ? Number(profile.session_count)
           : null;
       const adminFloor = adminMatch ? 3 : 0;
+      const localKey = "DRUM_ADMIN_SESSION_COUNT";
+      const localCount = adminMatch
+        ? Number(window.localStorage.getItem(localKey) ?? 0)
+        : 0;
       if (adminMatch && (profileCount === null || profileCount < adminFloor)) {
         void supabase.from("drum_profiles").upsert({
           user_id: user.id,
           session_count: adminFloor,
           updated_at: new Date().toISOString(),
         });
-        setLessonCount(adminFloor);
+        const next = Math.max(adminFloor, localCount);
+        window.localStorage.setItem(localKey, String(next));
+        setLessonCount(next);
         return;
       }
       if (profileCount !== null) {
-        setLessonCount(profileCount);
+        const next = Math.max(profileCount, localCount, adminFloor);
+        if (adminMatch) {
+          window.localStorage.setItem(localKey, String(next));
+        }
+        setLessonCount(next);
         return;
       }
       const { count } = await supabase
@@ -66,7 +72,11 @@ export default function LessonCredits() {
         .select("id", { count: "exact", head: true })
         .eq("user_id", user.id);
       if (count !== null && count !== undefined) {
-        setLessonCount(Math.max(Number(count), adminFloor));
+        const next = Math.max(Number(count), adminFloor, localCount);
+        if (adminMatch) {
+          window.localStorage.setItem(localKey, String(next));
+        }
+        setLessonCount(next);
       }
     });
   }, [supabase]);
@@ -85,10 +95,6 @@ export default function LessonCredits() {
           Credits remaining: {isAdmin ? "∞" : credits}
         </div>
       ) : null}
-      <div className="debug-pill">
-        {userEmail ? `Logged in: ${userEmail}` : "Logged in: (none)"} · Admin:{" "}
-        {adminEmailValue ?? "(not set)"} · Match: {isAdmin ? "yes" : "no"}
-      </div>
     </div>
   );
 }
