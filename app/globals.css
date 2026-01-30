@@ -78,12 +78,17 @@ main.shell {
 .hero-video {
   display: block;
   width: 100%;
-  height: clamp(200px, 36vw, 320px);
   object-fit: contain;
-  opacity: 0.95;
+  height: 0;
+  opacity: 0;
   mix-blend-mode: darken;
   transform: translate(101px, 78px) scale(1.08);
   clip-path: inset(3px 0 3px 0);
+}
+
+.hero-video-ready {
+  height: clamp(200px, 36vw, 320px);
+  opacity: 0.95;
 }
 
 main.shell.shell-tight {

@@ -1,9 +1,10 @@
 "use client";
 
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 
 export default function HeroVideo() {
   const ref = useRef<HTMLVideoElement | null>(null);
+  const [ready, setReady] = useState(false);
 
   useEffect(() => {
     const video = ref.current;
@@ -30,14 +31,16 @@ export default function HeroVideo() {
   return (
     <video
       ref={ref}
-      className="hero-video"
+      className={`hero-video ${ready ? "hero-video-ready" : "hero-video-loading"}`}
       src="/media/YellowDrum.mp4"
-      poster="/media/drummer-still.png"
       autoPlay
       muted
       loop
       playsInline
       preload="auto"
+      onLoadedData={() => setReady(true)}
+      onCanPlay={() => setReady(true)}
+      onError={() => setReady(true)}
     />
   );
 }
