@@ -1,8 +1,11 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-if ! command -v "./node_modules/.bin/vercel" >/dev/null 2>&1; then
-  echo "Vercel CLI not found at ./node_modules/.bin/vercel"
+REPO_DIR="/Users/macster/dyorkmusic/drum"
+cd "$REPO_DIR"
+
+if ! command -v npx >/dev/null 2>&1; then
+  echo "npx not found. Please install Node.js first."
   exit 1
 fi
 
@@ -21,8 +24,8 @@ echo "Max output tokens (default 2000, press Enter to accept):"
 read -r OPENAI_MAX_OUTPUT_TOKENS
 OPENAI_MAX_OUTPUT_TOKENS=${OPENAI_MAX_OUTPUT_TOKENS:-2000}
 
-./node_modules/.bin/vercel env add OPENAI_API_KEY production <<< "$OPENAI_API_KEY"
-./node_modules/.bin/vercel env add OPENAI_MODEL production <<< "$OPENAI_MODEL"
-./node_modules/.bin/vercel env add OPENAI_MAX_OUTPUT_TOKENS production <<< "$OPENAI_MAX_OUTPUT_TOKENS"
+npx vercel env add OPENAI_API_KEY production <<< "$OPENAI_API_KEY"
+npx vercel env add OPENAI_MODEL production <<< "$OPENAI_MODEL"
+npx vercel env add OPENAI_MAX_OUTPUT_TOKENS production <<< "$OPENAI_MAX_OUTPUT_TOKENS"
 
 echo "OpenAI env setup complete."
