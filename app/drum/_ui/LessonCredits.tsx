@@ -83,17 +83,12 @@ export default function LessonCredits() {
       {open ? (
         <div className="credits-panel">
           Credits remaining: {isAdmin ? "∞" : credits}
-          {userEmail ? (
-            <div className="credits-email">Logged in as: {userEmail}</div>
-          ) : null}
-          {adminEmailValue ? (
-            <div className="credits-email">Admin email: {adminEmailValue}</div>
-          ) : (
-            <div className="credits-email">Admin email: (not set)</div>
-          )}
-          <div className="credits-email">Admin match: {isAdmin ? "yes" : "no"}</div>
         </div>
       ) : null}
+      <div className="debug-pill">
+        {userEmail ? `Logged in: ${userEmail}` : "Logged in: (none)"} · Admin:{" "}
+        {adminEmailValue ?? "(not set)"} · Match: {isAdmin ? "yes" : "no"}
+      </div>
     </div>
   );
 }
