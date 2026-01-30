@@ -76,3 +76,23 @@ create policy "Users can update their profile" on public.drum_profiles
   for update
   to authenticated
   using (auth.uid() = user_id);
+
+create table if not exists public.drum_lesson_uses (
+  id uuid primary key default gen_random_uuid(),
+  user_id uuid not null,
+  lesson_id text not null,
+  created_at timestamptz not null default now(),
+  unique (user_id, lesson_id)
+);
+
+alter table public.drum_lesson_uses enable row level security;
+
+create policy "Users can read their lesson uses" on public.drum_lesson_uses
+  for select
+  to authenticated
+  using (auth.uid() = user_id);
+
+create policy "Users can insert their lesson uses" on public.drum_lesson_uses
+  for insert
+  to authenticated
+  with check (auth.uid() = user_id);

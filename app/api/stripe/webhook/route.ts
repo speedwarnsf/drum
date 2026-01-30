@@ -44,6 +44,15 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: "Supabase admin not configured" }, { status: 500 });
     }
 
+    const { data: existingPurchase } = await admin
+      .from("drum_purchases")
+      .select("id")
+      .eq("stripe_session_id", session.id)
+      .maybeSingle();
+    if (existingPurchase) {
+      return NextResponse.json({ received: true });
+    }
+
     await admin.from("drum_purchases").insert({
       user_id: userId,
       stripe_session_id: session.id,
@@ -63,7 +72,7 @@ export async function POST(req: Request) {
     const current = existing?.lesson_credits ?? 0;
     await admin
       .from("drum_entitlements")
-      .upsert({ user_id: userId, lesson_credits: current + lessons });
+      .upsert({ user_id: userId, lesson_credits: current + lessons, updated_at: new Date().toISOString() });
   }
 
   return NextResponse.json({ received: true });

@@ -6,6 +6,7 @@ import { useSearchParams } from "next/navigation";
 import Shell from "../_ui/Shell";
 import Metronome from "../_ui/Metronome";
 import Timer from "../_ui/Timer";
+import { getSupabaseClient } from "../_lib/supabaseClient";
 import {
   buildTodaysPlan,
   loadProfile,
@@ -30,12 +31,14 @@ export default function DrumTodayPage() {
 function DrumTodayInner() {
   const searchParams = useSearchParams();
   const sessionId = searchParams.get("session");
+  const supabase = useMemo(() => getSupabaseClient(), []);
   const [profile, setProfile] = useState<Profile | null>(null);
   const [activeBlock, setActiveBlock] = useState<string | null>(null);
   const [metroBpm, setMetroBpm] = useState<number>(60);
   const [sessionPlan, setSessionPlan] = useState<PracticePlan | null>(null);
   const [sessionMeta, setSessionMeta] = useState<StoredSession | null>(null);
   const [sessions, setSessions] = useState<StoredSession[]>([]);
+  const [creditsReady, setCreditsReady] = useState(false);
 
   useEffect(() => {
     let mounted = true;
@@ -83,11 +86,34 @@ function DrumTodayInner() {
     });
   }, [sessionId]);
 
+  useEffect(() => {
+    if (!profile || !supabase) return;
+    supabase.auth.getSession().then(({ data }) => {
+      const token = data.session?.access_token;
+      if (!token) return;
+      const lessonId = `daily:${new Date().toISOString().slice(0, 10)}`;
+      fetch("/api/credits/use", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ accessToken: token, lessonId }),
+      }).then((res) => {
+        if (res.status === 402) {
+          window.location.href = "/drum/signup";
+          return;
+        }
+        setCreditsReady(true);
+      }).catch(() => {
+        setCreditsReady(true);
+      });
+    });
+  }, [profile, supabase]);
+
   const plan: PracticePlan | null = useMemo(() => {
     if (sessionPlan) return sessionPlan;
     if (!profile) return null;
+    if (!creditsReady) return null;
     return buildTodaysPlan(profile);
-  }, [profile, sessionPlan]);
+  }, [profile, sessionPlan, creditsReady]);
 
   useEffect(() => {
     if (!plan) return;
