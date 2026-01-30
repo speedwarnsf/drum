@@ -32,6 +32,7 @@ export default function HeroVideo() {
       ref={ref}
       className="hero-video"
       src="/media/YellowDrum.mp4"
+      poster="/media/drummer-still.png"
       autoPlay
       muted
       loop
