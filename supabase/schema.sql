@@ -49,3 +49,30 @@ create policy "Users can read their purchases" on public.drum_purchases
   for select
   to authenticated
   using (auth.uid() = user_id);
+
+create table if not exists public.drum_profiles (
+  user_id uuid primary key,
+  level text,
+  kit text,
+  minutes int,
+  goal text,
+  session_count int not null default 0,
+  updated_at timestamptz not null default now()
+);
+
+alter table public.drum_profiles enable row level security;
+
+create policy "Users can read their profile" on public.drum_profiles
+  for select
+  to authenticated
+  using (auth.uid() = user_id);
+
+create policy "Users can upsert their profile" on public.drum_profiles
+  for insert
+  to authenticated
+  with check (auth.uid() = user_id);
+
+create policy "Users can update their profile" on public.drum_profiles
+  for update
+  to authenticated
+  using (auth.uid() = user_id);

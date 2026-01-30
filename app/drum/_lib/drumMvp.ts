@@ -69,6 +69,7 @@ export function loadProfile(): Profile | null {
 export function saveProfile(p: Profile) {
   if (typeof window === "undefined") return;
   localStorage.setItem(KEY_PROFILE, JSON.stringify(p));
+  void syncProfileToSupabase(p);
 }
 
 export function loadLogs(): LogEntry[] {
@@ -86,6 +87,7 @@ export function saveLog(entry: Omit<LogEntry, "ts">, plan?: PracticePlan) {
     saveSession(log, plan);
   }
   void syncLogToSupabase(log, plan);
+  void bumpProfileSessionCount();
 }
 
 export function loadSessions(): StoredSession[] {
@@ -320,4 +322,57 @@ async function syncLogToSupabase(log: LogEntry, plan?: PracticePlan) {
     log,
     plan: plan ?? null,
   });
+}
+
+async function syncProfileToSupabase(profile: Profile) {
+  const { getSupabaseClient } = await import("./supabaseClient");
+  const supabase = getSupabaseClient();
+  if (!supabase) return;
+  const { data: userData } = await supabase.auth.getUser();
+  const user = userData?.user;
+  if (!user) return;
+  const sessionCount = loadLogs().length;
+  await supabase.from("drum_profiles").upsert({
+    user_id: user.id,
+    level: profile.level,
+    kit: profile.kit,
+    minutes: profile.minutes,
+    goal: profile.goal,
+    session_count: sessionCount,
+    updated_at: new Date().toISOString(),
+  });
+}
+
+async function bumpProfileSessionCount() {
+  const { getSupabaseClient } = await import("./supabaseClient");
+  const supabase = getSupabaseClient();
+  if (!supabase) return;
+  const { data: userData } = await supabase.auth.getUser();
+  const user = userData?.user;
+  if (!user) return;
+  const sessionCount = loadLogs().length;
+  await supabase
+    .from("drum_profiles")
+    .upsert({ user_id: user.id, session_count: sessionCount, updated_at: new Date().toISOString() });
+}
+
+export async function loadProfileFromSupabase(): Promise<Profile | null> {
+  const { getSupabaseClient } = await import("./supabaseClient");
+  const supabase = getSupabaseClient();
+  if (!supabase) return null;
+  const { data: userData } = await supabase.auth.getUser();
+  const user = userData?.user;
+  if (!user) return null;
+  const { data } = await supabase
+    .from("drum_profiles")
+    .select("level, kit, minutes, goal")
+    .eq("user_id", user.id)
+    .maybeSingle();
+  if (!data) return null;
+  return {
+    level: data.level as Profile["level"],
+    kit: data.kit as Profile["kit"],
+    minutes: Number(data.minutes || 15),
+    goal: data.goal as Profile["goal"],
+  };
 }

@@ -3,7 +3,7 @@
 /* eslint-disable react-hooks/set-state-in-effect */
 import React, { useEffect, useState } from "react";
 import Shell from "../_ui/Shell";
-import { Profile, loadProfile, saveProfile } from "../_lib/drumMvp";
+import { Profile, loadProfile, loadProfileFromSupabase, saveProfile } from "../_lib/drumMvp";
 
 export default function DrumStartPage() {
   const [ready, setReady] = useState(false);
@@ -14,14 +14,21 @@ export default function DrumStartPage() {
   const [goal, setGoal] = useState<Profile["goal"]>("comfort_time");
 
   useEffect(() => {
-    const p = loadProfile();
-    if (p) {
-      setLevel(p.level);
-      setKit(p.kit);
-      setMinutes(p.minutes);
-      setGoal(p.goal);
+    const local = loadProfile();
+    if (local) {
+      setLevel(local.level);
+      setKit(local.kit);
+      setMinutes(local.minutes);
+      setGoal(local.goal);
     }
-    setReady(true);
+    loadProfileFromSupabase().then((remote) => {
+      if (!remote) return;
+      setLevel(remote.level);
+      setKit(remote.kit);
+      setMinutes(remote.minutes);
+      setGoal(remote.goal);
+      saveProfile(remote);
+    }).finally(() => setReady(true));
   }, []);
 
   if (!ready) return null;
@@ -87,7 +94,7 @@ export default function DrumStartPage() {
           </button>
 
           <p className="tiny">
-            Profile is stored locally; practice logs sync to your account when logged in.
+            Profile is saved once and kept in sync with your account as you progress.
           </p>
         </form>
       </section>
