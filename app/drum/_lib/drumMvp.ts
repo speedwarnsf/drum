@@ -132,10 +132,13 @@ function lastLog(): LogEntry | null {
   return logs.length ? logs[logs.length - 1] : null;
 }
 
-export function buildTodaysPlan(profile: Profile): PracticePlan {
+export function buildTodaysPlan(
+  profile: Profile,
+  options?: { sessionCount?: number; lastLog?: LogEntry | null }
+): PracticePlan {
   const minutes = Number(profile.minutes || 15);
-  const log = lastLog();
-  const dayIndex = loadLogs().length + 1;
+  const log = options?.lastLog ?? lastLog();
+  const dayIndex = (options?.sessionCount ?? loadLogs().length) + 1;
   const brokeTime = log?.broke === "time";
 
   const needsSimpler =

@@ -115,10 +115,8 @@ function DrumTodayInner() {
     if (!profile || !creditsReady || sessionPlan || aiPlan || aiFailed) return;
     const controller = new AbortController();
     const timeout = setTimeout(() => controller.abort(), 12000);
-    const recentLogs = loadSessions()
-      .slice(0, 3)
-      .map((s) => s.log);
-    const dayIndex = recentLogs.length ? recentLogs.length + 1 : 1;
+    const recentLogs = sessions.slice(0, 3).map((s) => s.log);
+    const dayIndex = sessions.length ? sessions.length + 1 : 1;
     fetch("/api/lesson/generate", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -145,7 +143,7 @@ function DrumTodayInner() {
       })
       .catch(() => setAiFailed(true))
       .finally(() => clearTimeout(timeout));
-  }, [profile, creditsReady, sessionPlan, aiPlan, aiFailed]);
+  }, [profile, creditsReady, sessionPlan, aiPlan, aiFailed, sessions]);
 
   const plan: PracticePlan | null = useMemo(() => {
     if (sessionPlan) return sessionPlan;
@@ -153,8 +151,12 @@ function DrumTodayInner() {
     if (!creditsReady) return null;
     if (aiPlan) return aiPlan;
     if (!aiFailed) return null;
-    return buildTodaysPlan(profile);
-  }, [profile, sessionPlan, creditsReady, aiPlan, aiFailed]);
+    const lastLog = sessions[0]?.log ?? null;
+    return buildTodaysPlan(profile, {
+      sessionCount: sessions.length,
+      lastLog,
+    });
+  }, [profile, sessionPlan, creditsReady, aiPlan, aiFailed, sessions]);
 
   useEffect(() => {
     if (!plan) return;
