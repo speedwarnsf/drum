@@ -5,10 +5,12 @@ import React, { useEffect, useState } from "react";
 import Shell from "../_ui/Shell";
 import {
   loadProfile,
+  loadProfileFromSupabase,
   saveLog,
   loadLogs,
   clearAllLocal,
   loadLastPlan,
+  saveProfile,
 } from "../_lib/drumMvp";
 
 export default function DrumJournalPage() {
@@ -23,12 +25,20 @@ export default function DrumJournalPage() {
 
   useEffect(() => {
     const p = loadProfile();
-    if (!p) {
-      window.location.href = "/drum/start";
+    if (p) {
+      setCount(loadLogs().length);
+      setReady(true);
       return;
     }
-    setCount(loadLogs().length);
-    setReady(true);
+    loadProfileFromSupabase().then((remote) => {
+      if (remote) {
+        saveProfile(remote);
+        setCount(loadLogs().length);
+        setReady(true);
+        return;
+      }
+      window.location.href = "/drum/start";
+    });
   }, []);
 
   if (!ready) return null;

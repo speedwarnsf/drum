@@ -9,9 +9,11 @@ import Timer from "../_ui/Timer";
 import {
   buildTodaysPlan,
   loadProfile,
+  loadProfileFromSupabase,
   loadRemoteSessions,
   loadSessions,
   saveLastPlan,
+  saveProfile,
   PracticePlan,
   Profile,
   StoredSession,
@@ -67,11 +69,18 @@ function DrumTodayInner() {
     setSessionPlan(null);
     setSessionMeta(null);
     const p = loadProfile();
-    if (!p) {
-      window.location.href = "/drum/start";
+    if (p) {
+      setProfile(p);
       return;
     }
-    setProfile(p);
+    loadProfileFromSupabase().then((remote) => {
+      if (remote) {
+        saveProfile(remote);
+        setProfile(remote);
+        return;
+      }
+      window.location.href = "/drum/start";
+    });
   }, [sessionId]);
 
   const plan: PracticePlan | null = useMemo(() => {
