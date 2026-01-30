@@ -17,10 +17,13 @@ export default function LessonCredits() {
     supabase.auth.getUser().then(async ({ data }) => {
       const user = data.user;
       if (!user) return;
+      const fallbackAdmin =
+        !!user.email && user.email.toLowerCase() === "dustinyork15@gmail.com";
       const adminMatch =
-        !!adminEmail &&
-        !!user.email &&
-        user.email.toLowerCase() === adminEmail.toLowerCase();
+        (adminEmail &&
+          user.email &&
+          user.email.toLowerCase() === adminEmail.toLowerCase()) ||
+        fallbackAdmin;
       if (adminMatch) setIsAdmin(true);
       const { data: ent } = await supabase
         .from("drum_entitlements")
