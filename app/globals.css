@@ -78,7 +78,7 @@ main.shell {
 .hero-video {
   display: block;
   width: 100%;
-  object-fit: contain;
+  object-fit: cover;
   height: 0;
   opacity: 0;
   mix-blend-mode: darken;
