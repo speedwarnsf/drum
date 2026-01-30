@@ -43,13 +43,14 @@ export default function LessonCredits() {
         profile?.session_count !== undefined && profile?.session_count !== null
           ? Number(profile.session_count)
           : null;
-      if (adminMatch && (profileCount === null || profileCount < 3)) {
-        await supabase.from("drum_profiles").upsert({
+      const adminFloor = adminMatch ? 3 : 0;
+      if (adminMatch && (profileCount === null || profileCount < adminFloor)) {
+        void supabase.from("drum_profiles").upsert({
           user_id: user.id,
-          session_count: 3,
+          session_count: adminFloor,
           updated_at: new Date().toISOString(),
         });
-        setLessonCount(3);
+        setLessonCount(adminFloor);
         return;
       }
       if (profileCount !== null) {
@@ -61,7 +62,7 @@ export default function LessonCredits() {
         .select("id", { count: "exact", head: true })
         .eq("user_id", user.id);
       if (count !== null && count !== undefined) {
-        setLessonCount(count);
+        setLessonCount(Math.max(Number(count), adminFloor));
       }
     });
   }, [supabase]);
