@@ -8,16 +8,18 @@ export default function LessonCredits() {
   const [credits, setCredits] = useState<number | null>(null);
   const [hasEntitlement, setHasEntitlement] = useState<boolean | null>(null);
   const [isAdmin, setIsAdmin] = useState(false);
+  const [adminEmailValue, setAdminEmailValue] = useState<string | null>(null);
   const [userEmail, setUserEmail] = useState<string | null>(null);
   const [lessonCount, setLessonCount] = useState<number | null>(null);
   const [open, setOpen] = useState(false);
 
   useEffect(() => {
     if (!supabase) return;
-    const adminEmail = process.env.NEXT_PUBLIC_ADMIN_EMAIL;
+    const adminEmail = process.env.NEXT_PUBLIC_ADMIN_EMAIL ?? null;
     supabase.auth.getUser().then(async ({ data }) => {
       const user = data.user;
       if (!user) return;
+      setAdminEmailValue(adminEmail);
       setUserEmail(user.email ?? null);
       const adminMatch =
         !!adminEmail &&
@@ -84,6 +86,12 @@ export default function LessonCredits() {
           {userEmail ? (
             <div className="credits-email">Logged in as: {userEmail}</div>
           ) : null}
+          {adminEmailValue ? (
+            <div className="credits-email">Admin email: {adminEmailValue}</div>
+          ) : (
+            <div className="credits-email">Admin email: (not set)</div>
+          )}
+          <div className="credits-email">Admin match: {isAdmin ? "yes" : "no"}</div>
         </div>
       ) : null}
     </div>
