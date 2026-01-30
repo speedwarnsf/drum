@@ -331,7 +331,21 @@ async function syncProfileToSupabase(profile: Profile) {
   const { data: userData } = await supabase.auth.getUser();
   const user = userData?.user;
   if (!user) return;
-  const sessionCount = loadLogs().length;
+  const localCount = loadLogs().length;
+  const { data: existing } = await supabase
+    .from("drum_profiles")
+    .select("session_count")
+    .eq("user_id", user.id)
+    .maybeSingle();
+  const { count: remoteCount } = await supabase
+    .from("drum_sessions")
+    .select("id", { count: "exact", head: true })
+    .eq("user_id", user.id);
+  const sessionCount = Math.max(
+    Number(existing?.session_count ?? 0),
+    Number(localCount),
+    Number(remoteCount ?? 0)
+  );
   await supabase.from("drum_profiles").upsert({
     user_id: user.id,
     level: profile.level,
@@ -350,10 +364,24 @@ async function bumpProfileSessionCount() {
   const { data: userData } = await supabase.auth.getUser();
   const user = userData?.user;
   if (!user) return;
-  const sessionCount = loadLogs().length;
-  await supabase
+  const { data: existing } = await supabase
     .from("drum_profiles")
-    .upsert({ user_id: user.id, session_count: sessionCount, updated_at: new Date().toISOString() });
+    .select("session_count")
+    .eq("user_id", user.id)
+    .maybeSingle();
+  const { count: remoteCount } = await supabase
+    .from("drum_sessions")
+    .select("id", { count: "exact", head: true })
+    .eq("user_id", user.id);
+  const nextCount = Math.max(
+    Number(existing?.session_count ?? 0),
+    Number(remoteCount ?? 0)
+  ) + 1;
+  await supabase.from("drum_profiles").upsert({
+    user_id: user.id,
+    session_count: nextCount,
+    updated_at: new Date().toISOString(),
+  });
 }
 
 export async function loadProfileFromSupabase(): Promise<Profile | null> {
