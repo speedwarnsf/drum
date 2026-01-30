@@ -8,6 +8,7 @@ export default function LessonCredits() {
   const [credits, setCredits] = useState<number | null>(null);
   const [hasEntitlement, setHasEntitlement] = useState<boolean | null>(null);
   const [isAdmin, setIsAdmin] = useState(false);
+  const [userEmail, setUserEmail] = useState<string | null>(null);
   const [lessonCount, setLessonCount] = useState<number | null>(null);
   const [open, setOpen] = useState(false);
 
@@ -17,6 +18,7 @@ export default function LessonCredits() {
     supabase.auth.getUser().then(async ({ data }) => {
       const user = data.user;
       if (!user) return;
+      setUserEmail(user.email ?? null);
       const adminMatch =
         !!adminEmail &&
         !!user.email &&
@@ -79,6 +81,9 @@ export default function LessonCredits() {
       {open ? (
         <div className="credits-panel">
           Credits remaining: {isAdmin ? "∞" : credits}
+          {userEmail ? (
+            <div className="credits-email">Logged in as: {userEmail}</div>
+          ) : null}
         </div>
       ) : null}
     </div>

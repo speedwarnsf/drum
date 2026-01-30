@@ -185,6 +185,12 @@ main.shell.shell-tight {
   white-space: nowrap;
 }
 
+.credits-email {
+  margin-top: 6px;
+  font-size: 11px;
+  opacity: 0.8;
+}
+
 .build-tag {
   margin-top: 16px;
   font-size: 11px;
