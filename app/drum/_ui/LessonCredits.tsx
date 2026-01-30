@@ -17,9 +17,11 @@ export default function LessonCredits() {
     supabase.auth.getUser().then(async ({ data }) => {
       const user = data.user;
       if (!user) return;
-      if (adminEmail && user.email && user.email.toLowerCase() === adminEmail.toLowerCase()) {
-        setIsAdmin(true);
-      }
+      const adminMatch =
+        !!adminEmail &&
+        !!user.email &&
+        user.email.toLowerCase() === adminEmail.toLowerCase();
+      if (adminMatch) setIsAdmin(true);
       const { data: ent } = await supabase
         .from("drum_entitlements")
         .select("lesson_credits")
@@ -37,8 +39,21 @@ export default function LessonCredits() {
         .select("session_count")
         .eq("user_id", user.id)
         .maybeSingle();
-      if (profile?.session_count !== undefined && profile?.session_count !== null) {
-        setLessonCount(profile.session_count);
+      const profileCount =
+        profile?.session_count !== undefined && profile?.session_count !== null
+          ? Number(profile.session_count)
+          : null;
+      if (adminMatch && (profileCount === null || profileCount < 3)) {
+        await supabase.from("drum_profiles").upsert({
+          user_id: user.id,
+          session_count: 3,
+          updated_at: new Date().toISOString(),
+        });
+        setLessonCount(3);
+        return;
+      }
+      if (profileCount !== null) {
+        setLessonCount(profileCount);
         return;
       }
       const { count } = await supabase
