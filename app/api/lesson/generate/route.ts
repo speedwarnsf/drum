@@ -8,7 +8,55 @@ type LessonRequest = {
   recentLogs?: LogEntry[];
   dayIndex?: number;
   lastPlan?: PracticePlan | null;
+  currentModule?: number;
 };
+
+const MODULE_CONTEXT = {
+  1: {
+    name: "Clean Sound",
+    focus: "Unison strikes, grip comfort, even tone. Stop on flams.",
+    constraints: [
+      "Focus exclusively on grip, tone, and clean unison strikes",
+      "No coordination exercises (no simultaneous hands/feet)",
+      "Stop immediately if player produces flams (two notes instead of one)",
+      "Emphasize rebound, letting stick bounce naturally",
+      "Single-surface work only (snare or practice pad)",
+    ],
+  },
+  2: {
+    name: "Internal Clock",
+    focus: "Walk and sing, off-beat clicks, gap drills.",
+    constraints: [
+      "Focus on internalizing the pulse, not chasing the metronome",
+      "Include gap drills (metronome on/off cycles)",
+      "Use off-beat click exercises (click on 2 and 4, or on 'ands')",
+      "Walking/stepping exercises to embody time",
+      "Singing/vocalizing the groove before playing",
+    ],
+  },
+  3: {
+    name: "Vocabulary + Flow",
+    focus: "Singles, doubles, paradiddles, short scripted loops.",
+    constraints: [
+      "Introduce rudiments: singles, doubles, paradiddles",
+      "Short scripted loops and patterns",
+      "Combine rudiments into flowing sequences",
+      "Light coordination (simple hi-hat + snare patterns)",
+      "Keep vocabulary simple and repeatable",
+    ],
+  },
+  4: {
+    name: "The Audit",
+    focus: "Record 30 seconds, listen for alignment and consistency.",
+    constraints: [
+      "Always include a recording/listening exercise",
+      "Focus on self-assessment and ear training",
+      "Check for alignment between kick and snare",
+      "Listen for even spacing in hi-hat patterns",
+      "Review consistency of tone and volume",
+    ],
+  },
+} as const;
 
 type AiResponse = {
   plan: PracticePlan;
@@ -45,8 +93,9 @@ export async function POST(req: Request) {
 
   const model = process.env.OPENAI_MODEL || MODEL_DEFAULT;
   const maxOutputTokens = Number(process.env.OPENAI_MAX_OUTPUT_TOKENS || 2000);
+  const moduleNum = payload.currentModule ?? 1;
 
-  const system = buildSystemPrompt();
+  const system = buildSystemPrompt(moduleNum);
   const user = buildUserPrompt(payload);
 
   try {
@@ -105,7 +154,8 @@ export async function POST(req: Request) {
   }
 }
 
-function buildSystemPrompt() {
+function buildSystemPrompt(moduleNum: number) {
+  const module = MODULE_CONTEXT[moduleNum as keyof typeof MODULE_CONTEXT] || MODULE_CONTEXT[1];
   return [
     "You are the Quiet Master drum instructor.",
     "Tone: calm, grounded, minimal, precise. No hype. No fluff.",
@@ -117,13 +167,20 @@ function buildSystemPrompt() {
     "Structure every lesson into blocks with clear stop conditions.",
     "Use metronome/timer instructions. Emphasize internal clock.",
     "Include a short coachLine with Quiet Master voice.",
+    "",
+    `CURRENT MODULE: ${moduleNum} - ${module.name}`,
+    `Module focus: ${module.focus}`,
+    "MODULE CONSTRAINTS (you MUST follow these):",
+    ...module.constraints.map((c) => `- ${c}`),
   ].join(" ");
 }
 
 function buildUserPrompt(payload: LessonRequest) {
-  const { profile, recentLogs, dayIndex, lastPlan } = payload;
+  const { profile, recentLogs, dayIndex, lastPlan, currentModule } = payload;
   const summary = summarizeLogs(recentLogs || []);
   const lastFocus = lastPlan?.focus ? `Last focus: ${lastPlan.focus}.` : "";
+  const moduleNum = currentModule ?? 1;
+  const module = MODULE_CONTEXT[moduleNum as keyof typeof MODULE_CONTEXT] || MODULE_CONTEXT[1];
 
   return [
     "Generate today's practice card JSON with fields:",
@@ -141,6 +198,9 @@ function buildUserPrompt(payload: LessonRequest) {
     "- avoid technical anatomy language",
     "- no video references",
     `Profile: level=${profile.level}, kit=${profile.kit}, minutes=${profile.minutes}, goal=${profile.goal}.`,
+    `Current module: ${moduleNum} (${module.name}).`,
+    `Module focus: ${module.focus}`,
+    "IMPORTANT: Lesson content must align with the current module constraints.",
     dayIndex ? `Day index: ${dayIndex}.` : "",
     summary ? `Recent log summary: ${summary}.` : "",
     lastFocus,

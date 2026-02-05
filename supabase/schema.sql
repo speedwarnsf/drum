@@ -57,6 +57,8 @@ create table if not exists public.drum_profiles (
   minutes int,
   goal text,
   session_count int not null default 0,
+  current_module int not null default 1,
+  module_started_at timestamptz not null default now(),
   updated_at timestamptz not null default now()
 );
 

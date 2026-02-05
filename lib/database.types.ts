@@ -117,6 +117,8 @@ export type Database = {
           level: string | null
           minutes: number | null
           session_count: number
+          current_module: number
+          module_started_at: string
           updated_at: string
           user_id: string
         }
@@ -126,6 +128,8 @@ export type Database = {
           level?: string | null
           minutes?: number | null
           session_count?: number
+          current_module?: number
+          module_started_at?: string
           updated_at?: string
           user_id: string
         }
@@ -135,6 +139,8 @@ export type Database = {
           level?: string | null
           minutes?: number | null
           session_count?: number
+          current_module?: number
+          module_started_at?: string
           updated_at?: string
           user_id?: string
         }

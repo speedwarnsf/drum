@@ -17,10 +17,12 @@ import {
   loadLastPlan,
   saveLastPlan,
   saveProfile,
+  getModuleProgress,
   PracticePlan,
   Profile,
   StoredSession,
 } from "../_lib/drumMvp";
+import ModuleProgress from "../_ui/ModuleProgress";
 
 export default function DrumTodayPage() {
   return (
@@ -43,6 +45,10 @@ function DrumTodayInner() {
   const [aiPlan, setAiPlan] = useState<PracticePlan | null>(null);
   const [aiFailed, setAiFailed] = useState(false);
   const [creditsReady, setCreditsReady] = useState(false);
+  const [moduleProgress, setModuleProgress] = useState<{
+    currentModule: number;
+    sessionsInModule: number;
+  } | null>(null);
 
   useEffect(() => {
     let mounted = true;
@@ -89,6 +95,18 @@ function DrumTodayInner() {
       window.location.href = "/drum/start";
     });
   }, [sessionId]);
+
+  useEffect(() => {
+    if (!profile || sessionId) return;
+    getModuleProgress().then((data) => {
+      if (data) {
+        setModuleProgress({
+          currentModule: data.currentModule,
+          sessionsInModule: data.sessionsInModule,
+        });
+      }
+    });
+  }, [profile, sessionId]);
 
   useEffect(() => {
     if (!profile || !supabase) return;
@@ -142,6 +160,7 @@ function DrumTodayInner() {
         recentLogs,
         dayIndex,
         lastPlan: loadLastPlan(),
+        currentModule: moduleProgress?.currentModule ?? profile.currentModule ?? 1,
       }),
       signal: controller.signal,
     })
@@ -160,7 +179,7 @@ function DrumTodayInner() {
       })
       .catch(() => setAiFailed(true))
       .finally(() => clearTimeout(timeout));
-  }, [profile, creditsReady, sessionPlan, aiPlan, aiFailed, sessions]);
+  }, [profile, creditsReady, sessionPlan, aiPlan, aiFailed, sessions, moduleProgress]);
 
   const plan: PracticePlan | null = useMemo(() => {
     if (sessionPlan) return sessionPlan;
@@ -204,6 +223,17 @@ function DrumTodayInner() {
           </div>
         </section>
       ) : null}
+
+      {!sessionMeta && moduleProgress && (
+        <ModuleProgress
+          currentModule={moduleProgress.currentModule}
+          sessionsInModule={moduleProgress.sessionsInModule}
+          compact
+          onAdvance={(newModule) => {
+            setModuleProgress({ ...moduleProgress, currentModule: newModule, sessionsInModule: 0 });
+          }}
+        />
+      )}
 
       <section className="card">
         {plan.coachLine ? <div className="kicker">{plan.coachLine}</div> : null}

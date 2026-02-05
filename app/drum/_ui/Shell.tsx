@@ -29,6 +29,9 @@ export default function Shell({
             <a href="/drum/today" className="btn btn-ghost">
               Today
             </a>
+            <a href="/drum/progress" className="btn btn-ghost">
+              Progress
+            </a>
             <a href="/drum/method" className="btn btn-ghost">
               Method
             </a>

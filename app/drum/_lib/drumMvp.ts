@@ -7,7 +7,40 @@ export type Profile = {
   kit: DrumKit;
   minutes: number;
   goal: DrumGoal;
+  currentModule?: number;
+  moduleStartedAt?: string;
 };
+
+export const MODULE_INFO = [
+  {
+    id: 1,
+    title: "Clean Sound",
+    duration: "2 weeks",
+    focus: "Unison strikes, grip comfort, even tone. Stop on flams.",
+    keywords: ["grip", "tone", "unison", "flams", "rebound"],
+  },
+  {
+    id: 2,
+    title: "Internal Clock",
+    duration: "2 weeks",
+    focus: "Walk and sing, off-beat clicks, gap drills.",
+    keywords: ["time", "pulse", "gap drills", "off-beat", "internal clock"],
+  },
+  {
+    id: 3,
+    title: "Vocabulary + Flow",
+    duration: "2 weeks",
+    focus: "Singles, doubles, paradiddles, short scripted loops.",
+    keywords: ["singles", "doubles", "paradiddles", "rudiments", "vocabulary"],
+  },
+  {
+    id: 4,
+    title: "The Audit",
+    duration: "Ongoing",
+    focus: "Record 30 seconds, listen for alignment and consistency.",
+    keywords: ["record", "audit", "listen", "alignment", "consistency"],
+  },
+] as const;
 
 export type LogEntry = {
   broke: "time" | "control" | "coordination" | "feel" | "nothing";
@@ -341,7 +374,7 @@ async function syncProfileToSupabase(profile: Profile) {
   const localCount = loadLogs().length;
   const { data: existing } = await supabase
     .from("drum_profiles")
-    .select("session_count")
+    .select("session_count, current_module, module_started_at")
     .eq("user_id", user.id)
     .maybeSingle();
   const { count: remoteCount } = await supabase
@@ -353,6 +386,8 @@ async function syncProfileToSupabase(profile: Profile) {
     Number(localCount),
     Number(remoteCount ?? 0)
   );
+  const currentModule = profile.currentModule ?? existing?.current_module ?? 1;
+  const moduleStartedAt = profile.moduleStartedAt ?? existing?.module_started_at ?? new Date().toISOString();
   await supabase.from("drum_profiles").upsert({
     user_id: user.id,
     level: profile.level,
@@ -360,6 +395,8 @@ async function syncProfileToSupabase(profile: Profile) {
     minutes: profile.minutes,
     goal: profile.goal,
     session_count: sessionCount,
+    current_module: currentModule,
+    module_started_at: moduleStartedAt,
     updated_at: new Date().toISOString(),
   });
 }
@@ -400,7 +437,7 @@ export async function loadProfileFromSupabase(): Promise<Profile | null> {
   if (!user) return null;
   const { data } = await supabase
     .from("drum_profiles")
-    .select("level, kit, minutes, goal")
+    .select("level, kit, minutes, goal, current_module, module_started_at")
     .eq("user_id", user.id)
     .maybeSingle();
   if (!data) return null;
@@ -409,5 +446,66 @@ export async function loadProfileFromSupabase(): Promise<Profile | null> {
     kit: data.kit as Profile["kit"],
     minutes: Number(data.minutes || 15),
     goal: data.goal as Profile["goal"],
+    currentModule: data.current_module ?? 1,
+    moduleStartedAt: data.module_started_at ?? undefined,
+  };
+}
+
+export async function advanceModule(): Promise<number | null> {
+  const { getSupabaseClient } = await import("./supabaseClient");
+  const supabase = getSupabaseClient();
+  if (!supabase) return null;
+  const { data: userData } = await supabase.auth.getUser();
+  const user = userData?.user;
+  if (!user) return null;
+  const { data: existing } = await supabase
+    .from("drum_profiles")
+    .select("current_module")
+    .eq("user_id", user.id)
+    .maybeSingle();
+  const current = existing?.current_module ?? 1;
+  const next = Math.min(current + 1, 4);
+  if (next === current) return current;
+  await supabase.from("drum_profiles").update({
+    current_module: next,
+    module_started_at: new Date().toISOString(),
+    updated_at: new Date().toISOString(),
+  }).eq("user_id", user.id);
+  return next;
+}
+
+export async function getModuleProgress(): Promise<{
+  currentModule: number;
+  moduleStartedAt: string | null;
+  sessionCount: number;
+  sessionsInModule: number;
+} | null> {
+  const { getSupabaseClient } = await import("./supabaseClient");
+  const supabase = getSupabaseClient();
+  if (!supabase) return null;
+  const { data: userData } = await supabase.auth.getUser();
+  const user = userData?.user;
+  if (!user) return null;
+  const { data: profile } = await supabase
+    .from("drum_profiles")
+    .select("current_module, module_started_at, session_count")
+    .eq("user_id", user.id)
+    .maybeSingle();
+  if (!profile) return null;
+  const moduleStartedAt = profile.module_started_at;
+  let sessionsInModule = 0;
+  if (moduleStartedAt) {
+    const { count } = await supabase
+      .from("drum_sessions")
+      .select("id", { count: "exact", head: true })
+      .eq("user_id", user.id)
+      .gte("ts", moduleStartedAt);
+    sessionsInModule = count ?? 0;
+  }
+  return {
+    currentModule: profile.current_module ?? 1,
+    moduleStartedAt: profile.module_started_at ?? null,
+    sessionCount: profile.session_count ?? 0,
+    sessionsInModule,
   };
 }
