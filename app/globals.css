@@ -81,7 +81,6 @@ main.shell {
   width: 280px !important;
   height: auto !important;
   display: block;
-  mix-blend-mode: darken;
 }
 
 .hero {
@@ -96,10 +95,7 @@ main.shell {
   width: auto;
   height: 0;
   opacity: 0;
-  mix-blend-mode: darken;
   object-fit: contain;
-  object-position: top left;
-  transform-origin: top left;
 }
 
 .hero-video-ready {
