@@ -86,10 +86,9 @@ main.shell {
 
 .hero {
   position: absolute;
-  top: 30px;
-  right: 0;
+  top: 40px;
+  right: 16px;
   z-index: 1;
-  transform-origin: top left;
 }
 
 .hero-video {
@@ -104,7 +103,7 @@ main.shell {
 }
 
 .hero-video-ready {
-  height: 290px;
+  height: 200px;
   opacity: 0.95;
 }
 
@@ -2206,20 +2205,21 @@ li {
 /* Tablet and below (768px) */
 @media (max-width: 768px) {
   .hero-row {
-    min-height: 280px;
-    margin-left: 18px;
+    min-height: 240px;
+    margin-left: 16px;
   }
 
   .global-logo {
-    width: 260px !important;
+    width: 240px !important;
   }
 
   .hero-video-ready {
-    height: 265px;
+    height: 180px;
   }
 
   .hero {
-    top: 25px;
+    top: 35px;
+    right: 14px;
   }
 
   main.shell {
@@ -2264,21 +2264,21 @@ li {
 
   .hero-row {
     padding: 16px 10px 0;
-    margin-left: 16px;
-    min-height: 260px;
+    margin-left: 12px;
+    min-height: 220px;
   }
 
   .global-logo {
-    width: 220px !important;
+    width: 200px !important;
   }
 
   .hero-video-ready {
-    height: 247px;
+    height: 160px;
   }
 
   .hero {
-    top: 20px;
-    right: 0;
+    top: 30px;
+    right: 10px;
   }
 
   main.shell {
@@ -2770,22 +2770,22 @@ li {
 /* Small mobile (375px - iPhone SE) */
 @media (max-width: 375px) {
   .hero-row {
-    min-height: 240px;
-    margin-left: 14px;
+    min-height: 200px;
+    margin-left: 10px;
   }
 
   .global-logo {
-    width: 200px !important;
+    width: 180px !important;
     height: auto !important;
   }
 
   .hero-video-ready {
-    height: 230px;
+    height: 145px;
   }
 
   .hero {
-    top: 15px;
-    right: -5px;
+    top: 25px;
+    right: 8px;
   }
 
   main.shell {
