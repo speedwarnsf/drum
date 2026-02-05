@@ -97,7 +97,8 @@ main.shell {
   width: auto;
   height: 0;
   opacity: 0;
-  object-fit: contain;
+  object-fit: cover;
+  object-position: top center;
 }
 
 .hero-video-ready {
