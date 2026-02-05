@@ -11,7 +11,10 @@ import {
   clearAllLocal,
   loadLastPlan,
   saveProfile,
+  getModuleProgress,
+  Profile,
 } from "../_lib/drumMvp";
+import ReflectionJournal, { ReflectionEntry } from "../_ui/ReflectionJournal";
 import { ErrorBoundary } from "../_ui/ErrorBoundary";
 import { LoadingSpinner, InlineSpinner } from "../_ui/LoadingSpinner";
 import { OfflineIndicator, useOnlineStatus } from "../_ui/OfflineIndicator";
@@ -31,6 +34,8 @@ function JournalPageInner() {
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState(false);
+  const [profile, setProfile] = useState<Profile | null>(null);
+  const [currentModule, setCurrentModule] = useState(1);
   
   const [broke, setBroke] = useState<
     "time" | "control" | "coordination" | "feel" | "nothing"
@@ -38,14 +43,21 @@ function JournalPageInner() {
   const [felt, setFelt] = useState<"easier" | "right" | "harder">("right");
   const [note, setNote] = useState("");
   const [noteError, setNoteError] = useState<string | null>(null);
+  const [reflection, setReflection] = useState<ReflectionEntry | null>(null);
 
   const [count, setCount] = useState(0);
+  const [sessionId] = useState(() => `session_${Date.now()}`);
 
   useEffect(() => {
     const p = loadProfile();
     if (p) {
+      setProfile(p);
       setCount(loadLogs().length);
       setReady(true);
+      // Load module progress for reflection prompts
+      getModuleProgress().then((data) => {
+        if (data) setCurrentModule(data.currentModule);
+      });
       return;
     }
     
@@ -54,8 +66,12 @@ function JournalPageInner() {
         .then((remote) => {
           if (remote) {
             saveProfile(remote);
+            setProfile(remote);
             setCount(loadLogs().length);
             setReady(true);
+            getModuleProgress().then((data) => {
+              if (data) setCurrentModule(data.currentModule);
+            });
             return;
           }
           window.location.href = "/drum/start";
@@ -79,6 +95,10 @@ function JournalPageInner() {
     return true;
   };
 
+  const handleReflectionSave = (entry: ReflectionEntry) => {
+    setReflection(entry);
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError(null);
@@ -91,10 +111,27 @@ function JournalPageInner() {
     setSaving(true);
     try {
       const plan = loadLastPlan();
+      
+      // Combine regular note with reflection data if available
+      let combinedNote = note.trim();
+      if (reflection) {
+        const reflectionSummary = [
+          reflection.stop && `STOP: ${reflection.stop}`,
+          reflection.start && `START: ${reflection.start}`,
+          reflection.continue && `CONTINUE: ${reflection.continue}`,
+        ].filter(Boolean).join(" | ");
+        
+        if (reflectionSummary) {
+          combinedNote = combinedNote 
+            ? `${combinedNote} [${reflectionSummary}]` 
+            : reflectionSummary;
+        }
+      }
+      
       saveLog({
         broke,
         felt,
-        note: note.trim() ? note.trim() : undefined,
+        note: combinedNote || undefined,
       }, plan ?? undefined);
       
       setSuccess(true);
@@ -120,7 +157,9 @@ function JournalPageInner() {
 
   return (
     <Shell title="Log today" subtitle="This is how the system adapts: simple and honest.">
+      {/* Quick Assessment */}
       <section className="card">
+        <div className="kicker">Quick Assessment</div>
         {error && (
           <div className="form-error">
             <span className="form-error-icon">⚠️</span>
@@ -160,7 +199,7 @@ function JournalPageInner() {
             </select>
           </Field>
 
-          <Field label="One note (optional, 1 sentence)">
+          <Field label="Quick note (optional)">
             <input
               value={note}
               onChange={(e) => {
@@ -182,7 +221,15 @@ function JournalPageInner() {
             </span>
           </Field>
 
-          <button type="submit" className="btn" disabled={saving || success}>
+          {/* Stop-Start-Continue Reflection */}
+          <ReflectionJournal
+            sessionId={sessionId}
+            moduleId={currentModule}
+            onSave={handleReflectionSave}
+            compact
+          />
+
+          <button type="submit" className="btn" disabled={saving || success} style={{ marginTop: 16 }}>
             {saving ? (
               <>
                 Saving
@@ -191,12 +238,12 @@ function JournalPageInner() {
             ) : success ? (
               "✓ Saved!"
             ) : (
-              "Save log"
+              "Save Session Log"
             )}
           </button>
 
           <p className="tiny">
-            Logs so far in this browser: {count}
+            Logs so far: {count}
             {!isOnline && " (Offline - will sync when connected)"}
           </p>
         </form>

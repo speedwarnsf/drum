@@ -8,6 +8,7 @@ type MetronomeProps = {
   showGapControls?: boolean;
   initialGapSettings?: Partial<GapSettings>;
   compact?: boolean;
+  showVisualPulse?: boolean; // Show visual pulse circle for visual learners
 };
 
 type BeatState = {
@@ -15,6 +16,7 @@ type BeatState = {
   inGap: boolean;      // Whether we're in the silent gap
   cyclePosition: number; // Position in full cycle
   totalCycle: number;  // Total beats in cycle
+  isPulse: boolean;    // Flash state for visual pulse
 };
 
 export default function Metronome({
@@ -22,10 +24,12 @@ export default function Metronome({
   showGapControls = false,
   initialGapSettings,
   compact = false,
+  showVisualPulse: initialShowVisualPulse = false,
 }: MetronomeProps) {
   const [metroOn, setMetroOn] = useState(false);
   const [gapEnabled, setGapEnabled] = useState(false);
   const [gapPreset, setGapPreset] = useState<GapPreset>("medium");
+  const [showVisualPulse, setShowVisualPulse] = useState(initialShowVisualPulse);
   const [gapSettings, setGapSettings] = useState<GapSettings>({
     beatsOn: initialGapSettings?.beatsOn ?? GAP_PRESETS.medium.beatsOn,
     beatsOff: initialGapSettings?.beatsOff ?? GAP_PRESETS.medium.beatsOff,
@@ -36,6 +40,7 @@ export default function Metronome({
     inGap: false,
     cyclePosition: 0,
     totalCycle: gapSettings.beatsOn + gapSettings.beatsOff,
+    isPulse: false,
   });
 
   // Refs for audio scheduling
@@ -52,6 +57,21 @@ export default function Metronome({
       totalCycle: gapSettings.beatsOn + gapSettings.beatsOff,
     }));
   }, [gapSettings.beatsOn, gapSettings.beatsOff]);
+
+  // Clear pulse after a short duration
+  const pulseTimeoutRef = useRef<number | null>(null);
+  useEffect(() => {
+    if (beatState.isPulse) {
+      pulseTimeoutRef.current = window.setTimeout(() => {
+        setBeatState((prev) => ({ ...prev, isPulse: false }));
+      }, 80); // Short pulse duration
+    }
+    return () => {
+      if (pulseTimeoutRef.current) {
+        clearTimeout(pulseTimeoutRef.current);
+      }
+    };
+  }, [beatState.isPulse]);
 
   const clampedBpm = Math.max(30, Math.min(240, Math.round(bpm)));
 
@@ -94,6 +114,7 @@ export default function Metronome({
         inGap,
         cyclePosition: cyclePosition + 1,
         totalCycle,
+        isPulse: shouldPlay, // Trigger pulse on audible beats
       });
 
       // For off-beat mode, schedule click at half-beat offset
@@ -112,7 +133,7 @@ export default function Metronome({
 
   useEffect(() => {
     if (!metroOn) {
-      setBeatState({ beat: 0, inGap: false, cyclePosition: 0, totalCycle: gapSettings.beatsOn + gapSettings.beatsOff });
+      setBeatState({ beat: 0, inGap: false, cyclePosition: 0, totalCycle: gapSettings.beatsOn + gapSettings.beatsOff, isPulse: false });
       return;
     }
 
@@ -184,6 +205,23 @@ export default function Metronome({
         </button>
       </div>
 
+      {/* Visual Pulse Circle - for visual learners */}
+      {metroOn && showVisualPulse && (
+        <div className="visual-metronome" role="img" aria-label={`Beat ${beatState.beat}`}>
+          <div className="visual-metronome-beat-indicator">
+            {gapEnabled && beatState.inGap ? "🤫" : beatState.beat || "—"}
+          </div>
+          <div
+            className={`visual-metronome-circle ${
+              beatState.isPulse ? "visual-metronome-circle-pulse" : ""
+            } ${gapEnabled && beatState.inGap ? "visual-metronome-circle-gap" : ""}`}
+          />
+          <div className="visual-metronome-beat-indicator">
+            {gapEnabled ? (beatState.inGap ? "gap" : "on") : ""}
+          </div>
+        </div>
+      )}
+
       {/* Visual feedback bar */}
       {metroOn && gapEnabled && (
         <div className="gap-visual" role="img" aria-label={`Gap drill: ${beatState.inGap ? "silent gap" : "clicking"}, beat ${beatState.beat}`}>
@@ -236,6 +274,18 @@ export default function Metronome({
 
       {/* Inactive LED */}
       {!metroOn && <div className="metronome-led" role="img" aria-label="Metronome inactive" />}
+
+      {/* Visual Pulse Toggle */}
+      <div className="visual-metronome-toggle">
+        <label>
+          <input
+            type="checkbox"
+            checked={showVisualPulse}
+            onChange={(e) => setShowVisualPulse(e.target.checked)}
+          />
+          <span>Show visual pulse (for visual learners)</span>
+        </label>
+      </div>
 
       {/* Gap drill controls */}
       {showGapControls && (

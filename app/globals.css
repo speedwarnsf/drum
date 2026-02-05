@@ -3702,3 +3702,234 @@ li {
     padding: 10px 12px;
   }
 }
+
+/* ============================================
+   AUDIATION - Sing Before Play Exercise
+   ============================================ */
+
+.audiation {
+  border-radius: 16px;
+  padding: 16px;
+  background: linear-gradient(135deg, var(--panel) 0%, #e8d4a8 100%);
+  border: 1px solid var(--stroke);
+  margin-top: 16px;
+}
+
+.audiation-compact {
+  padding: 12px;
+}
+
+.audiation-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.audiation-icon {
+  font-size: 20px;
+}
+
+.audiation-title {
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+}
+
+.audiation-intro {
+  font-size: 14px;
+  color: var(--ink-muted);
+  margin-bottom: 16px;
+}
+
+.audiation-patterns {
+  display: grid;
+  gap: 10px;
+  margin-bottom: 16px;
+}
+
+.audiation-pattern-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 4px;
+  padding: 12px 16px;
+  border-radius: 12px;
+  background: var(--panel);
+  border: 1px solid var(--stroke);
+  cursor: pointer;
+  text-align: left;
+  transition: transform 100ms ease, box-shadow 100ms ease;
+}
+
+.audiation-pattern-btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.audiation-pattern-name {
+  font-weight: 600;
+  font-size: 14px;
+}
+
+.audiation-pattern-syllables {
+  font-size: 12px;
+  color: var(--ink-muted);
+  font-family: var(--font-dm-mono), ui-monospace, monospace;
+}
+
+.audiation-legend {
+  padding: 12px;
+  border-radius: 10px;
+  background: rgba(0, 0, 0, 0.05);
+}
+
+.audiation-legend-item {
+  font-size: 12px;
+  color: var(--ink-muted);
+  margin: 4px 0 0;
+}
+
+.audiation-countdown {
+  text-align: center;
+  margin: 24px 0;
+}
+
+.audiation-countdown-number {
+  font-size: 72px;
+  font-weight: 700;
+  font-family: var(--font-dm-mono), ui-monospace, monospace;
+  line-height: 1;
+  animation: countdownPulse 600ms ease infinite;
+}
+
+.audiation-countdown-label {
+  font-size: 14px;
+  color: var(--ink-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin-top: 8px;
+}
+
+.audiation-phase-indicator {
+  text-align: center;
+  font-size: 18px;
+  font-weight: 700;
+  padding: 12px 20px;
+  border-radius: 12px;
+  margin-bottom: 16px;
+}
+
+.audiation-phase-sing {
+  background: linear-gradient(135deg, #a8d4e8 0%, #7bb8d4 100%);
+  color: #1a4a5a;
+}
+
+.audiation-phase-play {
+  background: linear-gradient(135deg, #e8d4a8 0%, #d4b87b 100%);
+  color: #5a4a1a;
+}
+
+.audiation-phase-complete {
+  background: linear-gradient(135deg, #a8e8b4 0%, #7bd488 100%);
+  color: #1a5a2a;
+}
+
+.audiation-current-pattern {
+  text-align: center;
+  margin: 16px 0;
+}
+
+.audiation-syllables-display {
+  font-size: 20px;
+  font-weight: 600;
+  font-family: var(--font-dm-mono), ui-monospace, monospace;
+  margin: 12px 0;
+  padding: 16px;
+  border-radius: 12px;
+  background: var(--panel);
+  border: 2px solid var(--stroke);
+}
+
+.audiation-syllables-active {
+  border-color: var(--ink);
+  animation: syllablePulse 1.5s ease infinite;
+}
+
+.audiation-notation {
+  font-size: 12px;
+  color: var(--ink-muted);
+  font-family: var(--font-dm-mono), ui-monospace, monospace;
+}
+
+.audiation-instruction {
+  font-size: 14px;
+  color: var(--ink-muted);
+  text-align: center;
+  margin: 16px 0;
+}
+
+.audiation-action-btn {
+  width: 100%;
+  padding: 16px;
+  font-size: 16px;
+  background: linear-gradient(135deg, #5cb85c 0%, #4a9f4a 100%);
+  color: white;
+  border-color: #3d8b3d;
+  margin-bottom: 10px;
+}
+
+.audiation-progress {
+  text-align: center;
+  font-size: 14px;
+  color: var(--ink-muted);
+  margin: 12px 0;
+  font-family: var(--font-dm-mono), ui-monospace, monospace;
+}
+
+.audiation-review {
+  margin: 16px 0;
+  padding: 12px;
+  border-radius: 12px;
+  background: var(--panel);
+}
+
+.audiation-review ul {
+  margin: 8px 0 0 16px;
+  font-size: 14px;
+}
+
+@keyframes countdownPulse {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.05);
+    opacity: 0.8;
+  }
+}
+
+@keyframes syllablePulse {
+  0%, 100% {
+    box-shadow: 0 0 0 0 rgba(47, 26, 0, 0.2);
+  }
+  50% {
+    box-shadow: 0 0 0 8px rgba(47, 26, 0, 0);
+  }
+}
+
+@media (max-width: 640px) {
+  .audiation-countdown-number {
+    font-size: 56px;
+  }
+
+  .audiation-syllables-display {
+    font-size: 16px;
+    padding: 12px;
+  }
+
+  .audiation-pattern-btn {
+    padding: 14px;
+  }
+}

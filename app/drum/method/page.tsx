@@ -1,6 +1,19 @@
+"use client";
+
+import { useEffect, useState } from "react";
 import Shell from "../_ui/Shell";
+import Audiation from "../_ui/Audiation";
+import { getModuleProgress } from "../_lib/drumMvp";
 
 export default function DrumMethodPage() {
+  const [currentModule, setCurrentModule] = useState(1);
+
+  useEffect(() => {
+    getModuleProgress().then((data) => {
+      if (data) setCurrentModule(data.currentModule);
+    });
+  }, []);
+
   return (
     <Shell
       title="The Method"
@@ -27,6 +40,10 @@ export default function DrumMethodPage() {
             <div className="pillar-test">
               <strong>Test yourself:</strong> Play kick + snare together 20 times. Record it. 
               Does it sound like &quot;Thud&quot; (good) or &quot;Ka-Thunk&quot; (flam)?
+              <br />
+              <a href="/drum/diagnostic" className="btn btn-ghost" style={{ marginTop: 8 }}>
+                🔍 Run the Diagnostic Test →
+              </a>
             </div>
           </article>
           
@@ -42,6 +59,10 @@ export default function DrumMethodPage() {
             <div className="pillar-test">
               <strong>The difference:</strong> In gap drills (click goes silent), projectors stay steady. 
               Reactors speed up or slow down. Which are you?
+              <br />
+              <a href="/drum/drills" className="btn btn-ghost" style={{ marginTop: 8 }}>
+                🎯 Try Gap Drills →
+              </a>
             </div>
           </article>
           
@@ -120,6 +141,9 @@ export default function DrumMethodPage() {
           <strong>Try it:</strong> Sing &quot;Boom-Chack-Tss-Chack&quot; for 4 bars before you play it. 
           This is audiation—hearing the music internally before executing.
         </p>
+        
+        {/* Interactive Audiation Exercise */}
+        <Audiation moduleId={currentModule} compact />
       </section>
 
       {/* Haptic Metaphors */}
