@@ -147,8 +147,8 @@ main.shell.shell-tight {
 }
 
 .global-logo {
-  width: 45vw;
-  max-width: 320px;
+  width: 52vw;
+  max-width: 380px;
   height: auto;
   display: block;
 }
@@ -2221,8 +2221,8 @@ li {
 /* Tablet and below (768px) */
 @media (max-width: 768px) {
   .global-logo {
-    width: 42vw;
-    max-width: 240px;
+    width: 50vw;
+    max-width: 300px;
   }
 
   .hero-video-ready {
@@ -2275,8 +2275,8 @@ li {
   }
 
   .global-logo {
-    width: 40vw;
-    max-width: 180px;
+    width: 55vw;
+    max-width: 260px;
   }
 
   .hero-video-ready {
