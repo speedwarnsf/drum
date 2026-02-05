@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 
 /**
  * ReflectionJournal - Formative Evaluation Component
@@ -109,22 +109,13 @@ export default function ReflectionJournal({
 }: ReflectionJournalProps) {
   const prompts = MODULE_PROMPTS[moduleId] || DEFAULT_PROMPTS;
   
+  // Initialize from savedEntry. Parent should use key prop to reset when session changes.
   const [stop, setStop] = useState(savedEntry?.stop || "");
   const [start, setStart] = useState(savedEntry?.start || "");
   const [continueItem, setContinueItem] = useState(savedEntry?.continue || "");
   const [minutePaper, setMinutePaper] = useState(savedEntry?.minutePaper || "");
   const [saved, setSaved] = useState(!!savedEntry);
   const [expanded, setExpanded] = useState(!compact);
-
-  useEffect(() => {
-    if (savedEntry) {
-      setStop(savedEntry.stop);
-      setStart(savedEntry.start);
-      setContinueItem(savedEntry.continue);
-      setMinutePaper(savedEntry.minutePaper || "");
-      setSaved(true);
-    }
-  }, [savedEntry]);
 
   const handleSave = () => {
     const entry: ReflectionEntry = {

@@ -264,7 +264,7 @@ export async function POST(req: Request) {
 }
 
 function buildSystemPrompt(moduleNum: number) {
-  const module = MODULE_CONTEXT[moduleNum as keyof typeof MODULE_CONTEXT] || MODULE_CONTEXT[1];
+  const moduleCtx = MODULE_CONTEXT[moduleNum as keyof typeof MODULE_CONTEXT] || MODULE_CONTEXT[1];
   
   return [
     "You are the Quiet Master drum instructor.",
@@ -304,22 +304,22 @@ function buildSystemPrompt(moduleNum: number) {
     "2. Combine two limbs only when each is clean alone",
     "3. Add complexity incrementally",
     "",
-    `## CURRENT MODULE: ${moduleNum} - ${module.name}`,
-    `Subtitle: ${module.subtitle}`,
-    `Focus: ${module.focus}`,
-    `Pedagogical Goal: ${module.pedagogicalGoal}`,
+    `## CURRENT MODULE: ${moduleNum} - ${moduleCtx.name}`,
+    `Subtitle: ${moduleCtx.subtitle}`,
+    `Focus: ${moduleCtx.focus}`,
+    `Pedagogical Goal: ${moduleCtx.pedagogicalGoal}`,
     "",
     "## Module-Specific Constraints (MUST FOLLOW):",
-    ...module.constraints.map((c) => `- ${c}`),
+    ...moduleCtx.constraints.map((c) => `- ${c}`),
     "",
     "## Module-Specific Haptic Cues (USE THESE):",
-    ...module.hapticCues.map((c) => `- ${c}`),
+    ...moduleCtx.hapticCues.map((c) => `- ${c}`),
     "",
     "## Module-Specific Stop Conditions (INCLUDE IN LESSONS):",
-    ...module.stopConditions.map((c) => `- ${c}`),
+    ...moduleCtx.stopConditions.map((c) => `- ${c}`),
     "",
     "## Module-Specific Drills (DRAW FROM THESE):",
-    ...module.drills.map((d) => `- ${d}`),
+    ...moduleCtx.drills.map((d) => `- ${d}`),
   ].join("\n");
 }
 
@@ -328,7 +328,7 @@ function buildUserPrompt(payload: LessonRequest) {
   const summary = summarizeLogs(recentLogs || []);
   const lastFocus = lastPlan?.focus ? `Last focus: ${lastPlan.focus}.` : "";
   const moduleNum = currentModule ?? 1;
-  const module = MODULE_CONTEXT[moduleNum as keyof typeof MODULE_CONTEXT] || MODULE_CONTEXT[1];
+  const moduleCtx = MODULE_CONTEXT[moduleNum as keyof typeof MODULE_CONTEXT] || MODULE_CONTEXT[1];
 
   return [
     "Generate today's practice card JSON with these fields:",
@@ -370,9 +370,9 @@ function buildUserPrompt(payload: LessonRequest) {
     `- Session length: ${profile.minutes} minutes`,
     `- Goal: ${profile.goal}`,
     "",
-    `## Current Module: ${moduleNum} (${module.name})`,
-    `Module focus: ${module.focus}`,
-    `Pedagogical goal: ${module.pedagogicalGoal}`,
+    `## Current Module: ${moduleNum} (${moduleCtx.name})`,
+    `Module focus: ${moduleCtx.focus}`,
+    `Pedagogical goal: ${moduleCtx.pedagogicalGoal}`,
     "",
     "IMPORTANT: Lesson content must align with the current module constraints.",
     "",

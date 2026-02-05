@@ -29,6 +29,7 @@ import { ErrorBoundary } from "../_ui/ErrorBoundary";
 import { AILoadingState } from "../_ui/LoadingSpinner";
 import { SkeletonTodayPage } from "../_ui/SkeletonCard";
 import { OfflineIndicator, useOnlineStatus } from "../_ui/OfflineIndicator";
+import ReflectionJournal, { loadReflectionEntry, ReflectionEntry } from "../_ui/ReflectionJournal";
 
 export default function DrumTodayPage() {
   return (
@@ -73,6 +74,7 @@ function DrumTodayInner() {
   } | null>(null);
   const [streakInfo, setStreakInfo] = useState<StreakInfo | null>(null);
   const [loadError, setLoadError] = useState<string | null>(null);
+  const [reflectionEntry, setReflectionEntry] = useState<ReflectionEntry | null>(null);
 
   useEffect(() => {
     let mounted = true;
@@ -298,6 +300,16 @@ function DrumTodayInner() {
     if (bpm) setMetroBpm(bpm);
   }, [plan, sessionPlan]);
 
+  // Load saved reflection entry for historical sessions
+  useEffect(() => {
+    if (sessionId) {
+      const saved = loadReflectionEntry(sessionId);
+      setReflectionEntry(saved);
+    } else {
+      setReflectionEntry(null);
+    }
+  }, [sessionId]);
+
   // Show error state
   if (loadError) {
     return (
@@ -448,6 +460,15 @@ function DrumTodayInner() {
         <Recorder
           sessionId={sessionMeta?.id ?? null}
           disabled={activeBlock !== null}
+        />
+
+        <ReflectionJournal
+          key={sessionMeta?.id ?? `today-${new Date().toISOString().slice(0, 10)}`}
+          sessionId={sessionMeta?.id ?? `today-${new Date().toISOString().slice(0, 10)}`}
+          moduleId={moduleProgress?.currentModule ?? profile?.currentModule ?? 1}
+          savedEntry={reflectionEntry}
+          compact={!sessionMeta}
+          onSave={(entry) => setReflectionEntry(entry)}
         />
 
         <div className="stop" style={{ marginTop: 16 }}>

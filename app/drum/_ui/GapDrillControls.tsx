@@ -1,6 +1,20 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
+
+/**
+ * Gap Drill Controls
+ * 
+ * Gap drills are the secret weapon for developing internal time (Metric Projection).
+ * 
+ * WHY THEY WORK:
+ * - When the click plays, you can REACT to it (hear → hit)
+ * - When the click is SILENT, you must PROJECT the beat from inside
+ * - Silence reveals whether you're projecting or reacting
+ * 
+ * Think of silence as DISTANCE TO TRAVEL, not emptiness to fill.
+ * The gap between beats has physical length—you cross it with your internal clock.
+ */
 
 export type GapPreset = "easy" | "medium" | "hard" | "custom";
 
@@ -24,6 +38,7 @@ type GapDrillControlsProps = {
   preset: GapPreset;
   onPresetChange: (preset: GapPreset) => void;
   compact?: boolean;
+  showExplanation?: boolean;
 };
 
 export default function GapDrillControls({
@@ -34,7 +49,10 @@ export default function GapDrillControls({
   preset,
   onPresetChange,
   compact = false,
+  showExplanation = true,
 }: GapDrillControlsProps) {
+  const [showProjectionTip, setShowProjectionTip] = useState(false);
+  
   const handlePresetChange = (newPreset: GapPreset) => {
     onPresetChange(newPreset);
     if (newPreset !== "custom") {
@@ -91,9 +109,9 @@ export default function GapDrillControls({
     <div className="gap-controls">
       <div className="gap-controls-header">
         <div className="gap-controls-title">
-          <span className="kicker">Gap Drill Mode</span>
+          <span className="kicker">Gap Drill Mode — Metric Projection Training</span>
           <p className="gap-controls-desc">
-            Click plays, then goes silent. Maintain tempo during the gap.
+            Click plays, then goes silent. During silence, <strong>PROJECT</strong> the beat—don&apos;t wait for it.
           </p>
         </div>
         <button
@@ -106,6 +124,37 @@ export default function GapDrillControls({
           {enabled ? "Disable" : "Enable"}
         </button>
       </div>
+
+      {enabled && showExplanation && (
+        <div className="gap-projection-tip">
+          <button 
+            type="button"
+            className="projection-tip-toggle"
+            onClick={() => setShowProjectionTip(!showProjectionTip)}
+            aria-expanded={showProjectionTip}
+          >
+            💡 Why gap drills work {showProjectionTip ? "▼" : "▶"}
+          </button>
+          {showProjectionTip && (
+            <div className="projection-tip-content">
+              <p>
+                <strong>Reaction vs Projection:</strong> When the click plays, you can <em>react</em> to it 
+                (hear → hit). But when silence comes, you must <em>project</em> the beat from inside.
+              </p>
+              <p>
+                <strong>Visualize silence as distance:</strong> The gap between beats has physical length. 
+                Picture stepping stones—you&apos;re walking across them, not waiting for them to appear.
+              </p>
+              <p>
+                <strong>Self-check:</strong> When the click returns, are you still aligned? 
+                If you sped up, you were rushing to fill the void. 
+                If you slowed down, you were waiting. 
+                True projection = steady tempo.
+              </p>
+            </div>
+          )}
+        </div>
+      )}
 
       {enabled && (
         <div className="gap-controls-body">

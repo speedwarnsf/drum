@@ -1100,6 +1100,51 @@ li {
   font-weight: 600;
 }
 
+/* Gap Drill Projection Tip */
+.gap-projection-tip {
+  margin-top: 12px;
+  padding: 0;
+  border-radius: 10px;
+  background: var(--panel-deep);
+  overflow: hidden;
+}
+
+.projection-tip-toggle {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 12px;
+  font-size: 13px;
+  font-weight: 500;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  color: var(--ink);
+}
+
+.projection-tip-toggle:hover {
+  background: rgba(0, 0, 0, 0.05);
+}
+
+.projection-tip-content {
+  padding: 0 14px 14px;
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.projection-tip-content p {
+  margin: 0 0 10px 0;
+}
+
+.projection-tip-content p:last-child {
+  margin-bottom: 0;
+}
+
+.projection-tip-content strong {
+  color: var(--ink);
+}
+
 /* Gap Visual Feedback */
 .gap-visual {
   margin-top: 14px;
@@ -3347,5 +3392,313 @@ li {
   
   .offline-indicator-restored {
     animation: none;
+  }
+}
+
+/* ============================================
+   DIAGNOSTIC PAGE - Hidden Coordination Flaw Test
+   ============================================ */
+
+.diagnostic-progress {
+  margin-bottom: 16px;
+}
+
+.diagnostic-progress-text {
+  font-size: 12px;
+  color: var(--ink-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  font-family: var(--font-dm-mono), ui-monospace, monospace;
+  margin-bottom: 8px;
+  display: block;
+}
+
+.diagnostic-progress-bar {
+  height: 6px;
+  background: rgba(0, 0, 0, 0.1);
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.diagnostic-progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--ink) 0%, var(--ink-muted) 100%);
+  border-radius: 3px;
+  transition: width 300ms ease;
+}
+
+.diagnostic-exercise {
+  border: 2px solid var(--ink-muted);
+}
+
+.diagnostic-counter {
+  margin: 24px 0;
+  text-align: center;
+}
+
+.diagnostic-hit-btn {
+  width: 120px;
+  height: 120px;
+  border-radius: 60px;
+  background: linear-gradient(145deg, var(--panel) 0%, var(--panel-deep) 100%);
+  border: 3px solid var(--stroke);
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: transform 100ms ease, box-shadow 100ms ease;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.diagnostic-hit-btn:hover:not(:disabled) {
+  transform: scale(1.02);
+}
+
+.diagnostic-hit-btn:active:not(:disabled) {
+  transform: scale(0.95);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+}
+
+.diagnostic-hit-btn:disabled {
+  cursor: default;
+  background: linear-gradient(145deg, #5cb85c 0%, #4a9f4a 100%);
+  border-color: #3d8b3d;
+  color: white;
+}
+
+.diagnostic-hit-btn-active {
+  animation: hitPulse 150ms ease;
+}
+
+.diagnostic-hit-count {
+  font-size: 42px;
+  font-weight: 700;
+  font-family: var(--font-dm-mono), ui-monospace, monospace;
+  line-height: 1;
+}
+
+.diagnostic-hit-label {
+  font-size: 14px;
+  color: var(--ink-muted);
+}
+
+.diagnostic-listen {
+  margin: 24px 0;
+  padding: 16px;
+  border-radius: 14px;
+  background: var(--panel-deep);
+}
+
+.diagnostic-outcomes {
+  display: grid;
+  gap: 10px;
+  margin-top: 12px;
+}
+
+.diagnostic-outcome {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 14px;
+  border-radius: 10px;
+  font-size: 14px;
+}
+
+.diagnostic-outcome-good {
+  background: rgba(90, 184, 92, 0.15);
+  color: #2a6a2a;
+}
+
+.diagnostic-outcome-bad {
+  background: rgba(199, 80, 80, 0.15);
+  color: #8a3a3a;
+}
+
+.diagnostic-outcome-icon {
+  font-size: 16px;
+  font-weight: 700;
+}
+
+.diagnostic-verdict {
+  margin-top: 24px;
+  text-align: center;
+}
+
+.diagnostic-verdict-prompt {
+  font-weight: 600;
+  margin-bottom: 12px;
+}
+
+.diagnostic-verdict-btn {
+  min-width: 140px;
+}
+
+.diagnostic-verdict-clean {
+  background: linear-gradient(135deg, #5cb85c 0%, #4a9f4a 100%);
+  color: white;
+  border-color: #3d8b3d;
+}
+
+.diagnostic-verdict-flam {
+  background: linear-gradient(135deg, #e08080 0%, #c75050 100%);
+  color: white;
+  border-color: #a04a4a;
+}
+
+/* Diagnostic Results */
+.diagnostic-result-header {
+  text-align: center;
+}
+
+.diagnostic-result-emoji {
+  font-size: 48px;
+  display: block;
+  margin-bottom: 12px;
+}
+
+.diagnostic-results-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.diagnostic-result-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 0;
+  border-bottom: 1px solid var(--stroke);
+}
+
+.diagnostic-result-item:last-child {
+  border-bottom: none;
+}
+
+.diagnostic-result-icon {
+  font-size: 20px;
+  width: 28px;
+  text-align: center;
+}
+
+.diagnostic-result-title {
+  flex: 1;
+  font-weight: 600;
+}
+
+.diagnostic-result-status {
+  font-size: 13px;
+  color: var(--ink-muted);
+}
+
+.diagnostic-prescription {
+  background: linear-gradient(135deg, var(--panel) 0%, #f5d999 100%);
+  border: 2px solid var(--ink-muted);
+}
+
+.diagnostic-prescription ol {
+  margin: 12px 0 0 18px;
+}
+
+.diagnostic-prescription li {
+  margin: 8px 0;
+}
+
+@keyframes hitPulse {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(0.92);
+    background: var(--ink);
+    color: var(--bg);
+  }
+}
+
+/* ============================================
+   VISUAL METRONOME - Pulse Circle
+   ============================================ */
+
+.visual-metronome {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 16px 0;
+}
+
+.visual-metronome-circle {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background: var(--panel-deep);
+  border: 3px solid var(--stroke);
+  transition: transform 60ms ease, background-color 60ms ease;
+}
+
+.visual-metronome-circle-pulse {
+  transform: scale(1.15);
+  background: var(--ink);
+  border-color: var(--ink);
+}
+
+.visual-metronome-circle-gap {
+  opacity: 0.4;
+  background: rgba(199, 80, 80, 0.3);
+  border-color: rgba(199, 80, 80, 0.5);
+}
+
+.visual-metronome-beat-indicator {
+  font-size: 24px;
+  font-weight: 700;
+  font-family: var(--font-dm-mono), ui-monospace, monospace;
+  color: var(--ink-muted);
+  min-width: 60px;
+  text-align: center;
+}
+
+.visual-metronome-toggle {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 12px;
+  font-size: 13px;
+}
+
+.visual-metronome-toggle input {
+  width: 18px;
+  height: 18px;
+  accent-color: var(--ink);
+}
+
+/* ============================================
+   DIAGNOSTIC PAGE - Mobile
+   ============================================ */
+
+@media (max-width: 640px) {
+  .diagnostic-hit-btn {
+    width: 100px;
+    height: 100px;
+    border-radius: 50px;
+  }
+
+  .diagnostic-hit-count {
+    font-size: 36px;
+  }
+
+  .diagnostic-verdict .row {
+    flex-direction: column;
+  }
+
+  .diagnostic-verdict-btn {
+    width: 100%;
+  }
+
+  .diagnostic-outcomes {
+    gap: 8px;
+  }
+
+  .diagnostic-outcome {
+    font-size: 13px;
+    padding: 10px 12px;
   }
 }
