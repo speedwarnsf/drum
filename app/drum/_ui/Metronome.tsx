@@ -120,7 +120,13 @@ export default function Metronome({
     beatCountRef.current = 0;
 
     const start = async () => {
-      audioCtxRef.current = new AudioContext();
+      // Use webkitAudioContext for older Safari
+      const AudioContextClass = window.AudioContext || (window as unknown as { webkitAudioContext?: typeof AudioContext }).webkitAudioContext;
+      if (!AudioContextClass) {
+        console.warn("AudioContext not supported");
+        return;
+      }
+      audioCtxRef.current = new AudioContextClass();
       await audioCtxRef.current.resume();
       nextTimeRef.current = audioCtxRef.current.currentTime + 0.05;
       schedule();
@@ -152,6 +158,8 @@ export default function Metronome({
       : gapSettings.beatsOn - ((beatState.cyclePosition - 1) % gapSettings.beatsOn)
     : 0;
 
+  const toggleMetro = () => setMetroOn((prev) => !prev);
+
   return (
     <section className="card">
       <div className="metronome">
@@ -167,9 +175,10 @@ export default function Metronome({
         </div>
         <button
           type="button"
-          className={`btn ${metroOn ? "" : "btn-ghost"}`}
-          onClick={() => setMetroOn((prev) => !prev)}
+          className={`btn touch-target ${metroOn ? "" : "btn-ghost"}`}
+          onClick={toggleMetro}
           aria-pressed={metroOn}
+          aria-label={metroOn ? "Stop metronome" : "Start metronome"}
         >
           {metroOn ? "Stop click" : "Start click"}
         </button>
@@ -177,7 +186,7 @@ export default function Metronome({
 
       {/* Visual feedback bar */}
       {metroOn && gapEnabled && (
-        <div className="gap-visual">
+        <div className="gap-visual" role="img" aria-label={`Gap drill: ${beatState.inGap ? "silent gap" : "clicking"}, beat ${beatState.beat}`}>
           <div className="gap-visual-bar">
             <div
               className={`gap-visual-fill ${beatState.inGap ? "gap-visual-fill-gap" : "gap-visual-fill-click"}`}
@@ -186,7 +195,7 @@ export default function Metronome({
               }}
             />
             {/* Beat markers */}
-            <div className="gap-visual-markers">
+            <div className="gap-visual-markers" aria-hidden="true">
               {Array.from({ length: beatState.totalCycle }).map((_, i) => (
                 <div
                   key={i}
@@ -213,18 +222,20 @@ export default function Metronome({
 
       {/* Simple LED for non-gap mode */}
       {metroOn && !gapEnabled && (
-        <div className={`metronome-led metronome-led-on`} />
+        <div className="metronome-led metronome-led-on" role="img" aria-label="Metronome active" />
       )}
 
       {/* LED with gap awareness */}
       {metroOn && gapEnabled && (
         <div
           className={`metronome-led ${beatState.inGap ? "metronome-led-gap" : "metronome-led-on"}`}
+          role="img"
+          aria-hidden="true"
         />
       )}
 
       {/* Inactive LED */}
-      {!metroOn && <div className="metronome-led" />}
+      {!metroOn && <div className="metronome-led" role="img" aria-label="Metronome inactive" />}
 
       {/* Gap drill controls */}
       {showGapControls && (

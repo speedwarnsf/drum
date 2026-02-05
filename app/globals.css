@@ -550,6 +550,12 @@ li {
   opacity: 1;
 }
 
+.recorder-unsupported {
+  flex-direction: column;
+  align-items: flex-start;
+  background: rgba(107, 16, 0, 0.08);
+}
+
 .recorder-controls {
   display: flex;
   align-items: center;
@@ -2078,5 +2084,732 @@ li {
   }
   .achievement {
     transition: none;
+  }
+}
+
+/* ============================================
+   MOBILE POLISH - Touch-first responsive
+   ============================================ */
+
+/* Base touch target - minimum 44x44px */
+.touch-target {
+  min-height: 44px;
+  min-width: 44px;
+}
+
+/* Mobile Navigation */
+.mobile-nav-toggle {
+  display: none;
+  min-width: 44px;
+  min-height: 44px;
+  padding: 10px;
+  border-radius: 12px;
+  background: var(--panel-deep);
+  border: 1px solid var(--stroke);
+  cursor: pointer;
+  align-items: center;
+  justify-content: center;
+}
+
+.mobile-nav-toggle-icon {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  width: 20px;
+}
+
+.mobile-nav-toggle-icon span {
+  height: 2px;
+  background: var(--ink);
+  border-radius: 2px;
+  transition: transform 200ms ease, opacity 200ms ease;
+}
+
+.mobile-nav-toggle[aria-expanded="true"] .mobile-nav-toggle-icon span:nth-child(1) {
+  transform: rotate(45deg) translate(4px, 4px);
+}
+
+.mobile-nav-toggle[aria-expanded="true"] .mobile-nav-toggle-icon span:nth-child(2) {
+  opacity: 0;
+}
+
+.mobile-nav-toggle[aria-expanded="true"] .mobile-nav-toggle-icon span:nth-child(3) {
+  transform: rotate(-45deg) translate(4px, -4px);
+}
+
+.mobile-nav-menu {
+  display: none;
+}
+
+.desktop-nav {
+  display: contents;
+}
+
+/* ============================================
+   RESPONSIVE BREAKPOINTS
+   ============================================ */
+
+/* Tablet and below (768px) */
+@media (max-width: 768px) {
+  .global-logo {
+    width: 120px;
+    height: 120px;
+  }
+
+  main.shell {
+    margin-top: 24px;
+    padding: 0 12px 24px;
+  }
+
+  .shell-header {
+    margin-top: 48px;
+    padding: 14px;
+  }
+
+  .title {
+    font-size: clamp(20px, 5vw, 28px);
+  }
+
+  .card {
+    padding: 14px;
+  }
+
+  .grid {
+    grid-template-columns: 1fr;
+  }
+
+  /* Gap controls stack on tablet */
+  .gap-settings {
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .gap-info {
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+}
+
+/* Mobile (640px and below) */
+@media (max-width: 640px) {
+  html {
+    font-size: 16px; /* Prevent zoom on input focus */
+  }
+
+  .global-logo {
+    width: 80px;
+    height: 80px;
+    top: 8px;
+    left: 8px;
+  }
+
+  main.shell {
+    margin-top: 16px;
+    padding: 0 10px 20px;
+  }
+
+  .shell-header {
+    margin-top: 32px;
+    padding: 12px;
+    border-radius: 14px;
+  }
+
+  .shell-head {
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .shell-nav {
+    width: 100%;
+    justify-content: flex-start;
+  }
+
+  /* Mobile hamburger nav - hide desktop nav */
+  .desktop-nav {
+    display: none;
+  }
+
+  .mobile-nav-toggle {
+    display: flex;
+  }
+
+  .mobile-nav-menu {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: var(--bg);
+    z-index: 100;
+    padding: 80px 20px 20px;
+    flex-direction: column;
+    gap: 8px;
+    overflow-y: auto;
+  }
+
+  .mobile-nav-menu.mobile-nav-open {
+    display: flex;
+  }
+
+  .mobile-nav-menu .btn {
+    width: 100%;
+    justify-content: flex-start;
+    min-height: 48px;
+    font-size: 16px;
+  }
+
+  .mobile-nav-close {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    min-width: 44px;
+    min-height: 44px;
+    border-radius: 12px;
+    background: var(--panel-deep);
+    border: 1px solid var(--stroke);
+    font-size: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+  }
+
+  .title {
+    font-size: 20px;
+  }
+
+  .sub {
+    font-size: 14px;
+  }
+
+  .kicker {
+    font-size: 10px;
+  }
+
+  .card {
+    padding: 12px;
+    border-radius: 14px;
+    margin-bottom: 12px;
+  }
+
+  .card-title {
+    font-size: 16px;
+  }
+
+  /* Timer mobile - larger touch target */
+  .timer {
+    padding: 16px;
+    border-radius: 14px;
+    min-height: 88px;
+  }
+
+  .timer-readout {
+    font-size: 28px;
+  }
+
+  .timer-label,
+  .timer-state {
+    font-size: 11px;
+  }
+
+  .timer-flash-inner {
+    padding: 20px;
+    margin: 16px;
+    width: calc(100% - 32px);
+    max-width: 320px;
+  }
+
+  /* Metronome mobile */
+  .metronome {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+
+  .metronome-title {
+    font-size: 24px;
+  }
+
+  .metronome .btn {
+    width: 100%;
+    min-height: 48px;
+    font-size: 16px;
+  }
+
+  .metronome-led {
+    height: 12px;
+  }
+
+  /* Gap visual mobile */
+  .gap-visual {
+    padding: 10px;
+  }
+
+  .gap-visual-bar {
+    height: 32px;
+    border-radius: 16px;
+  }
+
+  .gap-visual-marker {
+    width: 10px;
+    height: 10px;
+  }
+
+  .gap-visual-info {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 6px;
+    font-size: 11px;
+  }
+
+  /* Gap controls mobile */
+  .gap-controls {
+    padding-top: 12px;
+    margin-top: 12px;
+  }
+
+  .gap-controls-compact {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 8px;
+  }
+
+  .gap-controls-compact .btn {
+    width: 100%;
+    min-height: 44px;
+  }
+
+  .gap-controls-compact select {
+    width: 100%;
+    min-height: 44px;
+    font-size: 16px;
+  }
+
+  .gap-presets {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .gap-presets .btn {
+    min-height: 44px;
+  }
+
+  .gap-settings {
+    flex-direction: column;
+  }
+
+  .gap-setting {
+    width: 100%;
+  }
+
+  .gap-input {
+    width: 100%;
+    min-height: 44px;
+    font-size: 16px;
+  }
+
+  .gap-checkbox {
+    width: 24px;
+    height: 24px;
+  }
+
+  /* Buttons mobile - enforce touch targets */
+  .btn {
+    min-height: 44px;
+    padding: 12px 16px;
+    font-size: 15px;
+  }
+
+  .btn-small {
+    min-height: 40px;
+    padding: 10px 14px;
+  }
+
+  .row {
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .row .btn {
+    width: 100%;
+  }
+
+  /* Form inputs mobile */
+  .input,
+  select,
+  input {
+    min-height: 44px;
+    padding: 12px 14px;
+    font-size: 16px; /* Prevents zoom on iOS */
+  }
+
+  .field {
+    gap: 8px;
+  }
+
+  .field label,
+  .field span {
+    font-size: 14px;
+  }
+
+  /* Recorder mobile */
+  .recorder {
+    padding: 12px;
+    border-radius: 14px;
+  }
+
+  .recorder-controls {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .recorder-btn {
+    width: 100%;
+    min-height: 52px;
+    font-size: 16px;
+    justify-content: center;
+  }
+
+  .recorder-btn-record {
+    background: linear-gradient(135deg, var(--panel) 0%, #f5c04a 100%);
+  }
+
+  .recorder-btn-icon-record {
+    font-size: 16px;
+  }
+
+  .recorder-timer {
+    justify-content: center;
+    padding: 12px;
+    background: var(--panel-deep);
+    border-radius: 10px;
+  }
+
+  .recorder-playback-row {
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .recorder-playback-row .recorder-btn {
+    width: 100%;
+  }
+
+  .recorder-history-item {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+    padding: 10px 0;
+  }
+
+  .recorder-history-actions {
+    width: 100%;
+    display: flex;
+    gap: 8px;
+  }
+
+  .recorder-history-actions .recorder-btn {
+    flex: 1;
+    min-height: 40px;
+  }
+
+  /* Module progress mobile */
+  .module-progress-compact {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 10px 12px;
+  }
+
+  .module-dots {
+    gap: 8px;
+  }
+
+  .module-dot {
+    width: 14px;
+    height: 14px;
+  }
+
+  .module-advance-hint {
+    margin-left: 0;
+    width: 100%;
+    text-align: center;
+    min-height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .module-grid {
+    grid-template-columns: 1fr;
+  }
+
+  /* Compact stats mobile */
+  .compact-stats {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+    padding: 12px;
+  }
+
+  .compact-stat-sep {
+    display: none;
+  }
+
+  /* Streak card mobile */
+  .streak-main {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .streak-fire-container {
+    width: 40px;
+    height: 40px;
+  }
+
+  .streak-fire {
+    font-size: 28px;
+  }
+
+  .streak-secondary {
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  /* Stats grid mobile */
+  .stats-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+  }
+
+  /* Calendar mobile */
+  .calendar-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .calendar-cell {
+    width: 10px;
+    height: 10px;
+  }
+
+  .calendar-weekday {
+    font-size: 8px;
+  }
+
+  /* Setup guide mobile */
+  .setup-guide {
+    padding: 10px 12px;
+  }
+
+  .setup-guide summary {
+    min-height: 44px;
+    align-items: center;
+  }
+
+  /* Credits mobile */
+  .credits {
+    min-height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .credits-panel {
+    position: fixed;
+    left: 10px;
+    right: 10px;
+    top: auto;
+    bottom: 20px;
+    padding: 16px;
+    border-radius: 14px;
+    z-index: 50;
+  }
+
+  /* Drills mobile */
+  .drill-bpm {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .drill-bpm-input {
+    width: 100%;
+    min-height: 52px;
+    font-size: 24px;
+  }
+
+  .drill-bpm .btn {
+    min-height: 48px;
+    min-width: 48px;
+  }
+
+  .drill-presets {
+    grid-template-columns: 1fr;
+  }
+
+  .drill-preset-btn {
+    min-height: 60px;
+  }
+
+  .drill-custom-row {
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .drill-custom-field input {
+    width: 100%;
+    min-height: 44px;
+  }
+
+  .drill-start-btn,
+  .drill-stop-btn {
+    width: 100%;
+    min-height: 56px;
+    font-size: 18px;
+  }
+
+  .drill-stats {
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  /* Practice history mobile */
+  ul {
+    margin-left: 12px;
+  }
+
+  li {
+    margin: 8px 0;
+  }
+
+  li .btn {
+    text-align: left;
+    white-space: normal;
+    line-height: 1.4;
+  }
+}
+
+/* Small mobile (375px - iPhone SE) */
+@media (max-width: 375px) {
+  .global-logo {
+    width: 60px;
+    height: 60px;
+  }
+
+  main.shell {
+    padding: 0 8px 16px;
+  }
+
+  .shell-header {
+    margin-top: 24px;
+    padding: 10px;
+  }
+
+  .title {
+    font-size: 18px;
+  }
+
+  .card {
+    padding: 10px;
+    border-radius: 12px;
+  }
+
+  .timer {
+    padding: 14px;
+  }
+
+  .timer-readout {
+    font-size: 24px;
+  }
+
+  .metronome-title {
+    font-size: 20px;
+  }
+
+  .btn {
+    padding: 10px 12px;
+    font-size: 14px;
+  }
+
+  .recorder-btn {
+    min-height: 48px;
+  }
+
+  .gap-visual-marker {
+    width: 8px;
+    height: 8px;
+  }
+
+  .stats-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .stat-item-value {
+    font-size: 20px;
+  }
+
+  .streak-current-number {
+    font-size: 26px;
+  }
+}
+
+/* Landscape mobile orientation */
+@media (max-height: 500px) and (orientation: landscape) {
+  .timer-flash {
+    padding: 10px;
+  }
+
+  .timer-flash-inner {
+    padding: 14px 20px;
+  }
+
+  .timer-flash-title {
+    font-size: 20px;
+  }
+
+  .mobile-nav-menu {
+    padding-top: 60px;
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+
+  .mobile-nav-menu .btn {
+    width: auto;
+    flex: 0 0 auto;
+  }
+}
+
+/* Safe areas for notched devices */
+@supports (padding: max(0px)) {
+  main.shell {
+    padding-left: max(10px, env(safe-area-inset-left));
+    padding-right: max(10px, env(safe-area-inset-right));
+    padding-bottom: max(20px, env(safe-area-inset-bottom));
+  }
+
+  .mobile-nav-menu {
+    padding-left: max(20px, env(safe-area-inset-left));
+    padding-right: max(20px, env(safe-area-inset-right));
+    padding-bottom: max(20px, env(safe-area-inset-bottom));
+  }
+
+  .timer-flash {
+    padding: max(16px, env(safe-area-inset-top)) max(16px, env(safe-area-inset-right)) max(16px, env(safe-area-inset-bottom)) max(16px, env(safe-area-inset-left));
+  }
+}
+
+/* Touch feedback - subtle on touch devices */
+@media (hover: none) {
+  .btn:active,
+  .timer:active,
+  .recorder-btn:active {
+    transform: scale(0.98);
+    opacity: 0.9;
+  }
+
+  .btn:hover,
+  .timer:hover,
+  .recorder-btn:hover:not(:disabled) {
+    transform: none;
   }
 }

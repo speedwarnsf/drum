@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { DM_Mono, Space_Grotesk } from "next/font/google";
 import Image from "next/image";
 import HeroVideo from "./drum/_ui/HeroVideo";
@@ -15,9 +15,30 @@ const dmMono = DM_Mono({
   weight: ["400", "500"],
 });
 
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  maximumScale: 5,
+  userScalable: true,
+  themeColor: "#f4ba34",
+  colorScheme: "light",
+};
+
 export const metadata: Metadata = {
   title: "Dyork Drum Practice",
   description: "Daily drum practice cards with calm, teacher-style guidance.",
+  manifest: "/manifest.json",
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: "default",
+    title: "Drum Practice",
+  },
+  formatDetection: {
+    telephone: false,
+  },
+  other: {
+    "mobile-web-app-capable": "yes",
+  },
 };
 
 export default function RootLayout({
@@ -27,6 +48,15 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+      <head>
+        {/* iOS PWA enhancements */}
+        <link rel="apple-touch-icon" href="/media/repodrumlogo.gif" />
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+        <meta name="apple-mobile-web-app-title" content="Drum" />
+        {/* Prevent text size adjustment on orientation change */}
+        <meta name="x-ua-compatible" content="IE=edge" />
+      </head>
       <body className={`${spaceGrotesk.variable} ${dmMono.variable}`}>
         <a href="/drum" aria-label="RepoDrum home">
           <Image

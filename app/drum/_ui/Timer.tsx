@@ -71,37 +71,46 @@ export default function Timer({
     setIsRunning(true);
   };
 
+  const dismissComplete = () => setIsComplete(false);
+
   return (
     <>
       {isComplete ? (
         <div
           className="timer-flash"
-          onClick={() => setIsComplete(false)}
+          onClick={dismissComplete}
+          onTouchEnd={(e) => {
+            e.preventDefault();
+            dismissComplete();
+          }}
           role="button"
           tabIndex={0}
           onKeyDown={(e) => {
-            if (e.key === "Enter" || e.key === " ") setIsComplete(false);
+            if (e.key === "Enter" || e.key === " ") dismissComplete();
           }}
-          aria-label="Timer complete. Click to dismiss."
+          aria-label="Timer complete. Tap to dismiss."
         >
           <div className="timer-flash-inner">
             <div className="kicker">Time</div>
             <div className="timer-flash-title">Block Complete</div>
-            <div className="timer-flash-sub">Click anywhere to continue.</div>
+            <div className="timer-flash-sub">Tap anywhere to continue.</div>
           </div>
         </div>
       ) : null}
 
       <button
         type="button"
-        className={`timer ${isSelected && isRunning ? "timer-active" : ""}`}
+        className={`timer touch-target ${isSelected && isRunning ? "timer-active" : ""}`}
         onClick={toggle}
         aria-pressed={isSelected && isRunning}
+        aria-label={`Timer ${formatTime(displaySeconds)}. ${isSelected && isRunning ? "Running, tap to pause" : "Paused, tap to start"}`}
       >
         <span className="timer-label">
           Tap to {isSelected && isRunning ? "pause" : "start"}
         </span>
-        <span className="timer-readout">{formatTime(displaySeconds)}</span>
+        <span className="timer-readout" aria-live="polite">
+          {formatTime(displaySeconds)}
+        </span>
         <span className="timer-state">
           {isSelected && isRunning ? "Running" : "Idle"}
         </span>

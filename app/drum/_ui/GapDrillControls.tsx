@@ -52,8 +52,10 @@ export default function GapDrillControls({
       <div className="gap-controls gap-controls-compact">
         <button
           type="button"
-          className={`btn btn-small ${enabled ? "" : "btn-ghost"}`}
+          className={`btn btn-small touch-target ${enabled ? "" : "btn-ghost"}`}
           onClick={() => onEnabledChange(!enabled)}
+          aria-pressed={enabled}
+          aria-label={enabled ? "Gap drill enabled, tap to disable" : "Gap drill disabled, tap to enable"}
         >
           {enabled ? "Gap On" : "Gap Off"}
         </button>
@@ -62,7 +64,8 @@ export default function GapDrillControls({
             <select
               value={preset}
               onChange={(e) => handlePresetChange(e.target.value as GapPreset)}
-              className="gap-preset-select"
+              className="gap-preset-select touch-target"
+              aria-label="Gap drill preset"
             >
               <option value="easy">Easy (8 on, 4 off)</option>
               <option value="medium">Medium (4 on, 4 off)</option>
@@ -71,9 +74,10 @@ export default function GapDrillControls({
             </select>
             <button
               type="button"
-              className={`btn btn-small ${settings.offBeatMode ? "" : "btn-ghost"}`}
+              className={`btn btn-small touch-target ${settings.offBeatMode ? "" : "btn-ghost"}`}
               onClick={() => handleCustomChange("offBeatMode", !settings.offBeatMode)}
-              title="Off-beat clicks on the &quot;and&quot;"
+              aria-pressed={settings.offBeatMode}
+              aria-label="Off-beat mode - clicks on the 'and'"
             >
               Off-beat
             </button>
@@ -94,8 +98,10 @@ export default function GapDrillControls({
         </div>
         <button
           type="button"
-          className={`btn ${enabled ? "" : "btn-ghost"}`}
+          className={`btn touch-target ${enabled ? "" : "btn-ghost"}`}
           onClick={() => onEnabledChange(!enabled)}
+          aria-pressed={enabled}
+          aria-label={enabled ? "Disable gap drill" : "Enable gap drill"}
         >
           {enabled ? "Disable" : "Enable"}
         </button>
@@ -109,8 +115,9 @@ export default function GapDrillControls({
               <button
                 key={p}
                 type="button"
-                className={`btn btn-small ${preset === p ? "" : "btn-ghost"}`}
+                className={`btn btn-small touch-target ${preset === p ? "" : "btn-ghost"}`}
                 onClick={() => handlePresetChange(p)}
+                aria-pressed={preset === p}
               >
                 {p === "easy" && "Easy"}
                 {p === "medium" && "Medium"}
@@ -126,11 +133,13 @@ export default function GapDrillControls({
                 <span className="gap-setting-label">Beats on</span>
                 <input
                   type="number"
+                  inputMode="numeric"
                   min={1}
                   max={32}
                   value={settings.beatsOn}
                   onChange={(e) => handleCustomChange("beatsOn", Math.max(1, parseInt(e.target.value) || 1))}
-                  className="gap-input"
+                  className="gap-input touch-target"
+                  aria-label="Number of beats with click"
                 />
               </label>
             </div>
@@ -139,11 +148,13 @@ export default function GapDrillControls({
                 <span className="gap-setting-label">Beats off</span>
                 <input
                   type="number"
+                  inputMode="numeric"
                   min={1}
                   max={32}
                   value={settings.beatsOff}
                   onChange={(e) => handleCustomChange("beatsOff", Math.max(1, parseInt(e.target.value) || 1))}
-                  className="gap-input"
+                  className="gap-input touch-target"
+                  aria-label="Number of silent beats"
                 />
               </label>
             </div>
@@ -153,7 +164,7 @@ export default function GapDrillControls({
                   type="checkbox"
                   checked={settings.offBeatMode}
                   onChange={(e) => handleCustomChange("offBeatMode", e.target.checked)}
-                  className="gap-checkbox"
+                  className="gap-checkbox touch-target"
                 />
                 <span className="gap-setting-label">Off-beat mode</span>
               </label>

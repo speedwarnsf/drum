@@ -10,7 +10,7 @@ import {
   deleteRecording,
 } from "../_lib/audioStorage";
 
-type RecorderState = "idle" | "requesting" | "recording" | "playing";
+type RecorderState = "idle" | "requesting" | "recording" | "playing" | "unsupported";
 
 type RecorderProps = {
   sessionId?: string | null;
@@ -18,6 +18,39 @@ type RecorderProps = {
   showHistory?: boolean;
   compact?: boolean;
 };
+
+// Check if MediaRecorder is supported
+function checkMediaRecorderSupport(): { supported: boolean; reason?: string } {
+  if (typeof window === "undefined") {
+    return { supported: false, reason: "Not in browser" };
+  }
+
+  if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+    return { supported: false, reason: "Your browser doesn't support microphone access. Try Chrome or Firefox." };
+  }
+
+  if (!window.MediaRecorder) {
+    // iOS Safari < 14.3 doesn't have MediaRecorder
+    const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
+    const isSafari = /Safari/.test(navigator.userAgent) && !/Chrome/.test(navigator.userAgent);
+    
+    if (isIOS) {
+      return { 
+        supported: false, 
+        reason: "Recording requires iOS 14.3+ or Safari 14.3+. Please update your device or use Chrome on desktop." 
+      };
+    }
+    if (isSafari) {
+      return { 
+        supported: false, 
+        reason: "Recording requires Safari 14.3+. Please update Safari or try Chrome/Firefox." 
+      };
+    }
+    return { supported: false, reason: "Your browser doesn't support audio recording. Try Chrome or Firefox." };
+  }
+
+  return { supported: true };
+}
 
 export default function Recorder({
   sessionId = null,
@@ -31,6 +64,7 @@ export default function Recorder({
   const [recordings, setRecordings] = useState<AudioRecording[]>([]);
   const [currentRecording, setCurrentRecording] = useState<AudioRecording | null>(null);
   const [playingId, setPlayingId] = useState<string | null>(null);
+  const [supportCheck, setSupportCheck] = useState<{ supported: boolean; reason?: string } | null>(null);
 
   const mediaRecorderRef = useRef<MediaRecorder | null>(null);
   const audioRef = useRef<HTMLAudioElement | null>(null);
@@ -39,6 +73,15 @@ export default function Recorder({
   const timerRef = useRef<number | null>(null);
 
   const maxDurationMs = getMaxDurationMs();
+
+  // Check support on mount
+  useEffect(() => {
+    const check = checkMediaRecorderSupport();
+    setSupportCheck(check);
+    if (!check.supported) {
+      setState("unsupported");
+    }
+  }, []);
 
   // Load recordings on mount
   useEffect(() => {
@@ -102,49 +145,73 @@ export default function Recorder({
     startTimeRef.current = Date.now();
     setElapsedMs(0);
 
-    const mimeType = MediaRecorder.isTypeSupported("audio/webm;codecs=opus")
-      ? "audio/webm;codecs=opus"
-      : MediaRecorder.isTypeSupported("audio/webm")
-        ? "audio/webm"
-        : "audio/mp4";
-
-    const recorder = new MediaRecorder(stream, { mimeType });
-    mediaRecorderRef.current = recorder;
-
-    recorder.ondataavailable = (e) => {
-      if (e.data.size > 0) {
-        chunksRef.current.push(e.data);
+    // Determine best supported MIME type
+    const mimeTypes = [
+      "audio/webm;codecs=opus",
+      "audio/webm",
+      "audio/mp4",
+      "audio/ogg;codecs=opus",
+      "audio/ogg",
+    ];
+    
+    let mimeType = "";
+    for (const type of mimeTypes) {
+      if (MediaRecorder.isTypeSupported(type)) {
+        mimeType = type;
+        break;
       }
-    };
+    }
 
-    recorder.onstop = async () => {
-      const duration = Date.now() - startTimeRef.current;
-      const blob = new Blob(chunksRef.current, { type: mimeType });
+    if (!mimeType) {
+      // Fallback - let browser choose
+      mimeType = "";
+    }
 
-      // Stop all tracks
-      stream.getTracks().forEach((track) => track.stop());
+    try {
+      const recorder = mimeType 
+        ? new MediaRecorder(stream, { mimeType }) 
+        : new MediaRecorder(stream);
+      mediaRecorderRef.current = recorder;
 
-      try {
-        const recording = await saveRecording(blob, duration, sessionId);
-        setCurrentRecording(recording);
-        if (showHistory) {
-          setRecordings(loadRecentRecordings());
+      recorder.ondataavailable = (e) => {
+        if (e.data.size > 0) {
+          chunksRef.current.push(e.data);
         }
-      } catch {
-        setError("Failed to save recording.");
-      }
+      };
 
-      setState("idle");
-    };
+      recorder.onstop = async () => {
+        const duration = Date.now() - startTimeRef.current;
+        const blob = new Blob(chunksRef.current, { type: recorder.mimeType || "audio/webm" });
 
-    recorder.onerror = () => {
-      setError("Recording error occurred.");
+        // Stop all tracks
+        stream.getTracks().forEach((track) => track.stop());
+
+        try {
+          const recording = await saveRecording(blob, duration, sessionId);
+          setCurrentRecording(recording);
+          if (showHistory) {
+            setRecordings(loadRecentRecordings());
+          }
+        } catch {
+          setError("Failed to save recording.");
+        }
+
+        setState("idle");
+      };
+
+      recorder.onerror = () => {
+        setError("Recording error occurred.");
+        stream.getTracks().forEach((track) => track.stop());
+        setState("idle");
+      };
+
+      recorder.start(1000); // Collect data every second
+      setState("recording");
+    } catch (err) {
+      setError("Failed to start recording. Your browser may not support this feature.");
       stream.getTracks().forEach((track) => track.stop());
       setState("idle");
-    };
-
-    recorder.start(1000); // Collect data every second
-    setState("recording");
+    }
   }, [requestPermission, sessionId, showHistory]);
 
   const stopRecording = useCallback(() => {
@@ -203,7 +270,8 @@ export default function Recorder({
   const isRecording = state === "recording";
   const isPlaying = state === "playing";
   const isRequesting = state === "requesting";
-  const canRecord = !disabled && state === "idle";
+  const isUnsupported = state === "unsupported";
+  const canRecord = !disabled && state === "idle" && !isUnsupported;
 
   return (
     <div className={`recorder ${compact ? "recorder-compact" : ""}`}>
@@ -212,7 +280,19 @@ export default function Recorder({
         <span className="recorder-title">Self-Audit Recording</span>
       </div>
 
-      {error && (
+      {/* Unsupported browser message */}
+      {isUnsupported && supportCheck?.reason && (
+        <div className="recorder-error recorder-unsupported" role="alert">
+          <div>
+            <strong>Recording not available</strong>
+            <p style={{ margin: "6px 0 0", fontSize: "12px", opacity: 0.9 }}>
+              {supportCheck.reason}
+            </p>
+          </div>
+        </div>
+      )}
+
+      {error && !isUnsupported && (
         <div className="recorder-error" role="alert">
           {error}
           <button
@@ -226,46 +306,48 @@ export default function Recorder({
         </div>
       )}
 
-      <div className="recorder-controls">
-        {isRecording ? (
-          <>
+      {!isUnsupported && (
+        <div className="recorder-controls">
+          {isRecording ? (
+            <>
+              <button
+                type="button"
+                className="recorder-btn recorder-btn-stop touch-target"
+                onClick={stopRecording}
+                aria-label="Stop recording"
+              >
+                <span className="recorder-btn-icon" aria-hidden="true">■</span>
+                <span>Stop</span>
+              </button>
+              <div className="recorder-timer" role="timer" aria-live="polite">
+                <span className="recorder-timer-dot" aria-hidden="true" />
+                <span className="recorder-timer-value">{formatDuration(elapsedMs)}</span>
+                <span className="recorder-timer-max">/ {formatDuration(maxDurationMs)}</span>
+              </div>
+            </>
+          ) : (
             <button
               type="button"
-              className="recorder-btn recorder-btn-stop"
-              onClick={stopRecording}
-              aria-label="Stop recording"
+              className="recorder-btn recorder-btn-record touch-target"
+              onClick={startRecording}
+              disabled={!canRecord}
+              aria-label={isRequesting ? "Requesting microphone access" : "Start recording"}
             >
-              <span className="recorder-btn-icon" aria-hidden="true">■</span>
-              <span>Stop</span>
+              <span className="recorder-btn-icon recorder-btn-icon-record" aria-hidden="true">●</span>
+              <span>{isRequesting ? "Requesting..." : "Record"}</span>
             </button>
-            <div className="recorder-timer" role="timer" aria-live="polite">
-              <span className="recorder-timer-dot" aria-hidden="true" />
-              <span className="recorder-timer-value">{formatDuration(elapsedMs)}</span>
-              <span className="recorder-timer-max">/ {formatDuration(maxDurationMs)}</span>
-            </div>
-          </>
-        ) : (
-          <button
-            type="button"
-            className="recorder-btn recorder-btn-record"
-            onClick={startRecording}
-            disabled={!canRecord}
-            aria-label={isRequesting ? "Requesting microphone access" : "Start recording"}
-          >
-            <span className="recorder-btn-icon recorder-btn-icon-record" aria-hidden="true">●</span>
-            <span>{isRequesting ? "Requesting..." : "Record"}</span>
-          </button>
-        )}
-      </div>
+          )}
+        </div>
+      )}
 
-      {currentRecording && !isRecording && (
+      {currentRecording && !isRecording && !isUnsupported && (
         <div className="recorder-playback">
           <div className="recorder-playback-label">Just recorded</div>
           <div className="recorder-playback-row">
             {playingId === currentRecording.id ? (
               <button
                 type="button"
-                className="recorder-btn recorder-btn-small"
+                className="recorder-btn recorder-btn-small touch-target"
                 onClick={stopPlayback}
                 aria-label="Stop playback"
               >
@@ -274,7 +356,7 @@ export default function Recorder({
             ) : (
               <button
                 type="button"
-                className="recorder-btn recorder-btn-small"
+                className="recorder-btn recorder-btn-small touch-target"
                 onClick={() => playRecording(currentRecording)}
                 disabled={isPlaying}
                 aria-label="Play recording"
@@ -285,7 +367,7 @@ export default function Recorder({
             <span className="recorder-duration">{formatDuration(currentRecording.durationMs)}</span>
             <button
               type="button"
-              className="recorder-btn recorder-btn-ghost recorder-btn-small"
+              className="recorder-btn recorder-btn-ghost recorder-btn-small touch-target"
               onClick={() => handleDelete(currentRecording.id)}
               aria-label="Delete recording"
             >
@@ -295,7 +377,7 @@ export default function Recorder({
         </div>
       )}
 
-      {showHistory && recordings.length > 0 && (
+      {showHistory && recordings.length > 0 && !isUnsupported && (
         <div className="recorder-history">
           <div className="recorder-history-label">Recent recordings</div>
           <ul className="recorder-history-list">
@@ -309,7 +391,7 @@ export default function Recorder({
                   {playingId === rec.id ? (
                     <button
                       type="button"
-                      className="recorder-btn recorder-btn-tiny"
+                      className="recorder-btn recorder-btn-tiny touch-target"
                       onClick={stopPlayback}
                       aria-label="Stop playback"
                     >
@@ -318,7 +400,7 @@ export default function Recorder({
                   ) : (
                     <button
                       type="button"
-                      className="recorder-btn recorder-btn-tiny"
+                      className="recorder-btn recorder-btn-tiny touch-target"
                       onClick={() => playRecording(rec)}
                       disabled={isPlaying && playingId !== rec.id}
                       aria-label="Play recording"
@@ -328,7 +410,7 @@ export default function Recorder({
                   )}
                   <button
                     type="button"
-                    className="recorder-btn recorder-btn-tiny recorder-btn-ghost"
+                    className="recorder-btn recorder-btn-tiny recorder-btn-ghost touch-target"
                     onClick={() => handleDelete(rec.id)}
                     aria-label="Delete recording"
                   >
@@ -342,7 +424,9 @@ export default function Recorder({
       )}
 
       <div className="recorder-hint">
-        Record 20-30 seconds and listen back for flams, timing issues, and evenness.
+        {isUnsupported 
+          ? "You can still practice! Just listen back mentally after each exercise."
+          : "Record 20-30 seconds and listen back for flams, timing issues, and evenness."}
       </div>
     </div>
   );

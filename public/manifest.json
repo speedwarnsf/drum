@@ -1,0 +1,21 @@
+{
+  "name": "Dyork Drum Practice",
+  "short_name": "Drum",
+  "description": "Daily drum practice cards with calm, teacher-style guidance",
+  "start_url": "/drum/today",
+  "display": "standalone",
+  "background_color": "#f4ba34",
+  "theme_color": "#f4ba34",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "/media/repodrumlogo.gif",
+      "sizes": "200x200",
+      "type": "image/gif",
+      "purpose": "any"
+    }
+  ],
+  "categories": ["music", "education", "productivity"],
+  "lang": "en",
+  "dir": "ltr"
+}
