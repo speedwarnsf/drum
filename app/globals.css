@@ -66,7 +66,7 @@ main.shell {
 .hero-row {
   position: relative;
   padding: 20px 16px 0;
-  padding-left: 36px;
+  margin-left: 20px;
   min-height: 300px;
   overflow: visible;
 }
@@ -81,6 +81,7 @@ main.shell {
   width: 280px !important;
   height: auto !important;
   display: block;
+  mix-blend-mode: darken;
 }
 
 .hero {
@@ -88,6 +89,7 @@ main.shell {
   top: 30px;
   right: 0;
   z-index: 1;
+  transform-origin: top left;
 }
 
 .hero-video {
@@ -97,7 +99,8 @@ main.shell {
   opacity: 0;
   mix-blend-mode: darken;
   object-fit: contain;
-  object-position: top right;
+  object-position: top left;
+  transform-origin: top left;
 }
 
 .hero-video-ready {
@@ -2204,7 +2207,7 @@ li {
 @media (max-width: 768px) {
   .hero-row {
     min-height: 280px;
-    padding-left: 30px;
+    margin-left: 18px;
   }
 
   .global-logo {
@@ -2261,7 +2264,7 @@ li {
 
   .hero-row {
     padding: 16px 10px 0;
-    padding-left: 26px;
+    margin-left: 16px;
     min-height: 260px;
   }
 
@@ -2768,7 +2771,7 @@ li {
 @media (max-width: 375px) {
   .hero-row {
     min-height: 240px;
-    padding-left: 22px;
+    margin-left: 14px;
   }
 
   .global-logo {
