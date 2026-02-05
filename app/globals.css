@@ -86,9 +86,10 @@ main.shell {
 
 .hero {
   position: absolute;
-  top: 40px;
-  right: 16px;
+  top: 20px;
+  right: 10px;
   z-index: 1;
+  background: transparent;
 }
 
 .hero-video {
@@ -97,13 +98,12 @@ main.shell {
   height: 0;
   opacity: 0;
   object-fit: contain;
-  mix-blend-mode: darken;
 }
 
 .hero-video-ready {
-  height: 280px;
+  height: 320px;
   opacity: 1;
-  mix-blend-mode: darken;
+  mix-blend-mode: darken !important;
 }
 
 main.shell.shell-tight {
@@ -2214,12 +2214,12 @@ li {
   }
 
   .hero-video-ready {
-    height: 250px;
+    height: 290px;
   }
 
   .hero {
-    top: 25px;
-    right: 14px;
+    top: 15px;
+    right: 10px;
   }
 
   main.shell {
@@ -2273,12 +2273,12 @@ li {
   }
 
   .hero-video-ready {
-    height: 220px;
+    height: 270px;
   }
 
   .hero {
-    top: 20px;
-    right: 10px;
+    top: 10px;
+    right: 5px;
   }
 
   main.shell {
@@ -2781,12 +2781,12 @@ li {
   }
 
   .hero-video-ready {
-    height: 200px;
+    height: 250px;
   }
 
   .hero {
-    top: 15px;
-    right: 8px;
+    top: 5px;
+    right: 0;
   }
 
   main.shell {
