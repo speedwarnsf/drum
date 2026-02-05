@@ -65,9 +65,9 @@ main.shell {
 
 .hero-row {
   position: relative;
-  padding: 10px 16px 0;
+  padding: 16px 16px 0;
   margin-left: 0;
-  min-height: 300px;
+  min-height: 380px;
   overflow: visible;
 }
 
@@ -78,7 +78,7 @@ main.shell {
 }
 
 .global-logo {
-  width: 280px !important;
+  width: 300px !important;
   height: auto !important;
   display: block;
   mix-blend-mode: darken;
@@ -86,8 +86,8 @@ main.shell {
 
 .hero {
   position: absolute;
-  top: 20px;
-  right: 10px;
+  top: 0;
+  right: -20px;
   z-index: 1;
   background: transparent;
 }
@@ -101,7 +101,7 @@ main.shell {
 }
 
 .hero-video-ready {
-  height: 320px;
+  height: 420px;
   opacity: 1;
   mix-blend-mode: darken !important;
 }
@@ -2204,22 +2204,22 @@ li {
 /* Tablet and below (768px) */
 @media (max-width: 768px) {
   .hero-row {
-    min-height: 240px;
+    min-height: 360px;
     margin-left: 0;
-    padding-top: 8px;
+    padding-top: 12px;
   }
 
   .global-logo {
-    width: 260px !important;
+    width: 280px !important;
   }
 
   .hero-video-ready {
-    height: 290px;
+    height: 400px;
   }
 
   .hero {
-    top: 15px;
-    right: 10px;
+    top: 0;
+    right: -15px;
   }
 
   main.shell {
@@ -2263,22 +2263,22 @@ li {
   }
 
   .hero-row {
-    padding: 6px 10px 0;
+    padding: 12px 10px 0;
     margin-left: 0;
-    min-height: 220px;
+    min-height: 340px;
   }
 
   .global-logo {
-    width: 220px !important;
+    width: 260px !important;
   }
 
   .hero-video-ready {
-    height: 270px;
+    height: 380px;
   }
 
   .hero {
-    top: 10px;
-    right: 5px;
+    top: 0;
+    right: -10px;
   }
 
   main.shell {
@@ -2770,23 +2770,23 @@ li {
 /* Small mobile (375px - iPhone SE) */
 @media (max-width: 375px) {
   .hero-row {
-    min-height: 200px;
+    min-height: 320px;
     margin-left: 0;
-    padding-top: 4px;
+    padding-top: 10px;
   }
 
   .global-logo {
-    width: 200px !important;
+    width: 240px !important;
     height: auto !important;
   }
 
   .hero-video-ready {
-    height: 250px;
+    height: 360px;
   }
 
   .hero {
-    top: 5px;
-    right: 0;
+    top: 0;
+    right: -5px;
   }
 
   main.shell {
