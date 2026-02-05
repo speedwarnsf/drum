@@ -65,7 +65,7 @@ main.shell {
 
 .hero-row {
   position: relative;
-  padding: 16px 16px 0;
+  padding: 16px 16px 0 8px;
   margin-left: 0;
   min-height: 380px;
   overflow: visible;
@@ -2263,7 +2263,7 @@ li {
   }
 
   .hero-row {
-    padding: 12px 10px 0;
+    padding: 12px 10px 0 6px;
     margin-left: 0;
     min-height: 340px;
   }
@@ -2772,7 +2772,7 @@ li {
   .hero-row {
     min-height: 320px;
     margin-left: 0;
-    padding-top: 10px;
+    padding: 10px 10px 0 4px;
   }
 
   .global-logo {
