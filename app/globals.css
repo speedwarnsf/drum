@@ -97,8 +97,7 @@ main.shell {
   width: auto;
   height: 0;
   opacity: 0;
-  object-fit: cover;
-  object-position: top center;
+  object-fit: contain;
 }
 
 .hero-video-ready {
@@ -2274,13 +2273,13 @@ li {
   }
 
   .hero-video-ready {
-    height: 340px;
+    height: 280px;
     mix-blend-mode: darken !important;
   }
 
   .hero {
-    top: 50px;
-    right: 0;
+    top: 60px;
+    right: 20px;
   }
 
   main.shell {
@@ -2783,13 +2782,13 @@ li {
   }
 
   .hero-video-ready {
-    height: 320px;
+    height: 260px;
     mix-blend-mode: darken !important;
   }
 
   .hero {
-    top: 45px;
-    right: 5px;
+    top: 55px;
+    right: 15px;
   }
 
   main.shell {
