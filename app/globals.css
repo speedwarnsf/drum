@@ -2273,12 +2273,13 @@ li {
   }
 
   .hero-video-ready {
-    height: 380px;
+    height: 340px;
+    mix-blend-mode: darken !important;
   }
 
   .hero {
-    top: 20px;
-    right: -10px;
+    top: 50px;
+    right: 0;
   }
 
   main.shell {
@@ -2781,12 +2782,13 @@ li {
   }
 
   .hero-video-ready {
-    height: 360px;
+    height: 320px;
+    mix-blend-mode: darken !important;
   }
 
   .hero {
-    top: 15px;
-    right: -5px;
+    top: 45px;
+    right: 5px;
   }
 
   main.shell {
