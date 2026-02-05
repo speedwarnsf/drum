@@ -22,13 +22,10 @@ export async function POST(req: Request) {
   const user = userData.user;
   const adminEmail =
     process.env.ADMIN_EMAIL || process.env.NEXT_PUBLIC_ADMIN_EMAIL || "";
-  const fallbackAdmin =
-    !!user.email && user.email.toLowerCase() === "dustinyork15@gmail.com";
   const isAdmin =
-    (!!adminEmail &&
-      !!user.email &&
-      user.email.toLowerCase() === adminEmail.toLowerCase()) ||
-    fallbackAdmin;
+    !!adminEmail &&
+    !!user.email &&
+    user.email.toLowerCase() === adminEmail.toLowerCase();
   if (isAdmin) {
     return NextResponse.json({ ok: true, remaining: null, admin: true });
   }

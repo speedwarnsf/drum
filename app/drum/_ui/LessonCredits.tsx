@@ -13,17 +13,14 @@ export default function LessonCredits() {
 
   useEffect(() => {
     if (!supabase) return;
-    const adminEmail = process.env.NEXT_PUBLIC_ADMIN_EMAIL ?? null;
+    const adminEmail = process.env.NEXT_PUBLIC_ADMIN_EMAIL ?? "";
     supabase.auth.getUser().then(async ({ data }) => {
       const user = data.user;
       if (!user) return;
-      const fallbackAdmin =
-        !!user.email && user.email.toLowerCase() === "dustinyork15@gmail.com";
       const adminMatch =
-        (adminEmail &&
-          user.email &&
-          user.email.toLowerCase() === adminEmail.toLowerCase()) ||
-        fallbackAdmin;
+        !!adminEmail &&
+        !!user.email &&
+        user.email.toLowerCase() === adminEmail.toLowerCase();
       if (adminMatch) setIsAdmin(true);
       const { data: ent } = await supabase
         .from("drum_entitlements")
