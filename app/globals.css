@@ -2773,8 +2773,8 @@ li {
 /* Small mobile (375px - iPhone SE) */
 @media (max-width: 375px) {
   .global-logo {
-    width: 60px;
-    height: 60px;
+    width: 180px !important;
+    height: auto !important;
   }
 
   main.shell {
