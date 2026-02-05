@@ -73,7 +73,7 @@ main.shell {
 
 .logo-link {
   position: relative;
-  z-index: 2;
+  z-index: 10;
   display: block;
 }
 
@@ -90,6 +90,7 @@ main.shell {
   right: -40px;
   z-index: 1;
   background: transparent;
+  isolation: isolate;
 }
 
 .hero-video {
@@ -103,7 +104,8 @@ main.shell {
   width: 320px;
   height: 320px;
   opacity: 1;
-  mix-blend-mode: darken !important;
+  mix-blend-mode: darken;
+  -webkit-mix-blend-mode: darken;
 }
 
 main.shell.shell-tight {
