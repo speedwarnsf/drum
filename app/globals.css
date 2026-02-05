@@ -66,7 +66,8 @@ main.shell {
 .hero-row {
   position: relative;
   padding: 20px 16px 0;
-  min-height: 280px;
+  min-height: 320px;
+  overflow: visible;
 }
 
 .logo-link {
@@ -83,8 +84,8 @@ main.shell {
 
 .hero {
   position: absolute;
-  right: 10px;
-  bottom: 0;
+  top: 20px;
+  right: 0;
   z-index: 2;
 }
 
@@ -95,10 +96,11 @@ main.shell {
   opacity: 0;
   mix-blend-mode: darken;
   object-fit: contain;
+  object-position: top right;
 }
 
 .hero-video-ready {
-  height: 280px;
+  height: 340px;
   opacity: 0.95;
 }
 
@@ -2200,7 +2202,7 @@ li {
 /* Tablet and below (768px) */
 @media (max-width: 768px) {
   .hero-row {
-    min-height: 240px;
+    min-height: 300px;
   }
 
   .global-logo {
@@ -2208,7 +2210,11 @@ li {
   }
 
   .hero-video-ready {
-    height: 250px;
+    height: 310px;
+  }
+
+  .hero {
+    top: 15px;
   }
 
   main.shell {
@@ -2253,7 +2259,7 @@ li {
 
   .hero-row {
     padding: 16px 10px 0;
-    min-height: 220px;
+    min-height: 280px;
   }
 
   .global-logo {
@@ -2261,11 +2267,12 @@ li {
   }
 
   .hero-video-ready {
-    height: 230px;
+    height: 290px;
   }
 
   .hero {
-    right: 5px;
+    top: 10px;
+    right: 0;
   }
 
   main.shell {
@@ -2757,7 +2764,7 @@ li {
 /* Small mobile (375px - iPhone SE) */
 @media (max-width: 375px) {
   .hero-row {
-    min-height: 200px;
+    min-height: 260px;
   }
 
   .global-logo {
@@ -2766,11 +2773,12 @@ li {
   }
 
   .hero-video-ready {
-    height: 210px;
+    height: 270px;
   }
 
   .hero {
-    right: 0;
+    top: 8px;
+    right: -5px;
   }
 
   main.shell {
