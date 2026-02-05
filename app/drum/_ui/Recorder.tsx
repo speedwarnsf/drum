@@ -9,6 +9,7 @@ import {
   saveRecording,
   deleteRecording,
 } from "../_lib/audioStorage";
+import { shareRecording } from "../_lib/recordingSharing";
 
 type RecorderState = "idle" | "requesting" | "recording" | "playing" | "unsupported";
 
@@ -17,6 +18,9 @@ type RecorderProps = {
   disabled?: boolean;
   showHistory?: boolean;
   compact?: boolean;
+  patternType?: string;
+  bpm?: number;
+  moduleId?: number;
 };
 
 // Check if MediaRecorder is supported
@@ -57,6 +61,9 @@ export default function Recorder({
   disabled = false,
   showHistory = false,
   compact = false,
+  patternType,
+  bpm,
+  moduleId,
 }: RecorderProps) {
   const [state, setState] = useState<RecorderState>("idle");
   const [error, setError] = useState<string | null>(null);
@@ -65,6 +72,9 @@ export default function Recorder({
   const [currentRecording, setCurrentRecording] = useState<AudioRecording | null>(null);
   const [playingId, setPlayingId] = useState<string | null>(null);
   const [supportCheck, setSupportCheck] = useState<{ supported: boolean; reason?: string } | null>(null);
+  const [sharing, setSharing] = useState(false);
+  const [shareSuccess, setShareSuccess] = useState(false);
+  const [currentBlob, setCurrentBlob] = useState<Blob | null>(null);
 
   const mediaRecorderRef = useRef<MediaRecorder | null>(null);
   const audioRef = useRef<HTMLAudioElement | null>(null);
@@ -185,6 +195,10 @@ export default function Recorder({
 
         // Stop all tracks
         stream.getTracks().forEach((track) => track.stop());
+
+        // Save blob for potential sharing
+        setCurrentBlob(blob);
+        setShareSuccess(false);
 
         try {
           const recording = await saveRecording(blob, duration, sessionId);
@@ -374,6 +388,43 @@ export default function Recorder({
               Delete
             </button>
           </div>
+          
+          {/* Share for Community Feedback */}
+          {currentBlob && !shareSuccess && (
+            <button
+              type="button"
+              className="recorder-btn recorder-share-btn touch-target"
+              onClick={async () => {
+                setSharing(true);
+                setError(null);
+                try {
+                  const result = await shareRecording(currentBlob, {
+                    durationMs: currentRecording.durationMs,
+                    patternType,
+                    bpm,
+                    moduleId,
+                  });
+                  if (result) {
+                    setShareSuccess(true);
+                  } else {
+                    setError("Failed to share. Please try again.");
+                  }
+                } catch {
+                  setError("Failed to share. Please try again.");
+                }
+                setSharing(false);
+              }}
+              disabled={sharing}
+            >
+              {sharing ? "Sharing..." : "📤 Share for Community Feedback"}
+            </button>
+          )}
+          
+          {shareSuccess && (
+            <div className="recorder-share-success">
+              ✓ Shared! Check <a href="/drum/community">Community</a> for feedback.
+            </div>
+          )}
         </div>
       )}
 

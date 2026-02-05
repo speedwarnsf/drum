@@ -98,3 +98,145 @@ create policy "Users can insert their lesson uses" on public.drum_lesson_uses
   for insert
   to authenticated
   with check (auth.uid() = user_id);
+
+-- ============================================
+-- RECORDING SHARING (Social Layer - 70-20-10)
+-- ============================================
+
+-- Shared recordings for community feedback
+create table if not exists public.drum_shared_recordings (
+  id uuid primary key default gen_random_uuid(),
+  user_id uuid not null,
+  storage_path text not null,
+  duration_ms int not null,
+  pattern_type text,
+  bpm int,
+  module_id int,
+  description text,
+  feedback_count int not null default 0,
+  avg_cleanliness numeric(2,1),
+  created_at timestamptz not null default now()
+);
+
+alter table public.drum_shared_recordings enable row level security;
+
+-- Anyone can read shared recordings
+create policy "Anyone can read shared recordings" on public.drum_shared_recordings
+  for select
+  to authenticated
+  using (true);
+
+-- Users can insert their own recordings
+create policy "Users can share recordings" on public.drum_shared_recordings
+  for insert
+  to authenticated
+  with check (auth.uid() = user_id);
+
+-- Users can delete their own recordings
+create policy "Users can delete their recordings" on public.drum_shared_recordings
+  for delete
+  to authenticated
+  using (auth.uid() = user_id);
+
+-- Users can update their own recordings (for feedback aggregation)
+create policy "Users can update their recordings" on public.drum_shared_recordings
+  for update
+  to authenticated
+  using (auth.uid() = user_id);
+
+-- Feedback from community members
+create table if not exists public.drum_recording_feedback (
+  id uuid primary key default gen_random_uuid(),
+  recording_id uuid not null references public.drum_shared_recordings(id) on delete cascade,
+  reviewer_id uuid not null,
+  cleanliness_rating int not null check (cleanliness_rating >= 1 and cleanliness_rating <= 5),
+  timing_rating int not null check (timing_rating >= 1 and timing_rating <= 5),
+  comment text,
+  detected_issues text[] default '{}',
+  created_at timestamptz not null default now(),
+  unique (recording_id, reviewer_id)
+);
+
+alter table public.drum_recording_feedback enable row level security;
+
+-- Anyone can read feedback
+create policy "Anyone can read feedback" on public.drum_recording_feedback
+  for select
+  to authenticated
+  using (true);
+
+-- Users can insert feedback (but not for their own recordings - enforced in app)
+create policy "Users can give feedback" on public.drum_recording_feedback
+  for insert
+  to authenticated
+  with check (auth.uid() = reviewer_id);
+
+-- ============================================
+-- SPACED REPETITION (Pattern Memory)
+-- ============================================
+
+create table if not exists public.drum_pattern_memory (
+  id uuid primary key default gen_random_uuid(),
+  user_id uuid not null,
+  pattern_id text not null,
+  ease_factor numeric(3,2) not null default 2.5,
+  interval_days int not null default 1,
+  next_review_date date not null default current_date,
+  repetitions int not null default 0,
+  last_quality int,
+  last_practiced_at timestamptz,
+  created_at timestamptz not null default now(),
+  unique (user_id, pattern_id)
+);
+
+alter table public.drum_pattern_memory enable row level security;
+
+create policy "Users can read their pattern memory" on public.drum_pattern_memory
+  for select
+  to authenticated
+  using (auth.uid() = user_id);
+
+create policy "Users can insert pattern memory" on public.drum_pattern_memory
+  for insert
+  to authenticated
+  with check (auth.uid() = user_id);
+
+create policy "Users can update pattern memory" on public.drum_pattern_memory
+  for update
+  to authenticated
+  using (auth.uid() = user_id);
+
+-- ============================================
+-- SKILL TREE (Competency Tracking)
+-- ============================================
+
+create table if not exists public.drum_skill_progress (
+  id uuid primary key default gen_random_uuid(),
+  user_id uuid not null,
+  skill_id text not null,
+  status text not null default 'locked' check (status in ('locked', 'unlocked', 'practicing', 'mastered')),
+  clean_bpm_max int,
+  total_practice_minutes int not null default 0,
+  sessions_count int not null default 0,
+  mastered_at timestamptz,
+  unlocked_at timestamptz,
+  updated_at timestamptz not null default now(),
+  unique (user_id, skill_id)
+);
+
+alter table public.drum_skill_progress enable row level security;
+
+create policy "Users can read their skill progress" on public.drum_skill_progress
+  for select
+  to authenticated
+  using (auth.uid() = user_id);
+
+create policy "Users can insert skill progress" on public.drum_skill_progress
+  for insert
+  to authenticated
+  with check (auth.uid() = user_id);
+
+create policy "Users can update skill progress" on public.drum_skill_progress
+  for update
+  to authenticated
+  using (auth.uid() = user_id);

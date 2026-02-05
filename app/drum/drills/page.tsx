@@ -1,10 +1,15 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import Shell from "../_ui/Shell";
 import { GapSettings, GapPreset, GAP_PRESETS } from "../_ui/GapDrillControls";
+import ShuffleMode from "../_ui/ShuffleMode";
+import { Pattern } from "../_lib/interleaving";
+
+type DrillMode = "blocked" | "interleaved";
 
 export default function DrillsPage() {
+  const [drillMode, setDrillMode] = useState<DrillMode>("blocked");
   const [metroOn, setMetroOn] = useState(false);
   const [bpm, setBpm] = useState(60);
   const [gapPreset, setGapPreset] = useState<GapPreset>("medium");
@@ -12,6 +17,10 @@ export default function DrillsPage() {
   const [drillTimer, setDrillTimer] = useState<number | null>(null);
   const [timeRemaining, setTimeRemaining] = useState<number>(0);
   const [cycleCount, setCycleCount] = useState(0);
+
+  // Interleaved mode state
+  const [currentPattern, setCurrentPattern] = useState<Pattern | null>(null);
+  const [currentTempoOffset, setCurrentTempoOffset] = useState(0);
 
   // Audio context and scheduling
   const [audioCtx, setAudioCtx] = useState<AudioContext | null>(null);
@@ -42,6 +51,20 @@ export default function DrillsPage() {
     }
     setTimeRemaining(0);
   };
+
+  // Handlers for interleaved mode
+  const handlePatternChange = useCallback((pattern: Pattern, tempoOffset: number) => {
+    setCurrentPattern(pattern);
+    setCurrentTempoOffset(tempoOffset);
+  }, []);
+
+  const handleTempoChange = useCallback((newTempo: number) => {
+    setBpm(newTempo);
+  }, []);
+
+  const handleInterleavedComplete = useCallback(() => {
+    handleStop();
+  }, []);
 
   // Timer countdown
   useEffect(() => {
@@ -128,243 +151,381 @@ export default function DrillsPage() {
 
   return (
     <Shell
-      title="Gap Drills"
-      subtitle="Build your internal clock with silence"
+      title="Drills"
+      subtitle="Build skills that last"
     >
+      {/* Mode Selector */}
       <section className="card">
-        <div className="kicker">Internal Clock Training</div>
-        <p>
-          Gap drills strengthen your internal sense of time. The click plays, then goes
-          silent. Your job: maintain the exact tempo during the gap. When the click
-          returns, you should still be perfectly aligned.
-        </p>
-        <p className="sub" style={{ marginTop: 8 }}>
-          Off-beat mode shifts the click to the &quot;and&quot; counts, training you to feel
-          the spaces between downbeats.
-        </p>
+        <div className="drill-mode-selector">
+          <div className="drill-mode-header">
+            <div className="kicker">Practice Mode</div>
+            <p className="drill-mode-desc">
+              Choose how you want to practice today.
+            </p>
+          </div>
+          <div className="drill-mode-buttons">
+            <button
+              type="button"
+              className={`btn drill-mode-btn ${drillMode === "blocked" ? "" : "btn-ghost"}`}
+              onClick={() => setDrillMode("blocked")}
+              aria-pressed={drillMode === "blocked"}
+            >
+              <span className="drill-mode-btn-title">Gap Drill</span>
+              <span className="drill-mode-btn-desc">Internal clock training</span>
+            </button>
+            <button
+              type="button"
+              className={`btn drill-mode-btn ${drillMode === "interleaved" ? "" : "btn-ghost"}`}
+              onClick={() => setDrillMode("interleaved")}
+              aria-pressed={drillMode === "interleaved"}
+            >
+              <span className="drill-mode-btn-title">Interleaved</span>
+              <span className="drill-mode-btn-desc">Random pattern switching</span>
+            </button>
+          </div>
+        </div>
       </section>
 
-      {/* Main drill controls */}
-      <section className="card">
-        <div className="drill-controls">
-          {/* BPM */}
-          <div className="drill-section">
-            <label className="drill-label">Tempo</label>
-            <div className="drill-bpm">
-              <button
-                type="button"
-                className="btn btn-small"
-                onClick={() => setBpm((prev) => Math.max(30, prev - 5))}
-                disabled={metroOn}
-              >
-                −5
-              </button>
-              <input
-                type="number"
-                min={30}
-                max={200}
-                value={bpm}
-                onChange={(e) => setBpm(Math.max(30, Math.min(200, parseInt(e.target.value) || 60)))}
-                className="drill-bpm-input"
-                disabled={metroOn}
-              />
-              <button
-                type="button"
-                className="btn btn-small"
-                onClick={() => setBpm((prev) => Math.min(200, prev + 5))}
-                disabled={metroOn}
-              >
-                +5
-              </button>
-            </div>
-            <span className="drill-hint">{bpm} BPM</span>
-          </div>
+      {/* Gap Drill Mode */}
+      {drillMode === "blocked" && (
+        <>
+          <section className="card">
+            <div className="kicker">Internal Clock Training</div>
+            <p>
+              Gap drills strengthen your internal sense of time. The click plays, then goes
+              silent. Your job: maintain the exact tempo during the gap. When the click
+              returns, you should still be perfectly aligned.
+            </p>
+            <p className="sub" style={{ marginTop: 8 }}>
+              Off-beat mode shifts the click to the &quot;and&quot; counts, training you to feel
+              the spaces between downbeats.
+            </p>
+          </section>
 
-          {/* Preset selection */}
-          <div className="drill-section">
-            <label className="drill-label">Difficulty</label>
-            <div className="drill-presets">
-              {(["easy", "medium", "hard"] as const).map((p) => (
-                <button
-                  key={p}
-                  type="button"
-                  className={`btn drill-preset-btn ${gapPreset === p ? "" : "btn-ghost"}`}
-                  onClick={() => handlePresetChange(p)}
-                  disabled={metroOn}
-                >
-                  <span className="drill-preset-name">
-                    {p === "easy" && "Easy"}
-                    {p === "medium" && "Medium"}
-                    {p === "hard" && "Hard"}
-                  </span>
-                  <span className="drill-preset-detail">
-                    {p === "easy" && "8 on, 4 off"}
-                    {p === "medium" && "4 on, 4 off"}
-                    {p === "hard" && "4 on, 8 off"}
-                  </span>
+          {/* Main drill controls */}
+          <section className="card">
+            <div className="drill-controls">
+              {/* BPM */}
+              <div className="drill-section">
+                <label className="drill-label">Tempo</label>
+                <div className="drill-bpm">
+                  <button
+                    type="button"
+                    className="btn btn-small"
+                    onClick={() => setBpm((prev) => Math.max(30, prev - 5))}
+                    disabled={metroOn}
+                  >
+                    −5
+                  </button>
+                  <input
+                    type="number"
+                    min={30}
+                    max={200}
+                    value={bpm}
+                    onChange={(e) => setBpm(Math.max(30, Math.min(200, parseInt(e.target.value) || 60)))}
+                    className="drill-bpm-input"
+                    disabled={metroOn}
+                  />
+                  <button
+                    type="button"
+                    className="btn btn-small"
+                    onClick={() => setBpm((prev) => Math.min(200, prev + 5))}
+                    disabled={metroOn}
+                  >
+                    +5
+                  </button>
+                </div>
+                <span className="drill-hint">{bpm} BPM</span>
+              </div>
+
+              {/* Preset selection */}
+              <div className="drill-section">
+                <label className="drill-label">Difficulty</label>
+                <div className="drill-presets">
+                  {(["easy", "medium", "hard"] as const).map((p) => (
+                    <button
+                      key={p}
+                      type="button"
+                      className={`btn drill-preset-btn ${gapPreset === p ? "" : "btn-ghost"}`}
+                      onClick={() => handlePresetChange(p)}
+                      disabled={metroOn}
+                    >
+                      <span className="drill-preset-name">
+                        {p === "easy" && "Easy"}
+                        {p === "medium" && "Medium"}
+                        {p === "hard" && "Hard"}
+                      </span>
+                      <span className="drill-preset-detail">
+                        {p === "easy" && "8 on, 4 off"}
+                        {p === "medium" && "4 on, 4 off"}
+                        {p === "hard" && "4 on, 8 off"}
+                      </span>
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              {/* Custom settings */}
+              <details className="drill-custom-details" open={gapPreset === "custom"}>
+                <summary className="drill-custom-summary">
+                  <span>Custom settings</span>
+                  {gapPreset === "custom" && (
+                    <span className="drill-custom-active">Active</span>
+                  )}
+                </summary>
+                <div className="drill-custom-body">
+                  <div className="drill-custom-row">
+                    <label className="drill-custom-field">
+                      <span>Beats on</span>
+                      <input
+                        type="number"
+                        min={1}
+                        max={32}
+                        value={gapSettings.beatsOn}
+                        onChange={(e) => {
+                          setGapPreset("custom");
+                          setGapSettings((prev) => ({
+                            ...prev,
+                            beatsOn: Math.max(1, parseInt(e.target.value) || 1),
+                          }));
+                        }}
+                        disabled={metroOn}
+                      />
+                    </label>
+                    <label className="drill-custom-field">
+                      <span>Beats off</span>
+                      <input
+                        type="number"
+                        min={1}
+                        max={32}
+                        value={gapSettings.beatsOff}
+                        onChange={(e) => {
+                          setGapPreset("custom");
+                          setGapSettings((prev) => ({
+                            ...prev,
+                            beatsOff: Math.max(1, parseInt(e.target.value) || 1),
+                          }));
+                        }}
+                        disabled={metroOn}
+                      />
+                    </label>
+                  </div>
+                </div>
+              </details>
+
+              {/* Off-beat toggle */}
+              <div className="drill-section">
+                <label className="drill-checkbox-label">
+                  <input
+                    type="checkbox"
+                    checked={gapSettings.offBeatMode}
+                    onChange={(e) => {
+                      setGapPreset("custom");
+                      setGapSettings((prev) => ({
+                        ...prev,
+                        offBeatMode: e.target.checked,
+                      }));
+                    }}
+                    disabled={metroOn}
+                  />
+                  <span>Off-beat mode</span>
+                </label>
+                <span className="drill-hint">Click on the &quot;and&quot; instead of downbeat</span>
+              </div>
+
+              {/* Timer */}
+              <div className="drill-section">
+                <label className="drill-label">Practice timer (optional)</label>
+                <div className="drill-timer-options">
+                  {[null, 2, 5, 10].map((mins) => (
+                    <button
+                      key={mins ?? "none"}
+                      type="button"
+                      className={`btn btn-small ${drillTimer === mins ? "" : "btn-ghost"}`}
+                      onClick={() => setDrillTimer(mins)}
+                      disabled={metroOn}
+                    >
+                      {mins === null ? "None" : `${mins} min`}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            </div>
+
+            {/* Start/Stop */}
+            <div className="drill-action">
+              {!metroOn ? (
+                <button type="button" className="btn drill-start-btn" onClick={handleStart}>
+                  Start Drill
                 </button>
-              ))}
-            </div>
-          </div>
-
-          {/* Custom settings */}
-          <details className="drill-custom-details" open={gapPreset === "custom"}>
-            <summary className="drill-custom-summary">
-              <span>Custom settings</span>
-              {gapPreset === "custom" && (
-                <span className="drill-custom-active">Active</span>
+              ) : (
+                <button type="button" className="btn drill-stop-btn" onClick={handleStop}>
+                  Stop
+                </button>
               )}
-            </summary>
-            <div className="drill-custom-body">
-              <div className="drill-custom-row">
-                <label className="drill-custom-field">
-                  <span>Beats on</span>
-                  <input
-                    type="number"
-                    min={1}
-                    max={32}
-                    value={gapSettings.beatsOn}
-                    onChange={(e) => {
-                      setGapPreset("custom");
-                      setGapSettings((prev) => ({
-                        ...prev,
-                        beatsOn: Math.max(1, parseInt(e.target.value) || 1),
-                      }));
-                    }}
-                    disabled={metroOn}
-                  />
-                </label>
-                <label className="drill-custom-field">
-                  <span>Beats off</span>
-                  <input
-                    type="number"
-                    min={1}
-                    max={32}
-                    value={gapSettings.beatsOff}
-                    onChange={(e) => {
-                      setGapPreset("custom");
-                      setGapSettings((prev) => ({
-                        ...prev,
-                        beatsOff: Math.max(1, parseInt(e.target.value) || 1),
-                      }));
-                    }}
-                    disabled={metroOn}
-                  />
-                </label>
+            </div>
+          </section>
+
+          {/* Active drill display */}
+          {metroOn && (
+            <section className="card drill-active-card">
+              <div className="drill-active-header">
+                <span className="drill-active-label">Drill Active</span>
+                <span className="drill-active-bpm">{bpm} BPM</span>
               </div>
-            </div>
-          </details>
 
-          {/* Off-beat toggle */}
-          <div className="drill-section">
-            <label className="drill-checkbox-label">
-              <input
-                type="checkbox"
-                checked={gapSettings.offBeatMode}
-                onChange={(e) => {
-                  setGapPreset("custom");
-                  setGapSettings((prev) => ({
-                    ...prev,
-                    offBeatMode: e.target.checked,
-                  }));
-                }}
-                disabled={metroOn}
-              />
-              <span>Off-beat mode</span>
-            </label>
-            <span className="drill-hint">Click on the &quot;and&quot; instead of downbeat</span>
-          </div>
+              <div className="drill-active-pattern">
+                <div className="drill-pattern-visual">
+                  {Array.from({ length: gapSettings.beatsOn }).map((_, i) => (
+                    <div key={`on-${i}`} className="drill-pattern-dot drill-pattern-dot-on" />
+                  ))}
+                  {Array.from({ length: gapSettings.beatsOff }).map((_, i) => (
+                    <div key={`off-${i}`} className="drill-pattern-dot drill-pattern-dot-off" />
+                  ))}
+                </div>
+                <div className="drill-pattern-labels">
+                  <span className="drill-pattern-label drill-pattern-label-on">
+                    {gapSettings.beatsOn} click{gapSettings.beatsOn !== 1 ? "s" : ""}
+                  </span>
+                  <span className="drill-pattern-label drill-pattern-label-off">
+                    {gapSettings.beatsOff} silent
+                  </span>
+                </div>
+              </div>
 
-          {/* Timer */}
-          <div className="drill-section">
-            <label className="drill-label">Practice timer (optional)</label>
-            <div className="drill-timer-options">
-              {[null, 2, 5, 10].map((mins) => (
-                <button
-                  key={mins ?? "none"}
-                  type="button"
-                  className={`btn btn-small ${drillTimer === mins ? "" : "btn-ghost"}`}
-                  onClick={() => setDrillTimer(mins)}
-                  disabled={metroOn}
-                >
-                  {mins === null ? "None" : `${mins} min`}
-                </button>
-              ))}
-            </div>
-          </div>
-        </div>
+              {gapSettings.offBeatMode && (
+                <div className="drill-offbeat-badge">Off-beat mode active</div>
+              )}
 
-        {/* Start/Stop */}
-        <div className="drill-action">
-          {!metroOn ? (
-            <button type="button" className="btn drill-start-btn" onClick={handleStart}>
-              Start Drill
-            </button>
-          ) : (
-            <button type="button" className="btn drill-stop-btn" onClick={handleStop}>
-              Stop
-            </button>
-          )}
-        </div>
-      </section>
-
-      {/* Active drill display */}
-      {metroOn && (
-        <section className="card drill-active-card">
-          <div className="drill-active-header">
-            <span className="drill-active-label">Drill Active</span>
-            <span className="drill-active-bpm">{bpm} BPM</span>
-          </div>
-
-          <div className="drill-active-pattern">
-            <div className="drill-pattern-visual">
-              {Array.from({ length: gapSettings.beatsOn }).map((_, i) => (
-                <div key={`on-${i}`} className="drill-pattern-dot drill-pattern-dot-on" />
-              ))}
-              {Array.from({ length: gapSettings.beatsOff }).map((_, i) => (
-                <div key={`off-${i}`} className="drill-pattern-dot drill-pattern-dot-off" />
-              ))}
-            </div>
-            <div className="drill-pattern-labels">
-              <span className="drill-pattern-label drill-pattern-label-on">
-                {gapSettings.beatsOn} click{gapSettings.beatsOn !== 1 ? "s" : ""}
-              </span>
-              <span className="drill-pattern-label drill-pattern-label-off">
-                {gapSettings.beatsOff} silent
-              </span>
-            </div>
-          </div>
-
-          {gapSettings.offBeatMode && (
-            <div className="drill-offbeat-badge">Off-beat mode active</div>
+              <div className="drill-stats">
+                <div className="drill-stat">
+                  <span className="drill-stat-value">{cycleCount}</span>
+                  <span className="drill-stat-label">Cycles</span>
+                </div>
+                {drillTimer && timeRemaining > 0 && (
+                  <div className="drill-stat">
+                    <span className="drill-stat-value">{formatTime(timeRemaining)}</span>
+                    <span className="drill-stat-label">Remaining</span>
+                  </div>
+                )}
+              </div>
+            </section>
           )}
 
-          <div className="drill-stats">
-            <div className="drill-stat">
-              <span className="drill-stat-value">{cycleCount}</span>
-              <span className="drill-stat-label">Cycles</span>
-            </div>
-            {drillTimer && timeRemaining > 0 && (
-              <div className="drill-stat">
-                <span className="drill-stat-value">{formatTime(timeRemaining)}</span>
-                <span className="drill-stat-label">Remaining</span>
-              </div>
-            )}
-          </div>
-        </section>
+          {/* Tips */}
+          <section className="card">
+            <h3 className="card-title">Tips for Gap Drills</h3>
+            <ul>
+              <li>Start with Easy (8 on, 4 off) until alignment feels natural</li>
+              <li>Walk in place or tap your foot during gaps to maintain pulse</li>
+              <li>Internally sing &quot;1-2-3-4&quot; during silent beats</li>
+              <li>If you rush or drag, slow down 10 BPM and try again</li>
+              <li>Success = click returns and you&apos;re still on time</li>
+            </ul>
+          </section>
+        </>
       )}
 
-      {/* Tips */}
-      <section className="card">
-        <h3 className="card-title">Tips for Gap Drills</h3>
-        <ul>
-          <li>Start with Easy (8 on, 4 off) until alignment feels natural</li>
-          <li>Walk in place or tap your foot during gaps to maintain pulse</li>
-          <li>Internally sing &quot;1-2-3-4&quot; during silent beats</li>
-          <li>If you rush or drag, slow down 10 BPM and try again</li>
-          <li>Success = click returns and you&apos;re still on time</li>
-        </ul>
-      </section>
+      {/* Interleaved Practice Mode */}
+      {drillMode === "interleaved" && (
+        <>
+          <section className="card">
+            <ShuffleMode
+              baseTempo={bpm}
+              onTempoChange={handleTempoChange}
+              onPatternChange={handlePatternChange}
+              onComplete={handleInterleavedComplete}
+            />
+          </section>
+
+          {/* Current pattern display with metronome */}
+          {currentPattern && (
+            <section className="card">
+              <div className="drill-section">
+                <label className="drill-label">Tempo</label>
+                <div className="drill-bpm">
+                  <button
+                    type="button"
+                    className="btn btn-small"
+                    onClick={() => setBpm((prev) => Math.max(30, prev - 5))}
+                    disabled={metroOn}
+                  >
+                    −5
+                  </button>
+                  <input
+                    type="number"
+                    min={30}
+                    max={200}
+                    value={bpm}
+                    onChange={(e) => setBpm(Math.max(30, Math.min(200, parseInt(e.target.value) || 60)))}
+                    className="drill-bpm-input"
+                    disabled={metroOn}
+                  />
+                  <button
+                    type="button"
+                    className="btn btn-small"
+                    onClick={() => setBpm((prev) => Math.min(200, prev + 5))}
+                    disabled={metroOn}
+                  >
+                    +5
+                  </button>
+                </div>
+              </div>
+
+              <div className="drill-action">
+                {!metroOn ? (
+                  <button type="button" className="btn drill-start-btn" onClick={handleStart}>
+                    Start Metronome
+                  </button>
+                ) : (
+                  <button type="button" className="btn drill-stop-btn" onClick={handleStop}>
+                    Stop
+                  </button>
+                )}
+              </div>
+            </section>
+          )}
+
+          {/* Why Interleaving Works - Educational Content */}
+          <section className="card">
+            <h3 className="card-title">The Science of Interleaving</h3>
+            <p style={{ marginBottom: 12 }}>
+              Research shows that <strong>interleaved practice</strong> (mixing different skills) 
+              produces better long-term retention than <strong>blocked practice</strong> (repeating 
+              one skill many times).
+            </p>
+            
+            <details className="drill-custom-details">
+              <summary className="drill-custom-summary">
+                <span>Why does harder practice work better?</span>
+              </summary>
+              <div className="drill-custom-body" style={{ display: "block", padding: 12 }}>
+                <p style={{ marginBottom: 8 }}>
+                  <strong>Desirable Difficulties</strong> (Bjork & Bjork): When learning feels too easy, 
+                  you&apos;re not building durable memory traces. The struggle of switching patterns 
+                  forces your brain to actively reconstruct motor programs—this is where learning happens.
+                </p>
+                <p style={{ marginBottom: 8 }}>
+                  <strong>Contextual Interference</strong>: Slight tempo variations between patterns 
+                  prevent your brain from relying on simple motor repetition. You must re-solve 
+                  the timing problem each time, building flexible skills.
+                </p>
+                <p>
+                  <strong>The Illusion of Fluency</strong>: Blocked practice feels better because 
+                  you get smoother by rep 10. But that smoothness is temporary—it fades within days. 
+                  Interleaved practice feels rougher but builds skills that stick for months.
+                </p>
+              </div>
+            </details>
+            
+            <ul style={{ marginTop: 12 }}>
+              <li><strong>Blocked:</strong> Singles ×20, then Doubles ×20, then Paradiddles ×20</li>
+              <li><strong>Interleaved:</strong> Singles → Paradiddle → Doubles → Singles → ...</li>
+              <li>Interleaved feels harder. It IS better.</li>
+            </ul>
+          </section>
+        </>
+      )}
 
       <section className="card">
         <div className="row">

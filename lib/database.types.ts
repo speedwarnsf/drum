@@ -230,6 +230,120 @@ export type Database = {
         }
         Relationships: []
       }
+      drum_pattern_memory: {
+        Row: {
+          id: string
+          user_id: string
+          pattern_id: string
+          ease_factor: number
+          interval_days: number
+          next_review_date: string
+          repetitions: number
+          last_quality: number | null
+          last_practiced_at: string | null
+          created_at: string
+        }
+        Insert: {
+          id?: string
+          user_id: string
+          pattern_id: string
+          ease_factor?: number
+          interval_days?: number
+          next_review_date?: string
+          repetitions?: number
+          last_quality?: number | null
+          last_practiced_at?: string | null
+          created_at?: string
+        }
+        Update: {
+          id?: string
+          user_id?: string
+          pattern_id?: string
+          ease_factor?: number
+          interval_days?: number
+          next_review_date?: string
+          repetitions?: number
+          last_quality?: number | null
+          last_practiced_at?: string | null
+          created_at?: string
+        }
+        Relationships: []
+      }
+      drum_shared_recordings: {
+        Row: {
+          id: string
+          user_id: string
+          storage_path: string
+          duration_ms: number
+          pattern_type: string | null
+          bpm: number | null
+          module_id: number | null
+          description: string | null
+          feedback_count: number
+          avg_cleanliness: number | null
+          created_at: string
+        }
+        Insert: {
+          id?: string
+          user_id: string
+          storage_path: string
+          duration_ms: number
+          pattern_type?: string | null
+          bpm?: number | null
+          module_id?: number | null
+          description?: string | null
+          feedback_count?: number
+          avg_cleanliness?: number | null
+          created_at?: string
+        }
+        Update: {
+          id?: string
+          user_id?: string
+          storage_path?: string
+          duration_ms?: number
+          pattern_type?: string | null
+          bpm?: number | null
+          module_id?: number | null
+          description?: string | null
+          feedback_count?: number
+          avg_cleanliness?: number | null
+          created_at?: string
+        }
+        Relationships: []
+      }
+      drum_recording_feedback: {
+        Row: {
+          id: string
+          recording_id: string
+          reviewer_id: string
+          cleanliness_rating: number
+          timing_rating: number
+          comment: string | null
+          detected_issues: string[]
+          created_at: string
+        }
+        Insert: {
+          id?: string
+          recording_id: string
+          reviewer_id: string
+          cleanliness_rating: number
+          timing_rating: number
+          comment?: string | null
+          detected_issues?: string[]
+          created_at?: string
+        }
+        Update: {
+          id?: string
+          recording_id?: string
+          reviewer_id?: string
+          cleanliness_rating?: number
+          timing_rating?: number
+          comment?: string | null
+          detected_issues?: string[]
+          created_at?: string
+        }
+        Relationships: []
+      }
       journal_entries: {
         Row: {
           content: string

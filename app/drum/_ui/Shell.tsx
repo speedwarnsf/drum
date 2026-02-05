@@ -46,11 +46,20 @@ export default function Shell({
       <a href="/drum/drills" className="btn btn-ghost" onClick={handleNavClick}>
         Drills
       </a>
+      <a href="/drum/maintenance" className="btn btn-ghost" onClick={handleNavClick}>
+        Maintenance
+      </a>
       <a href="/drum/diagnostic" className="btn btn-ghost" onClick={handleNavClick}>
         Diagnostic
       </a>
+      <a href="/drum/community" className="btn btn-ghost" onClick={handleNavClick}>
+        Community
+      </a>
       <a href="/drum/progress" className="btn btn-ghost" onClick={handleNavClick}>
         Progress
+      </a>
+      <a href="/drum/skills" className="btn btn-ghost" onClick={handleNavClick}>
+        Skills
       </a>
       <a href="/drum/method" className="btn btn-ghost" onClick={handleNavClick}>
         Method
