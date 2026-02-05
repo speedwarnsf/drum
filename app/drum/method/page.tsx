@@ -146,6 +146,168 @@ export default function DrumMethodPage() {
         <Audiation moduleId={currentModule} compact />
       </section>
 
+      {/* Deep Audiation Theory */}
+      <section className="card">
+        <h2 className="card-title">The Science of Audiation</h2>
+        <blockquote className="method-quote">
+          &quot;Audiation is to music what thought is to language.&quot;
+          <cite>— Edwin Gordon</cite>
+        </blockquote>
+        
+        <p>
+          Audiation isn&apos;t just &quot;hearing in your head&quot;—it&apos;s a specific cognitive process with 
+          <strong> six developmental stages</strong>. Understanding these helps you practice more effectively.
+        </p>
+        
+        <div className="audiation-stages">
+          <h3>The 6 Stages of Audiation</h3>
+          <ol className="audiation-stage-list">
+            <li>
+              <strong>Momentary retention</strong>
+              <span>Hear it, hold it briefly in your mind</span>
+            </li>
+            <li>
+              <strong>Imitate + recognize macrobeats</strong>
+              <span>Copy patterns AND feel where the downbeats are</span>
+            </li>
+            <li>
+              <strong>Establish meter</strong>
+              <span>Lock into the time signature feel (is it 4/4? 3/4? 6/8?)</span>
+            </li>
+            <li>
+              <strong>Consciously retain patterns</strong>
+              <span>Remember longer phrases, not just the current beat</span>
+            </li>
+            <li>
+              <strong>Recall patterns from other pieces</strong>
+              <span>Connect to vocabulary you already know</span>
+            </li>
+            <li className="audiation-stage-critical">
+              <strong>PREDICT patterns</strong>
+              <span>Anticipate what comes next—THIS IS CRITICAL FOR DRUMMERS</span>
+            </li>
+          </ol>
+          
+          <div className="method-tip" style={{ marginTop: 16 }}>
+            <strong>Stage 6 is the goal:</strong> Great drummers don&apos;t just react to what&apos;s happening—they 
+            <em> anticipate</em> what&apos;s coming. They&apos;ve audiated the groove so deeply that they know 
+            where the music is going before it gets there.
+          </div>
+        </div>
+      </section>
+
+      {/* Sound Before Sight */}
+      <section className="card">
+        <h2 className="card-title">Sound Before Sight</h2>
+        <p>
+          Research shows a counterintuitive truth: <strong>spending time on ear training actually IMPROVES 
+          reading ability</strong>. &quot;Playing by ear&quot; doesn&apos;t hurt your reading—it helps.
+        </p>
+        
+        <div className="sound-before-sight">
+          <div className="sbs-step">
+            <div className="sbs-number">1</div>
+            <div className="sbs-content">
+              <strong>HEAR it</strong>
+              <span>Listen to the pattern externally or imagine it internally</span>
+            </div>
+          </div>
+          <div className="sbs-arrow">→</div>
+          <div className="sbs-step">
+            <div className="sbs-number">2</div>
+            <div className="sbs-content">
+              <strong>SING it</strong>
+              <span>Vocalize with syllables: &quot;Boom-Chack-Tss-Chack&quot;</span>
+            </div>
+          </div>
+          <div className="sbs-arrow">→</div>
+          <div className="sbs-step">
+            <div className="sbs-number">3</div>
+            <div className="sbs-content">
+              <strong>PLAY it</strong>
+              <span>Only now do you pick up the sticks</span>
+            </div>
+          </div>
+        </div>
+        
+        <p className="method-warning" style={{ marginTop: 16 }}>
+          <strong>The rule:</strong> If you can&apos;t sing it, you haven&apos;t audiated it. 
+          Never skip the singing step—it&apos;s where the real learning happens.
+        </p>
+      </section>
+
+      {/* Discrimination vs Inference */}
+      <section className="card">
+        <h2 className="card-title">Two Types of Learning</h2>
+        <p>
+          Musical learning happens in two modes. Both are essential, but they develop different abilities.
+        </p>
+        
+        <div className="learning-types">
+          <article className="learning-type">
+            <h3>🔍 Discrimination Learning</h3>
+            <p>&quot;Can I tell if two things are the same or different?&quot;</p>
+            <ul>
+              <li>Listening: &quot;Were those two grooves the same?&quot;</li>
+              <li>Oral: &quot;Can I repeat what I just heard?&quot;</li>
+              <li>Verbal: &quot;Can I describe the difference?&quot;</li>
+              <li>Symbolic: &quot;Can I read/write it?&quot;</li>
+            </ul>
+            <p className="sub">This builds your ability to ANALYZE and COMPARE.</p>
+          </article>
+          
+          <article className="learning-type">
+            <h3>✨ Inference Learning</h3>
+            <p>&quot;Can I create something I&apos;ve never heard before?&quot;</p>
+            <ul>
+              <li>Generalization: Apply known patterns to new situations</li>
+              <li>Creativity: Combine patterns in original ways</li>
+              <li>Theoretical: Understand WHY patterns work</li>
+            </ul>
+            <p className="sub">This builds your ability to CREATE and IMPROVISE.</p>
+          </article>
+        </div>
+        
+        <p style={{ marginTop: 16 }}>
+          Our lessons move from <strong>discrimination → inference</strong>. First you learn to recognize patterns, 
+          then you learn to create new ones within constraints.
+        </p>
+      </section>
+
+      {/* Algorithm Approach */}
+      <section className="card">
+        <h2 className="card-title">The Algorithm Approach</h2>
+        <p>
+          Don&apos;t practice random things. Use <strong>&quot;algorithms&quot;</strong>—structured systems with 
+          constraints that mirror real-life playing:
+        </p>
+        
+        <ul className="algorithm-list">
+          <li>
+            <strong>Scripted improvisations:</strong> &quot;Improvise, but only use these 3 patterns.&quot;
+            <span className="sub">Constraints breed creativity.</span>
+          </li>
+          <li>
+            <strong>Inside-out vocabulary:</strong> Master 5 core patterns completely before adding more.
+            <span className="sub">Depth before breadth.</span>
+          </li>
+          <li>
+            <strong>Real-world simulation:</strong> Every exercise should mirror an actual playing situation.
+            <span className="sub">Practice what you&apos;ll actually do.</span>
+          </li>
+          <li>
+            <strong>The Hidden Flaw mindset:</strong> Assume you sound worse than you think.
+            <span className="sub">Record yourself. Listen honestly. Fix what you find.</span>
+          </li>
+        </ul>
+        
+        <div className="method-tip" style={{ marginTop: 16 }}>
+          <strong>The Hidden Flaw:</strong> Even intermediate drummers have micro-flams they can&apos;t hear while playing. 
+          Your limbs aren&apos;t hitting exactly together—you just can&apos;t feel it in the moment. 
+          The recording never lies.
+        </div>
+      </section>
+
       {/* Haptic Metaphors */}
       <section className="card">
         <h2 className="card-title">Vocabulary of Movement</h2>
@@ -436,9 +598,219 @@ export default function DrumMethodPage() {
           font-size: 0.9rem;
         }
         
+        /* Audiation Deep Theory Styles */
+        .method-quote {
+          margin: 16px 0;
+          padding: 16px 20px;
+          background: var(--surface);
+          border-left: 4px solid var(--accent);
+          border-radius: 0 8px 8px 0;
+          font-style: italic;
+          font-size: 1.1rem;
+        }
+        
+        .method-quote cite {
+          display: block;
+          margin-top: 8px;
+          font-size: 0.85rem;
+          color: var(--muted);
+          font-style: normal;
+        }
+        
+        .audiation-stages {
+          margin-top: 20px;
+        }
+        
+        .audiation-stages h3 {
+          margin: 0 0 12px 0;
+          font-size: 1rem;
+        }
+        
+        .audiation-stage-list {
+          margin: 0;
+          padding: 0;
+          list-style: none;
+          counter-reset: stage;
+        }
+        
+        .audiation-stage-list li {
+          position: relative;
+          padding: 12px 12px 12px 48px;
+          margin-bottom: 8px;
+          background: var(--surface);
+          border-radius: 8px;
+          counter-increment: stage;
+        }
+        
+        .audiation-stage-list li::before {
+          content: counter(stage);
+          position: absolute;
+          left: 12px;
+          top: 12px;
+          width: 24px;
+          height: 24px;
+          background: var(--muted);
+          color: var(--bg);
+          border-radius: 50%;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          font-size: 0.8rem;
+          font-weight: 600;
+        }
+        
+        .audiation-stage-list li strong {
+          display: block;
+          margin-bottom: 2px;
+        }
+        
+        .audiation-stage-list li span {
+          font-size: 0.85rem;
+          color: var(--muted);
+        }
+        
+        .audiation-stage-critical {
+          background: linear-gradient(135deg, var(--surface) 0%, rgba(var(--accent-rgb), 0.1) 100%) !important;
+          border: 1px solid var(--accent);
+        }
+        
+        .audiation-stage-critical::before {
+          background: var(--accent) !important;
+        }
+        
+        /* Sound Before Sight */
+        .sound-before-sight {
+          display: flex;
+          align-items: center;
+          gap: 8px;
+          margin-top: 20px;
+          flex-wrap: wrap;
+          justify-content: center;
+        }
+        
+        .sbs-step {
+          display: flex;
+          align-items: center;
+          gap: 10px;
+          padding: 12px 16px;
+          background: var(--surface);
+          border-radius: 10px;
+          flex: 1;
+          min-width: 140px;
+        }
+        
+        .sbs-number {
+          width: 28px;
+          height: 28px;
+          background: var(--accent);
+          color: var(--bg);
+          border-radius: 50%;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          font-weight: 700;
+          font-size: 0.9rem;
+          flex-shrink: 0;
+        }
+        
+        .sbs-content {
+          display: flex;
+          flex-direction: column;
+          gap: 2px;
+        }
+        
+        .sbs-content strong {
+          font-size: 0.95rem;
+        }
+        
+        .sbs-content span {
+          font-size: 0.75rem;
+          color: var(--muted);
+        }
+        
+        .sbs-arrow {
+          font-size: 1.2rem;
+          color: var(--muted);
+          flex-shrink: 0;
+        }
+        
+        .method-warning {
+          padding: 12px 16px;
+          background: rgba(231, 76, 60, 0.1);
+          border-left: 3px solid #e74c3c;
+          border-radius: 0 8px 8px 0;
+        }
+        
+        /* Learning Types */
+        .learning-types {
+          display: grid;
+          gap: 16px;
+          margin-top: 16px;
+        }
+        
+        .learning-type {
+          padding: 16px;
+          background: var(--surface);
+          border-radius: 10px;
+        }
+        
+        .learning-type h3 {
+          margin: 0 0 8px 0;
+          font-size: 1rem;
+        }
+        
+        .learning-type > p:first-of-type {
+          font-style: italic;
+          margin-bottom: 12px;
+        }
+        
+        .learning-type ul {
+          margin: 0 0 12px 0;
+          padding-left: 1.2rem;
+        }
+        
+        .learning-type ul li {
+          margin-bottom: 4px;
+          font-size: 0.9rem;
+        }
+        
+        /* Algorithm List */
+        .algorithm-list {
+          list-style: none;
+          padding: 0;
+          margin: 16px 0 0 0;
+        }
+        
+        .algorithm-list li {
+          padding: 14px 16px;
+          margin-bottom: 10px;
+          background: var(--surface);
+          border-radius: 8px;
+        }
+        
+        .algorithm-list li strong {
+          display: block;
+          margin-bottom: 4px;
+        }
+        
+        .algorithm-list li .sub {
+          display: block;
+          font-size: 0.85rem;
+          color: var(--muted);
+          margin-top: 4px;
+        }
+        
         @media (min-width: 640px) {
           .audit-methods {
             grid-template-columns: 1fr 1fr;
+          }
+          
+          .learning-types {
+            grid-template-columns: 1fr 1fr;
+          }
+          
+          .sound-before-sight {
+            flex-wrap: nowrap;
           }
         }
       `}</style>
