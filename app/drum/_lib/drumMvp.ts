@@ -11,34 +11,247 @@ export type Profile = {
   moduleStartedAt?: string;
 };
 
+/**
+ * MODULE_INFO - Research-backed module definitions
+ * 
+ * Each module is designed around specific pedagogical principles:
+ * - The "Personal Drum Troupe" concept (all limbs = one drummer)
+ * - Metric Projection (project the beat, don't react to it)
+ * - Staged Motor Learning (isolate → combine → flow)
+ * - Formative Evaluation (Stop-Start-Continue, Minute Paper)
+ */
 export const MODULE_INFO = [
   {
     id: 1,
     title: "Clean Sound",
+    subtitle: "The Personal Drum Troupe",
     duration: "2 weeks",
     focus: "Unison strikes, grip comfort, even tone. Stop on flams.",
-    keywords: ["grip", "tone", "unison", "flams", "rebound"],
+    pedagogicalGoal: "When all your limbs sound like ONE drummer, you have the 'Personal Drum Troupe'.",
+    keywords: ["grip", "tone", "unison", "flams", "rebound", "personal drum troupe"],
+    
+    // Rhythm syllables (Gordon Method)
+    rhythmSyllables: {
+      primary: "Du (quarter)", 
+      description: "Say 'Du' on each hit to internalize the pulse",
+    },
+    
+    // Haptic metaphors for text-only instruction
+    hapticCues: [
+      "Hold the stick like a small bird—secure, never squeezing",
+      "Let the stick bounce like a ball on pavement",
+      "The fulcrum is a pivot point, not a vice grip",
+    ],
+    
+    // Stop conditions (immediate signals to pause)
+    stopConditions: [
+      "Stop if you hear a flam (two attacks instead of one clean hit)",
+      "Stop if shoulders rise above neutral position",
+      "Stop if grip tightens into a fist",
+      "Stop if forearms burn (you're muscling, not flowing)",
+    ],
+    
+    // Module-specific drills
+    drills: [
+      {
+        name: "Hidden Coordination Flaw Diagnostic",
+        description: "Play Kick + Right Hand together 20 times. Record it. Listen back. Does it sound like 'Thud' (good) or 'Ka-Thunk' (flam)? If you hear two attacks, you have the Hidden Flaw.",
+        duration: "3 min",
+      },
+      {
+        name: "Bird Grip Reset",
+        description: "Open hands fully, let sticks roll to fingertips, close gently. Secure but never squeezing.",
+        duration: "1 min",
+      },
+      {
+        name: "Single Surface Singles",
+        description: "One hand at a time on snare, matching volume left to right. Say 'Du' on each hit.",
+        duration: "5 min",
+      },
+    ],
+    
+    // Formative evaluation prompts
+    evaluationPrompts: {
+      stop: "What habit do you need to stop? (e.g., tensing shoulders, death grip)",
+      start: "What should you start doing? (e.g., checking grip every minute)",
+      continue: "What's working well? (e.g., clean single strokes)",
+    },
   },
   {
     id: 2,
     title: "Internal Clock",
+    subtitle: "Metric Projection",
     duration: "2 weeks",
     focus: "Walk and sing, off-beat clicks, gap drills.",
-    keywords: ["time", "pulse", "gap drills", "off-beat", "internal clock"],
+    pedagogicalGoal: "PROJECT the beat instead of REACTING to it. The metronome confirms your time—it doesn't create it.",
+    keywords: ["time", "pulse", "gap drills", "off-beat", "internal clock", "metric projection"],
+    
+    rhythmSyllables: {
+      primary: "Du-De (eighths), Boom-Chack (groove)",
+      description: "Sing 'Boom-Chack' for kick-snare pattern. 'Du-De' for eighth notes.",
+    },
+    
+    hapticCues: [
+      "Feel tempo in your hips, not just your ears",
+      "Exhale on beat 1—let rhythm sync to breath",
+      "Heavier on 2 and 4, like a confident stride",
+      "Moving through honey—constant resistance, constant motion",
+    ],
+    
+    stopConditions: [
+      "Stop if you speed up during the gap (rushing = not projecting)",
+      "Stop if you wait for the click to re-enter (reacting, not projecting)",
+      "Stop if you can't sing the groove before playing it",
+    ],
+    
+    drills: [
+      {
+        name: "Walk the Tempo",
+        description: "Step side-to-side to the metronome. Left foot, Right foot. Now clap 'Du-De' over your steps. This grounds the pulse in your body.",
+        duration: "3 min",
+      },
+      {
+        name: "Gap Drill (Projection Training)",
+        description: "8 clicks on, 4 clicks silent. During silence, visualize the distance between beats—don't wait for the click. When it returns, are you aligned?",
+        duration: "5 min",
+      },
+      {
+        name: "Off-Beat Click",
+        description: "Set metronome to click on 2 and 4 only. You must PROJECT beats 1 and 3.",
+        duration: "4 min",
+      },
+      {
+        name: "Sing Before Play",
+        description: "Vocalize 'Boom-Chack-Tss-Chack' for 4 bars, then play it. Audiation precedes execution.",
+        duration: "3 min",
+      },
+    ],
+    
+    evaluationPrompts: {
+      stop: "What rushes when you're not watching? (e.g., speeding up during gaps)",
+      start: "What will help you internalize pulse? (e.g., stepping, breathing with the beat)",
+      continue: "Where is your time most solid?",
+    },
   },
   {
     id: 3,
     title: "Vocabulary + Flow",
+    subtitle: "Real World Options",
     duration: "2 weeks",
     focus: "Singles, doubles, paradiddles, short scripted loops.",
-    keywords: ["singles", "doubles", "paradiddles", "rudiments", "vocabulary"],
+    pedagogicalGoal: "Build a vocabulary of patterns that give you OPTIONS in real musical situations.",
+    keywords: ["singles", "doubles", "paradiddles", "rudiments", "vocabulary", "flow"],
+    
+    rhythmSyllables: {
+      primary: "Du-Ta-De-Ta (sixteenths)",
+      description: "Singles: R-L-R-L = Du-De-Du-De. Paradiddle: R-L-R-R = Du-de-du-DU (accent capital).",
+    },
+    
+    hapticCues: [
+      "Singles: Even alternation, like walking—no limping",
+      "Doubles: Bounce-bounce, like a basketball double-dribble",
+      "Paradiddles: Accent the first note of each group, whisper the rest",
+      "Think of rudiments as words, patterns as sentences",
+    ],
+    
+    stopConditions: [
+      "Stop if singles become uneven (one hand louder than the other)",
+      "Stop if doubles lose their bounce (muscling the second stroke)",
+      "Stop if paradiddle accents disappear into the pattern",
+    ],
+    
+    drills: [
+      {
+        name: "Single Stroke Roll",
+        description: "RLRL at 60 BPM, matching volume perfectly. Say 'Du-De' for each pair.",
+        duration: "4 min",
+      },
+      {
+        name: "Double Stroke Roll",
+        description: "RRLL, let the stick bounce for the second hit. Don't muscle it—bounce.",
+        duration: "4 min",
+      },
+      {
+        name: "Paradiddle",
+        description: "RLRR LRLL. Accent beat 1 of each group (the first R, the first L). Whisper the rest.",
+        duration: "4 min",
+      },
+      {
+        name: "3-Way Flow",
+        description: "4 bars singles → 4 bars doubles → 4 bars paradiddles. No stopping between.",
+        duration: "5 min",
+      },
+    ],
+    
+    evaluationPrompts: {
+      stop: "Which rudiment feels forced? What makes it awkward?",
+      start: "Which rudiment needs more isolated practice?",
+      continue: "Which pattern is becoming natural/autonomous?",
+    },
   },
   {
     id: 4,
     title: "The Audit",
+    subtitle: "Self-Evaluation Loop",
     duration: "Ongoing",
     focus: "Record 30 seconds, listen for alignment and consistency.",
-    keywords: ["record", "audit", "listen", "alignment", "consistency"],
+    pedagogicalGoal: "Develop the self-audit skill: record → listen → identify → fix → repeat.",
+    keywords: ["record", "audit", "listen", "alignment", "consistency", "self-evaluation"],
+    
+    rhythmSyllables: {
+      primary: "Listen for: Du (clean) vs Du-uh (flam)",
+      description: "When listening back, a clean hit is one sound. A flam is two sounds (Du-uh or Ka-Thunk).",
+    },
+    
+    hapticCues: [
+      "Listening: Close your eyes. Flams are easier to hear than feel.",
+      "Alignment: Does kick + snare sound like 'THUD' (good) or 'ka-THUNK' (flam)?",
+      "Spacing: Even hi-hat = even gaps of silence between hits",
+    ],
+    
+    stopConditions: [
+      "Stop if you're playing without recording (audit requires evidence)",
+      "Stop if you can't identify ONE specific thing to improve",
+      "Stop if you're making excuses instead of identifying problems",
+    ],
+    
+    drills: [
+      {
+        name: "30-Second Recording",
+        description: "Play simple groove for 30 seconds. Stop. Listen immediately. No editing, no second takes.",
+        duration: "3 min",
+      },
+      {
+        name: "Flam Detection",
+        description: "Listen specifically for kick+snare hits. One unified sound, or two separate attacks?",
+        duration: "2 min",
+      },
+      {
+        name: "Spacing Audit",
+        description: "Listen to hi-hat only. Is every gap between hits identical? Mark where you rushed.",
+        duration: "2 min",
+      },
+      {
+        name: "Volume Audit",
+        description: "Is every hi-hat hit the same volume? Any unexpected accents or ghost notes?",
+        duration: "2 min",
+      },
+    ],
+    
+    // Audit-specific: the checklist approach
+    auditChecklist: [
+      "Are kick and snare aligned? (no flams)",
+      "Is hi-hat spacing even throughout?",
+      "Is volume consistent across all hits?",
+      "Did tempo stay steady from start to end?",
+      "Any unwanted ghost notes or doubles?",
+    ],
+    
+    evaluationPrompts: {
+      stop: "What bad habit did the recording reveal?",
+      start: "What ONE thing will you fix next session?",
+      continue: "What sounds clean and should be maintained?",
+    },
   },
 ] as const;
 
@@ -331,82 +544,142 @@ function makeId() {
 
 export async function loadRemoteSessions(): Promise<StoredSession[]> {
   if (typeof window === "undefined") return [];
-  const { getSupabaseClient } = await import("./supabaseClient");
-  const supabase = getSupabaseClient();
-  if (!supabase) return [];
-  const { data: userData } = await supabase.auth.getUser();
-  const user = userData?.user;
-  if (!user) return [];
-  const { data, error } = await supabase
-    .from("drum_sessions")
-    .select("id, ts, log, plan")
-    .eq("user_id", user.id)
-    .order("ts", { ascending: false });
-  if (error || !data) return [];
-  const rows = data as {
-    id: string;
-    ts: string;
-    log: LogEntry;
-    plan: PracticePlan | null;
-  }[];
-  return rows.map((row) => ({
-    id: row.id,
-    ts: row.ts,
-    plan: row.plan as PracticePlan,
-    log: row.log as LogEntry,
-  }));
+  
+  try {
+    const { getSupabaseClient } = await import("./supabaseClient");
+    const supabase = getSupabaseClient();
+    if (!supabase) return [];
+    
+    const { data: userData, error: authError } = await supabase.auth.getUser();
+    if (authError) {
+      console.error("[Drum] Auth error loading sessions:", authError.message);
+      return [];
+    }
+    
+    const user = userData?.user;
+    if (!user) return [];
+    
+    const { data, error } = await supabase
+      .from("drum_sessions")
+      .select("id, ts, log, plan")
+      .eq("user_id", user.id)
+      .order("ts", { ascending: false });
+      
+    if (error) {
+      console.error("[Drum] Database error loading sessions:", error.message);
+      return [];
+    }
+    
+    if (!data) return [];
+    
+    const rows = data as {
+      id: string;
+      ts: string;
+      log: LogEntry;
+      plan: PracticePlan | null;
+    }[];
+    
+    return rows.map((row) => ({
+      id: row.id,
+      ts: row.ts,
+      plan: row.plan as PracticePlan,
+      log: row.log as LogEntry,
+    }));
+  } catch (err) {
+    console.error("[Drum] Failed to load remote sessions:", err);
+    return [];
+  }
 }
 
 async function syncLogToSupabase(log: LogEntry, plan?: PracticePlan) {
-  const { getSupabaseClient } = await import("./supabaseClient");
-  const supabase = getSupabaseClient();
-  if (!supabase) return;
-  const { data: userData } = await supabase.auth.getUser();
-  const user = userData?.user;
-  if (!user) return;
-  await supabase.from("drum_sessions").insert({
-    user_id: user.id,
-    ts: log.ts,
-    log,
-    plan: plan ?? null,
-  });
+  try {
+    const { getSupabaseClient } = await import("./supabaseClient");
+    const supabase = getSupabaseClient();
+    if (!supabase) return;
+    
+    const { data: userData, error: authError } = await supabase.auth.getUser();
+    if (authError) {
+      console.error("[Drum] Auth error syncing log:", authError.message);
+      return;
+    }
+    
+    const user = userData?.user;
+    if (!user) return;
+    
+    const { error } = await supabase.from("drum_sessions").insert({
+      user_id: user.id,
+      ts: log.ts,
+      log,
+      plan: plan ?? null,
+    });
+    
+    if (error) {
+      console.error("[Drum] Failed to sync log to Supabase:", error.message);
+    }
+  } catch (err) {
+    console.error("[Drum] Error syncing log:", err);
+    // Fail silently - local data is saved
+  }
 }
 
 async function syncProfileToSupabase(profile: Profile) {
-  const { getSupabaseClient } = await import("./supabaseClient");
-  const supabase = getSupabaseClient();
-  if (!supabase) return;
-  const { data: userData } = await supabase.auth.getUser();
-  const user = userData?.user;
-  if (!user) return;
-  const localCount = loadLogs().length;
-  const { data: existing } = await supabase
-    .from("drum_profiles")
-    .select("session_count, current_module, module_started_at")
-    .eq("user_id", user.id)
-    .maybeSingle();
-  const { count: remoteCount } = await supabase
-    .from("drum_sessions")
-    .select("id", { count: "exact", head: true })
-    .eq("user_id", user.id);
-  const sessionCount = Math.max(
-    Number(existing?.session_count ?? 0),
-    Number(localCount),
-    Number(remoteCount ?? 0)
-  );
-  const currentModule = profile.currentModule ?? existing?.current_module ?? 1;
-  const moduleStartedAt = profile.moduleStartedAt ?? existing?.module_started_at ?? new Date().toISOString();
-  await supabase.from("drum_profiles").upsert({
-    user_id: user.id,
-    level: profile.level,
-    kit: profile.kit,
-    minutes: profile.minutes,
-    goal: profile.goal,
-    session_count: sessionCount,
-    current_module: currentModule,
-    module_started_at: moduleStartedAt,
-    updated_at: new Date().toISOString(),
-  });
+  try {
+    const { getSupabaseClient } = await import("./supabaseClient");
+    const supabase = getSupabaseClient();
+    if (!supabase) return;
+    
+    const { data: userData, error: authError } = await supabase.auth.getUser();
+    if (authError) {
+      console.error("[Drum] Auth error syncing profile:", authError.message);
+      return;
+    }
+    
+    const user = userData?.user;
+    if (!user) return;
+    
+    const localCount = loadLogs().length;
+    const { data: existing, error: existingError } = await supabase
+      .from("drum_profiles")
+      .select("session_count, current_module, module_started_at")
+      .eq("user_id", user.id)
+      .maybeSingle();
+      
+    if (existingError) {
+      console.error("[Drum] Error fetching existing profile:", existingError.message);
+    }
+    
+    const { count: remoteCount } = await supabase
+      .from("drum_sessions")
+      .select("id", { count: "exact", head: true })
+      .eq("user_id", user.id);
+      
+    const sessionCount = Math.max(
+      Number(existing?.session_count ?? 0),
+      Number(localCount),
+      Number(remoteCount ?? 0)
+    );
+    const currentModule = profile.currentModule ?? existing?.current_module ?? 1;
+    const moduleStartedAt = profile.moduleStartedAt ?? existing?.module_started_at ?? new Date().toISOString();
+    
+    const { error: upsertError } = await supabase.from("drum_profiles").upsert({
+      user_id: user.id,
+      level: profile.level,
+      kit: profile.kit,
+      minutes: profile.minutes,
+      goal: profile.goal,
+      session_count: sessionCount,
+      current_module: currentModule,
+      module_started_at: moduleStartedAt,
+      updated_at: new Date().toISOString(),
+    });
+    
+    if (upsertError) {
+      console.error("[Drum] Failed to sync profile:", upsertError.message);
+    }
+  } catch (err) {
+    console.error("[Drum] Error syncing profile:", err);
+    // Fail silently - local data is saved
+  }
 }
 
 async function bumpProfileSessionCount() {
@@ -437,26 +710,45 @@ async function bumpProfileSessionCount() {
 }
 
 export async function loadProfileFromSupabase(): Promise<Profile | null> {
-  const { getSupabaseClient } = await import("./supabaseClient");
-  const supabase = getSupabaseClient();
-  if (!supabase) return null;
-  const { data: userData } = await supabase.auth.getUser();
-  const user = userData?.user;
-  if (!user) return null;
-  const { data } = await supabase
-    .from("drum_profiles")
-    .select("level, kit, minutes, goal, current_module, module_started_at")
-    .eq("user_id", user.id)
-    .maybeSingle();
-  if (!data) return null;
-  return {
-    level: data.level as Profile["level"],
-    kit: data.kit as Profile["kit"],
-    minutes: Number(data.minutes || 15),
-    goal: data.goal as Profile["goal"],
-    currentModule: data.current_module ?? 1,
-    moduleStartedAt: data.module_started_at ?? undefined,
-  };
+  try {
+    const { getSupabaseClient } = await import("./supabaseClient");
+    const supabase = getSupabaseClient();
+    if (!supabase) return null;
+    
+    const { data: userData, error: authError } = await supabase.auth.getUser();
+    if (authError) {
+      console.error("[Drum] Auth error loading profile:", authError.message);
+      return null;
+    }
+    
+    const user = userData?.user;
+    if (!user) return null;
+    
+    const { data, error } = await supabase
+      .from("drum_profiles")
+      .select("level, kit, minutes, goal, current_module, module_started_at")
+      .eq("user_id", user.id)
+      .maybeSingle();
+      
+    if (error) {
+      console.error("[Drum] Error loading profile from Supabase:", error.message);
+      return null;
+    }
+    
+    if (!data) return null;
+    
+    return {
+      level: data.level as Profile["level"],
+      kit: data.kit as Profile["kit"],
+      minutes: Number(data.minutes || 15),
+      goal: data.goal as Profile["goal"],
+      currentModule: data.current_module ?? 1,
+      moduleStartedAt: data.module_started_at ?? undefined,
+    };
+  } catch (err) {
+    console.error("[Drum] Failed to load profile from Supabase:", err);
+    return null;
+  }
 }
 
 export async function advanceModule(): Promise<number | null> {
@@ -488,32 +780,58 @@ export async function getModuleProgress(): Promise<{
   sessionCount: number;
   sessionsInModule: number;
 } | null> {
-  const { getSupabaseClient } = await import("./supabaseClient");
-  const supabase = getSupabaseClient();
-  if (!supabase) return null;
-  const { data: userData } = await supabase.auth.getUser();
-  const user = userData?.user;
-  if (!user) return null;
-  const { data: profile } = await supabase
-    .from("drum_profiles")
-    .select("current_module, module_started_at, session_count")
-    .eq("user_id", user.id)
-    .maybeSingle();
-  if (!profile) return null;
-  const moduleStartedAt = profile.module_started_at;
-  let sessionsInModule = 0;
-  if (moduleStartedAt) {
-    const { count } = await supabase
-      .from("drum_sessions")
-      .select("id", { count: "exact", head: true })
+  try {
+    const { getSupabaseClient } = await import("./supabaseClient");
+    const supabase = getSupabaseClient();
+    if (!supabase) return null;
+    
+    const { data: userData, error: authError } = await supabase.auth.getUser();
+    if (authError) {
+      console.error("[Drum] Auth error getting module progress:", authError.message);
+      return null;
+    }
+    
+    const user = userData?.user;
+    if (!user) return null;
+    
+    const { data: profile, error: profileError } = await supabase
+      .from("drum_profiles")
+      .select("current_module, module_started_at, session_count")
       .eq("user_id", user.id)
-      .gte("ts", moduleStartedAt);
-    sessionsInModule = count ?? 0;
+      .maybeSingle();
+      
+    if (profileError) {
+      console.error("[Drum] Error fetching module progress:", profileError.message);
+      return null;
+    }
+    
+    if (!profile) return null;
+    
+    const moduleStartedAt = profile.module_started_at;
+    let sessionsInModule = 0;
+    
+    if (moduleStartedAt) {
+      const { count, error: countError } = await supabase
+        .from("drum_sessions")
+        .select("id", { count: "exact", head: true })
+        .eq("user_id", user.id)
+        .gte("ts", moduleStartedAt);
+        
+      if (countError) {
+        console.error("[Drum] Error counting sessions in module:", countError.message);
+      } else {
+        sessionsInModule = count ?? 0;
+      }
+    }
+    
+    return {
+      currentModule: profile.current_module ?? 1,
+      moduleStartedAt: profile.module_started_at ?? null,
+      sessionCount: profile.session_count ?? 0,
+      sessionsInModule,
+    };
+  } catch (err) {
+    console.error("[Drum] Failed to get module progress:", err);
+    return null;
   }
-  return {
-    currentModule: profile.current_module ?? 1,
-    moduleStartedAt: profile.module_started_at ?? null,
-    sessionCount: profile.session_count ?? 0,
-    sessionsInModule,
-  };
 }

@@ -11,49 +11,158 @@ type LessonRequest = {
   currentModule?: number;
 };
 
+/**
+ * Module-specific pedagogy from research synthesis.
+ * Each module has constraints, teaching approach, and vocabulary.
+ */
 const MODULE_CONTEXT = {
   1: {
     name: "Clean Sound",
+    subtitle: "The Personal Drum Troupe",
     focus: "Unison strikes, grip comfort, even tone. Stop on flams.",
+    pedagogicalGoal: "Establish the 'Personal Drum Troupe' - when all your limbs sound like ONE drummer",
     constraints: [
       "Focus exclusively on grip, tone, and clean unison strikes",
-      "No coordination exercises (no simultaneous hands/feet)",
-      "Stop immediately if player produces flams (two notes instead of one)",
+      "No coordination exercises (no simultaneous hands/feet until clean)",
+      "Stop IMMEDIATELY if player produces flams (two notes instead of one)",
       "Emphasize rebound, letting stick bounce naturally",
       "Single-surface work only (snare or practice pad)",
+      "Use the 'Hidden Coordination Flaw' diagnostic: Kick + Right Hand together 20x, listen for 'Thud' (good) vs 'Ka-Thunk' (flam)",
+    ],
+    hapticCues: [
+      "Grip: Hold the stick like a small bird—secure, but never squeezing",
+      "Rebound: Let the stick bounce like a ball on pavement",
+      "Stroke: Imagine shaking water off your fingertips (Moeller whip)",
+      "Pressure: Fulcrum is a pivot point, not a vice grip",
+    ],
+    rhythmSyllables: {
+      quarter: "Du",
+      eighth: "Du-De",
+      sixteenth: "Du-Ta-De-Ta",
+    },
+    stopConditions: [
+      "Stop if you hear a flam (two attacks instead of one)",
+      "Stop if shoulders rise above neutral",
+      "Stop if grip tightens into a fist",
+      "Stop if forearms burn (you're muscling it)",
+    ],
+    drills: [
+      "Unison Check: Play kick + snare together 20x. Record. Listen. One sound or two?",
+      "Bird Grip Reset: Open hands fully, let sticks roll to fingers, close gently",
+      "Single Surface Singles: One hand at a time, matching volume L to R",
     ],
   },
   2: {
     name: "Internal Clock",
+    subtitle: "Metric Projection",
     focus: "Walk and sing, off-beat clicks, gap drills.",
+    pedagogicalGoal: "PROJECT the beat instead of REACTING to it. The metronome confirms, not leads.",
     constraints: [
       "Focus on internalizing the pulse, not chasing the metronome",
-      "Include gap drills (metronome on/off cycles)",
+      "Include gap drills (metronome on/off cycles) - these FORCE projection",
       "Use off-beat click exercises (click on 2 and 4, or on 'ands')",
-      "Walking/stepping exercises to embody time",
-      "Singing/vocalizing the groove before playing",
+      "Walking/stepping exercises to embody time physically",
+      "Singing/vocalizing the groove BEFORE playing (audiation)",
+      "Visualize silence as distance to travel, not emptiness to fill",
+    ],
+    hapticCues: [
+      "Walking: Feel tempo in your hips, not just your ears",
+      "Breathing: Exhale on beat 1, let rhythm sync to breath",
+      "Weight: Heavier on 2 and 4 (backbeat), like a confident stride",
+      "Flow: Moving through honey—constant resistance, constant motion",
+    ],
+    rhythmSyllables: {
+      quarter: "Du",
+      eighth: "Du-De",
+      sixteenth: "Du-Ta-De-Ta",
+      rest: "(rest)",
+      onomatopoeia: "Boom-Chack (kick-snare)",
+    },
+    stopConditions: [
+      "Stop if you speed up during gaps (rushing = not projecting)",
+      "Stop if you wait for the click to re-enter (reacting, not projecting)",
+      "Stop if you can't sing the groove before playing it",
+    ],
+    drills: [
+      "Walk the Tempo: Step side-to-side with metronome. L foot, R foot. Now clap 'Du-De' over steps.",
+      "Gap Drill (Easy): 8 clicks on, 4 clicks silent. Maintain groove. Were you aligned when click returned?",
+      "Off-beat Click: Set click to play on 2 and 4 only. You fill in 1 and 3.",
+      "Sing Before Play: Vocalize 'Boom-Chack' for 4 bars, then play it.",
     ],
   },
   3: {
     name: "Vocabulary + Flow",
+    subtitle: "Real World Options",
     focus: "Singles, doubles, paradiddles, short scripted loops.",
+    pedagogicalGoal: "Build a vocabulary of patterns that give you OPTIONS in real musical situations",
     constraints: [
-      "Introduce rudiments: singles, doubles, paradiddles",
-      "Short scripted loops and patterns",
+      "Introduce rudiments: singles, doubles, paradiddles (in that order)",
+      "Short scripted loops and patterns (never full songs yet)",
       "Combine rudiments into flowing sequences",
       "Light coordination (simple hi-hat + snare patterns)",
       "Keep vocabulary simple and repeatable",
+      "Follow staged motor learning: isolate each limb, then combine (degrees of freedom)",
+    ],
+    hapticCues: [
+      "Singles: Even alternation, like walking—no limping",
+      "Doubles: Bounce-bounce, like a basketball double-dribble",
+      "Paradiddles: Accent the first note of each group, whisper the rest",
+      "Flow: Think of rudiments as words, patterns as sentences",
+    ],
+    rhythmSyllables: {
+      singles: "R-L-R-L or Du-De-Du-De",
+      doubles: "R-R-L-L or Du-Du-De-De",
+      paradiddle: "R-L-R-R-L-R-L-L (Du-de-du-DU)",
+    },
+    stopConditions: [
+      "Stop if singles become uneven (one hand louder than the other)",
+      "Stop if doubles lose their bounce (muscling the second stroke)",
+      "Stop if paradiddle accents disappear",
+    ],
+    drills: [
+      "Single Stroke Roll: RLRL at 60 BPM, matching volume perfectly",
+      "Double Stroke Roll: RRLL, let the stick bounce for the second hit",
+      "Paradiddle: RLRR LRLL, accent beat 1 of each group",
+      "3-Way Combo: 4 bars singles, 4 bars doubles, 4 bars paradiddles, no stopping",
     ],
   },
   4: {
     name: "The Audit",
+    subtitle: "Self-Evaluation Loop",
     focus: "Record 30 seconds, listen for alignment and consistency.",
+    pedagogicalGoal: "Develop the self-audit skill: record → listen → identify → fix → repeat",
     constraints: [
       "Always include a recording/listening exercise",
       "Focus on self-assessment and ear training",
-      "Check for alignment between kick and snare",
+      "Check for alignment between kick and snare (flam detection)",
       "Listen for even spacing in hi-hat patterns",
       "Review consistency of tone and volume",
+      "Use the checklist approach: specific criteria, not vague 'does it sound good?'",
+    ],
+    hapticCues: [
+      "Listening: Close your eyes. Flams are easier to hear than feel.",
+      "Alignment: Does kick + snare sound like 'THUD' or 'ka-THUNK'?",
+      "Spacing: Are hi-hat hits evenly spaced, or do some rush?",
+    ],
+    rhythmSyllables: {
+      auditFocus: "Listen for: Du (clean) vs Du-uh (flam)",
+    },
+    stopConditions: [
+      "Stop if you're playing without recording (audit requires evidence)",
+      "Stop if you can't identify ONE specific thing to improve",
+    ],
+    drills: [
+      "30-Second Recording: Play simple groove, record, listen back immediately",
+      "Flam Detection: Listen for kick+snare hits. One sound or two?",
+      "Spacing Audit: Listen to hi-hat. Even spacing or rushing?",
+      "Volume Audit: Is every hi-hat hit the same volume?",
+    ],
+    auditChecklist: [
+      "Are kick and snare aligned? (no flams)",
+      "Is hi-hat spacing even?",
+      "Is volume consistent across all hits?",
+      "Did tempo stay steady from start to end?",
+      "Any unwanted ghost notes or doubles?",
     ],
   },
 } as const;
@@ -141,7 +250,7 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: "Invalid JSON output" }, { status: 500 });
     }
 
-    const plan = normalizePlan(parsed, payload.profile);
+    const plan = normalizePlan(parsed, payload.profile, moduleNum);
     if (!plan) {
       return NextResponse.json({ error: "Invalid plan structure" }, { status: 500 });
     }
@@ -156,23 +265,62 @@ export async function POST(req: Request) {
 
 function buildSystemPrompt(moduleNum: number) {
   const module = MODULE_CONTEXT[moduleNum as keyof typeof MODULE_CONTEXT] || MODULE_CONTEXT[1];
+  
   return [
     "You are the Quiet Master drum instructor.",
-    "Tone: calm, grounded, minimal, precise. No hype. No fluff.",
-    "You must return JSON only. Output must be a single JSON object.",
-    "No markdown. No extra commentary.",
-    "You teach a text-only drum course (no video).",
-    "You must use descriptive vocabulary, metaphors, and onomatopoeia.",
-    "Core 80/20 pillars: Cleanliness, Time, Vocabulary, Self-audit.",
-    "Structure every lesson into blocks with clear stop conditions.",
-    "Use metronome/timer instructions. Emphasize internal clock.",
-    "Include a short coachLine with Quiet Master voice.",
     "",
-    `CURRENT MODULE: ${moduleNum} - ${module.name}`,
-    `Module focus: ${module.focus}`,
-    "MODULE CONSTRAINTS (you MUST follow these):",
+    "## Voice & Tone",
+    "Calm, grounded, minimal, precise. No hype. No fluff. No cheerleading.",
+    "You speak like a patient master craftsman: few words, each one earns its place.",
+    "",
+    "## Output Format",
+    "Return JSON only. No markdown. No commentary.",
+    "Single JSON object with: minutes, metronome, focus, coachLine, contextLine, blocks, reflection, closure.",
+    "",
+    "## Teaching Philosophy (The 80/20 Pillars)",
+    "This course focuses on THREE things that matter most:",
+    "1. CLEANLINESS - The 'Personal Drum Troupe' concept: all limbs sound like ONE drummer",
+    "2. TIME - Metric Projection: PROJECT the beat, don't REACT to it",
+    "3. OPTIONS - Real vocabulary that gives you choices in musical situations",
+    "",
+    "## Rhythm Syllables (Gordon Method - ALWAYS USE THESE)",
+    "Replace counting (1-2-3-4) with audiation syllables:",
+    "- Quarter notes: 'Du'",
+    "- Eighth notes: 'Du-De'",
+    "- Sixteenth notes: 'Du-Ta-De-Ta'",
+    "- Also use onomatopoeia: 'Boom' (kick), 'Chack' (snare), 'Tss' (hi-hat)",
+    "",
+    "## Haptic Metaphors (for text-only instruction)",
+    "Since we can't show video, use vivid physical imagery:",
+    "- Grip: 'Hold like a small bird—secure, never squeezing'",
+    "- Rebound: 'Let the stick bounce like a ball on pavement'",
+    "- Moeller: 'Shaking water off your fingertips'",
+    "- Flow: 'Moving through honey—constant resistance, constant motion'",
+    "- Weight: 'Heavier on 2 and 4, like a confident stride'",
+    "",
+    "## Staged Motor Learning",
+    "Never present a full groove immediately. Always:",
+    "1. Isolate each limb first (reduce 'degrees of freedom')",
+    "2. Combine two limbs only when each is clean alone",
+    "3. Add complexity incrementally",
+    "",
+    `## CURRENT MODULE: ${moduleNum} - ${module.name}`,
+    `Subtitle: ${module.subtitle}`,
+    `Focus: ${module.focus}`,
+    `Pedagogical Goal: ${module.pedagogicalGoal}`,
+    "",
+    "## Module-Specific Constraints (MUST FOLLOW):",
     ...module.constraints.map((c) => `- ${c}`),
-  ].join(" ");
+    "",
+    "## Module-Specific Haptic Cues (USE THESE):",
+    ...module.hapticCues.map((c) => `- ${c}`),
+    "",
+    "## Module-Specific Stop Conditions (INCLUDE IN LESSONS):",
+    ...module.stopConditions.map((c) => `- ${c}`),
+    "",
+    "## Module-Specific Drills (DRAW FROM THESE):",
+    ...module.drills.map((d) => `- ${d}`),
+  ].join("\n");
 }
 
 function buildUserPrompt(payload: LessonRequest) {
@@ -183,31 +331,59 @@ function buildUserPrompt(payload: LessonRequest) {
   const module = MODULE_CONTEXT[moduleNum as keyof typeof MODULE_CONTEXT] || MODULE_CONTEXT[1];
 
   return [
-    "Generate today's practice card JSON with fields:",
-    "minutes, metronome, focus, coachLine, contextLine, blocks, reflection, closure.",
-    "Each block has: title, time, bullets, optional stop array.",
-    "Reflection should be a short list of prompts (strings).",
-    "Constraints:",
+    "Generate today's practice card JSON with these fields:",
+    "",
+    "Required fields:",
+    "- minutes: number (session duration)",
+    "- metronome: string (e.g., '60 BPM (quarters)')",
+    "- focus: string (today's main goal)",
+    "- coachLine: string (one short Quiet Master phrase)",
+    "- contextLine: string (why today's session is structured this way)",
+    "- blocks: array of practice blocks",
+    "- reflection: array of reflection prompts (strings)",
+    "- closure: string (the stopping instruction)",
+    "",
+    "Each block must have:",
+    "- title: string",
+    "- time: string (e.g., '5 min')",
+    "- bullets: array of instruction strings (3-6 items)",
+    "- stop: optional array of stop conditions",
+    "",
+    "## Content Requirements:",
+    "- Use rhythm syllables: 'Du' (quarter), 'Du-De' (eighth), 'Du-Ta-De-Ta' (sixteenth)",
+    "- Use onomatopoeia: 'Boom' (kick), 'Chack' (snare), 'Tss' (hi-hat)",
+    "- Include haptic metaphors for physical sensations",
+    "- Include at least one stop condition per block",
+    "- Include at least one self-audit/recording prompt in reflection",
+    "- Avoid technical anatomy language",
+    "- No video references (this is a text-only course)",
+    "",
+    "## Constraints:",
     "- 2 to 5 blocks total",
-    "- bullets per block: 3 to 6",
-    "- keep total length concise",
-    "- beginner-friendly if true_beginner",
-    "- use movement metaphors (e.g., 'holding a bird', 'wave', 'boom-chack')",
-    "- include at least one audio/ear-training cue",
-    "- include a self-audit item",
-    "- avoid technical anatomy language",
-    "- no video references",
-    `Profile: level=${profile.level}, kit=${profile.kit}, minutes=${profile.minutes}, goal=${profile.goal}.`,
-    `Current module: ${moduleNum} (${module.name}).`,
+    "- 3 to 6 bullets per block",
+    "- Keep total length concise",
+    "- Beginner-friendly if true_beginner",
+    "",
+    `## Student Profile:`,
+    `- Level: ${profile.level}`,
+    `- Kit: ${profile.kit}`,
+    `- Session length: ${profile.minutes} minutes`,
+    `- Goal: ${profile.goal}`,
+    "",
+    `## Current Module: ${moduleNum} (${module.name})`,
     `Module focus: ${module.focus}`,
+    `Pedagogical goal: ${module.pedagogicalGoal}`,
+    "",
     "IMPORTANT: Lesson content must align with the current module constraints.",
+    "",
     dayIndex ? `Day index: ${dayIndex}.` : "",
-    summary ? `Recent log summary: ${summary}.` : "",
+    summary ? `Recent session summary: ${summary}.` : "",
     lastFocus,
+    "",
     "Return JSON only.",
   ]
     .filter(Boolean)
-    .join(" ");
+    .join("\n");
 }
 
 function summarizeLogs(logs: LogEntry[]) {
@@ -216,7 +392,7 @@ function summarizeLogs(logs: LogEntry[]) {
   const broke = last?.broke || "";
   const felt = last?.felt || "";
   const note = last?.note ? `Note: ${last.note}.` : "";
-  return `Last session broke=${broke}, felt=${felt}. ${note}`.trim();
+  return `Last session: broke=${broke}, felt=${felt}. ${note}`.trim();
 }
 
 function extractOutputText(data: OpenAIResponse): string | null {
@@ -241,7 +417,7 @@ function safeParseJson(text: string): unknown | null {
   }
 }
 
-function normalizePlan(raw: unknown, profile: Profile): PracticePlan | null {
+function normalizePlan(raw: unknown, profile: Profile, moduleNum: number): PracticePlan | null {
   if (!raw || typeof raw !== "object") return null;
   const record = raw as Record<string, unknown>;
   const minutes = Number(record.minutes || profile.minutes || 15);
@@ -256,11 +432,7 @@ function normalizePlan(raw: unknown, profile: Profile): PracticePlan | null {
 
   const reflection = Array.isArray(record.reflection) ? record.reflection.filter(isString).slice(0, 6) : [];
   if (!reflection.length) {
-    reflection.push(
-      "What broke first? (time / control / coordination / feel / nothing)",
-      "How did it feel? (easier / about right / harder)",
-      "Record 20-30 seconds and listen back."
-    );
+    reflection.push(...getDefaultReflection(moduleNum));
   }
 
   return {
@@ -273,6 +445,34 @@ function normalizePlan(raw: unknown, profile: Profile): PracticePlan | null {
     reflection,
     closure,
   };
+}
+
+function getDefaultReflection(moduleNum: number): string[] {
+  const base = [
+    "What broke first? (time / control / coordination / feel / nothing)",
+    "How did it feel? (easier / about right / harder)",
+  ];
+  
+  const moduleSpecific: Record<number, string[]> = {
+    1: [
+      "Record kick + snare together 20 times. Does it sound like 'Thud' (good) or 'Ka-Thunk' (flam)?",
+      "Did you catch yourself squeezing the sticks? When?",
+    ],
+    2: [
+      "During the gap, did you speed up or slow down? (Be honest—reacting vs projecting)",
+      "Could you feel the pulse in your body when the click was silent?",
+    ],
+    3: [
+      "Which rudiment felt most natural? Which felt forced?",
+      "Are your singles truly even (L = R volume)?",
+    ],
+    4: [
+      "Listen to your recording. Name ONE specific thing to improve.",
+      "Check: kick/snare aligned? Hi-hat spacing even? Volume consistent?",
+    ],
+  };
+  
+  return [...base, ...(moduleSpecific[moduleNum] || moduleSpecific[1])];
 }
 
 function normalizeBlocks(rawBlocks: unknown): PracticeBlock[] {

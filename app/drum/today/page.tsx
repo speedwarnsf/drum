@@ -25,12 +25,27 @@ import {
 import ModuleProgress from "../_ui/ModuleProgress";
 import { CompactStats } from "../_ui/StatsCard";
 import { calculatePracticeStats, StreakInfo } from "../_lib/statsUtils";
+import { ErrorBoundary } from "../_ui/ErrorBoundary";
+import { AILoadingState } from "../_ui/LoadingSpinner";
+import { SkeletonTodayPage } from "../_ui/SkeletonCard";
+import { OfflineIndicator, useOnlineStatus } from "../_ui/OfflineIndicator";
 
 export default function DrumTodayPage() {
   return (
-    <Suspense fallback={null}>
-      <DrumTodayInner />
-    </Suspense>
+    <ErrorBoundary>
+      <Suspense fallback={<TodayPageSkeleton />}>
+        <DrumTodayInner />
+      </Suspense>
+      <OfflineIndicator />
+    </ErrorBoundary>
+  );
+}
+
+function TodayPageSkeleton() {
+  return (
+    <Shell title="Loading..." subtitle="Preparing your practice card">
+      <SkeletonTodayPage />
+    </Shell>
   );
 }
 
@@ -38,6 +53,7 @@ function DrumTodayInner() {
   const searchParams = useSearchParams();
   const sessionId = searchParams.get("session");
   const supabase = useMemo(() => getSupabaseClient(), []);
+  const { isOnline } = useOnlineStatus();
   const [profile, setProfile] = useState<Profile | null>(null);
   const [activeBlock, setActiveBlock] = useState<string | null>(null);
   const [metroBpm, setMetroBpm] = useState<number>(60);
@@ -46,12 +62,17 @@ function DrumTodayInner() {
   const [sessions, setSessions] = useState<StoredSession[]>([]);
   const [aiPlan, setAiPlan] = useState<PracticePlan | null>(null);
   const [aiFailed, setAiFailed] = useState(false);
+  const [aiLoading, setAiLoading] = useState(false);
+  const [aiStage, setAiStage] = useState<"thinking" | "generating" | "finalizing">("thinking");
   const [creditsReady, setCreditsReady] = useState(false);
+  const [profileLoading, setProfileLoading] = useState(true);
+  const [sessionsLoading, setSessionsLoading] = useState(true);
   const [moduleProgress, setModuleProgress] = useState<{
     currentModule: number;
     sessionsInModule: number;
   } | null>(null);
   const [streakInfo, setStreakInfo] = useState<StreakInfo | null>(null);
+  const [loadError, setLoadError] = useState<string | null>(null);
 
   useEffect(() => {
     let mounted = true;
@@ -59,6 +80,7 @@ function DrumTodayInner() {
     const setAll = (list: StoredSession[]) => {
       if (!mounted) return;
       setSessions(list);
+      setSessionsLoading(false);
       if (sessionId) {
         const match = list.find((item) => item.id === sessionId) ?? null;
         setSessionPlan(match ? match.plan : null);
@@ -71,43 +93,72 @@ function DrumTodayInner() {
       const stats = calculatePracticeStats(local);
       setStreakInfo(stats.streak);
     }
-    loadRemoteSessions().then((remote) => {
-      const map = new Map<string, StoredSession>();
-      local.forEach((s) => map.set(s.id, s));
-      remote.forEach((s) => map.set(s.id, s));
-      const merged = Array.from(map.values()).sort(
-        (a, b) => new Date(b.ts).getTime() - new Date(a.ts).getTime()
-      );
-      setAll(merged);
-      // Recalculate streak with merged sessions
-      if (merged.length > 0 && mounted) {
-        const stats = calculatePracticeStats(merged);
-        setStreakInfo(stats.streak);
-      }
-    });
+    // Only fetch remote if online
+    if (isOnline) {
+      loadRemoteSessions()
+        .then((remote) => {
+          const map = new Map<string, StoredSession>();
+          local.forEach((s) => map.set(s.id, s));
+          remote.forEach((s) => map.set(s.id, s));
+          const merged = Array.from(map.values()).sort(
+            (a, b) => new Date(b.ts).getTime() - new Date(a.ts).getTime()
+          );
+          setAll(merged);
+          // Recalculate streak with merged sessions
+          if (merged.length > 0 && mounted) {
+            const stats = calculatePracticeStats(merged);
+            setStreakInfo(stats.streak);
+          }
+        })
+        .catch((err) => {
+          console.error("[Drum] Failed to load remote sessions:", err);
+          // Continue with local data - graceful degradation
+          setSessionsLoading(false);
+        });
+    } else {
+      setSessionsLoading(false);
+    }
     return () => {
       mounted = false;
     };
-  }, [sessionId]);
+  }, [sessionId, isOnline]);
 
   useEffect(() => {
-    if (sessionId) return;
+    if (sessionId) {
+      setProfileLoading(false);
+      return;
+    }
     setSessionPlan(null);
     setSessionMeta(null);
     const p = loadProfile();
     if (p) {
       setProfile(p);
+      setProfileLoading(false);
       return;
     }
-    loadProfileFromSupabase().then((remote) => {
-      if (remote) {
-        saveProfile(remote);
-        setProfile(remote);
-        return;
-      }
-      window.location.href = "/drum/start";
-    });
-  }, [sessionId]);
+    // Only try remote if online
+    if (isOnline) {
+      loadProfileFromSupabase()
+        .then((remote) => {
+          if (remote) {
+            saveProfile(remote);
+            setProfile(remote);
+            setProfileLoading(false);
+            return;
+          }
+          window.location.href = "/drum/start";
+        })
+        .catch((err) => {
+          console.error("[Drum] Failed to load profile:", err);
+          setLoadError("Unable to load your profile. Please try again.");
+          setProfileLoading(false);
+        });
+    } else {
+      // Offline without local profile
+      setLoadError("You're offline and no saved profile was found. Please connect to set up.");
+      setProfileLoading(false);
+    }
+  }, [sessionId, isOnline]);
 
   useEffect(() => {
     if (!profile || sessionId) return;
@@ -160,11 +211,26 @@ function DrumTodayInner() {
   }, [profile, supabase, sessions.length]);
 
   useEffect(() => {
-    if (!profile || !creditsReady || sessionPlan || aiPlan || aiFailed) return;
+    if (!profile || !creditsReady || sessionPlan || aiPlan || aiFailed || aiLoading) return;
+    // Don't try AI generation if offline
+    if (!isOnline) {
+      setAiFailed(true);
+      return;
+    }
+    
+    setAiLoading(true);
+    setAiStage("thinking");
+    
     const controller = new AbortController();
-    const timeout = setTimeout(() => controller.abort(), 12000);
+    const timeout = setTimeout(() => controller.abort(), 15000); // 15s timeout
+    
+    // Progress simulation for better UX
+    const progressTimer1 = setTimeout(() => setAiStage("generating"), 2000);
+    const progressTimer2 = setTimeout(() => setAiStage("finalizing"), 5000);
+    
     const recentLogs = sessions.slice(0, 3).map((s) => s.log);
     const dayIndex = sessions.length ? sessions.length + 1 : 1;
+    
     fetch("/api/lesson/generate", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -178,7 +244,9 @@ function DrumTodayInner() {
       signal: controller.signal,
     })
       .then((res) => {
-        if (!res.ok) throw new Error("AI generation failed");
+        if (!res.ok) {
+          throw new Error(res.status === 408 ? "Request timed out" : "AI generation failed");
+        }
         return res.json();
       })
       .then((data) => {
@@ -190,9 +258,23 @@ function DrumTodayInner() {
           setAiFailed(true);
         }
       })
-      .catch(() => setAiFailed(true))
-      .finally(() => clearTimeout(timeout));
-  }, [profile, creditsReady, sessionPlan, aiPlan, aiFailed, sessions, moduleProgress]);
+      .catch((err) => {
+        console.error("[Drum] AI lesson generation failed:", err);
+        setAiFailed(true);
+      })
+      .finally(() => {
+        clearTimeout(timeout);
+        clearTimeout(progressTimer1);
+        clearTimeout(progressTimer2);
+        setAiLoading(false);
+      });
+      
+    return () => {
+      clearTimeout(timeout);
+      clearTimeout(progressTimer1);
+      clearTimeout(progressTimer2);
+    };
+  }, [profile, creditsReady, sessionPlan, aiPlan, aiFailed, aiLoading, sessions, moduleProgress, isOnline]);
 
   const plan: PracticePlan | null = useMemo(() => {
     if (sessionPlan) return sessionPlan;
@@ -215,6 +297,50 @@ function DrumTodayInner() {
     const bpm = parseBpm(plan.metronome);
     if (bpm) setMetroBpm(bpm);
   }, [plan, sessionPlan]);
+
+  // Show error state
+  if (loadError) {
+    return (
+      <Shell title="Unable to Load" subtitle="Something went wrong">
+        <section className="card error-page-card">
+          <div className="error-page-icon">🥁</div>
+          <h2 className="card-title">Couldn&apos;t load your practice</h2>
+          <p>{loadError}</p>
+          <div className="row" style={{ marginTop: 16, justifyContent: "center" }}>
+            <button onClick={() => window.location.reload()} className="btn">
+              Try again
+            </button>
+            <a href="/drum/start" className="btn btn-ghost">
+              Setup profile
+            </a>
+          </div>
+        </section>
+      </Shell>
+    );
+  }
+
+  // Show loading state while profile or sessions are loading
+  if (profileLoading || sessionsLoading) {
+    return (
+      <Shell title="Loading..." subtitle="Preparing your practice">
+        <SkeletonTodayPage />
+      </Shell>
+    );
+  }
+
+  // Show AI loading state
+  if (aiLoading && !plan) {
+    return (
+      <Shell title="Preparing Today's Practice" subtitle="Building your personalized plan">
+        <AILoadingState stage={aiStage} />
+        <section className="card">
+          <p className="sub">
+            Your practice plan is being customized based on your recent sessions and progress.
+          </p>
+        </section>
+      </Shell>
+    );
+  }
 
   if (!plan) return null;
 

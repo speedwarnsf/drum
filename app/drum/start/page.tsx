@@ -1,12 +1,27 @@
 "use client";
 
-/* eslint-disable react-hooks/set-state-in-effect */
+/* eslint-disable react-hooks-set-state-in-effect */
 import React, { useEffect, useState } from "react";
 import Shell from "../_ui/Shell";
 import { Profile, loadProfile, loadProfileFromSupabase, saveProfile } from "../_lib/drumMvp";
+import { ErrorBoundary } from "../_ui/ErrorBoundary";
+import { LoadingSpinner, InlineSpinner } from "../_ui/LoadingSpinner";
+import { OfflineIndicator, useOnlineStatus } from "../_ui/OfflineIndicator";
 
 export default function DrumStartPage() {
+  return (
+    <ErrorBoundary>
+      <StartPageInner />
+      <OfflineIndicator />
+    </ErrorBoundary>
+  );
+}
+
+function StartPageInner() {
+  const { isOnline } = useOnlineStatus();
   const [ready, setReady] = useState(false);
+  const [saving, setSaving] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   const [level, setLevel] = useState<Profile["level"]>("true_beginner");
   const [kit, setKit] = useState<Profile["kit"]>("roland_edrum");
@@ -21,29 +36,74 @@ export default function DrumStartPage() {
       setMinutes(local.minutes);
       setGoal(local.goal);
     }
-    loadProfileFromSupabase().then((remote) => {
-      if (!remote) return;
-      setLevel(remote.level);
-      setKit(remote.kit);
-      setMinutes(remote.minutes);
-      setGoal(remote.goal);
-      saveProfile(remote);
-    }).finally(() => setReady(true));
-  }, []);
+    
+    if (isOnline) {
+      loadProfileFromSupabase()
+        .then((remote) => {
+          if (!remote) return;
+          setLevel(remote.level);
+          setKit(remote.kit);
+          setMinutes(remote.minutes);
+          setGoal(remote.goal);
+          saveProfile(remote);
+        })
+        .catch((err) => {
+          console.error("[Drum] Failed to load remote profile:", err);
+          // Continue with local or defaults
+        })
+        .finally(() => setReady(true));
+    } else {
+      setReady(true);
+    }
+  }, [isOnline]);
 
-  if (!ready) return null;
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setError(null);
+    
+    // Validate
+    if (!level || !kit || !goal) {
+      setError("Please fill in all fields");
+      return;
+    }
+    
+    if (minutes < 5 || minutes > 60) {
+      setError("Practice time should be between 5 and 60 minutes");
+      return;
+    }
+    
+    setSaving(true);
+    try {
+      saveProfile({ level, kit, minutes, goal });
+      window.location.href = "/drum/today";
+    } catch (err) {
+      console.error("[Drum] Failed to save profile:", err);
+      setError("Failed to save your profile. Please try again.");
+      setSaving(false);
+    }
+  };
+
+  if (!ready) {
+    return (
+      <Shell title="Setup" subtitle="Loading your profile...">
+        <section className="card">
+          <LoadingSpinner message="Loading profile..." />
+        </section>
+      </Shell>
+    );
+  }
 
   return (
     <Shell title="Setup" subtitle="60 seconds. This is intentionally simple.">
       <section className="card">
-        <form
-          onSubmit={(e) => {
-            e.preventDefault();
-            saveProfile({ level, kit, minutes, goal });
-            window.location.href = "/drum/today";
-          }}
-          className="form-grid"
-        >
+        {error && (
+          <div className="form-error">
+            <span className="form-error-icon">⚠️</span>
+            <span>{error}</span>
+          </div>
+        )}
+        
+        <form onSubmit={handleSubmit} className="form-grid">
           <Field label="Experience">
             <select
               value={level}
@@ -89,12 +149,20 @@ export default function DrumStartPage() {
             </select>
           </Field>
 
-          <button type="submit" className="btn">
-            {"Save and go to today's card"}
+          <button type="submit" className="btn" disabled={saving}>
+            {saving ? (
+              <>
+                Saving
+                <InlineSpinner />
+              </>
+            ) : (
+              "Save and go to today's card"
+            )}
           </button>
 
           <p className="tiny">
             Profile is saved once and kept in sync with your account as you progress.
+            {!isOnline && " (Currently offline - data will sync when connected)"}
           </p>
         </form>
       </section>

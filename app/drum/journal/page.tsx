@@ -12,14 +12,32 @@ import {
   loadLastPlan,
   saveProfile,
 } from "../_lib/drumMvp";
+import { ErrorBoundary } from "../_ui/ErrorBoundary";
+import { LoadingSpinner, InlineSpinner } from "../_ui/LoadingSpinner";
+import { OfflineIndicator, useOnlineStatus } from "../_ui/OfflineIndicator";
 
 export default function DrumJournalPage() {
+  return (
+    <ErrorBoundary>
+      <JournalPageInner />
+      <OfflineIndicator />
+    </ErrorBoundary>
+  );
+}
+
+function JournalPageInner() {
+  const { isOnline } = useOnlineStatus();
   const [ready, setReady] = useState(false);
+  const [saving, setSaving] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [success, setSuccess] = useState(false);
+  
   const [broke, setBroke] = useState<
     "time" | "control" | "coordination" | "feel" | "nothing"
   >("time");
   const [felt, setFelt] = useState<"easier" | "right" | "harder">("right");
   const [note, setNote] = useState("");
+  const [noteError, setNoteError] = useState<string | null>(null);
 
   const [count, setCount] = useState(0);
 
@@ -30,35 +48,94 @@ export default function DrumJournalPage() {
       setReady(true);
       return;
     }
-    loadProfileFromSupabase().then((remote) => {
-      if (remote) {
-        saveProfile(remote);
-        setCount(loadLogs().length);
-        setReady(true);
-        return;
-      }
+    
+    if (isOnline) {
+      loadProfileFromSupabase()
+        .then((remote) => {
+          if (remote) {
+            saveProfile(remote);
+            setCount(loadLogs().length);
+            setReady(true);
+            return;
+          }
+          window.location.href = "/drum/start";
+        })
+        .catch((err) => {
+          console.error("[Drum] Failed to load profile:", err);
+          window.location.href = "/drum/start";
+        });
+    } else {
+      // Offline with no local profile
       window.location.href = "/drum/start";
-    });
-  }, []);
+    }
+  }, [isOnline]);
 
-  if (!ready) return null;
+  const validateNote = (value: string) => {
+    if (value.length > 140) {
+      setNoteError("Note is too long (max 140 characters)");
+      return false;
+    }
+    setNoteError(null);
+    return true;
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setError(null);
+    
+    // Validate
+    if (!validateNote(note)) {
+      return;
+    }
+    
+    setSaving(true);
+    try {
+      const plan = loadLastPlan();
+      saveLog({
+        broke,
+        felt,
+        note: note.trim() ? note.trim() : undefined,
+      }, plan ?? undefined);
+      
+      setSuccess(true);
+      setTimeout(() => {
+        window.location.href = "/drum/today";
+      }, 500);
+    } catch (err) {
+      console.error("[Drum] Failed to save log:", err);
+      setError("Failed to save your log. Please try again.");
+      setSaving(false);
+    }
+  };
+
+  if (!ready) {
+    return (
+      <Shell title="Log today" subtitle="Loading...">
+        <section className="card">
+          <LoadingSpinner message="Loading..." />
+        </section>
+      </Shell>
+    );
+  }
 
   return (
     <Shell title="Log today" subtitle="This is how the system adapts: simple and honest.">
       <section className="card">
-        <form
-          onSubmit={(e) => {
-            e.preventDefault();
-            const plan = loadLastPlan();
-            saveLog({
-              broke,
-              felt,
-              note: note.trim() ? note.trim() : undefined,
-            }, plan ?? undefined);
-            window.location.href = "/drum/today";
-          }}
-          className="form-grid"
-        >
+        {error && (
+          <div className="form-error">
+            <span className="form-error-icon">⚠️</span>
+            <span>{error}</span>
+          </div>
+        )}
+        
+        {success && (
+          <div className="form-success">
+            <span className="form-success-icon">✓</span>
+            <span>Session logged! Redirecting...</span>
+          </div>
+        )}
+        
+        <form onSubmit={handleSubmit} className="form-grid">
           <Field label="What broke first?">
             <select
               value={broke}
@@ -86,18 +163,41 @@ export default function DrumJournalPage() {
           <Field label="One note (optional, 1 sentence)">
             <input
               value={note}
-              onChange={(e) => setNote(e.target.value)}
+              onChange={(e) => {
+                setNote(e.target.value);
+                validateNote(e.target.value);
+              }}
               maxLength={140}
               placeholder="e.g., left hand got tense at 60 BPM"
+              className={noteError ? "field-error" : ""}
             />
+            {noteError && (
+              <span className="field-error-message">
+                <span className="field-error-icon">⚠️</span>
+                {noteError}
+              </span>
+            )}
+            <span className="tiny" style={{ marginTop: 4 }}>
+              {note.length}/140 characters
+            </span>
           </Field>
 
-          <button type="submit" className="btn">
-            Save log
+          <button type="submit" className="btn" disabled={saving || success}>
+            {saving ? (
+              <>
+                Saving
+                <InlineSpinner />
+              </>
+            ) : success ? (
+              "✓ Saved!"
+            ) : (
+              "Save log"
+            )}
           </button>
 
           <p className="tiny">
             Logs so far in this browser: {count}
+            {!isOnline && " (Offline - will sync when connected)"}
           </p>
         </form>
       </section>

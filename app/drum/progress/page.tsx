@@ -15,6 +15,9 @@ import {
   setCachedStats,
   PracticeStats,
 } from "../_lib/statsUtils";
+import { ErrorBoundary } from "../_ui/ErrorBoundary";
+import { SkeletonStatsCard, SkeletonCalendar, SkeletonCard } from "../_ui/SkeletonCard";
+import { OfflineIndicator, useOnlineStatus } from "../_ui/OfflineIndicator";
 
 type ProgressData = {
   currentModule: number;
@@ -24,45 +27,71 @@ type ProgressData = {
 };
 
 export default function ProgressPage() {
+  return (
+    <ErrorBoundary>
+      <ProgressPageInner />
+      <OfflineIndicator />
+    </ErrorBoundary>
+  );
+}
+
+function ProgressPageInner() {
   const router = useRouter();
+  const { isOnline } = useOnlineStatus();
   const [progress, setProgress] = useState<ProgressData | null>(null);
   const [stats, setStats] = useState<PracticeStats | null>(null);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     async function loadData() {
-      // Load module progress
-      const progressData = await getModuleProgress();
-      setProgress(progressData);
+      try {
+        // Load module progress
+        const progressData = await getModuleProgress();
+        setProgress(progressData);
 
-      // Try cached stats first
-      const cached = getCachedStats();
-      if (cached) {
-        setStats(cached);
+        // Try cached stats first
+        const cached = getCachedStats();
+        if (cached) {
+          setStats(cached);
+        }
+
+        // Load sessions and calculate stats
+        const localSessions = loadSessions();
+        let remoteSessions: StoredSession[] = [];
+        
+        if (isOnline) {
+          try {
+            remoteSessions = await loadRemoteSessions();
+          } catch (err) {
+            console.error("[Drum] Failed to load remote sessions:", err);
+            // Continue with local data
+          }
+        }
+
+        // Merge sessions
+        const sessionMap = new Map<string, StoredSession>();
+        localSessions.forEach((s) => sessionMap.set(s.id, s));
+        remoteSessions.forEach((s) => sessionMap.set(s.id, s));
+        const allSessions = Array.from(sessionMap.values()).sort(
+          (a, b) => new Date(b.ts).getTime() - new Date(a.ts).getTime()
+        );
+
+        // Calculate and cache stats
+        const calculated = calculatePracticeStats(allSessions);
+        setStats(calculated);
+        setCachedStats(calculated);
+
+        setLoading(false);
+      } catch (err) {
+        console.error("[Drum] Failed to load progress data:", err);
+        setError("Unable to load your progress. Please try again.");
+        setLoading(false);
       }
-
-      // Load sessions and calculate stats
-      const localSessions = loadSessions();
-      const remoteSessions = await loadRemoteSessions();
-
-      // Merge sessions
-      const sessionMap = new Map<string, StoredSession>();
-      localSessions.forEach((s) => sessionMap.set(s.id, s));
-      remoteSessions.forEach((s) => sessionMap.set(s.id, s));
-      const allSessions = Array.from(sessionMap.values()).sort(
-        (a, b) => new Date(b.ts).getTime() - new Date(a.ts).getTime()
-      );
-
-      // Calculate and cache stats
-      const calculated = calculatePracticeStats(allSessions);
-      setStats(calculated);
-      setCachedStats(calculated);
-
-      setLoading(false);
     }
 
     loadData();
-  }, []);
+  }, [isOnline]);
 
   function handleAdvance(newModule: number) {
     if (progress) {
@@ -80,12 +109,33 @@ export default function ProgressPage() {
     router.push(`/drum/history?date=${date}`);
   }
 
+  if (error) {
+    return (
+      <Shell title="Progress" subtitle="Something went wrong">
+        <section className="card error-page-card">
+          <div className="error-page-icon">📊</div>
+          <h2 className="card-title">Unable to load progress</h2>
+          <p>{error}</p>
+          <div className="row" style={{ marginTop: 16, justifyContent: "center" }}>
+            <button onClick={() => window.location.reload()} className="btn">
+              Try again
+            </button>
+            <a href="/drum/today" className="btn btn-ghost">
+              Back to practice
+            </a>
+          </div>
+        </section>
+      </Shell>
+    );
+  }
+
   if (loading) {
     return (
       <Shell title="Progress" subtitle="Loading your journey...">
-        <section className="card">
-          <p className="sub">Loading...</p>
-        </section>
+        <SkeletonStatsCard />
+        <SkeletonCalendar />
+        <SkeletonCard lines={3} showTitle />
+        <SkeletonCard lines={2} showTitle />
       </Shell>
     );
   }
