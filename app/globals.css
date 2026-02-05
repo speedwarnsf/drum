@@ -63,36 +63,37 @@ main.shell {
   z-index: 1;
 }
 
-.hero-shell {
-  margin-bottom: 0;
-  padding-bottom: 0;
+.hero-row {
   display: flex;
-  justify-content: flex-end;
-  padding-right: 12px;
+  align-items: flex-end;
+  justify-content: space-between;
+  padding: 16px 16px 0;
+  gap: 8px;
+}
+
+.logo-link {
+  flex-shrink: 0;
 }
 
 .hero {
-  border-radius: 18px;
-  background: transparent;
+  flex: 1;
+  display: flex;
+  justify-content: flex-end;
+  align-items: flex-end;
   overflow: visible;
-  margin-bottom: 18px;
-  max-width: 50%;
 }
 
 .hero-video {
   display: block;
   width: auto;
-  max-width: 100%;
-  object-fit: contain;
   height: 0;
   opacity: 0;
   mix-blend-mode: darken;
-  margin-left: auto;
-  clip-path: none;
+  object-fit: contain;
 }
 
 .hero-video-ready {
-  height: clamp(180px, 32vw, 280px);
+  height: 200px;
   opacity: 0.95;
 }
 
@@ -103,7 +104,7 @@ main.shell.shell-tight {
 .shell-header {
   border-radius: 18px;
   padding: 18px;
-  margin-top: 67px;
+  margin-top: 16px;
   margin-bottom: 18px;
   background: var(--panel);
   border: 1px solid var(--stroke);
@@ -125,13 +126,9 @@ main.shell.shell-tight {
 }
 
 .global-logo {
-  position: fixed;
-  top: 12px;
-  left: 12px;
-  width: 280px;
-  height: 280px;
-  z-index: 6;
-  pointer-events: auto;
+  width: 220px;
+  height: 220px;
+  display: block;
 }
 
 .kicker {
@@ -2202,13 +2199,16 @@ li {
 /* Tablet and below (768px) */
 @media (max-width: 768px) {
   .global-logo {
-    width: 200px;
-    height: 200px;
+    width: 180px;
+    height: 180px;
   }
 
-  .hero-video {
-    margin-left: auto;
-    margin-right: 0;
+  .hero-video-ready {
+    height: 160px;
+  }
+
+  .hero-row {
+    padding: 12px 12px 0;
   }
 
   main.shell {
@@ -2217,7 +2217,7 @@ li {
   }
 
   .shell-header {
-    margin-top: 48px;
+    margin-top: 12px;
     padding: 14px;
   }
 
@@ -2252,14 +2252,17 @@ li {
   }
 
   .global-logo {
-    width: 160px;
-    height: 160px;
-    top: 8px;
-    left: 8px;
+    width: 140px;
+    height: 140px;
   }
 
   .hero-video-ready {
-    height: clamp(140px, 40vw, 200px);
+    height: 130px;
+  }
+
+  .hero-row {
+    padding: 8px 8px 0;
+    align-items: center;
   }
 
   main.shell {
@@ -2268,7 +2271,7 @@ li {
   }
 
   .shell-header {
-    margin-top: 32px;
+    margin-top: 8px;
     padding: 12px;
     border-radius: 14px;
   }
