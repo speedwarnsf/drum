@@ -86,7 +86,7 @@ main.shell {
 
 .hero {
   position: absolute;
-  top: 0;
+  top: 30px;
   right: -20px;
   z-index: 1;
   background: transparent;
@@ -2218,7 +2218,7 @@ li {
   }
 
   .hero {
-    top: 0;
+    top: 25px;
     right: -15px;
   }
 
@@ -2277,7 +2277,7 @@ li {
   }
 
   .hero {
-    top: 0;
+    top: 20px;
     right: -10px;
   }
 
@@ -2785,7 +2785,7 @@ li {
   }
 
   .hero {
-    top: 0;
+    top: 15px;
     right: -5px;
   }
 
