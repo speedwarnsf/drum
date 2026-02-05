@@ -88,9 +88,9 @@ main.shell {
   position: absolute;
   top: 20px;
   right: -40px;
-  z-index: 1;
+  z-index: -1;
   background: transparent;
-  isolation: isolate;
+  pointer-events: none;
 }
 
 .hero-video {
@@ -98,6 +98,8 @@ main.shell {
   width: 320px;
   height: 0;
   opacity: 0;
+  mix-blend-mode: darken;
+  -webkit-mix-blend-mode: darken;
 }
 
 .hero-video-ready {
@@ -2224,6 +2226,7 @@ li {
   .hero {
     top: 25px;
     right: -30px;
+    z-index: -1;
   }
 
   main.shell {
@@ -2286,6 +2289,7 @@ li {
   .hero {
     top: 20px;
     right: -25px;
+    z-index: -1;
   }
 
   main.shell {
@@ -2797,6 +2801,7 @@ li {
   .hero {
     top: 15px;
     right: -20px;
+    z-index: -1;
   }
 
   main.shell {
