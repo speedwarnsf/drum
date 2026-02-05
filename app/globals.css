@@ -102,7 +102,8 @@ main.shell {
 
 .hero-video-ready {
   height: 200px;
-  opacity: 0.95;
+  opacity: 1;
+  mix-blend-mode: darken;
 }
 
 main.shell.shell-tight {
