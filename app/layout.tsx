@@ -59,16 +59,19 @@ export default function RootLayout({
       </head>
       <body className={`${spaceGrotesk.variable} ${dmMono.variable}`}>
         <div className="hero-row">
-          <a href="/drum" aria-label="RepoDrum home" className="logo-link">
-            <Image
-              className="global-logo"
-              src="/media/repodrumlogo.gif"
-              alt="Drum Repo"
-              width={280}
-              height={280}
-              priority
-            />
-          </a>
+          <div className="logo-block">
+            <a href="/drum" aria-label="RepoDrum home">
+              <Image
+                className="global-logo"
+                src="/media/repodrumlogo.gif"
+                alt="Drum Repo"
+                width={400}
+                height={400}
+                priority
+              />
+            </a>
+            <p className="logo-tagline">ADAPTIVE DRUM INSTRUCTOR <span className="ai-badge">AI</span></p>
+          </div>
           <div className="hero" aria-label="Drum video">
             <HeroVideo />
           </div>
