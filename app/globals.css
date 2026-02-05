@@ -494,11 +494,260 @@ li {
   }
 }
 
+/* Recorder styles */
+.recorder {
+  border-radius: 16px;
+  padding: 16px;
+  background: linear-gradient(135deg, #f5c04a 0%, #f0a920 100%);
+  border: 1px solid var(--stroke);
+  margin-top: 16px;
+}
+
+.recorder-compact {
+  padding: 12px;
+}
+
+.recorder-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.recorder-icon {
+  font-size: 18px;
+}
+
+.recorder-title {
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+}
+
+.recorder-error {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 10px 12px;
+  border-radius: 10px;
+  background: rgba(107, 16, 0, 0.12);
+  color: #6b1000;
+  font-size: 13px;
+  margin-bottom: 12px;
+}
+
+.recorder-error-dismiss {
+  background: none;
+  border: none;
+  font-size: 18px;
+  cursor: pointer;
+  opacity: 0.7;
+  line-height: 1;
+}
+
+.recorder-error-dismiss:hover {
+  opacity: 1;
+}
+
+.recorder-controls {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.recorder-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 10px 16px;
+  border-radius: 12px;
+  background: var(--panel);
+  border: 1px solid var(--stroke);
+  font-weight: 600;
+  font-size: 14px;
+  cursor: pointer;
+  transition: transform 120ms ease, box-shadow 120ms ease;
+}
+
+.recorder-btn:hover:not(:disabled) {
+  transform: translateY(-1px);
+}
+
+.recorder-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.recorder-btn:focus-visible {
+  outline: 2px solid var(--focus);
+  outline-offset: 2px;
+}
+
+.recorder-btn-record {
+  background: var(--panel);
+}
+
+.recorder-btn-icon-record {
+  color: #c02020;
+  font-size: 12px;
+}
+
+.recorder-btn-stop {
+  background: #f5d070;
+  border-color: rgba(79, 44, 0, 0.35);
+}
+
+.recorder-btn-small {
+  padding: 6px 10px;
+  font-size: 12px;
+  border-radius: 8px;
+}
+
+.recorder-btn-tiny {
+  padding: 4px 8px;
+  font-size: 11px;
+  border-radius: 6px;
+  min-width: 28px;
+}
+
+.recorder-btn-ghost {
+  background: transparent;
+  border-color: transparent;
+}
+
+.recorder-btn-ghost:hover:not(:disabled) {
+  background: rgba(0, 0, 0, 0.05);
+}
+
+.recorder-timer {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--font-dm-mono), ui-monospace, monospace;
+}
+
+.recorder-timer-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #c02020;
+  animation: recorderPulse 1s ease-in-out infinite;
+}
+
+.recorder-timer-value {
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.recorder-timer-max {
+  font-size: 12px;
+  color: var(--ink-muted);
+}
+
+.recorder-playback {
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 1px dashed var(--stroke);
+}
+
+.recorder-playback-label {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--ink-muted);
+  margin-bottom: 8px;
+  font-family: var(--font-dm-mono), ui-monospace, monospace;
+}
+
+.recorder-playback-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.recorder-duration {
+  font-family: var(--font-dm-mono), ui-monospace, monospace;
+  font-size: 12px;
+  color: var(--ink-muted);
+}
+
+.recorder-history {
+  margin-top: 14px;
+  padding-top: 14px;
+  border-top: 1px dashed var(--stroke);
+}
+
+.recorder-history-label {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--ink-muted);
+  margin-bottom: 8px;
+  font-family: var(--font-dm-mono), ui-monospace, monospace;
+}
+
+.recorder-history-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.recorder-history-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 6px 0;
+  font-size: 13px;
+}
+
+.recorder-history-item:not(:last-child) {
+  border-bottom: 1px solid rgba(79, 44, 0, 0.1);
+}
+
+.recorder-history-date {
+  flex: 1;
+  color: var(--ink-muted);
+  font-size: 12px;
+}
+
+.recorder-history-actions {
+  display: flex;
+  gap: 4px;
+}
+
+.recorder-hint {
+  margin-top: 12px;
+  font-size: 12px;
+  color: var(--ink-muted);
+  font-style: italic;
+}
+
+@keyframes recorderPulse {
+  0%, 100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.6;
+    transform: scale(0.9);
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .card {
     animation: none;
   }
   .btn {
+    transition: none;
+  }
+  .recorder-timer-dot {
+    animation: none;
+  }
+  .recorder-btn {
     transition: none;
   }
 }

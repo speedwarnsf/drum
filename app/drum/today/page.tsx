@@ -6,6 +6,7 @@ import { useSearchParams } from "next/navigation";
 import Shell from "../_ui/Shell";
 import Metronome from "../_ui/Metronome";
 import Timer from "../_ui/Timer";
+import Recorder from "../_ui/Recorder";
 import { getSupabaseClient } from "../_lib/supabaseClient";
 import {
   buildTodaysPlan,
@@ -266,7 +267,13 @@ function DrumTodayInner() {
             </li>
           ))}
         </ul>
-        <div className="stop">
+
+        <Recorder
+          sessionId={sessionMeta?.id ?? null}
+          disabled={activeBlock !== null}
+        />
+
+        <div className="stop" style={{ marginTop: 16 }}>
           <strong>Closure:</strong> {plan.closure}
         </div>
 

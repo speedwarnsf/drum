@@ -3,6 +3,7 @@
 /* eslint-disable react-hooks/set-state-in-effect */
 import React, { useEffect, useState } from "react";
 import Shell from "../_ui/Shell";
+import Recorder from "../_ui/Recorder";
 import { loadRemoteSessions, loadSessions, StoredSession } from "../_lib/drumMvp";
 
 export default function DrumHistoryPage() {
@@ -30,6 +31,15 @@ export default function DrumHistoryPage() {
   return (
     <Shell title="History" subtitle="Reopen any past session and run it again.">
       <section className="card">
+        <h2 className="card-title">Self-Audit Recordings</h2>
+        <p className="sub" style={{ marginBottom: 8 }}>
+          Your recent practice recordings for self-review.
+        </p>
+        <Recorder showHistory compact />
+      </section>
+
+      <section className="card">
+        <h2 className="card-title">Practice Sessions</h2>
         {sessions.length ? (
           <ul style={{ marginTop: 0 }}>
             {sessions.map((entry) => (
