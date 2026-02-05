@@ -67,40 +67,23 @@ main.shell {
   display: flex;
   align-items: flex-end;
   justify-content: space-between;
-  padding: 20px 16px 16px;
+  padding: 20px 16px 0;
 }
 
-.logo-block {
+.logo-link {
   flex: 0 0 auto;
 }
 
 .global-logo {
-  width: 240px !important;
+  width: 280px !important;
   height: auto !important;
   display: block;
 }
 
-.logo-tagline {
-  font-family: var(--font-dm-mono), monospace;
-  font-size: 8px;
-  letter-spacing: 0.08em;
-  color: var(--ink);
-  margin-top: 2px;
-  white-space: nowrap;
-}
-
-.ai-badge {
-  background: var(--ink);
-  color: var(--bg);
-  padding: 2px 5px;
-  border-radius: 3px;
-  font-size: 7px;
-  font-weight: 500;
-  margin-left: 4px;
-}
-
 .hero {
   flex: 0 0 auto;
+  align-self: flex-end;
+  margin-bottom: -20px;
 }
 
 .hero-video {
@@ -113,8 +96,7 @@ main.shell {
 }
 
 .hero-video-ready {
-  height: 40vw;
-  max-height: 280px;
+  height: 220px;
   opacity: 0.95;
 }
 
@@ -2216,11 +2198,15 @@ li {
 /* Tablet and below (768px) */
 @media (max-width: 768px) {
   .global-logo {
-    width: 220px !important;
+    width: 260px !important;
   }
 
   .hero-video-ready {
-    height: 160px;
+    height: 200px;
+  }
+
+  .hero {
+    margin-bottom: -15px;
   }
 
   main.shell {
@@ -2264,24 +2250,19 @@ li {
   }
 
   .hero-row {
-    padding: 12px 10px;
+    padding: 16px 10px 0;
   }
 
   .global-logo {
-    width: 200px !important;
+    width: 220px !important;
   }
 
   .hero-video-ready {
-    height: 130px;
+    height: 180px;
   }
 
-  .logo-tagline {
-    font-size: 6px;
-  }
-
-  .ai-badge {
-    font-size: 6px;
-    padding: 1px 3px;
+  .hero {
+    margin-bottom: -10px;
   }
 
   main.shell {
@@ -2773,8 +2754,12 @@ li {
 /* Small mobile (375px - iPhone SE) */
 @media (max-width: 375px) {
   .global-logo {
-    width: 180px !important;
+    width: 200px !important;
     height: auto !important;
+  }
+
+  .hero-video-ready {
+    height: 160px;
   }
 
   main.shell {
