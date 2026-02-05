@@ -67,24 +67,25 @@ main.shell {
   display: flex;
   align-items: flex-end;
   justify-content: space-between;
-  padding: 16px;
-  min-height: 200px;
+  padding: 20px 16px 16px;
 }
 
 .logo-block {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
   flex: 0 0 auto;
-  max-width: 60%;
+}
+
+.global-logo {
+  width: 240px !important;
+  height: auto !important;
+  display: block;
 }
 
 .logo-tagline {
   font-family: var(--font-dm-mono), monospace;
-  font-size: 9px;
-  letter-spacing: 0.1em;
+  font-size: 8px;
+  letter-spacing: 0.08em;
   color: var(--ink);
-  margin-top: 4px;
+  margin-top: 2px;
   white-space: nowrap;
 }
 
@@ -93,16 +94,13 @@ main.shell {
   color: var(--bg);
   padding: 2px 5px;
   border-radius: 3px;
-  font-size: 8px;
+  font-size: 7px;
   font-weight: 500;
-  margin-left: 6px;
+  margin-left: 4px;
 }
 
 .hero {
   flex: 0 0 auto;
-  display: flex;
-  justify-content: flex-end;
-  align-items: flex-end;
 }
 
 .hero-video {
@@ -148,11 +146,7 @@ main.shell.shell-tight {
   align-items: center;
 }
 
-.global-logo {
-  width: 100%;
-  height: auto;
-  display: block;
-}
+/* Logo size set in .hero-row section above */
 
 .kicker {
   font-family: var(--font-dm-mono), ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
@@ -2221,20 +2215,12 @@ li {
 
 /* Tablet and below (768px) */
 @media (max-width: 768px) {
-  .hero-row {
-    padding: 14px;
-  }
-
-  .logo-block {
-    max-width: 50%;
+  .global-logo {
+    width: 220px !important;
   }
 
   .hero-video-ready {
-    height: 180px;
-  }
-
-  .logo-tagline {
-    font-size: 7px;
+    height: 160px;
   }
 
   main.shell {
@@ -2278,31 +2264,24 @@ li {
   }
 
   .hero-row {
-    padding: 12px;
-    min-height: 160px;
-  }
-
-  .logo-block {
-    max-width: 55%;
+    padding: 12px 10px;
   }
 
   .global-logo {
-    width: 100%;
-    height: auto;
+    width: 200px !important;
   }
 
   .hero-video-ready {
-    height: 140px;
+    height: 130px;
   }
 
   .logo-tagline {
     font-size: 6px;
-    letter-spacing: 0.08em;
   }
 
   .ai-badge {
     font-size: 6px;
-    padding: 1px 4px;
+    padding: 1px 3px;
   }
 
   main.shell {
