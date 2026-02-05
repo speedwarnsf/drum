@@ -1505,3 +1505,578 @@ li {
     transition: none;
   }
 }
+
+/* ============================================
+   PRACTICE CALENDAR - GitHub-style heatmap
+   ============================================ */
+
+.calendar-container {
+  margin-bottom: 16px;
+}
+
+.calendar-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.calendar-title {
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+}
+
+.calendar-legend {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.calendar-legend-label {
+  font-size: 10px;
+  color: var(--ink-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-family: var(--font-dm-mono), ui-monospace, monospace;
+}
+
+.calendar-legend-cell {
+  width: 12px;
+  height: 12px;
+  border-radius: 3px;
+}
+
+.calendar-grid-wrapper {
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+  padding-bottom: 4px;
+}
+
+.calendar-weekdays {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  padding-top: 20px;
+}
+
+.calendar-weekday {
+  height: 12px;
+  font-size: 9px;
+  color: var(--ink-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-family: var(--font-dm-mono), ui-monospace, monospace;
+  line-height: 12px;
+}
+
+.calendar-main {
+  flex: 1;
+  min-width: 0;
+}
+
+.calendar-months {
+  display: grid;
+  grid-auto-columns: minmax(0, 1fr);
+  grid-auto-flow: column;
+  height: 16px;
+  margin-bottom: 4px;
+}
+
+.calendar-month {
+  font-size: 10px;
+  color: var(--ink-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-family: var(--font-dm-mono), ui-monospace, monospace;
+}
+
+.calendar-grid {
+  display: flex;
+  gap: 3px;
+}
+
+.calendar-week {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.calendar-cell {
+  width: 12px;
+  height: 12px;
+  border-radius: 3px;
+  border: none;
+  padding: 0;
+  transition: transform 100ms ease, box-shadow 100ms ease;
+}
+
+.calendar-cell:hover {
+  transform: scale(1.2);
+  box-shadow: 0 0 0 2px var(--ink-muted);
+}
+
+.calendar-cell:focus-visible {
+  outline: 2px solid var(--focus);
+  outline-offset: 1px;
+}
+
+/* Calendar intensity levels - warm amber palette */
+.calendar-level-0 {
+  background: rgba(47, 26, 0, 0.08);
+}
+
+.calendar-level-1 {
+  background: #f5d999;
+}
+
+.calendar-level-2 {
+  background: #f0c055;
+}
+
+.calendar-level-3 {
+  background: #d9a020;
+}
+
+.calendar-level-4 {
+  background: #a67c00;
+}
+
+.calendar-tooltip {
+  position: fixed;
+  z-index: 50;
+  padding: 8px 12px;
+  border-radius: 10px;
+  background: var(--ink);
+  color: var(--bg);
+  font-size: 12px;
+  pointer-events: none;
+  white-space: nowrap;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.calendar-tooltip-date {
+  font-weight: 600;
+  margin-bottom: 2px;
+}
+
+.calendar-tooltip-stats {
+  opacity: 0.85;
+  font-family: var(--font-dm-mono), ui-monospace, monospace;
+}
+
+.calendar-tooltip-sep {
+  margin: 0 6px;
+  opacity: 0.5;
+}
+
+/* ============================================
+   STREAK COUNTER
+   ============================================ */
+
+.streak-card {
+  padding: 16px;
+  border-radius: 16px;
+  background: linear-gradient(135deg, var(--panel) 0%, var(--panel-deep) 100%);
+  border: 1px solid var(--stroke);
+}
+
+.streak-main {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.streak-fire-container {
+  position: relative;
+  width: 48px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.streak-fire {
+  font-size: 36px;
+  transition: transform 200ms ease;
+}
+
+.streak-fire-active {
+  animation: fireGlow 2s ease-in-out infinite;
+}
+
+.streak-fire-glow {
+  position: absolute;
+  inset: -4px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255, 140, 0, 0.3) 0%, transparent 70%);
+  animation: glowPulse 2s ease-in-out infinite;
+  pointer-events: none;
+}
+
+.streak-info {
+  flex: 1;
+}
+
+.streak-current {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+}
+
+.streak-current-number {
+  font-size: 32px;
+  font-weight: 700;
+  font-family: var(--font-dm-mono), ui-monospace, monospace;
+  line-height: 1;
+}
+
+.streak-current-label {
+  font-size: 14px;
+  color: var(--ink-muted);
+}
+
+.streak-status {
+  display: inline-block;
+  margin-top: 6px;
+  padding: 4px 10px;
+  border-radius: 12px;
+  font-size: 11px;
+  font-family: var(--font-dm-mono), ui-monospace, monospace;
+  letter-spacing: 0.04em;
+}
+
+.streak-status-active {
+  background: rgba(90, 184, 92, 0.2);
+  color: #2a6a2a;
+}
+
+.streak-status-warning {
+  background: rgba(255, 180, 0, 0.2);
+  color: #8b6914;
+}
+
+.streak-status-gentle {
+  background: rgba(0, 0, 0, 0.06);
+  color: var(--ink-muted);
+}
+
+.streak-secondary {
+  display: flex;
+  gap: 24px;
+  margin-top: 14px;
+  padding-top: 14px;
+  border-top: 1px dashed var(--stroke);
+}
+
+.streak-stat {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.streak-stat-value {
+  font-size: 16px;
+  font-weight: 600;
+  font-family: var(--font-dm-mono), ui-monospace, monospace;
+}
+
+.streak-stat-label {
+  font-size: 11px;
+  color: var(--ink-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+/* Compact streak */
+.streak-compact {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 14px;
+  border-radius: 12px;
+  background: var(--panel);
+  border: 1px solid var(--stroke);
+}
+
+.streak-compact-fire {
+  font-size: 18px;
+}
+
+.streak-compact-count {
+  font-size: 18px;
+  font-weight: 700;
+  font-family: var(--font-dm-mono), ui-monospace, monospace;
+}
+
+.streak-compact-label {
+  font-size: 12px;
+  color: var(--ink-muted);
+}
+
+.streak-compact-active {
+  margin-left: 6px;
+  padding: 2px 8px;
+  border-radius: 8px;
+  background: rgba(90, 184, 92, 0.2);
+  color: #2a6a2a;
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-family: var(--font-dm-mono), ui-monospace, monospace;
+}
+
+/* Streak badge for nav/headers */
+.streak-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  padding: 3px 8px;
+  border-radius: 10px;
+  background: rgba(255, 140, 0, 0.15);
+  font-family: var(--font-dm-mono), ui-monospace, monospace;
+}
+
+.streak-badge-fire {
+  font-size: 12px;
+}
+
+.streak-badge-count {
+  font-size: 12px;
+  font-weight: 600;
+}
+
+@keyframes fireGlow {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.08);
+  }
+}
+
+@keyframes glowPulse {
+  0%, 100% {
+    opacity: 0.6;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+/* ============================================
+   STATS CARD
+   ============================================ */
+
+.stats-card {
+  padding: 16px;
+  border-radius: 16px;
+  background: var(--panel);
+  border: 1px solid var(--stroke);
+}
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+  gap: 16px;
+}
+
+.stat-item {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.stat-item-value {
+  font-size: 24px;
+  font-weight: 700;
+  font-family: var(--font-dm-mono), ui-monospace, monospace;
+  line-height: 1.1;
+}
+
+.stat-item-label {
+  font-size: 11px;
+  color: var(--ink-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.stat-item-trend {
+  font-size: 10px;
+  font-family: var(--font-dm-mono), ui-monospace, monospace;
+  margin-top: 2px;
+}
+
+.stat-item-trend-up {
+  color: #2a6a2a;
+}
+
+.stat-item-trend-down {
+  color: #8a4a4a;
+}
+
+/* Compact stats for today page */
+.compact-stats {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 14px;
+  border-radius: 12px;
+  background: var(--panel);
+  border: 1px solid var(--stroke);
+  margin-bottom: 16px;
+}
+
+.compact-stat {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.compact-stat-value {
+  font-size: 16px;
+  font-weight: 700;
+  font-family: var(--font-dm-mono), ui-monospace, monospace;
+}
+
+.compact-stat-label {
+  font-size: 12px;
+  color: var(--ink-muted);
+}
+
+.compact-stat-fire {
+  font-size: 14px;
+}
+
+.compact-stat-check {
+  font-size: 12px;
+  color: #2a6a2a;
+  margin-left: 2px;
+}
+
+.compact-stat-sep {
+  color: var(--ink-muted);
+  opacity: 0.5;
+}
+
+/* ============================================
+   ACHIEVEMENTS
+   ============================================ */
+
+.achievements-card {
+  padding: 16px;
+  border-radius: 16px;
+  background: var(--panel);
+  border: 1px solid var(--stroke);
+}
+
+.achievements-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 14px;
+}
+
+.achievements-title {
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+}
+
+.achievements-count {
+  font-size: 12px;
+  color: var(--ink-muted);
+  font-family: var(--font-dm-mono), ui-monospace, monospace;
+}
+
+.achievements-grid {
+  display: grid;
+  gap: 10px;
+}
+
+.achievements-grid-locked {
+  opacity: 0.6;
+}
+
+.achievement {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 12px;
+  border-radius: 12px;
+  background: var(--panel-deep);
+  transition: transform 100ms ease;
+}
+
+.achievement:hover {
+  transform: translateX(2px);
+}
+
+.achievement-unlocked {
+  background: linear-gradient(135deg, var(--panel-deep) 0%, #f5d999 100%);
+}
+
+.achievement-locked {
+  background: rgba(0, 0, 0, 0.04);
+}
+
+.achievement-icon {
+  font-size: 24px;
+  flex-shrink: 0;
+}
+
+.achievement-icon-locked {
+  filter: grayscale(1);
+  opacity: 0.5;
+}
+
+.achievement-info {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.achievement-title {
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.achievement-desc {
+  font-size: 11px;
+  color: var(--ink-muted);
+}
+
+.achievements-locked {
+  margin-top: 14px;
+  padding-top: 14px;
+  border-top: 1px dashed var(--stroke);
+}
+
+.achievements-locked-label {
+  font-size: 10px;
+  color: var(--ink-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin-bottom: 10px;
+  display: block;
+  font-family: var(--font-dm-mono), ui-monospace, monospace;
+}
+
+/* Reduced motion preferences */
+@media (prefers-reduced-motion: reduce) {
+  .streak-fire-active {
+    animation: none;
+  }
+  .streak-fire-glow {
+    animation: none;
+  }
+  .calendar-cell {
+    transition: none;
+  }
+  .achievement {
+    transition: none;
+  }
+}

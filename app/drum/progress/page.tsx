@@ -4,7 +4,17 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import Shell from "../_ui/Shell";
 import ModuleProgress from "../_ui/ModuleProgress";
-import { getModuleProgress, MODULE_INFO } from "../_lib/drumMvp";
+import PracticeCalendar from "../_ui/PracticeCalendar";
+import StreakCounter from "../_ui/StreakCounter";
+import StatsCard, { AchievementsCard } from "../_ui/StatsCard";
+import { getModuleProgress, loadRemoteSessions, loadSessions, MODULE_INFO, StoredSession } from "../_lib/drumMvp";
+import {
+  calculatePracticeStats,
+  checkAchievements,
+  getCachedStats,
+  setCachedStats,
+  PracticeStats,
+} from "../_lib/statsUtils";
 
 type ProgressData = {
   currentModule: number;
@@ -16,13 +26,42 @@ type ProgressData = {
 export default function ProgressPage() {
   const router = useRouter();
   const [progress, setProgress] = useState<ProgressData | null>(null);
+  const [stats, setStats] = useState<PracticeStats | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    getModuleProgress().then((data) => {
-      setProgress(data);
+    async function loadData() {
+      // Load module progress
+      const progressData = await getModuleProgress();
+      setProgress(progressData);
+
+      // Try cached stats first
+      const cached = getCachedStats();
+      if (cached) {
+        setStats(cached);
+      }
+
+      // Load sessions and calculate stats
+      const localSessions = loadSessions();
+      const remoteSessions = await loadRemoteSessions();
+
+      // Merge sessions
+      const sessionMap = new Map<string, StoredSession>();
+      localSessions.forEach((s) => sessionMap.set(s.id, s));
+      remoteSessions.forEach((s) => sessionMap.set(s.id, s));
+      const allSessions = Array.from(sessionMap.values()).sort(
+        (a, b) => new Date(b.ts).getTime() - new Date(a.ts).getTime()
+      );
+
+      // Calculate and cache stats
+      const calculated = calculatePracticeStats(allSessions);
+      setStats(calculated);
+      setCachedStats(calculated);
+
       setLoading(false);
-    });
+    }
+
+    loadData();
   }, []);
 
   function handleAdvance(newModule: number) {
@@ -34,6 +73,11 @@ export default function ProgressPage() {
         sessionsInModule: 0,
       });
     }
+  }
+
+  function handleDayClick(date: string) {
+    // Navigate to history filtered by date (future enhancement)
+    router.push(`/drum/history?date=${date}`);
   }
 
   if (loading) {
@@ -62,42 +106,46 @@ export default function ProgressPage() {
   }
 
   const currentModuleInfo = MODULE_INFO[progress.currentModule - 1];
-  const daysInModule = progress.moduleStartedAt
-    ? Math.floor(
-        (Date.now() - new Date(progress.moduleStartedAt).getTime()) /
-          (1000 * 60 * 60 * 24)
-      )
-    : 0;
+  const achievements = stats ? checkAchievements(stats) : [];
 
   return (
     <Shell
       title="Your Progress"
       subtitle={`Module ${progress.currentModule}: ${currentModuleInfo.title}`}
     >
-      <section className="card">
-        <div className="kicker">Journey Overview</div>
-        <div className="progress-stats">
-          <div className="progress-stat">
-            <span className="progress-stat-value">{progress.sessionCount}</span>
-            <span className="progress-stat-label">Total Sessions</span>
-          </div>
-          <div className="progress-stat">
-            <span className="progress-stat-value">{progress.sessionsInModule}</span>
-            <span className="progress-stat-label">Sessions This Module</span>
-          </div>
-          <div className="progress-stat">
-            <span className="progress-stat-value">{daysInModule}</span>
-            <span className="progress-stat-label">Days in Module</span>
-          </div>
-        </div>
-      </section>
+      {/* Streak Counter - prominent */}
+      {stats && (
+        <section className="card" style={{ padding: 0, overflow: "hidden" }}>
+          <StreakCounter streak={stats.streak} />
+        </section>
+      )}
 
+      {/* Stats Overview */}
+      {stats && (
+        <section className="card" style={{ padding: 0, overflow: "hidden" }}>
+          <StatsCard stats={stats} />
+        </section>
+      )}
+
+      {/* Practice Calendar Heatmap */}
+      {stats && (
+        <section className="card">
+          <PracticeCalendar
+            dailyStats={stats.dailyStats}
+            weeks={12}
+            onDayClick={handleDayClick}
+          />
+        </section>
+      )}
+
+      {/* Module Progress */}
       <ModuleProgress
         currentModule={progress.currentModule}
         sessionsInModule={progress.sessionsInModule}
         onAdvance={handleAdvance}
       />
 
+      {/* Current Focus */}
       <section className="card">
         <h2 className="card-title">Current Focus</h2>
         <p>{currentModuleInfo.focus}</p>
@@ -110,6 +158,14 @@ export default function ProgressPage() {
         </div>
       </section>
 
+      {/* Achievements */}
+      {achievements.length > 0 && (
+        <section className="card" style={{ padding: 0, overflow: "hidden" }}>
+          <AchievementsCard achievements={achievements} showLocked />
+        </section>
+      )}
+
+      {/* Ready to advance hint */}
       {progress.sessionsInModule >= 14 && progress.currentModule < 4 && (
         <section className="card" style={{ background: "var(--panel-deep)" }}>
           <div className="kicker">Ready to advance</div>
@@ -120,6 +176,7 @@ export default function ProgressPage() {
         </section>
       )}
 
+      {/* Navigation */}
       <section className="card">
         <div className="row">
           <button className="btn" onClick={() => router.push("/drum/today")}>
@@ -127,6 +184,9 @@ export default function ProgressPage() {
           </button>
           <a href="/drum/method" className="btn btn-ghost">
             View Method
+          </a>
+          <a href="/drum/history" className="btn btn-ghost">
+            Session History
           </a>
         </div>
       </section>

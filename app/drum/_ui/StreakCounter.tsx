@@ -1,0 +1,102 @@
+"use client";
+
+import { StreakInfo } from "../_lib/statsUtils";
+
+type StreakCounterProps = {
+  streak: StreakInfo;
+  compact?: boolean;
+};
+
+export default function StreakCounter({ streak, compact = false }: StreakCounterProps) {
+  const { current, longest, isActive, lastPracticeDate } = streak;
+
+  // Determine streak state
+  const hasStreak = current > 0;
+  const streakBroken = !isActive && lastPracticeDate !== null && current === 0;
+
+  // Format last practice date
+  const lastPracticeText = lastPracticeDate
+    ? new Date(lastPracticeDate).toLocaleDateString(undefined, {
+        month: "short",
+        day: "numeric",
+      })
+    : null;
+
+  if (compact) {
+    return (
+      <div className="streak-compact">
+        <span className="streak-compact-fire">{hasStreak ? "🔥" : "⚪"}</span>
+        <span className="streak-compact-count">{current}</span>
+        <span className="streak-compact-label">day streak</span>
+        {isActive && <span className="streak-compact-active">Active</span>}
+      </div>
+    );
+  }
+
+  return (
+    <div className="streak-card">
+      <div className="streak-main">
+        <div className="streak-fire-container">
+          <span className={`streak-fire ${hasStreak ? "streak-fire-active" : ""}`}>
+            {hasStreak ? "🔥" : "⚪"}
+          </span>
+          {hasStreak && isActive && (
+            <span className="streak-fire-glow" />
+          )}
+        </div>
+
+        <div className="streak-info">
+          <div className="streak-current">
+            <span className="streak-current-number">{current}</span>
+            <span className="streak-current-label">
+              day{current !== 1 ? "s" : ""} in a row
+            </span>
+          </div>
+
+          {isActive && (
+            <span className="streak-status streak-status-active">
+              Practiced today ✓
+            </span>
+          )}
+
+          {!isActive && hasStreak && lastPracticeText && (
+            <span className="streak-status streak-status-warning">
+              Practice today to keep it going
+            </span>
+          )}
+
+          {streakBroken && (
+            <span className="streak-status streak-status-gentle">
+              Start fresh — every session counts
+            </span>
+          )}
+        </div>
+      </div>
+
+      <div className="streak-secondary">
+        <div className="streak-stat">
+          <span className="streak-stat-value">{longest}</span>
+          <span className="streak-stat-label">Longest streak</span>
+        </div>
+        {lastPracticeText && !isActive && (
+          <div className="streak-stat">
+            <span className="streak-stat-value">{lastPracticeText}</span>
+            <span className="streak-stat-label">Last practice</span>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
+
+// Minimal inline streak indicator for headers/nav
+export function StreakBadge({ streak }: { streak: StreakInfo }) {
+  if (streak.current === 0) return null;
+
+  return (
+    <span className="streak-badge">
+      <span className="streak-badge-fire">🔥</span>
+      <span className="streak-badge-count">{streak.current}</span>
+    </span>
+  );
+}

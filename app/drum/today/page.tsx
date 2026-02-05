@@ -23,6 +23,8 @@ import {
   StoredSession,
 } from "../_lib/drumMvp";
 import ModuleProgress from "../_ui/ModuleProgress";
+import { CompactStats } from "../_ui/StatsCard";
+import { calculatePracticeStats, StreakInfo } from "../_lib/statsUtils";
 
 export default function DrumTodayPage() {
   return (
@@ -49,6 +51,7 @@ function DrumTodayInner() {
     currentModule: number;
     sessionsInModule: number;
   } | null>(null);
+  const [streakInfo, setStreakInfo] = useState<StreakInfo | null>(null);
 
   useEffect(() => {
     let mounted = true;
@@ -63,6 +66,11 @@ function DrumTodayInner() {
       }
     };
     setAll(local);
+    // Calculate streak from local sessions initially
+    if (local.length > 0) {
+      const stats = calculatePracticeStats(local);
+      setStreakInfo(stats.streak);
+    }
     loadRemoteSessions().then((remote) => {
       const map = new Map<string, StoredSession>();
       local.forEach((s) => map.set(s.id, s));
@@ -71,6 +79,11 @@ function DrumTodayInner() {
         (a, b) => new Date(b.ts).getTime() - new Date(a.ts).getTime()
       );
       setAll(merged);
+      // Recalculate streak with merged sessions
+      if (merged.length > 0 && mounted) {
+        const stats = calculatePracticeStats(merged);
+        setStreakInfo(stats.streak);
+      }
     });
     return () => {
       mounted = false;
@@ -232,6 +245,14 @@ function DrumTodayInner() {
           onAdvance={(newModule) => {
             setModuleProgress({ ...moduleProgress, currentModule: newModule, sessionsInModule: 0 });
           }}
+        />
+      )}
+
+      {!sessionMeta && streakInfo && (
+        <CompactStats
+          totalSessions={sessions.length}
+          streak={streakInfo.current}
+          isStreakActive={streakInfo.isActive}
         />
       )}
 
