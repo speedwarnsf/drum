@@ -66,13 +66,14 @@ main.shell {
 .hero-row {
   position: relative;
   padding: 20px 16px 0;
-  min-height: 320px;
+  padding-left: 36px;
+  min-height: 300px;
   overflow: visible;
 }
 
 .logo-link {
   position: relative;
-  z-index: 1;
+  z-index: 2;
   display: block;
 }
 
@@ -84,9 +85,9 @@ main.shell {
 
 .hero {
   position: absolute;
-  top: 20px;
+  top: 30px;
   right: 0;
-  z-index: 2;
+  z-index: 1;
 }
 
 .hero-video {
@@ -100,7 +101,7 @@ main.shell {
 }
 
 .hero-video-ready {
-  height: 340px;
+  height: 290px;
   opacity: 0.95;
 }
 
@@ -2202,7 +2203,8 @@ li {
 /* Tablet and below (768px) */
 @media (max-width: 768px) {
   .hero-row {
-    min-height: 300px;
+    min-height: 280px;
+    padding-left: 30px;
   }
 
   .global-logo {
@@ -2210,11 +2212,11 @@ li {
   }
 
   .hero-video-ready {
-    height: 310px;
+    height: 265px;
   }
 
   .hero {
-    top: 15px;
+    top: 25px;
   }
 
   main.shell {
@@ -2259,7 +2261,8 @@ li {
 
   .hero-row {
     padding: 16px 10px 0;
-    min-height: 280px;
+    padding-left: 26px;
+    min-height: 260px;
   }
 
   .global-logo {
@@ -2267,11 +2270,11 @@ li {
   }
 
   .hero-video-ready {
-    height: 290px;
+    height: 247px;
   }
 
   .hero {
-    top: 10px;
+    top: 20px;
     right: 0;
   }
 
@@ -2764,7 +2767,8 @@ li {
 /* Small mobile (375px - iPhone SE) */
 @media (max-width: 375px) {
   .hero-row {
-    min-height: 260px;
+    min-height: 240px;
+    padding-left: 22px;
   }
 
   .global-logo {
@@ -2773,11 +2777,11 @@ li {
   }
 
   .hero-video-ready {
-    height: 270px;
+    height: 230px;
   }
 
   .hero {
-    top: 8px;
+    top: 15px;
     right: -5px;
   }
 
