@@ -49,11 +49,19 @@ export type LogEntry = {
   ts: string;
 };
 
+export type GapDrillSettings = {
+  beatsOn: number;
+  beatsOff: number;
+  offBeatMode?: boolean;
+};
+
 export type PracticeBlock = {
   title: string;
   time: string;
   bullets: string[];
   stop?: string[];
+  type?: "standard" | "gap_drill";
+  gapDrill?: GapDrillSettings;
 };
 
 export type SetupGuide = {

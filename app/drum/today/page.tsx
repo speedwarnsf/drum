@@ -256,7 +256,7 @@ function DrumTodayInner() {
         </details>
       ) : null}
 
-      <Metronome bpm={metroBpm} />
+      <Metronome bpm={metroBpm} showGapControls />
 
       {plan.blocks.map((b, idx) => (
         <article key={idx} className="card">
