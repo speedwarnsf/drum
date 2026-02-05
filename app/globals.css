@@ -66,6 +66,9 @@ main.shell {
 .hero-shell {
   margin-bottom: 0;
   padding-bottom: 0;
+  display: flex;
+  justify-content: flex-end;
+  padding-right: 12px;
 }
 
 .hero {
@@ -73,21 +76,23 @@ main.shell {
   background: transparent;
   overflow: visible;
   margin-bottom: 18px;
+  max-width: 50%;
 }
 
 .hero-video {
   display: block;
-  width: 100%;
-  object-fit: cover;
+  width: auto;
+  max-width: 100%;
+  object-fit: contain;
   height: 0;
   opacity: 0;
   mix-blend-mode: darken;
-  transform: translate(101px, 78px) scale(1.08);
-  clip-path: inset(3px 0 3px 0);
+  margin-left: auto;
+  clip-path: none;
 }
 
 .hero-video-ready {
-  height: clamp(200px, 36vw, 320px);
+  height: clamp(180px, 32vw, 280px);
   opacity: 0.95;
 }
 
@@ -123,8 +128,8 @@ main.shell.shell-tight {
   position: fixed;
   top: 12px;
   left: 12px;
-  width: 200px;
-  height: 200px;
+  width: 280px;
+  height: 280px;
   z-index: 6;
   pointer-events: auto;
 }
@@ -2197,13 +2202,13 @@ li {
 /* Tablet and below (768px) */
 @media (max-width: 768px) {
   .global-logo {
-    width: 130px;
-    height: 130px;
+    width: 200px;
+    height: 200px;
   }
 
-  /* Reduce hero video shift on tablet */
   .hero-video {
-    transform: translate(50px, 60px) scale(1.06);
+    margin-left: auto;
+    margin-right: 0;
   }
 
   main.shell {
@@ -2247,15 +2252,14 @@ li {
   }
 
   .global-logo {
-    width: 110px;
-    height: 110px;
+    width: 160px;
+    height: 160px;
     top: 8px;
     left: 8px;
   }
 
-  /* Contain hero video on mobile - reduce horizontal shift */
-  .hero-video {
-    transform: translate(20px, 40px) scale(1.05);
+  .hero-video-ready {
+    height: clamp(140px, 40vw, 200px);
   }
 
   main.shell {
