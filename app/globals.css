@@ -101,7 +101,7 @@ main.shell {
 }
 
 .hero-video-ready {
-  height: 200px;
+  height: 280px;
   opacity: 1;
   mix-blend-mode: darken;
 }
@@ -2214,11 +2214,11 @@ li {
   }
 
   .hero-video-ready {
-    height: 180px;
+    height: 250px;
   }
 
   .hero {
-    top: 35px;
+    top: 25px;
     right: 14px;
   }
 
@@ -2273,11 +2273,11 @@ li {
   }
 
   .hero-video-ready {
-    height: 160px;
+    height: 220px;
   }
 
   .hero {
-    top: 30px;
+    top: 20px;
     right: 10px;
   }
 
@@ -2781,11 +2781,11 @@ li {
   }
 
   .hero-video-ready {
-    height: 145px;
+    height: 200px;
   }
 
   .hero {
-    top: 25px;
+    top: 15px;
     right: 8px;
   }
 
