@@ -56,53 +56,101 @@ select {
 }
 
 /* ============================================
-   HERO LAYOUT - Fixed logo + darken blend video
+   HERO LAYOUT - Overlapping logo + drummer with darken blend
    ============================================ */
 
-main.shell {
-  max-width: 920px;
-  margin: 44px auto 64px;
-  padding: 0 18px 32px;
+.hero-overlap {
   position: relative;
+  max-width: 920px;
+  margin: 16px auto 0;
+  padding: 0 16px;
+  min-height: 340px;
+}
+
+.hero-logo-link {
+  display: block;
+  position: relative;
+  z-index: 2;
+}
+
+.hero-logo {
+  display: block;
+  width: 55%;
+  max-width: 340px;
+  height: auto;
+  mix-blend-mode: darken;
+}
+
+.hero-drummer {
+  position: absolute;
+  top: 20px;
+  right: 0;
   z-index: 1;
-}
-
-.hero-shell {
-  margin-bottom: 0;
-  padding-bottom: 0;
-}
-
-.hero {
-  border-radius: 18px;
-  background: transparent;
-  overflow: visible;
-  margin-bottom: 18px;
+  pointer-events: none;
 }
 
 .hero-video {
   display: block;
-  width: 100%;
-  object-fit: cover;
-  height: 0;
-  opacity: 0;
+  width: 320px;
+  height: 320px;
+  object-fit: contain;
   mix-blend-mode: darken;
-  transform: translate(101px, 78px) scale(1.08);
-  clip-path: inset(3px 0 3px 0);
+  opacity: 0;
+  transition: opacity 300ms ease;
 }
 
 .hero-video-ready {
-  height: clamp(200px, 36vw, 320px);
-  opacity: 0.95;
+  opacity: 1;
 }
 
-.global-logo {
-  position: fixed;
-  top: 12px;
-  left: 12px;
-  width: 200px;
-  height: 200px;
-  z-index: 6;
-  pointer-events: auto;
+/* Responsive hero */
+@media (max-width: 600px) {
+  .hero-overlap {
+    min-height: 280px;
+  }
+  
+  .hero-logo {
+    width: 60%;
+    max-width: 240px;
+  }
+  
+  .hero-drummer {
+    top: 10px;
+    right: -20px;
+  }
+  
+  .hero-video {
+    width: 240px;
+    height: 240px;
+  }
+}
+
+@media (min-width: 768px) {
+  .hero-overlap {
+    min-height: 380px;
+  }
+  
+  .hero-logo {
+    width: 50%;
+    max-width: 380px;
+  }
+  
+  .hero-video {
+    width: 360px;
+    height: 360px;
+  }
+}
+
+/* ============================================
+   MAIN CONTENT
+   ============================================ */
+
+main.shell {
+  max-width: 920px;
+  margin: 24px auto 64px;
+  padding: 0 18px 32px;
+  position: relative;
+  z-index: 1;
 }
 
 main.shell.shell-tight {

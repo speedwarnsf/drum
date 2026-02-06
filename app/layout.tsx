@@ -56,20 +56,20 @@ export default function RootLayout({
         <meta name="x-ua-compatible" content="IE=edge" />
       </head>
       <body className={`${spaceGrotesk.variable} ${dmMono.variable}`}>
-        <a href="/drum" aria-label="RepoDrum home">
-          <Image
-            className="global-logo"
-            src="/media/repodrumlogo.gif"
-            alt="RepoDrum - Adaptive Drum Instructor"
-            width={200}
-            height={200}
-            priority
-          />
-        </a>
-        <div className="shell hero-shell" aria-label="Drum video">
-          <section className="hero">
+        <div className="hero-overlap">
+          <a href="/drum" aria-label="RepoDrum home" className="hero-logo-link">
+            <Image
+              className="hero-logo"
+              src="/media/repodrumlogo.gif"
+              alt="RepoDrum - Adaptive Drum Instructor"
+              width={400}
+              height={400}
+              priority
+            />
+          </a>
+          <div className="hero-drummer">
             <HeroVideo />
-          </section>
+          </div>
         </div>
         {children}
       </body>
