@@ -39,7 +39,7 @@ export default function HeroVideo() {
       playsInline
       preload="auto"
       style={{
-        mixBlendMode: "darken",
+        mixBlendMode: "multiply",
         width: 320,
         height: ready ? 320 : 0,
         opacity: ready ? 1 : 0,

@@ -58,7 +58,7 @@ export default function RootLayout({
         <meta name="x-ua-compatible" content="IE=edge" />
       </head>
       <body className={`${spaceGrotesk.variable} ${dmMono.variable}`}>
-        <div className="hero-row">
+        <div className="hero-row" style={{ isolation: "isolate" }}>
           <a href="/drum" aria-label="RepoDrum home" className="logo-link">
             <Image
               className="global-logo"
@@ -70,7 +70,7 @@ export default function RootLayout({
               style={{ mixBlendMode: "darken" }}
             />
           </a>
-          <div className="hero" style={{ position: "absolute", top: 100, right: 0 }} aria-label="Drum video">
+          <div className="hero" style={{ position: "absolute", top: 100, right: 0, mixBlendMode: "darken" }} aria-label="Drum video">
             <HeroVideo />
           </div>
         </div>
