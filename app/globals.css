@@ -73,8 +73,9 @@ main.shell {
   left: 12px;
   width: 200px;
   height: 200px;
-  z-index: 6;
+  z-index: 3;
   pointer-events: auto;
+  mix-blend-mode: darken;
 }
 
 .hero-shell {
@@ -91,9 +92,10 @@ main.shell {
 
 .hero {
   position: absolute;
-  top: 0;
-  right: 0;
+  top: 40px;
+  right: 16px;
   overflow: visible;
+  z-index: 5;
 }
 
 .hero-video {
