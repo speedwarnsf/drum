@@ -49,6 +49,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
+        {/* Preload hero video for faster loading */}
+        <link rel="preload" href="/media/YellowDrum.mp4" as="video" type="video/mp4" />
+        <link rel="preload" href="/media/YellowDrum-poster.jpg" as="image" />
         {/* iOS PWA enhancements */}
         <link rel="apple-touch-icon" href="/media/repodrumlogo.gif" />
         <meta name="apple-mobile-web-app-capable" content="yes" />

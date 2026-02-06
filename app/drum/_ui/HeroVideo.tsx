@@ -33,6 +33,7 @@ export default function HeroVideo() {
       ref={ref}
       className={`hero-video ${ready ? "hero-video-ready" : "hero-video-loading"}`}
       src="/media/YellowDrum.mp4"
+      poster="/media/YellowDrum-poster.jpg"
       autoPlay
       muted
       loop
