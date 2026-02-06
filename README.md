@@ -18,6 +18,12 @@ A progressive drum practice app that generates personalized daily lessons based 
 - 🎯 Adaptive difficulty based on feedback
 - 💳 Credit-based lesson system with Stripe integration
 - 📱 Mobile-friendly responsive design
+- 🧠 **Spaced Repetition System** - SM-2 algorithm for optimal retention
+- 🎵 **Audiation Training** - Gordon Method syllables for ear training
+- 📋 **Pattern Library** - 50+ drum patterns across 9 categories
+- 🔄 **Maintenance Mode** - Daily review sessions for pattern recall
+- 🏆 **Competency Gates** - Diagnostic tests to advance through modules
+- 👥 **Community** - Share progress and connect with other drummers
 
 ## Environment Variables
 
@@ -85,6 +91,37 @@ If you modify the database schema, regenerate TypeScript types:
 ```bash
 npx supabase gen types typescript --project-id YOUR_PROJECT_ID > lib/database.types.ts
 ```
+
+## Testing
+
+Run the comprehensive test suite:
+
+```bash
+# SM-2 algorithm tests (29 tests)
+npx tsx test-spaced-repetition.ts
+
+# Critical path tests (38 tests)
+npx tsx tests/critical-paths.test.ts
+
+# Database integration tests (requires Supabase env vars)
+npx tsx test-spaced-repetition-e2e.ts
+```
+
+**Test Coverage:**
+- SM-2 spaced repetition algorithm
+- Pattern library structure and validation
+- Quality rating system
+- Learning progression simulation
+- Edge cases and boundary conditions
+
+### Spaced Repetition System
+
+The app uses the SM-2 algorithm for optimal practice scheduling:
+- **Quality ratings 0-5:** Control interval adjustments
+- **Ease factor 1.3-3.0:** Personalizes difficulty
+- **Automatic scheduling:** Reviews spaced for long-term retention
+
+See `app/drum/_lib/spacedRepetition.ts` for the full implementation.
 
 ## Build
 

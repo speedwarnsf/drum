@@ -570,7 +570,7 @@ export default function Audiation({
           className="btn audiation-action-btn touch-target"
           onClick={handleSingComplete}
         >
-          ✓ I sang it — Now I'll play it
+          ✓ I sang it — Now I&apos;ll play it
         </button>
         <button type="button" className="btn btn-ghost" onClick={resetExercise}>
           Start over

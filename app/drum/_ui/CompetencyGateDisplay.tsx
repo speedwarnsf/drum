@@ -2,7 +2,8 @@
 
 import { useState } from "react";
 import { 
-  DiagnosticGate, 
+  DiagnosticGate,
+  DiagnosticResult,
   getCompetencyGateStatus, 
   generatePrescription,
   getNextRequiredDiagnostic 
@@ -10,7 +11,7 @@ import {
 
 type CompetencyGateDisplayProps = {
   currentModule: number;
-  diagnosticResults: Record<string, any>;
+  diagnosticResults: Record<string, DiagnosticResult>;
   compact?: boolean;
 };
 

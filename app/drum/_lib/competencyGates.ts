@@ -10,6 +10,21 @@ export type DiagnosticResult = "untested" | "clean" | "flam" | "unsure";
 
 export type GateStatus = "locked" | "available" | "passed" | "failed";
 
+/** Details returned from gate evaluation */
+export interface GateEvaluationDetails {
+  missingExercises?: string[];
+  cleanResults?: string[];
+  flamResults?: string[];
+  unsureResults?: string[];
+  cleanCount?: number;
+  flamCount?: number;
+  unsureCount?: number;
+  requiredClean?: number;
+  maxFlams?: number;
+  gate?: DiagnosticGate;
+  requirements?: DiagnosticGate;
+}
+
 export interface DiagnosticGate {
   id: string;
   name: string;
@@ -170,7 +185,7 @@ export function canAdvanceToModule(
 export function evaluateGate(
   gate: DiagnosticGate,
   diagnosticResults: Record<string, DiagnosticResult>
-): { status: GateStatus; reason: string; details: any } {
+): { status: GateStatus; reason: string; details: GateEvaluationDetails } {
   
   // Check if all required exercises have been completed
   const missingExercises = gate.requiredExercises.filter(
