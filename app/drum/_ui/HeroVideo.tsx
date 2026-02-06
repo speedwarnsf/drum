@@ -31,19 +31,13 @@ export default function HeroVideo() {
   return (
     <video
       ref={ref}
-      className={`hero-video ${ready ? "hero-video-ready" : ""}`}
+      className={`hero-video ${ready ? "hero-video-ready" : "hero-video-loading"}`}
       src="/media/YellowDrum.mp4"
       autoPlay
       muted
       loop
       playsInline
       preload="auto"
-      style={{
-        mixBlendMode: "multiply",
-        width: 320,
-        height: ready ? 320 : 0,
-        opacity: ready ? 1 : 0,
-      }}
       onLoadedData={() => setReady(true)}
       onCanPlay={() => setReady(true)}
       onError={() => setReady(true)}
