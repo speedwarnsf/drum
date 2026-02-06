@@ -92,8 +92,8 @@ main.shell {
 
 .hero {
   position: absolute;
-  top: 80px;
-  right: 60px;
+  top: 40px;
+  right: -20px;
   overflow: visible;
   z-index: 1;
 }
