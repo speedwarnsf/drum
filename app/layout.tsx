@@ -59,6 +59,9 @@ export default function RootLayout({
       </head>
       <body className={`${spaceGrotesk.variable} ${dmMono.variable}`}>
         <div className="hero-row">
+          <div className="hero" aria-label="Drum video">
+            <HeroVideo />
+          </div>
           <a href="/drum" aria-label="RepoDrum home" className="logo-link">
             <Image
               className="global-logo"
@@ -69,9 +72,6 @@ export default function RootLayout({
               priority
             />
           </a>
-          <div className="hero" aria-label="Drum video">
-            <HeroVideo />
-          </div>
         </div>
         {children}
       </body>

@@ -88,7 +88,6 @@ main.shell {
   position: absolute;
   top: 20px;
   right: -40px;
-  z-index: -1;
   background: transparent;
   pointer-events: none;
 }
@@ -98,8 +97,6 @@ main.shell {
   width: 320px;
   height: 0;
   opacity: 0;
-  mix-blend-mode: darken;
-  -webkit-mix-blend-mode: darken;
 }
 
 .hero-video-ready {
