@@ -92,8 +92,8 @@ main.shell {
 
 .hero {
   position: absolute;
-  top: 160px;
-  right: -40px;
+  top: 104px;
+  right: -25px;
   overflow: visible;
   z-index: 1;
   mix-blend-mode: darken;
