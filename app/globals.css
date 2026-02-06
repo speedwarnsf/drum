@@ -69,8 +69,8 @@ main.shell {
 
 .global-logo {
   position: fixed;
-  top: 12px;
-  left: 1px;
+  top: 2px;
+  left: -1px;
   width: 200px;
   height: 200px;
   z-index: 3;
@@ -94,7 +94,7 @@ main.shell {
 
 .hero {
   position: absolute;
-  top: 114px;
+  top: 126px;
   right: -25px;
   overflow: visible;
   z-index: 1;
