@@ -78,19 +78,19 @@ main.shell {
 }
 
 .hero-shell {
+  position: relative;
   margin-bottom: 0;
   padding-bottom: 0;
   max-width: 920px;
   margin-left: auto;
   margin-right: auto;
   padding: 0 16px;
+  min-height: 360px;
 }
 
 .hero {
   background: transparent;
   overflow: visible;
-  display: flex;
-  justify-content: flex-end;
 }
 
 .hero-video {
@@ -100,8 +100,9 @@ main.shell {
   opacity: 0;
   mix-blend-mode: darken;
   object-fit: contain;
-  margin-left: auto;
-  margin-top: -180px;
+  position: absolute;
+  top: 20px;
+  right: 16px;
 }
 
 .hero-video-ready {
