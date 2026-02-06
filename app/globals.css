@@ -76,6 +76,8 @@ main.shell {
   z-index: 3;
   pointer-events: auto;
   mix-blend-mode: darken;
+  transform: scale(1.12);
+  transform-origin: top left;
 }
 
 .hero-shell {
