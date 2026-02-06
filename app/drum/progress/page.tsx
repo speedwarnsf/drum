@@ -7,6 +7,7 @@ import ModuleProgress from "../_ui/ModuleProgress";
 import PracticeCalendar from "../_ui/PracticeCalendar";
 import StreakCounter from "../_ui/StreakCounter";
 import StatsCard, { AchievementsCard } from "../_ui/StatsCard";
+import CompetencyGateDisplay from "../_ui/CompetencyGateDisplay";
 import { getModuleProgress, loadRemoteSessions, loadSessions, MODULE_INFO, StoredSession } from "../_lib/drumMvp";
 import {
   calculatePracticeStats,
@@ -40,6 +41,7 @@ function ProgressPageInner() {
   const { isOnline } = useOnlineStatus();
   const [progress, setProgress] = useState<ProgressData | null>(null);
   const [stats, setStats] = useState<PracticeStats | null>(null);
+  const [diagnosticResults, setDiagnosticResults] = useState<Record<string, any>>({});
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -49,6 +51,16 @@ function ProgressPageInner() {
         // Load module progress
         const progressData = await getModuleProgress();
         setProgress(progressData);
+
+        // Load diagnostic results from localStorage
+        const storedDiagnostics = localStorage.getItem("drum_diagnostic_results");
+        if (storedDiagnostics) {
+          try {
+            setDiagnosticResults(JSON.parse(storedDiagnostics));
+          } catch (e) {
+            console.error("Failed to parse diagnostic results:", e);
+          }
+        }
 
         // Try cached stats first
         const cached = getCachedStats();
@@ -192,8 +204,17 @@ function ProgressPageInner() {
       <ModuleProgress
         currentModule={progress.currentModule}
         sessionsInModule={progress.sessionsInModule}
+        diagnosticResults={diagnosticResults}
         onAdvance={handleAdvance}
       />
+
+      {/* Competency Gates */}
+      <section className="card">
+        <CompetencyGateDisplay
+          currentModule={progress.currentModule}
+          diagnosticResults={diagnosticResults}
+        />
+      </section>
 
       {/* Current Focus */}
       <section className="card">

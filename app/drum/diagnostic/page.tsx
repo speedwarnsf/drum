@@ -6,6 +6,7 @@ import Recorder from "../_ui/Recorder";
 import { ErrorBoundary } from "../_ui/ErrorBoundary";
 import { OfflineIndicator } from "../_ui/OfflineIndicator";
 import { getModuleProgress } from "../_lib/drumMvp";
+import { getCompetencyGateStatus, generatePrescription } from "../_lib/competencyGates";
 
 /**
  * Diagnostic Page - The "Hidden Coordination Flaw" Test
@@ -72,15 +73,47 @@ function DiagnosticPageInner() {
     getModuleProgress().then((data) => {
       if (data) setCurrentModule(data.currentModule);
     });
+    
+    // Load existing diagnostic results
+    try {
+      const storedDiagnostics = localStorage.getItem("drum_diagnostic_results");
+      if (storedDiagnostics) {
+        const parsed = JSON.parse(storedDiagnostics);
+        const { lastUpdated, ...diagnosticResults } = parsed;
+        setResults(diagnosticResults);
+        
+        // Check if we should show results or continue testing
+        const completedExercises = Object.keys(diagnosticResults).length;
+        if (completedExercises === EXERCISES.length) {
+          setShowResults(true);
+        } else if (completedExercises > 0) {
+          setCurrentExercise(completedExercises);
+        }
+      }
+    } catch (e) {
+      console.error("Failed to load diagnostic results:", e);
+    }
   }, []);
 
   const exercise = EXERCISES[currentExercise];
 
   const handleResult = useCallback((result: DiagnosticResult) => {
-    setResults((prev) => ({
-      ...prev,
+    const newResults = {
+      ...results,
       [exercise.id]: result,
-    }));
+    };
+    
+    setResults(newResults);
+    
+    // Store results to localStorage for competency gate checking
+    try {
+      localStorage.setItem("drum_diagnostic_results", JSON.stringify({
+        ...newResults,
+        lastUpdated: new Date().toISOString()
+      }));
+    } catch (e) {
+      console.error("Failed to save diagnostic results:", e);
+    }
     
     if (currentExercise < EXERCISES.length - 1) {
       setCurrentExercise((prev) => prev + 1);
@@ -89,7 +122,7 @@ function DiagnosticPageInner() {
     } else {
       setShowResults(true);
     }
-  }, [currentExercise, exercise.id]);
+  }, [currentExercise, exercise.id, results]);
 
   const handleHit = useCallback(() => {
     if (hitCount < exercise.count) {
@@ -195,6 +228,59 @@ function DiagnosticPageInner() {
             </p>
           </section>
         )}
+
+        {/* Competency Gate Status */}
+        <section className="card">
+          <div className="kicker">Module Advancement</div>
+          <h3 className="card-title">Competency Gate Status</h3>
+          {(() => {
+            const gateStatuses = getCompetencyGateStatus(currentModule, results);
+            const relevantGate = gateStatuses.find(g => g.isRelevant);
+            
+            if (!relevantGate) {
+              return <p>No competency gates required at your current level.</p>;
+            }
+            
+            const status = relevantGate.status.status;
+            
+            return (
+              <div className="diagnostic-gate-result">
+                {status === "passed" && (
+                  <>
+                    <div className="gate-result-header">
+                      <span className="gate-result-emoji">✅</span>
+                      <h4>Gate Passed!</h4>
+                    </div>
+                    <p>You've met the requirements for <strong>{relevantGate.name}</strong>.</p>
+                    <p>You can now advance to Module {relevantGate.unlocksModule} when ready.</p>
+                  </>
+                )}
+                
+                {status === "failed" && (
+                  <>
+                    <div className="gate-result-header">
+                      <span className="gate-result-emoji">❌</span>
+                      <h4>Gate Not Passed</h4>
+                    </div>
+                    <p><strong>{relevantGate.name}</strong>: {relevantGate.status.reason}</p>
+                    <p>Continue practicing the coordination exercises before advancing.</p>
+                  </>
+                )}
+                
+                {status === "available" && (
+                  <>
+                    <div className="gate-result-header">
+                      <span className="gate-result-emoji">🎯</span>
+                      <h4>Complete Additional Tests</h4>
+                    </div>
+                    <p>You need to complete more exercises for <strong>{relevantGate.name}</strong>.</p>
+                    <p>{relevantGate.status.reason}</p>
+                  </>
+                )}
+              </div>
+            );
+          })()}
+        </section>
 
         <section className="card">
           <div className="row">

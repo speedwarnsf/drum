@@ -2312,6 +2312,40 @@ li {
     font-size: 16px;
   }
 
+  /* Mobile nav sections */
+  .nav-section-primary {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-bottom: 16px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid var(--stroke);
+  }
+
+  .nav-section-secondary {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    margin-bottom: 16px;
+  }
+
+  .nav-section-label {
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--ink-muted);
+    margin-top: 8px;
+    margin-bottom: 4px;
+    padding-left: 16px;
+  }
+
+  .nav-section-secondary .btn-sm {
+    font-size: 14px;
+    min-height: 40px;
+    padding-left: 24px;
+  }
+
   .mobile-nav-close {
     position: absolute;
     top: 12px;
@@ -5987,5 +6021,824 @@ li {
 
   .drill-mode-buttons {
     grid-template-columns: 1fr;
+  }
+}
+
+/* ============================================
+   COMPETENCY GATES STYLES
+   ============================================ */
+
+.competency-gates {
+  margin-bottom: var(--space-6);
+}
+
+.gates-header {
+  margin-bottom: var(--space-4);
+}
+
+.gates-header h3 {
+  margin-bottom: var(--space-1);
+  color: var(--primary);
+}
+
+.next-diagnostic-card {
+  background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+  color: white;
+  padding: var(--space-5);
+  border-radius: var(--border-radius);
+  margin-bottom: var(--space-4);
+}
+
+.next-diagnostic-card .kicker {
+  color: rgba(255, 255, 255, 0.8);
+  font-size: var(--font-size-sm);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: var(--space-1);
+}
+
+.next-diagnostic-card h4 {
+  margin-bottom: var(--space-2);
+  font-size: var(--font-size-lg);
+}
+
+.gates-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.gate-item {
+  border: 1px solid var(--border);
+  border-radius: var(--border-radius);
+  overflow: hidden;
+  transition: all 0.2s ease;
+}
+
+.gate-item:hover {
+  box-shadow: var(--shadow-sm);
+}
+
+.gate-status-passed {
+  border-color: var(--success);
+  background: rgba(52, 211, 153, 0.05);
+}
+
+.gate-status-failed {
+  border-color: var(--danger);
+  background: rgba(248, 113, 113, 0.05);
+}
+
+.gate-status-available {
+  border-color: var(--primary);
+  background: rgba(var(--primary-rgb), 0.05);
+}
+
+.gate-status-locked {
+  border-color: var(--muted);
+  background: rgba(107, 114, 126, 0.05);
+}
+
+.gate-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--space-4);
+  cursor: pointer;
+  user-select: none;
+}
+
+.gate-info {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  flex: 1;
+}
+
+.gate-status-icon {
+  font-size: var(--font-size-lg);
+  width: 24px;
+  text-align: center;
+}
+
+.gate-name {
+  font-weight: 600;
+  margin-bottom: var(--space-1);
+}
+
+.gate-unlock-info {
+  font-size: var(--font-size-sm);
+  color: var(--muted);
+  margin: 0;
+}
+
+.gate-status-text {
+  font-size: var(--font-size-sm);
+  font-weight: 500;
+  color: var(--muted);
+}
+
+.gate-expand-icon {
+  font-family: monospace;
+  font-size: var(--font-size-lg);
+  color: var(--muted);
+  margin-left: var(--space-2);
+}
+
+.gate-details {
+  padding: 0 var(--space-4) var(--space-4);
+  border-top: 1px solid var(--border);
+  background: var(--bg-subtle);
+}
+
+.gate-description {
+  margin-bottom: var(--space-4);
+  color: var(--text-secondary);
+}
+
+.gate-requirements {
+  margin-bottom: var(--space-4);
+}
+
+.gate-requirements h5 {
+  font-size: var(--font-size-sm);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--primary);
+  margin-bottom: var(--space-2);
+}
+
+.gate-requirements ul {
+  margin: 0;
+  padding-left: var(--space-4);
+}
+
+.gate-requirements li {
+  margin-bottom: var(--space-1);
+  color: var(--text-secondary);
+}
+
+.gate-rationale {
+  margin-bottom: var(--space-4);
+  padding: var(--space-3);
+  background: rgba(var(--primary-rgb), 0.08);
+  border-radius: var(--border-radius-sm);
+}
+
+.gate-rationale h5 {
+  font-size: var(--font-size-sm);
+  font-weight: 600;
+  color: var(--primary);
+  margin-bottom: var(--space-2);
+}
+
+.gate-rationale p {
+  margin: 0;
+  color: var(--text-secondary);
+  line-height: 1.5;
+}
+
+.gate-prescription {
+  margin-bottom: var(--space-4);
+  padding: var(--space-4);
+  background: rgba(248, 113, 113, 0.08);
+  border: 1px solid rgba(248, 113, 113, 0.2);
+  border-radius: var(--border-radius-sm);
+}
+
+.gate-prescription h5 {
+  color: var(--danger);
+  margin-bottom: var(--space-3);
+}
+
+.prescription-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.prescription-header {
+  font-weight: 600;
+  color: var(--danger);
+  margin: 0;
+}
+
+.prescription-detail {
+  margin: 0;
+  color: var(--text-secondary);
+  padding-left: var(--space-3);
+  font-size: var(--font-size-sm);
+}
+
+.gate-actions {
+  margin-bottom: var(--space-4);
+}
+
+.gate-debug {
+  margin-top: var(--space-4);
+  padding-top: var(--space-4);
+  border-top: 1px solid var(--border);
+}
+
+.gate-debug details {
+  font-size: var(--font-size-sm);
+}
+
+.gate-debug summary {
+  color: var(--muted);
+  cursor: pointer;
+  margin-bottom: var(--space-2);
+}
+
+.gate-debug pre {
+  background: var(--bg);
+  padding: var(--space-2);
+  border-radius: var(--border-radius-sm);
+  overflow: auto;
+  font-size: 11px;
+}
+
+/* Compact gate display */
+.competency-gate-compact {
+  margin-bottom: var(--space-3);
+}
+
+.gate-status {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  margin-bottom: var(--space-2);
+}
+
+.gate-icon {
+  font-size: var(--font-size-lg);
+}
+
+.gate-name {
+  font-weight: 500;
+  flex: 1;
+}
+
+.gate-action-link {
+  color: var(--primary);
+  text-decoration: none;
+  font-size: var(--font-size-sm);
+  font-weight: 500;
+}
+
+.gate-action-link:hover {
+  text-decoration: underline;
+}
+
+.gate-failure-hint {
+  font-size: var(--font-size-sm);
+  color: var(--danger);
+  background: rgba(248, 113, 113, 0.08);
+  padding: var(--space-2);
+  border-radius: var(--border-radius-sm);
+  margin: 0;
+  line-height: 1.4;
+}
+
+/* Module progress gate indicators */
+.module-gate-hint {
+  background: rgba(251, 146, 60, 0.1);
+  color: var(--warning);
+  border: 1px solid rgba(251, 146, 60, 0.3);
+  padding: var(--space-1) var(--space-2);
+  border-radius: var(--border-radius-sm);
+  font-size: var(--font-size-sm);
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.module-gate-hint:hover {
+  background: rgba(251, 146, 60, 0.2);
+}
+
+.gate-title {
+  font-weight: 600;
+  color: var(--primary);
+  margin-bottom: var(--space-2);
+}
+
+.no-gates {
+  padding: var(--space-6);
+  text-align: center;
+  color: var(--muted);
+}
+
+/* Mobile responsiveness */
+@media (max-width: 768px) {
+  .gate-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--space-2);
+  }
+  
+  .gate-status-text {
+    align-self: flex-start;
+  }
+  
+  .gate-details {
+    padding: var(--space-3);
+  }
+  
+  .next-diagnostic-card {
+    padding: var(--space-4);
+  }
+}
+
+/* ============================================
+   DIAGNOSTIC GATE RESULT STYLES
+   ============================================ */
+
+.diagnostic-gate-result {
+  padding: var(--space-4);
+  border-radius: var(--border-radius);
+  background: var(--bg-subtle);
+  border: 1px solid var(--border);
+}
+
+.gate-result-header {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  margin-bottom: var(--space-3);
+}
+
+.gate-result-emoji {
+  font-size: 2rem;
+}
+
+.gate-result-header h4 {
+  margin: 0;
+  color: var(--primary);
+  font-weight: 600;
+}
+
+.diagnostic-gate-result p {
+  margin-bottom: var(--space-2);
+  line-height: 1.5;
+}
+
+.diagnostic-gate-result p:last-child {
+  margin-bottom: 0;
+}
+
+/* ============================================
+   PATTERN BROWSER - Mobile Optimizations
+   ============================================ */
+@media (max-width: 640px) {
+  /* Pattern browser filters - stack vertically on mobile */
+  .pattern-browser .filters .grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  /* Pattern grid - single column on mobile */
+  .pattern-grid {
+    grid-template-columns: 1fr !important;
+    gap: 12px;
+  }
+
+  /* Pattern cards - optimize for mobile touch */
+  .pattern-card {
+    padding: 12px;
+    border-radius: 12px;
+    min-height: 120px;
+  }
+
+  .pattern-card h3 {
+    font-size: 16px;
+    line-height: 1.3;
+  }
+
+  .pattern-card .line-clamp-2 {
+    font-size: 14px;
+    line-height: 1.4;
+  }
+
+  /* Pattern detail modal - optimize for mobile */
+  .pattern-detail-modal {
+    margin: 8px;
+    max-height: calc(100vh - 32px);
+    border-radius: 16px;
+  }
+
+  .pattern-detail-modal .grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  /* Compact pattern browser */
+  .pattern-browser-compact .grid {
+    max-height: 250px;
+  }
+
+  .pattern-card-compact {
+    min-height: 60px;
+  }
+
+  /* Pattern practice session area */
+  .practice-session {
+    padding: 12px;
+    border-radius: 12px;
+  }
+
+  .practice-session .grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+}
+
+/* ============================================
+   ENHANCED MOBILE TOUCH OPTIMIZATIONS
+   ============================================ */
+@media (max-width: 640px) {
+  /* Improve button spacing for easier touch targets */
+  .row.gap-2 {
+    gap: 12px;
+  }
+
+  .row .btn + .btn {
+    margin-top: 8px;
+  }
+
+  /* Better checkbox and radio button touch targets */
+  input[type="checkbox"], 
+  input[type="radio"] {
+    min-width: 20px;
+    min-height: 20px;
+    margin-right: 8px;
+  }
+
+  /* Improved select and input styling for mobile */
+  select, input[type="text"], input[type="number"] {
+    border-radius: 12px;
+    border: 2px solid var(--stroke);
+    background: var(--panel);
+  }
+
+  select {
+    background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%232f1a00' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6,9 12,15 18,9'%3e%3c/polyline%3e%3c/svg%3e");
+    background-position: right 12px center;
+    background-repeat: no-repeat;
+    background-size: 16px;
+    padding-right: 40px;
+  }
+
+  /* Range slider improvements */
+  input[type="range"] {
+    height: 40px;
+    appearance: none;
+    background: transparent;
+    cursor: pointer;
+  }
+
+  input[type="range"]::-webkit-slider-track {
+    height: 6px;
+    background: var(--stroke);
+    border-radius: 3px;
+  }
+
+  input[type="range"]::-webkit-slider-thumb {
+    appearance: none;
+    height: 24px;
+    width: 24px;
+    border-radius: 12px;
+    background: var(--ink);
+    margin-top: -9px;
+    border: 2px solid var(--panel);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  }
+
+  input[type="range"]::-moz-range-track {
+    height: 6px;
+    background: var(--stroke);
+    border-radius: 3px;
+    border: none;
+  }
+
+  input[type="range"]::-moz-range-thumb {
+    height: 20px;
+    width: 20px;
+    border-radius: 10px;
+    background: var(--ink);
+    border: 2px solid var(--panel);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    cursor: pointer;
+  }
+}
+
+/* ============================================
+   SKILL TREE - Enhanced Mobile Layout
+   ============================================ */
+@media (max-width: 640px) {
+  .skill-tree-container {
+    overflow-x: auto;
+    padding: 16px 8px;
+  }
+
+  .skill-node {
+    min-width: 80px;
+    min-height: 80px;
+    font-size: 12px;
+    padding: 8px;
+  }
+
+  .skill-node-name {
+    font-size: 11px;
+    line-height: 1.2;
+  }
+
+  .skill-progress-overlay {
+    margin: 4px;
+    padding: 8px;
+    border-radius: 8px;
+  }
+}
+
+/* ============================================
+   METRONOME - Enhanced Mobile Controls
+   ============================================ */
+@media (max-width: 640px) {
+  .metronome-bpm-controls {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 12px;
+  }
+
+  .metronome-bpm-buttons {
+    display: flex;
+    justify-content: space-between;
+    gap: 8px;
+  }
+
+  .metronome-bpm-buttons .btn {
+    flex: 1;
+    min-height: 48px;
+    font-size: 18px;
+    font-weight: bold;
+  }
+
+  /* Larger tap tempo button */
+  .metronome-tap-tempo {
+    min-height: 60px;
+    font-size: 18px;
+    border-radius: 30px;
+    margin-top: 8px;
+  }
+}
+
+/* ============================================
+   PROGRESS CHARTS - Mobile Optimizations  
+   ============================================ */
+@media (max-width: 640px) {
+  .progress-chart {
+    height: 200px; /* Smaller height on mobile */
+  }
+
+  .stats-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+  }
+
+  .stat-card {
+    padding: 12px;
+    border-radius: 12px;
+    min-height: 80px;
+  }
+
+  .stat-card-value {
+    font-size: 24px;
+  }
+
+  .stat-card-label {
+    font-size: 12px;
+  }
+}
+
+/* ============================================
+   SCROLL ENHANCEMENTS - Mobile
+   ============================================ */
+@media (max-width: 640px) {
+  /* Better scroll behavior for mobile */
+  .scroll-area {
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior: contain;
+  }
+
+  /* Hide scrollbars on mobile for cleaner look */
+  .scroll-area::-webkit-scrollbar {
+    display: none;
+  }
+  
+  .scroll-area {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+}
+
+/* ============================================
+   ACCESSIBILITY - High Contrast Mode
+   ============================================ */
+@media (prefers-contrast: high) {
+  .btn {
+    border-width: 2px;
+  }
+  
+  .btn:focus {
+    outline: 3px solid var(--ink);
+    outline-offset: 2px;
+  }
+  
+  .card {
+    border-width: 2px;
+  }
+}
+
+/* ============================================
+   MOBILE TAP PAD - Interactive drum practice
+   ============================================ */
+.mobile-tap-pad {
+  background: var(--panel);
+  border: 1px solid var(--stroke);
+  border-radius: 16px;
+  padding: 16px;
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-touch-callout: none;
+}
+
+.tap-pad-header {
+  text-align: center;
+  margin-bottom: 16px;
+}
+
+.tap-pad-title {
+  font-size: 18px;
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+
+.tap-pad-pattern {
+  font-size: 14px;
+  color: var(--ink-muted);
+}
+
+.tap-feedback-area {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 20px;
+  min-height: 60px;
+  justify-content: center;
+}
+
+.tap-feedback {
+  font-size: 24px;
+  font-weight: bold;
+  color: var(--ink);
+  background: var(--bg);
+  padding: 8px 16px;
+  border-radius: 20px;
+  border: 1px solid var(--stroke);
+}
+
+.tap-history {
+  font-family: var(--font-dm-mono), monospace;
+  font-size: 16px;
+  color: var(--ink-muted);
+  background: var(--bg);
+  padding: 8px 12px;
+  border-radius: 8px;
+  min-height: 32px;
+  display: flex;
+  align-items: center;
+  border: 1px solid var(--stroke);
+}
+
+.tap-pads-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr 1fr;
+  gap: 12px;
+  margin-bottom: 16px;
+  aspect-ratio: 1;
+  max-width: 300px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.tap-pad-hihat {
+  grid-column: 1 / -1;
+  grid-row: 1;
+}
+
+.tap-pad-snare {
+  grid-column: 1;
+  grid-row: 2;
+}
+
+.tap-pad-kick {
+  grid-column: 2;
+  grid-row: 2;
+}
+
+.tap-pad {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: var(--panel-deep);
+  border: 2px solid var(--stroke);
+  border-radius: 16px;
+  font-size: 14px;
+  font-weight: 600;
+  text-align: center;
+  cursor: pointer;
+  transition: all 150ms ease;
+  min-height: 80px;
+  position: relative;
+  overflow: hidden;
+}
+
+.tap-pad:active,
+.tap-pad.tap-active {
+  transform: scale(0.95);
+  background: var(--bg-deep);
+  border-color: var(--ink);
+}
+
+.tap-pad:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.tap-pad-icon {
+  font-size: 24px;
+  margin-bottom: 4px;
+}
+
+.tap-pad-label {
+  font-size: 12px;
+  font-weight: 600;
+  margin-bottom: 2px;
+}
+
+.tap-pad-key {
+  font-size: 10px;
+  opacity: 0.6;
+  font-family: var(--font-dm-mono), monospace;
+}
+
+.tap-pad-controls {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.tap-count {
+  font-size: 14px;
+  color: var(--ink-muted);
+}
+
+/* Add ripple effect on tap */
+.tap-pad::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  border-radius: 50%;
+  background: var(--ink);
+  opacity: 0.3;
+  transform: translate(-50%, -50%);
+  transition: width 0.3s, height 0.3s;
+}
+
+.tap-pad.tap-active::before {
+  width: 120px;
+  height: 120px;
+}
+
+/* Mobile optimizations for tap pad */
+@media (max-width: 640px) {
+  .tap-pads-grid {
+    gap: 16px;
+    max-width: 280px;
+  }
+  
+  .tap-pad {
+    min-height: 70px;
+  }
+  
+  .tap-pad-hihat {
+    min-height: 60px;
   }
 }

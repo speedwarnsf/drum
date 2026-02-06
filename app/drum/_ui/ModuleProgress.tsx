@@ -1,11 +1,13 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { MODULE_INFO, advanceModule } from "../_lib/drumMvp";
+import { canAdvanceToModule, getCompetencyGateStatus } from "../_lib/competencyGates";
 
 type ModuleProgressProps = {
   currentModule: number;
   sessionsInModule: number;
+  diagnosticResults?: Record<string, any>;
   compact?: boolean;
   onAdvance?: (newModule: number) => void;
 };
@@ -13,14 +15,29 @@ type ModuleProgressProps = {
 export default function ModuleProgress({
   currentModule,
   sessionsInModule,
+  diagnosticResults = {},
   compact = false,
   onAdvance,
 }: ModuleProgressProps) {
   const [showAdvancePrompt, setShowAdvancePrompt] = useState(false);
   const [advancing, setAdvancing] = useState(false);
+  const [gateStatus, setGateStatus] = useState<any>(null);
 
-  const canAdvance = currentModule < 4 && sessionsInModule >= 14;
+  const nextModule = currentModule + 1;
+  const advancement = canAdvanceToModule(nextModule, diagnosticResults, sessionsInModule);
+  const canAdvance = currentModule < 4 && advancement.canAdvance;
   const moduleInfo = MODULE_INFO[currentModule - 1];
+
+  useEffect(() => {
+    if (!advancement.canAdvance && advancement.blockingGate) {
+      setGateStatus({
+        gate: advancement.blockingGate,
+        reason: advancement.reason
+      });
+    } else {
+      setGateStatus(null);
+    }
+  }, [advancement]);
 
   async function handleAdvance() {
     setAdvancing(true);
@@ -55,29 +72,82 @@ export default function ModuleProgress({
             Ready to advance →
           </button>
         )}
+        {!canAdvance && gateStatus && (
+          <button
+            className="module-gate-hint"
+            onClick={() => setShowAdvancePrompt(true)}
+          >
+            ⚠️ Diagnostic required
+          </button>
+        )}
         {showAdvancePrompt && (
           <div className="module-advance-modal">
             <div className="module-advance-content">
-              <h3>Advance to Module {currentModule + 1}?</h3>
-              <p className="sub">
-                You&apos;ve completed {sessionsInModule} sessions in this module.
-                Ready to move on to <strong>{MODULE_INFO[currentModule].title}</strong>?
-              </p>
-              <div className="row">
-                <button
-                  className="btn"
-                  onClick={handleAdvance}
-                  disabled={advancing}
-                >
-                  {advancing ? "Advancing..." : "Yes, advance"}
-                </button>
-                <button
-                  className="btn btn-ghost"
-                  onClick={() => setShowAdvancePrompt(false)}
-                >
-                  Not yet
-                </button>
-              </div>
+              {canAdvance ? (
+                <>
+                  <h3>Advance to Module {currentModule + 1}?</h3>
+                  <p className="sub">
+                    You&apos;ve completed {sessionsInModule} sessions in this module.
+                    Ready to move on to <strong>{MODULE_INFO[currentModule].title}</strong>?
+                  </p>
+                  <div className="row">
+                    <button
+                      className="btn"
+                      onClick={handleAdvance}
+                      disabled={advancing}
+                    >
+                      {advancing ? "Advancing..." : "Yes, advance"}
+                    </button>
+                    <button
+                      className="btn btn-ghost"
+                      onClick={() => setShowAdvancePrompt(false)}
+                    >
+                      Not yet
+                    </button>
+                  </div>
+                </>
+              ) : gateStatus ? (
+                <>
+                  <h3>Diagnostic Required</h3>
+                  <p className="gate-title">{gateStatus.gate.name}</p>
+                  <p>{gateStatus.gate.description}</p>
+                  <p className="sub">{gateStatus.reason}</p>
+                  
+                  <div className="gate-rationale">
+                    <h4>Why this checkpoint exists:</h4>
+                    <p>{gateStatus.gate.rationale}</p>
+                  </div>
+
+                  <div className="row">
+                    <a 
+                      href="/drum/diagnostic"
+                      className="btn"
+                    >
+                      Take Diagnostic Test
+                    </a>
+                    <button
+                      className="btn btn-ghost"
+                      onClick={() => setShowAdvancePrompt(false)}
+                    >
+                      Later
+                    </button>
+                  </div>
+                </>
+              ) : (
+                <>
+                  <h3>Not Ready to Advance</h3>
+                  <p>Complete more practice sessions first.</p>
+                  <p className="sub">{advancement.reason}</p>
+                  <div className="row">
+                    <button
+                      className="btn btn-ghost"
+                      onClick={() => setShowAdvancePrompt(false)}
+                    >
+                      Continue practicing
+                    </button>
+                  </div>
+                </>
+              )}
             </div>
           </div>
         )}

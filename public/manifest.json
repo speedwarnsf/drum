@@ -1,7 +1,7 @@
 {
-  "name": "Dyork Drum Practice",
-  "short_name": "Drum",
-  "description": "Daily drum practice cards with calm, teacher-style guidance",
+  "name": "Repo Drum - Adaptive Drum Instructor",
+  "short_name": "Repo Drum",
+  "description": "AI-powered drum practice with adaptive instruction and spaced repetition",
   "start_url": "/drum/today",
   "display": "standalone",
   "background_color": "#f4ba34",
@@ -9,13 +9,95 @@
   "orientation": "portrait-primary",
   "icons": [
     {
-      "src": "/media/repodrumlogo.gif",
-      "sizes": "200x200",
-      "type": "image/gif",
-      "purpose": "any"
+      "src": "/icons/icon-72x72.png",
+      "sizes": "72x72",
+      "type": "image/png",
+      "purpose": "maskable any"
+    },
+    {
+      "src": "/icons/icon-96x96.png", 
+      "sizes": "96x96",
+      "type": "image/png",
+      "purpose": "maskable any"
+    },
+    {
+      "src": "/icons/icon-128x128.png",
+      "sizes": "128x128", 
+      "type": "image/png",
+      "purpose": "maskable any"
+    },
+    {
+      "src": "/icons/icon-144x144.png",
+      "sizes": "144x144",
+      "type": "image/png",
+      "purpose": "maskable any"
+    },
+    {
+      "src": "/icons/icon-152x152.png",
+      "sizes": "152x152",
+      "type": "image/png",
+      "purpose": "maskable any"
+    },
+    {
+      "src": "/icons/icon-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "maskable any"
+    },
+    {
+      "src": "/icons/icon-384x384.png",
+      "sizes": "384x384",
+      "type": "image/png", 
+      "purpose": "maskable any"
+    },
+    {
+      "src": "/icons/icon-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable any"
     }
   ],
-  "categories": ["music", "education", "productivity"],
-  "lang": "en",
-  "dir": "ltr"
+  "categories": ["music", "education", "entertainment"],
+  "screenshots": [
+    {
+      "src": "/screenshots/mobile-today.png",
+      "sizes": "390x844",
+      "type": "image/png",
+      "form_factor": "narrow",
+      "label": "Daily practice session on mobile"
+    },
+    {
+      "src": "/screenshots/mobile-patterns.png", 
+      "sizes": "390x844",
+      "type": "image/png",
+      "form_factor": "narrow",
+      "label": "Pattern library on mobile"
+    }
+  ],
+  "prefer_related_applications": false,
+  "lang": "en-US",
+  "scope": "/drum/",
+  "shortcuts": [
+    {
+      "name": "Today's Practice",
+      "short_name": "Today",
+      "description": "Start today's adaptive practice session",
+      "url": "/drum/today",
+      "icons": [{ "src": "/icons/shortcut-today.png", "sizes": "96x96" }]
+    },
+    {
+      "name": "Pattern Library",
+      "short_name": "Patterns", 
+      "description": "Browse drum patterns and grooves",
+      "url": "/drum/patterns",
+      "icons": [{ "src": "/icons/shortcut-patterns.png", "sizes": "96x96" }]
+    },
+    {
+      "name": "Progress", 
+      "short_name": "Progress",
+      "description": "View learning progress and statistics",
+      "url": "/drum/progress", 
+      "icons": [{ "src": "/icons/shortcut-progress.png", "sizes": "96x96" }]
+    }
+  ]
 }

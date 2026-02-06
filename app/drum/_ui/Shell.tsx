@@ -37,23 +37,64 @@ export default function Shell({
     setMobileNavOpen(false);
   };
 
-  const navLinks = (
+  const primaryNavLinks = (
+    <>
+      <a href="/drum/today" className="btn btn-primary" onClick={handleNavClick}>
+        🎯 Today
+      </a>
+      <a href="/drum/patterns" className="btn btn-ghost" onClick={handleNavClick}>
+        📚 Patterns
+      </a>
+      <a href="/drum/drills" className="btn btn-ghost" onClick={handleNavClick}>
+        💪 Drills
+      </a>
+      <a href="/drum/progress" className="btn btn-ghost" onClick={handleNavClick}>
+        📈 Progress
+      </a>
+    </>
+  );
+
+  const secondaryNavLinks = (
+    <>
+      <div className="nav-section-label">Learning Tools</div>
+      <a href="/drum/skills" className="btn btn-ghost btn-sm" onClick={handleNavClick}>
+        Skills Tree
+      </a>
+      <a href="/drum/diagnostic" className="btn btn-ghost btn-sm" onClick={handleNavClick}>
+        Diagnostic
+      </a>
+      <a href="/drum/method" className="btn btn-ghost btn-sm" onClick={handleNavClick}>
+        Method
+      </a>
+      <div className="nav-section-label">Community & Support</div>
+      <a href="/drum/community" className="btn btn-ghost btn-sm" onClick={handleNavClick}>
+        Community
+      </a>
+      <a href="/drum/maintenance" className="btn btn-ghost btn-sm" onClick={handleNavClick}>
+        Maintenance
+      </a>
+      <div className="nav-section-label">History & Data</div>
+      <a href="/drum/history" className="btn btn-ghost btn-sm" onClick={handleNavClick}>
+        History
+      </a>
+      <a href="/drum/journal" className="btn btn-ghost btn-sm" onClick={handleNavClick}>
+        Journal
+      </a>
+    </>
+  );
+
+  // Desktop navigation (more compact)
+  const desktopNavLinks = (
     <>
       <AuthSetupLink />
       <a href="/drum/today" className="btn btn-ghost" onClick={handleNavClick}>
         Today
       </a>
+      <a href="/drum/patterns" className="btn btn-ghost" onClick={handleNavClick}>
+        Patterns
+      </a>
       <a href="/drum/drills" className="btn btn-ghost" onClick={handleNavClick}>
         Drills
-      </a>
-      <a href="/drum/maintenance" className="btn btn-ghost" onClick={handleNavClick}>
-        Maintenance
-      </a>
-      <a href="/drum/diagnostic" className="btn btn-ghost" onClick={handleNavClick}>
-        Diagnostic
-      </a>
-      <a href="/drum/community" className="btn btn-ghost" onClick={handleNavClick}>
-        Community
       </a>
       <a href="/drum/progress" className="btn btn-ghost" onClick={handleNavClick}>
         Progress
@@ -61,16 +102,10 @@ export default function Shell({
       <a href="/drum/skills" className="btn btn-ghost" onClick={handleNavClick}>
         Skills
       </a>
-      <a href="/drum/method" className="btn btn-ghost" onClick={handleNavClick}>
-        Method
+      <a href="/drum/community" className="btn btn-ghost" onClick={handleNavClick}>
+        Community
       </a>
       <AuthNavLinks />
-      <a href="/drum/history" className="btn btn-ghost" onClick={handleNavClick}>
-        History
-      </a>
-      <a href="/drum/journal" className="btn btn-ghost" onClick={handleNavClick}>
-        Log
-      </a>
       <LessonCredits />
     </>
   );
@@ -116,12 +151,20 @@ export default function Shell({
               >
                 ×
               </button>
-              {navLinks}
+              <AuthSetupLink />
+              <div className="nav-section-primary">
+                {primaryNavLinks}
+              </div>
+              <div className="nav-section-secondary">
+                {secondaryNavLinks}
+              </div>
+              <AuthNavLinks />
+              <LessonCredits />
             </nav>
 
             {/* Desktop nav (visible when mobile nav is hidden via CSS) */}
             <div className="desktop-nav">
-              {navLinks}
+              {desktopNavLinks}
             </div>
           </div>
         </div>

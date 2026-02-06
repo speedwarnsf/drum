@@ -28,7 +28,9 @@ type AudiationPattern = {
 };
 
 const PATTERNS: AudiationPattern[] = [
-  // Basic patterns
+  // ========================================
+  // BASIC PATTERNS - Foundation rhythms
+  // ========================================
   {
     id: "quarters",
     name: "Quarter Notes",
@@ -53,7 +55,26 @@ const PATTERNS: AudiationPattern[] = [
     bars: 1,
     category: "basic",
   },
-  // Groove patterns
+  {
+    id: "triplets",
+    name: "Eighth Triplets",
+    syllables: "Du-Da-Di Du-Da-Di Du-Da-Di Du-Da-Di",
+    notation: "1 & a  2 & a  3 & a  4 & a",
+    bars: 1,
+    category: "basic",
+  },
+  {
+    id: "dotted-eighths",
+    name: "Dotted Eighths",
+    syllables: "Du---De Du---De",
+    notation: "1    &  3    &",
+    bars: 1,
+    category: "basic",
+  },
+
+  // ========================================
+  // ROCK GROOVES - Essential rock patterns
+  // ========================================
   {
     id: "basic-rock",
     name: "Basic Rock",
@@ -65,23 +86,248 @@ const PATTERNS: AudiationPattern[] = [
   },
   {
     id: "rock-steady",
-    name: "Rock Steady",
+    name: "Rock Beat (8th HH)",
     syllables: "Tss-Boom Tss-Chack Tss-Boom Tss-Chack",
-    notation: "H-K  H-S  H-K  H-S",
+    notation: "H-K      H-S       H-K      H-S",
     bars: 1,
     bpm: 90,
     category: "groove",
   },
   {
+    id: "rock-16th",
+    name: "Rock (16th Hi-Hat)",
+    syllables: "Tss-Tss-Boom-Tss Tss-Chack-Tss-Tss",
+    notation: "H-H-K-H      H-S-H-H",
+    bars: 1,
+    bpm: 75,
+    category: "groove",
+  },
+  {
+    id: "rock-shuffle",
+    name: "Rock Shuffle",
+    syllables: "Tss-Boom-Tss Chack-Tss-Tss",
+    notation: "H-K-H     S-H-H    (swing feel)",
+    bars: 1,
+    bpm: 85,
+    category: "groove",
+  },
+  {
+    id: "half-time",
+    name: "Half Time Rock",
+    syllables: "Boom Boom Chack Boom",
+    notation: "K    K    S     K",
+    bars: 1,
+    bpm: 70,
+    category: "groove",
+  },
+
+  // ========================================
+  // FUNK GROOVES - Syncopated patterns
+  // ========================================
+  {
+    id: "funk-basic",
+    name: "Basic Funk",
+    syllables: "Boom-Tss-ghost-Chack Tss-Boom-ghost-Tss",
+    notation: "K-H-(s)-S    H-K-(s)-H",
+    bars: 1,
+    bpm: 95,
+    category: "groove",
+  },
+  {
+    id: "funk-linear",
+    name: "Linear Funk",
+    syllables: "Boom rest Chack-Tss rest-Boom rest-Chack",
+    notation: "K    -    S-H     -K    -S",
+    bars: 1,
+    bpm: 85,
+    category: "groove",
+  },
+  {
+    id: "funk-ghost",
+    name: "Ghost Note Funk",
+    syllables: "Boom-ghost-ghost-Chack ghost-Boom-ghost-ghost",
+    notation: "K-(s)-(s)-S     (s)-K-(s)-(s)",
+    bars: 1,
+    bpm: 90,
+    category: "groove",
+  },
+  {
+    id: "funky-drummer",
+    name: "Funky Drummer",
+    syllables: "Boom-ghost-Boom-Chack ghost-ghost-Boom-Chack",
+    notation: "K-(s)-K-S     (s)-(s)-K-S",
+    bars: 1,
+    bpm: 100,
+    category: "groove",
+  },
+
+  // ========================================
+  // DISCO & DANCE - Four-on-floor patterns
+  // ========================================
+  {
     id: "disco",
-    name: "Disco/Four-on-Floor",
+    name: "Classic Disco",
     syllables: "Boom-Tss Chack-Tss Boom-Tss Chack-Tss",
-    notation: "K-H  S-H  K-H  S-H",
+    notation: "K-H      S-H       K-H      S-H",
     bars: 1,
     bpm: 110,
     category: "groove",
   },
-  // Rudiments
+  {
+    id: "four-on-floor",
+    name: "Four on the Floor",
+    syllables: "Boom Boom Boom Boom (+ backbeat)",
+    notation: "K    K    K    K",
+    bars: 1,
+    bpm: 120,
+    category: "groove",
+  },
+  {
+    id: "house-beat",
+    name: "House Beat",
+    syllables: "Boom-Tss-Tss-Tss Chack-Tss-Boom-Tss",
+    notation: "K-H-H-H      S-H-K-H",
+    bars: 1,
+    bpm: 125,
+    category: "groove",
+  },
+
+  // ========================================
+  // JAZZ PATTERNS - Swing and bebop
+  // ========================================
+  {
+    id: "jazz-swing",
+    name: "Jazz Swing",
+    syllables: "Spang-a-lang Spang-a-lang (ride cymbal)",
+    notation: "R---R-R   R---R-R   (swing)",
+    bars: 1,
+    bpm: 120,
+    category: "groove",
+  },
+  {
+    id: "jazz-waltz",
+    name: "Jazz Waltz",
+    syllables: "Boom Chack Tss",
+    notation: "K    S     R (3/4 time)",
+    bars: 1,
+    bpm: 100,
+    category: "groove",
+  },
+  {
+    id: "bebop",
+    name: "Bebop Comping",
+    syllables: "Boom-rest-Chack-rest",
+    notation: "K    -    S     -",
+    bars: 1,
+    bpm: 140,
+    category: "groove",
+  },
+
+  // ========================================
+  // LATIN RHYTHMS - World music patterns
+  // ========================================
+  {
+    id: "bossa-nova",
+    name: "Bossa Nova",
+    syllables: "Boom-rest-Boom-Chack rest-Boom-rest-Chack",
+    notation: "K    -    K-S     -K    -S",
+    bars: 1,
+    bpm: 110,
+    category: "groove",
+  },
+  {
+    id: "samba",
+    name: "Samba",
+    syllables: "Boom-Chack-Boom-Chack-Boom-Chack",
+    notation: "K-S-K-S-K-S (surdo pattern)",
+    bars: 1,
+    bpm: 105,
+    category: "groove",
+  },
+  {
+    id: "mambo",
+    name: "Mambo",
+    syllables: "Boom-Boom-Chack Boom-Boom-Chack",
+    notation: "K-K-S     K-K-S",
+    bars: 1,
+    bpm: 95,
+    category: "groove",
+  },
+  {
+    id: "reggae",
+    name: "Reggae",
+    syllables: "rest-Boom-Chack rest-Boom-Chack",
+    notation: "-K-S     -K-S (one drop)",
+    bars: 1,
+    bpm: 75,
+    category: "groove",
+  },
+
+  // ========================================
+  // SHUFFLE PATTERNS - Triplet feel grooves
+  // ========================================
+  {
+    id: "texas-shuffle",
+    name: "Texas Shuffle",
+    syllables: "Boom-rest-Boom Chack-rest-Boom",
+    notation: "K----K   S----K (shuffle)",
+    bars: 1,
+    bpm: 85,
+    category: "groove",
+  },
+  {
+    id: "blues-shuffle",
+    name: "Blues Shuffle",
+    syllables: "Boom-Boom-rest Chack-rest-Boom",
+    notation: "K-K--     S--K (swing)",
+    bars: 1,
+    bpm: 90,
+    category: "groove",
+  },
+  {
+    id: "train-beat",
+    name: "Train Beat",
+    syllables: "Chack-a-Chack-a Chack-a-Chack-a",
+    notation: "S-S-S-S     S-S-S-S",
+    bars: 1,
+    bpm: 120,
+    category: "groove",
+  },
+
+  // ========================================
+  // MODERN STYLES - Contemporary patterns
+  // ========================================
+  {
+    id: "trap",
+    name: "Trap Beat",
+    syllables: "Boom-rest-Boom-rest Chack-rest-Boom-Boom",
+    notation: "K----K--     S--K-K",
+    bars: 1,
+    bpm: 140,
+    category: "groove",
+  },
+  {
+    id: "dnb",
+    name: "Drum & Bass",
+    syllables: "Boom-rest-Chack-rest rest-Boom-Chack-Boom",
+    notation: "K--S-    -K-S-K",
+    bars: 1,
+    bpm: 170,
+    category: "groove",
+  },
+  {
+    id: "breakbeat",
+    name: "Breakbeat",
+    syllables: "Boom-Boom-Chack-Boom rest-Boom-Chack-rest",
+    notation: "K-K-S-K     -K-S-",
+    bars: 1,
+    bpm: 130,
+    category: "groove",
+  },
+
+  // ========================================
+  // RUDIMENTS - Essential sticking patterns
+  // ========================================
   {
     id: "singles",
     name: "Single Stroke Roll",
@@ -105,6 +351,66 @@ const PATTERNS: AudiationPattern[] = [
     notation: "R L R R  L R L L",
     bars: 1,
     category: "rudiment",
+  },
+  {
+    id: "flam",
+    name: "Flam",
+    syllables: "Ka-DU Ka-DE",
+    notation: "lR   rL",
+    bars: 1,
+    category: "rudiment",
+  },
+  {
+    id: "drag",
+    name: "Drag (Ruff)",
+    syllables: "rra-DU lla-DE",
+    notation: "rrR   llL",
+    bars: 1,
+    category: "rudiment",
+  },
+  {
+    id: "flamacue",
+    name: "Flamacue",
+    syllables: "Ka-du-DU De-du-DE",
+    notation: "lRL R  rLR L",
+    bars: 1,
+    category: "rudiment",
+  },
+  {
+    id: "ratamacue",
+    name: "Ratamacue",
+    syllables: "Du-Du-Ka-du-DU",
+    notation: "R L lR L R",
+    bars: 1,
+    category: "rudiment",
+  },
+
+  // ========================================
+  // FILLS - Transitional patterns
+  // ========================================
+  {
+    id: "basic-fill",
+    name: "Basic Tom Fill",
+    syllables: "Du-De-Du-De (high-low-high-low)",
+    notation: "H L H L (toms)",
+    bars: 1,
+    category: "fill",
+  },
+  {
+    id: "linear-fill",
+    name: "Linear Fill",
+    syllables: "Boom-Chack-Tom-Tom",
+    notation: "K-S-T-T",
+    bars: 1,
+    category: "fill",
+  },
+  {
+    id: "paradiddle-fill",
+    name: "Paradiddle Fill",
+    syllables: "Du-de-du-DU (around kit)",
+    notation: "S-T-T-F",
+    bars: 1,
+    category: "fill",
   },
 ];
 
