@@ -80,28 +80,32 @@ main.shell {
 .hero-shell {
   margin-bottom: 0;
   padding-bottom: 0;
+  max-width: 920px;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 0 16px;
 }
 
 .hero {
-  border-radius: 18px;
   background: transparent;
   overflow: visible;
-  margin-bottom: 18px;
+  display: flex;
+  justify-content: flex-end;
 }
 
 .hero-video {
   display: block;
-  width: 100%;
-  object-fit: cover;
+  width: 320px;
   height: 0;
   opacity: 0;
   mix-blend-mode: darken;
-  transform: translate(101px, 78px) scale(1.08);
-  clip-path: inset(3px 0 3px 0);
+  object-fit: contain;
+  margin-left: auto;
+  margin-top: -180px;
 }
 
 .hero-video-ready {
-  height: clamp(200px, 36vw, 320px);
+  height: 320px;
   opacity: 0.95;
 }
 
