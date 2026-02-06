@@ -40,6 +40,9 @@ export default function HeroVideo() {
       preload="auto"
       style={{
         mixBlendMode: "darken",
+        width: 320,
+        height: ready ? 320 : 0,
+        opacity: ready ? 1 : 0,
       }}
       onLoadedData={() => setReady(true)}
       onCanPlay={() => setReady(true)}

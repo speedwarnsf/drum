@@ -67,9 +67,10 @@ export default function RootLayout({
               width={400}
               height={400}
               priority
+              style={{ mixBlendMode: "darken" }}
             />
           </a>
-          <div className="hero" aria-label="Drum video">
+          <div className="hero" style={{ position: "absolute", top: 100, right: 0 }} aria-label="Drum video">
             <HeroVideo />
           </div>
         </div>
