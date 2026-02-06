@@ -49,30 +49,28 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
-        {/* iOS PWA enhancements */}
         <link rel="apple-touch-icon" href="/media/repodrumlogo.gif" />
         <meta name="apple-mobile-web-app-capable" content="yes" />
         <meta name="apple-mobile-web-app-status-bar-style" content="default" />
         <meta name="apple-mobile-web-app-title" content="Drum" />
-        {/* Prevent text size adjustment on orientation change */}
         <meta name="x-ua-compatible" content="IE=edge" />
       </head>
       <body className={`${spaceGrotesk.variable} ${dmMono.variable}`}>
-        <header className="site-header">
-          <a href="/drum" aria-label="RepoDrum home" className="logo-link">
-            <Image
-              className="site-logo"
-              src="/media/repodrumlogo.gif"
-              alt="RepoDrum - Adaptive Drum Instructor"
-              width={400}
-              height={400}
-              priority
-            />
-          </a>
-          <div className="header-video">
+        <a href="/drum" aria-label="RepoDrum home">
+          <Image
+            className="global-logo"
+            src="/media/repodrumlogo.gif"
+            alt="RepoDrum - Adaptive Drum Instructor"
+            width={200}
+            height={200}
+            priority
+          />
+        </a>
+        <div className="shell hero-shell" aria-label="Drum video">
+          <section className="hero">
             <HeroVideo />
-          </div>
-        </header>
+          </section>
+        </div>
         {children}
       </body>
     </html>

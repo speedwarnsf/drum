@@ -31,7 +31,7 @@ export default function HeroVideo() {
   return (
     <video
       ref={ref}
-      className={`header-video-el ${ready ? "header-video-ready" : ""}`}
+      className={`hero-video ${ready ? "hero-video-ready" : ""}`}
       src="/media/YellowDrum.mp4"
       autoPlay
       muted

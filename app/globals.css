@@ -56,88 +56,53 @@ select {
 }
 
 /* ============================================
-   SITE HEADER - Simple flex layout
-   ============================================ */
-
-.site-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  max-width: 920px;
-  margin: 20px auto 0;
-  padding: 0 18px;
-  gap: 16px;
-}
-
-.logo-link {
-  display: block;
-  flex-shrink: 0;
-}
-
-.site-logo {
-  width: 220px !important;
-  height: auto !important;
-  display: block;
-}
-
-.header-video {
-  flex-shrink: 0;
-}
-
-.header-video-el {
-  display: block;
-  width: 200px;
-  height: 200px;
-  object-fit: cover;
-  border-radius: 12px;
-  opacity: 0;
-  transition: opacity 300ms ease;
-}
-
-.header-video-ready {
-  opacity: 1;
-}
-
-/* Responsive adjustments */
-@media (max-width: 600px) {
-  .site-header {
-    flex-direction: column;
-    align-items: center;
-    gap: 12px;
-    margin-top: 16px;
-  }
-  
-  .site-logo {
-    width: 180px !important;
-  }
-  
-  .header-video-el {
-    width: 160px;
-    height: 160px;
-  }
-}
-
-@media (min-width: 768px) {
-  .site-logo {
-    width: 260px !important;
-  }
-  
-  .header-video-el {
-    width: 240px;
-    height: 240px;
-  }
-}
-
-/* ============================================
-   MAIN CONTENT
+   HERO LAYOUT - Fixed logo + darken blend video
    ============================================ */
 
 main.shell {
   max-width: 920px;
-  margin: 24px auto 64px;
+  margin: 44px auto 64px;
   padding: 0 18px 32px;
   position: relative;
   z-index: 1;
+}
+
+.hero-shell {
+  margin-bottom: 0;
+  padding-bottom: 0;
+}
+
+.hero {
+  border-radius: 18px;
+  background: transparent;
+  overflow: visible;
+  margin-bottom: 18px;
+}
+
+.hero-video {
+  display: block;
+  width: 100%;
+  object-fit: cover;
+  height: 0;
+  opacity: 0;
+  mix-blend-mode: darken;
+  transform: translate(101px, 78px) scale(1.08);
+  clip-path: inset(3px 0 3px 0);
+}
+
+.hero-video-ready {
+  height: clamp(200px, 36vw, 320px);
+  opacity: 0.95;
+}
+
+.global-logo {
+  position: fixed;
+  top: 12px;
+  left: 12px;
+  width: 200px;
+  height: 200px;
+  z-index: 6;
+  pointer-events: auto;
 }
 
 main.shell.shell-tight {
@@ -168,7 +133,7 @@ main.shell.shell-tight {
   align-items: center;
 }
 
-/* Logo size set in .site-header section above */
+/* Logo size set in .global-logo section above */
 
 .kicker {
   font-family: var(--font-dm-mono), ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
