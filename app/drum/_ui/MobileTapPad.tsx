@@ -356,4 +356,4 @@ export const TAP_PAD_STYLES = `
   width: 120px;
   height: 120px;
 }
-`;`;
+`;
