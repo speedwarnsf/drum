@@ -85,29 +85,30 @@ main.shell {
   margin-left: auto;
   margin-right: auto;
   padding: 0 16px;
-  min-height: 360px;
+  min-height: 380px;
+  overflow: visible;
 }
 
 .hero {
-  background: transparent;
+  position: absolute;
+  top: 0;
+  right: 0;
   overflow: visible;
 }
 
 .hero-video {
   display: block;
-  width: 320px;
+  width: 400px;
   height: 0;
   opacity: 0;
   mix-blend-mode: darken;
   object-fit: contain;
-  position: absolute;
-  top: 20px;
-  right: 16px;
+  clip-path: inset(5px);
 }
 
 .hero-video-ready {
-  height: 320px;
-  opacity: 0.95;
+  height: 400px;
+  opacity: 1;
 }
 
 main.shell.shell-tight {
