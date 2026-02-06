@@ -49,17 +49,19 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
+        {/* iOS PWA enhancements */}
         <link rel="apple-touch-icon" href="/media/repodrumlogo.gif" />
         <meta name="apple-mobile-web-app-capable" content="yes" />
         <meta name="apple-mobile-web-app-status-bar-style" content="default" />
         <meta name="apple-mobile-web-app-title" content="Drum" />
+        {/* Prevent text size adjustment on orientation change */}
         <meta name="x-ua-compatible" content="IE=edge" />
       </head>
       <body className={`${spaceGrotesk.variable} ${dmMono.variable}`}>
-        <div className="hero-overlap">
-          <a href="/drum" aria-label="RepoDrum home" className="hero-logo-link">
+        <div className="hero-row">
+          <a href="/drum" aria-label="RepoDrum home" className="logo-link">
             <Image
-              className="hero-logo"
+              className="global-logo"
               src="/media/repodrumlogo.gif"
               alt="RepoDrum - Adaptive Drum Instructor"
               width={400}
@@ -67,7 +69,7 @@ export default function RootLayout({
               priority
             />
           </a>
-          <div className="hero-drummer">
+          <div className="hero" aria-label="Drum video">
             <HeroVideo />
           </div>
         </div>

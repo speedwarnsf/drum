@@ -59,103 +59,51 @@ select {
    HERO LAYOUT - Overlapping logo + drummer with darken blend
    ============================================ */
 
-.hero-overlap {
-  position: relative;
+main.shell {
   max-width: 920px;
-  margin: 16px auto 0;
-  padding: 0 16px;
-  min-height: 380px;
-  overflow: visible;
-}
-
-.hero-logo-link {
-  display: block;
+  margin: 44px auto 64px;
+  padding: 0 18px 32px;
   position: relative;
-  z-index: 2;
-}
-
-.hero-logo {
-  display: block;
-  width: 60%;
-  max-width: 400px;
-  height: auto;
-  mix-blend-mode: darken;
-}
-
-.hero-drummer {
-  position: absolute;
-  top: 0;
-  right: -40px;
   z-index: 1;
-  pointer-events: none;
+}
+
+.hero-row {
+  position: relative;
+  padding: 20px 16px 0;
+  min-height: 280px;
+}
+
+.logo-link {
+  position: relative;
+  z-index: 1;
+  display: block;
+}
+
+.global-logo {
+  width: 280px !important;
+  height: auto !important;
+  display: block;
+}
+
+.hero {
+  position: absolute;
+  right: 10px;
+  bottom: 0;
+  z-index: 2;
 }
 
 .hero-video {
   display: block;
-  width: 420px;
-  height: 420px;
-  object-fit: contain;
-  mix-blend-mode: darken;
+  width: auto;
+  height: 0;
   opacity: 0;
-  transition: opacity 300ms ease;
+  mix-blend-mode: darken;
+  object-fit: contain;
 }
 
 .hero-video-ready {
-  opacity: 1;
-}
-
-/* Responsive hero */
-@media (max-width: 600px) {
-  .hero-overlap {
-    min-height: 300px;
-  }
-  
-  .hero-logo {
-    width: 65%;
-    max-width: 280px;
-  }
-  
-  .hero-drummer {
-    top: 0;
-    right: -30px;
-  }
-  
-  .hero-video {
-    width: 300px;
-    height: 300px;
-  }
-}
-
-@media (min-width: 768px) {
-  .hero-overlap {
-    min-height: 420px;
-  }
-  
-  .hero-logo {
-    width: 55%;
-    max-width: 420px;
-  }
-  
-  .hero-drummer {
-    right: -20px;
-  }
-  
-  .hero-video {
-    width: 450px;
-    height: 450px;
-  }
-}
-
-/* ============================================
-   MAIN CONTENT
-   ============================================ */
-
-main.shell {
-  max-width: 920px;
-  margin: 24px auto 64px;
-  padding: 0 18px 32px;
-  position: relative;
-  z-index: 1;
+  height: 280px;
+  opacity: 0.95;
 }
 
 main.shell.shell-tight {
