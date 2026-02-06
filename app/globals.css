@@ -126,7 +126,10 @@ main.shell {
     right: -20px;
   }
   
-  .hero-video,
+  .hero-video {
+    width: 260px;
+  }
+  
   .hero-video-ready {
     width: 260px;
     height: 260px;
@@ -142,7 +145,10 @@ main.shell {
     max-width: 450px;
   }
   
-  .hero-video,
+  .hero-video {
+    width: 340px;
+  }
+  
   .hero-video-ready {
     width: 340px;
     height: 340px;
