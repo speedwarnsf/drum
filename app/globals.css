@@ -75,6 +75,8 @@ main.shell {
   position: relative;
   z-index: 10;
   display: block;
+  transform: translateZ(1px);
+  -webkit-transform: translateZ(1px);
 }
 
 .global-logo {
@@ -90,6 +92,9 @@ main.shell {
   right: -40px;
   background: transparent;
   pointer-events: none;
+  transform: translateZ(0);
+  -webkit-transform: translateZ(0);
+  z-index: 0;
 }
 
 .hero-video {
