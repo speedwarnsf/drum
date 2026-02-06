@@ -38,6 +38,7 @@ export default function HeroVideo() {
       loop
       playsInline
       preload="auto"
+      style={{ mixBlendMode: "darken" }}
       onLoadedData={() => setReady(true)}
       onCanPlay={() => setReady(true)}
       onError={() => setReady(true)}

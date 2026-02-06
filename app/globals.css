@@ -95,7 +95,7 @@ main.shell {
   top: 40px;
   right: 16px;
   overflow: visible;
-  z-index: 5;
+  z-index: 1;
 }
 
 .hero-video {
@@ -103,7 +103,8 @@ main.shell {
   width: 400px;
   height: 0;
   opacity: 0;
-  mix-blend-mode: darken;
+  mix-blend-mode: darken !important;
+  -webkit-mix-blend-mode: darken !important;
   object-fit: contain;
   clip-path: inset(5px);
 }
@@ -111,6 +112,8 @@ main.shell {
 .hero-video-ready {
   height: 400px;
   opacity: 1;
+  mix-blend-mode: darken !important;
+  -webkit-mix-blend-mode: darken !important;
 }
 
 main.shell.shell-tight {
