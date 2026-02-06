@@ -92,15 +92,15 @@ main.shell {
 
 .hero {
   position: absolute;
-  top: 40px;
-  right: 16px;
+  top: 80px;
+  right: 60px;
   overflow: visible;
   z-index: 1;
 }
 
 .hero-video {
   display: block;
-  width: 400px;
+  width: 320px;
   height: 0;
   opacity: 0;
   mix-blend-mode: darken !important;
@@ -110,7 +110,7 @@ main.shell {
 }
 
 .hero-video-ready {
-  height: 400px;
+  height: 320px;
   opacity: 1;
   mix-blend-mode: darken !important;
   -webkit-mix-blend-mode: darken !important;
