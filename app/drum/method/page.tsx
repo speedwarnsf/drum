@@ -42,7 +42,7 @@ export default function DrumMethodPage() {
               Does it sound like &quot;Thud&quot; (good) or &quot;Ka-Thunk&quot; (flam)?
               <br />
               <a href="/drum/diagnostic" className="btn btn-ghost" style={{ marginTop: 8 }}>
-                🔍 Run the Diagnostic Test →
+                Run the Diagnostic Test →
               </a>
             </div>
           </article>
@@ -245,7 +245,7 @@ export default function DrumMethodPage() {
         
         <div className="learning-types">
           <article className="learning-type">
-            <h3>🔍 Discrimination Learning</h3>
+            <h3>Discrimination Learning</h3>
             <p>&quot;Can I tell if two things are the same or different?&quot;</p>
             <ul>
               <li>Listening: &quot;Were those two grooves the same?&quot;</li>

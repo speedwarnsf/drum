@@ -111,7 +111,7 @@ export default function PatternsPage() {
                 <ul className="grid md:grid-cols-2 gap-2">
                   {selectedPattern.tips.map((tip, index) => (
                     <li key={index} className="flex items-start gap-2 text-sm">
-                      <span className="text-blue-600 mt-1">💡</span>
+                      <span className="text-blue-600 mt-1"></span>
                       <span>{tip}</span>
                     </li>
                   ))}
@@ -157,7 +157,7 @@ export default function PatternsPage() {
               </ul>
             </div>
             <div className="bg-white p-4 rounded border">
-              <h4 className="font-semibold text-blue-600 mb-2">📈 Next Level</h4>
+              <h4 className="font-semibold text-blue-600 mb-2">Next Level</h4>
               <p className="text-sm text-gray-700 mb-2">Build coordination and feel</p>
               <ul className="text-xs space-y-1">
                 <li>• Rock with Hi-Hat</li>
@@ -166,7 +166,7 @@ export default function PatternsPage() {
               </ul>
             </div>
             <div className="bg-white p-4 rounded border">
-              <h4 className="font-semibold text-purple-600 mb-2">🚀 Advanced</h4>
+              <h4 className="font-semibold text-purple-600 mb-2">Advanced</h4>
               <p className="text-sm text-gray-700 mb-2">Complex grooves and styles</p>
               <ul className="text-xs space-y-1">
                 <li>• Jazz Swing</li>
