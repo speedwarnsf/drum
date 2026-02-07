@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import Shell from "../_ui/Shell";
 import Audiation from "../_ui/Audiation";
+import { Icon } from "../_ui/Icon";
 import { getModuleProgress } from "../_lib/drumMvp";
 
 export default function DrumMethodPage() {
@@ -41,8 +42,8 @@ export default function DrumMethodPage() {
               <strong>Test yourself:</strong> Play kick + snare together 20 times. Record it. 
               Does it sound like &quot;Thud&quot; (good) or &quot;Ka-Thunk&quot; (flam)?
               <br />
-              <a href="/drum/diagnostic" className="btn btn-ghost" style={{ marginTop: 8 }}>
-                Run the Diagnostic Test →
+              <a href="/drum/diagnostic" className="btn btn-ghost" style={{ marginTop: 8, display: 'inline-flex', alignItems: 'center', gap: 6 }}>
+                <Icon name="search" size={16} /> Run the Diagnostic Test →
               </a>
             </div>
           </article>

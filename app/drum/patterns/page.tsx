@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import PatternBrowser from "../_ui/PatternBrowser";
+import { Icon } from "../_ui/Icon";
 import { type DrumPattern } from "../_lib/patternLibrary";
 import { loadProfile } from "../_lib/drumMvp";
 
@@ -148,7 +149,7 @@ export default function PatternsPage() {
           <h3 className="text-xl font-bold mb-4">Recommended Learning Path</h3>
           <div className="grid md:grid-cols-3 gap-4">
             <div className="bg-white p-4 rounded border">
-              <h4 className="font-semibold text-green-600 mb-2">Start Here</h4>
+              <h4 className="font-semibold text-green-600 mb-2 flex items-center gap-1"><Icon name="target" size={16} /> Start Here</h4>
               <p className="text-sm text-gray-700 mb-2">Essential foundation patterns</p>
               <ul className="text-xs space-y-1">
                 <li>• Quarter Notes</li>
@@ -157,7 +158,7 @@ export default function PatternsPage() {
               </ul>
             </div>
             <div className="bg-white p-4 rounded border">
-              <h4 className="font-semibold text-blue-600 mb-2">Next Level</h4>
+              <h4 className="font-semibold text-blue-600 mb-2 flex items-center gap-1"><Icon name="arrowUp" size={16} /> Next Level</h4>
               <p className="text-sm text-gray-700 mb-2">Build coordination and feel</p>
               <ul className="text-xs space-y-1">
                 <li>• Rock with Hi-Hat</li>
@@ -166,7 +167,7 @@ export default function PatternsPage() {
               </ul>
             </div>
             <div className="bg-white p-4 rounded border">
-              <h4 className="font-semibold text-purple-600 mb-2">Advanced</h4>
+              <h4 className="font-semibold text-purple-600 mb-2 flex items-center gap-1"><Icon name="star" size={16} /> Advanced</h4>
               <p className="text-sm text-gray-700 mb-2">Complex grooves and styles</p>
               <ul className="text-xs space-y-1">
                 <li>• Jazz Swing</li>

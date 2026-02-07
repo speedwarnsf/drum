@@ -135,7 +135,7 @@ function CommunityPageInner() {
           className={`community-tab ${tab === "review" ? "community-tab-active" : ""}`}
           onClick={() => setTab("review")}
         >
-          Review Others
+          <Icon name="headphones" size={16} /> Review Others
           {recordingsToReview.length > 0 && (
             <span className="community-tab-badge">{recordingsToReview.length}</span>
           )}
