@@ -80,6 +80,12 @@ main.shell {
   transform-origin: top left;
 }
 
+/* Hide logo when mobile nav is open */
+body:has(.mobile-nav-open) .global-logo,
+body:has(.mobile-nav-open) .hero-shell {
+  visibility: hidden;
+}
+
 .hero-shell {
   position: relative;
   margin-bottom: 0;
