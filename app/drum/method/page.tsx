@@ -258,7 +258,7 @@ export default function DrumMethodPage() {
           </article>
           
           <article className="learning-type">
-            <h3>✨ Inference Learning</h3>
+            <h3><Icon name="star" size={18} /> Inference Learning</h3>
             <p>&quot;Can I create something I&apos;ve never heard before?&quot;</p>
             <ul>
               <li>Generalization: Apply known patterns to new situations</li>

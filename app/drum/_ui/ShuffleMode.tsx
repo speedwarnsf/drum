@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useEffect, useCallback, useRef } from "react";
+import { Icon } from "./Icon";
 import {
   Pattern,
   PatternWithWeight,
@@ -186,7 +187,7 @@ export default function ShuffleMode({
               real learning happens.
             </p>
             <p className="shuffle-explanation-key">
-              💡 The stumbles during interleaved practice ARE the learning. Embrace the difficulty.
+              <Icon name="info" size={14} /> The stumbles during interleaved practice ARE the learning. Embrace the difficulty.
             </p>
           </div>
         )}

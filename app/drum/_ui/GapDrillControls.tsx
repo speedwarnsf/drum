@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
+import { Icon } from "./Icon";
 
 /**
  * Gap Drill Controls
@@ -133,7 +134,7 @@ export default function GapDrillControls({
             onClick={() => setShowProjectionTip(!showProjectionTip)}
             aria-expanded={showProjectionTip}
           >
-            💡 Why gap drills work {showProjectionTip ? "▼" : "▶"}
+            <Icon name="info" size={14} /> Why gap drills work {showProjectionTip ? "▼" : "▶"}
           </button>
           {showProjectionTip && (
             <div className="projection-tip-content">
