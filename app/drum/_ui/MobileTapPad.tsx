@@ -16,7 +16,6 @@ type TapEvent = {
 
 export default function MobileTapPad({ pattern, onTap, disabled = false }: TapPadProps) {
   const [tapHistory, setTapHistory] = useState<TapEvent[]>([]);
-  const [isRecording, setIsRecording] = useState(false);
   const [feedback, setFeedback] = useState<string | null>(null);
   
   const kickRef = useRef<HTMLButtonElement>(null);

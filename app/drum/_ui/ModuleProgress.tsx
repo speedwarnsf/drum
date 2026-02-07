@@ -2,12 +2,12 @@
 
 import { useState, useEffect } from "react";
 import { MODULE_INFO, advanceModule } from "../_lib/drumMvp";
-import { canAdvanceToModule, getCompetencyGateStatus } from "../_lib/competencyGates";
+import { canAdvanceToModule, type DiagnosticGate, type DiagnosticResult } from "../_lib/competencyGates";
 
 type ModuleProgressProps = {
   currentModule: number;
   sessionsInModule: number;
-  diagnosticResults?: Record<string, any>;
+  diagnosticResults?: Record<string, DiagnosticResult>;
   compact?: boolean;
   onAdvance?: (newModule: number) => void;
 };
@@ -21,7 +21,7 @@ export default function ModuleProgress({
 }: ModuleProgressProps) {
   const [showAdvancePrompt, setShowAdvancePrompt] = useState(false);
   const [advancing, setAdvancing] = useState(false);
-  const [gateStatus, setGateStatus] = useState<any>(null);
+  const [gateStatus, setGateStatus] = useState<{ gate: DiagnosticGate; reason?: string } | null>(null);
 
   const nextModule = currentModule + 1;
   const advancement = canAdvanceToModule(nextModule, diagnosticResults, sessionsInModule);

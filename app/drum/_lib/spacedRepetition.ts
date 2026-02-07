@@ -162,7 +162,6 @@ export async function recordPatternPractice(
   const supabase = getSupabaseClient();
   if (!supabase) return null;
 
-  const today = new Date().toISOString().slice(0, 10);
   const now = new Date().toISOString();
 
   // Fetch existing memory

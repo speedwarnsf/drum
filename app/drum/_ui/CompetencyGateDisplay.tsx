@@ -2,7 +2,6 @@
 
 import { useState } from "react";
 import { 
-  DiagnosticGate,
   DiagnosticResult,
   getCompetencyGateStatus, 
   generatePrescription,

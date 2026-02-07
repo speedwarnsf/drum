@@ -251,10 +251,21 @@ export function getNextRequiredDiagnostic(
 /**
  * Get all available competency gates for display
  */
+export type GateEvaluation = {
+  status: GateStatus;
+  reason: string;
+  details: GateEvaluationDetails;
+};
+
+export type CompetencyGateStatus = DiagnosticGate & {
+  status: GateEvaluation;
+  isRelevant: boolean;
+};
+
 export function getCompetencyGateStatus(
   currentModule: number,
   diagnosticResults: Record<string, DiagnosticResult>
-) {
+): CompetencyGateStatus[] {
   return COMPETENCY_GATES.map(gate => ({
     ...gate,
     status: evaluateGate(gate, diagnosticResults),
