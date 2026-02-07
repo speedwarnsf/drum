@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
+import { Icon } from "./Icon";
 import BuildTag from "./BuildTag";
 import { AuthNavLinks, AuthSetupLink } from "./AuthControls";
 import LessonCredits from "./LessonCredits";
@@ -40,16 +41,16 @@ export default function Shell({
   const primaryNavLinks = (
     <>
       <a href="/drum/today" className="btn btn-primary" onClick={handleNavClick}>
-        🎯 Today
+        <Icon name="today" size={16} /> Today
       </a>
       <a href="/drum/patterns" className="btn btn-ghost" onClick={handleNavClick}>
-        📚 Patterns
+        <Icon name="patterns" size={16} /> Patterns
       </a>
       <a href="/drum/drills" className="btn btn-ghost" onClick={handleNavClick}>
-        💪 Drills
+        <Icon name="drills" size={16} /> Drills
       </a>
       <a href="/drum/progress" className="btn btn-ghost" onClick={handleNavClick}>
-        📈 Progress
+        <Icon name="progress" size={16} /> Progress
       </a>
     </>
   );

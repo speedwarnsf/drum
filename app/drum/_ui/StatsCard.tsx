@@ -1,5 +1,6 @@
 "use client";
 
+import { Icon } from "./Icon";
 import { formatPracticeTime, PracticeStats, Achievement } from "../_lib/statsUtils";
 
 type StatItemProps = {
@@ -91,7 +92,7 @@ export function AchievementsCard({ achievements, showLocked = true }: Achievemen
         <div className="achievements-grid">
           {unlockedAchievements.map((achievement) => (
             <div key={achievement.id} className="achievement achievement-unlocked">
-              <span className="achievement-icon">{achievement.icon}</span>
+              <span className="achievement-icon"><Icon name={achievement.icon} size={24} /></span>
               <div className="achievement-info">
                 <span className="achievement-title">{achievement.title}</span>
                 <span className="achievement-desc">{achievement.description}</span>
@@ -108,7 +109,7 @@ export function AchievementsCard({ achievements, showLocked = true }: Achievemen
             {lockedAchievements.slice(0, 3).map((achievement) => (
               <div key={achievement.id} className="achievement achievement-locked">
                 <span className="achievement-icon achievement-icon-locked">
-                  {achievement.icon}
+                  <Icon name={achievement.icon} size={24} />
                 </span>
                 <div className="achievement-info">
                   <span className="achievement-title">{achievement.title}</span>
@@ -139,10 +140,10 @@ export function CompactStats({ totalSessions, streak, isStreakActive }: CompactS
       </div>
       <div className="compact-stat-sep">·</div>
       <div className="compact-stat">
-        <span className="compact-stat-fire">{streak > 0 ? "🔥" : ""}</span>
+        {streak > 0 && <span className="compact-stat-fire"><Icon name="flame" size={16} /></span>}
         <span className="compact-stat-value">{streak}</span>
         <span className="compact-stat-label">day streak</span>
-        {isStreakActive && <span className="compact-stat-check">✓</span>}
+        {isStreakActive && <span className="compact-stat-check"><Icon name="check" size={14} /></span>}
       </div>
     </div>
   );

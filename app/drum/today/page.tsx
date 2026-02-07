@@ -4,6 +4,7 @@
 import React, { Suspense, useEffect, useMemo, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import Shell from "../_ui/Shell";
+import { Icon } from "../_ui/Icon";
 import Metronome from "../_ui/Metronome";
 import Timer from "../_ui/Timer";
 import Recorder from "../_ui/Recorder";
@@ -315,7 +316,7 @@ function DrumTodayInner() {
     return (
       <Shell title="Unable to Load" subtitle="Something went wrong">
         <section className="card error-page-card">
-          <div className="error-page-icon">🥁</div>
+          <div className="error-page-icon"><Icon name="drum" size={48} /></div>
           <h2 className="card-title">Couldn&apos;t load your practice</h2>
           <p>{loadError}</p>
           <div className="row" style={{ marginTop: 16, justifyContent: "center" }}>

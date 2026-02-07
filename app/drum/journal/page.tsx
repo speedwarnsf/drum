@@ -3,6 +3,7 @@
 /* eslint-disable react-hooks/set-state-in-effect */
 import React, { useEffect, useState } from "react";
 import Shell from "../_ui/Shell";
+import { Icon } from "../_ui/Icon";
 import {
   loadProfile,
   loadProfileFromSupabase,
@@ -162,14 +163,14 @@ function JournalPageInner() {
         <div className="kicker">Quick Assessment</div>
         {error && (
           <div className="form-error">
-            <span className="form-error-icon">⚠️</span>
+            <span className="form-error-icon"><Icon name="warning" size={16} /></span>
             <span>{error}</span>
           </div>
         )}
         
         {success && (
           <div className="form-success">
-            <span className="form-success-icon">✓</span>
+            <span className="form-success-icon"><Icon name="check" size={16} /></span>
             <span>Session logged! Redirecting...</span>
           </div>
         )}
@@ -212,7 +213,7 @@ function JournalPageInner() {
             />
             {noteError && (
               <span className="field-error-message">
-                <span className="field-error-icon">⚠️</span>
+                <span className="field-error-icon"><Icon name="warning" size={14} /></span>
                 {noteError}
               </span>
             )}
@@ -236,7 +237,7 @@ function JournalPageInner() {
                 <InlineSpinner />
               </>
             ) : success ? (
-              "✓ Saved!"
+              <><Icon name="check" size={14} /> Saved!</>
             ) : (
               "Save Session Log"
             )}

@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect, useMemo } from "react";
+import { Icon } from "./Icon";
 import {
   SKILLS,
   SKILL_MAP,
@@ -56,7 +57,7 @@ function SkillNode({ skill, status, progress, isRecommended, onClick }: SkillNod
       aria-label={`${skill.name}: ${status}`}
     >
       <div className="skill-node-icon">
-        {CATEGORY_INFO[skill.category].icon}
+        <Icon name={CATEGORY_INFO[skill.category].icon} size={16} />
       </div>
       <div className="skill-node-name">{skill.name}</div>
       
@@ -105,7 +106,7 @@ function SkillDetail({ skill, status, progress, onClose }: SkillDetailProps) {
         <div className="skill-detail-header">
           <div className="skill-detail-category">
             <span className="skill-detail-category-icon">
-              {CATEGORY_INFO[skill.category].icon}
+              <Icon name={CATEGORY_INFO[skill.category].icon} size={16} />
             </span>
             {CATEGORY_INFO[skill.category].label}
           </div>
@@ -129,7 +130,7 @@ function SkillDetail({ skill, status, progress, onClose }: SkillDetailProps) {
               <div className="skill-detail-requirements">
                 {requirements.map(req => (
                   <span key={req.id} className="skill-detail-requirement">
-                    {CATEGORY_INFO[req.category].icon} {req.name}
+                    <Icon name={CATEGORY_INFO[req.category].icon} size={14} /> {req.name}
                   </span>
                 ))}
               </div>
@@ -264,7 +265,7 @@ function ProgressSummary({ progressMap }: { progressMap: Map<string, SkillProgre
         <div className="skill-progress-next">
           <span className="skill-progress-next-label">Suggested focus:</span>
           <span className="skill-progress-next-skill">
-            {CATEGORY_INFO[recommended.category].icon} {recommended.name}
+            <Icon name={CATEGORY_INFO[recommended.category].icon} size={14} /> {recommended.name}
           </span>
         </div>
       )}
@@ -375,7 +376,7 @@ export default function SkillTree({ compact = false, showProgress = true, onSkil
             <div key={category} className="skill-tree-category">
               <div className="skill-tree-category-header">
                 <span className="skill-tree-category-icon">
-                  {CATEGORY_INFO[category].icon}
+                  <Icon name={CATEGORY_INFO[category].icon} size={16} />
                 </span>
                 <span className="skill-tree-category-label">
                   {CATEGORY_INFO[category].label}

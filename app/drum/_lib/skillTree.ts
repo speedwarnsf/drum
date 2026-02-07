@@ -40,6 +40,7 @@ export interface SkillProgress {
 }
 
 // Category display info
+// Icons are now icon names for the Icon component
 export const CATEGORY_INFO: Record<SkillCategory, { 
   label: string; 
   description: string;
@@ -48,27 +49,27 @@ export const CATEGORY_INFO: Record<SkillCategory, {
   foundation: {
     label: "Foundation",
     description: "The physical basics—grip, posture, and clean execution",
-    icon: "◉",
+    icon: "foundation",
   },
   time: {
     label: "Time",
     description: "Internal clock and rhythmic awareness",
-    icon: "◎",
+    icon: "time",
   },
   rudiments: {
     label: "Rudiments",
     description: "The vocabulary of stick patterns",
-    icon: "◈",
+    icon: "rudiments",
   },
   grooves: {
     label: "Grooves",
     description: "Full-kit patterns that make music",
-    icon: "◇",
+    icon: "grooves",
   },
   coordination: {
     label: "Coordination",
     description: "Independence between limbs",
-    icon: "◆",
+    icon: "coordination",
   },
 };
 

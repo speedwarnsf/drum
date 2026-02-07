@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect } from "react";
+import { Icon } from "./_ui/Icon";
 
 export default function DrumError({
   error,
@@ -24,7 +25,7 @@ export default function DrumError({
       </div>
 
       <section className="card error-page-card">
-        <div className="error-page-icon">🥁</div>
+        <div className="error-page-icon"><Icon name="drum" size={48} /></div>
         <h2 className="card-title">Don&apos;t worry</h2>
         <p>Your practice data is safe. This was just a temporary hiccup.</p>
         

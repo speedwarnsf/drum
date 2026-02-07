@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import Shell from "../_ui/Shell";
+import { Icon } from "../_ui/Icon";
 import SkillTree, { ProgressSummary } from "../_ui/SkillTree";
 import {
   SKILLS,
@@ -108,7 +109,7 @@ function SkillsPageInner() {
           <div className="kicker">Suggested Focus</div>
           <div className="skill-page-recommended-content">
             <div className="skill-page-recommended-icon">
-              {CATEGORY_INFO[recommended.category].icon}
+              <Icon name={CATEGORY_INFO[recommended.category].icon} size={24} />
             </div>
             <div className="skill-page-recommended-info">
               <h3 className="skill-page-recommended-name">{recommended.name}</h3>
@@ -132,7 +133,7 @@ function SkillsPageInner() {
               return (
                 <div key={skill.id} className="skill-page-item">
                   <div className="skill-page-item-icon">
-                    {CATEGORY_INFO[skill.category].icon}
+                    <Icon name={CATEGORY_INFO[skill.category].icon} size={20} />
                   </div>
                   <div className="skill-page-item-info">
                     <div className="skill-page-item-name">{skill.name}</div>
@@ -170,7 +171,7 @@ function SkillsPageInner() {
                 : "";
               return (
                 <div key={skill.id} className="skill-page-mastered-item">
-                  <div className="skill-page-mastered-check">✓</div>
+                  <div className="skill-page-mastered-check"><Icon name="check" size={16} /></div>
                   <div className="skill-page-mastered-name">{skill.name}</div>
                   {masteredDate && (
                     <div className="skill-page-mastered-date">{masteredDate}</div>

@@ -3,6 +3,7 @@
 /* eslint-disable react-hooks/set-state-in-effect */
 import React, { useEffect, useState } from "react";
 import Shell from "../_ui/Shell";
+import { Icon } from "../_ui/Icon";
 import Recorder from "../_ui/Recorder";
 import { loadRemoteSessions, loadSessions, StoredSession } from "../_lib/drumMvp";
 import { ErrorBoundary } from "../_ui/ErrorBoundary";
@@ -70,7 +71,7 @@ function HistoryPageInner() {
     return (
       <Shell title="History" subtitle="Something went wrong">
         <section className="card error-page-card">
-          <div className="error-page-icon">🥁</div>
+          <div className="error-page-icon"><Icon name="drum" size={48} /></div>
           <h2 className="card-title">Unable to load history</h2>
           <p>{error}</p>
           <div className="row" style={{ marginTop: 16, justifyContent: "center" }}>

@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import Shell from "../_ui/Shell";
+import { Icon } from "../_ui/Icon";
 import ModuleProgress from "../_ui/ModuleProgress";
 import PracticeCalendar from "../_ui/PracticeCalendar";
 import StreakCounter from "../_ui/StreakCounter";
@@ -125,7 +126,7 @@ function ProgressPageInner() {
     return (
       <Shell title="Progress" subtitle="Something went wrong">
         <section className="card error-page-card">
-          <div className="error-page-icon">📊</div>
+          <div className="error-page-icon"><Icon name="progress" size={48} /></div>
           <h2 className="card-title">Unable to load progress</h2>
           <p>{error}</p>
           <div className="row" style={{ marginTop: 16, justifyContent: "center" }}>

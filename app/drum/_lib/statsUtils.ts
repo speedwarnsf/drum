@@ -253,47 +253,48 @@ export type Achievement = {
 export function checkAchievements(stats: PracticeStats): Achievement[] {
   const { totalSessions, streak } = stats;
 
+  // Icons are now icon names for the Icon component
   return [
     {
       id: "first_session",
       title: "First Step",
       description: "Complete your first practice session",
-      icon: "🎯",
+      icon: "target",
       unlocked: totalSessions >= 1,
     },
     {
       id: "week_streak",
       title: "Week Warrior",
       description: "Maintain a 7-day practice streak",
-      icon: "🔥",
+      icon: "flame",
       unlocked: streak.longest >= 7,
     },
     {
       id: "month_streak",
       title: "Steady Hand",
       description: "Maintain a 30-day practice streak",
-      icon: "💎",
+      icon: "gem",
       unlocked: streak.longest >= 30,
     },
     {
       id: "centurion",
       title: "Centurion",
       description: "Complete 100 practice sessions",
-      icon: "🏛️",
+      icon: "temple",
       unlocked: totalSessions >= 100,
     },
     {
       id: "ten_sessions",
       title: "Finding Rhythm",
       description: "Complete 10 practice sessions",
-      icon: "🥁",
+      icon: "drum",
       unlocked: totalSessions >= 10,
     },
     {
       id: "fifty_sessions",
       title: "Dedicated",
       description: "Complete 50 practice sessions",
-      icon: "⭐",
+      icon: "star",
       unlocked: totalSessions >= 50,
     },
   ];

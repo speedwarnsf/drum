@@ -293,21 +293,23 @@ export async function getPatternStats(userId: string): Promise<{
 
 /**
  * Quality rating descriptions for UI
+ * Icons are now icon names for the Icon component (grade0-grade5)
  */
 export const QUALITY_RATINGS = [
-  { value: 0, label: "Blackout", description: "Complete blank—no memory at all", emoji: "😶" },
-  { value: 1, label: "Barely", description: "Struggled hard, barely got it", emoji: "😰" },
-  { value: 2, label: "Wrong", description: "Made mistakes, but recognized the answer", emoji: "😕" },
-  { value: 3, label: "Difficult", description: "Got it right, but required effort", emoji: "🤔" },
-  { value: 4, label: "Good", description: "Brief hesitation, then correct", emoji: "😊" },
-  { value: 5, label: "Perfect", description: "Instant, effortless recall", emoji: "🎯" },
+  { value: 0, label: "Blackout", description: "Complete blank—no memory at all", icon: "grade0" },
+  { value: 1, label: "Barely", description: "Struggled hard, barely got it", icon: "grade1" },
+  { value: 2, label: "Wrong", description: "Made mistakes, but recognized the answer", icon: "grade2" },
+  { value: 3, label: "Difficult", description: "Got it right, but required effort", icon: "grade3" },
+  { value: 4, label: "Good", description: "Brief hesitation, then correct", icon: "grade4" },
+  { value: 5, label: "Perfect", description: "Instant, effortless recall", icon: "grade5" },
 ] as const;
 
 /**
  * Simplified 3-tier rating for casual use
+ * Icons are now icon names for the Icon component
  */
 export const SIMPLE_RATINGS = [
-  { quality: 2, label: "Struggled", description: "Needs more work", emoji: "🔄", color: "var(--ink-muted)" },
-  { quality: 4, label: "Good", description: "Solid execution", emoji: "👍", color: "var(--ink)" },
-  { quality: 5, label: "Locked In", description: "Automatic, effortless", emoji: "🔥", color: "var(--ink)" },
+  { quality: 2, label: "Struggled", description: "Needs more work", icon: "refresh", color: "var(--ink-muted)" },
+  { quality: 4, label: "Good", description: "Solid execution", icon: "thumbsUp", color: "var(--ink)" },
+  { quality: 5, label: "Locked In", description: "Automatic, effortless", icon: "flame", color: "var(--ink)" },
 ] as const;

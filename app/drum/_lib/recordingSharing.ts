@@ -377,12 +377,13 @@ export function getIssueLabel(issue: string): string {
 
 /**
  * Available issues for feedback selection
+ * Icons are now icon names for the Icon component
  */
 export const FEEDBACK_ISSUES = [
-  { id: "flam", label: "Flams (two hits instead of one)", emoji: "👯" },
-  { id: "rushing", label: "Rushing (speeds up)", emoji: "🏃" },
-  { id: "dragging", label: "Dragging (slows down)", emoji: "🐢" },
-  { id: "uneven", label: "Uneven spacing", emoji: "📏" },
-  { id: "dynamics", label: "Volume inconsistent", emoji: "📊" },
-  { id: "clean", label: "Sounds clean!", emoji: "✨" },
+  { id: "flam", label: "Flams (two hits instead of one)", icon: "flam" },
+  { id: "rushing", label: "Rushing (speeds up)", icon: "rushing" },
+  { id: "dragging", label: "Dragging (slows down)", icon: "dragging" },
+  { id: "uneven", label: "Uneven spacing", icon: "uneven" },
+  { id: "dynamics", label: "Volume inconsistent", icon: "dynamics" },
+  { id: "clean", label: "Sounds clean!", icon: "clean" },
 ];

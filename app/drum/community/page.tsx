@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect, useCallback } from "react";
 import Shell from "../_ui/Shell";
+import { Icon } from "../_ui/Icon";
 import { ErrorBoundary } from "../_ui/ErrorBoundary";
 import { OfflineIndicator, useOnlineStatus } from "../_ui/OfflineIndicator";
 import { LoadingSpinner } from "../_ui/LoadingSpinner";
@@ -411,7 +412,7 @@ function FeedbackForm({
               className={`feedback-issue-btn ${selectedIssues.includes(issue.id) ? "feedback-issue-active" : ""}`}
               onClick={() => toggleIssue(issue.id)}
             >
-              <span className="feedback-issue-emoji">{issue.emoji}</span>
+              <span className="feedback-issue-emoji"><Icon name={issue.icon} size={18} /></span>
               <span className="feedback-issue-label">{issue.label}</span>
             </button>
           ))}
@@ -529,11 +530,14 @@ function MyRecordingCard({ recording }: { recording: SharedRecording }) {
           {feedback.common_issues.length > 0 && (
             <div className="my-recording-issues">
               <span className="my-recording-issues-label">Common feedback:</span>
-              {feedback.common_issues.map((issue) => (
-                <span key={issue} className="my-recording-issue">
-                  {FEEDBACK_ISSUES.find((i) => i.id === issue)?.emoji} {issue}
-                </span>
-              ))}
+              {feedback.common_issues.map((issue) => {
+                const issueData = FEEDBACK_ISSUES.find((i) => i.id === issue);
+                return (
+                  <span key={issue} className="my-recording-issue">
+                    {issueData && <Icon name={issueData.icon} size={14} />} {issue}
+                  </span>
+                );
+              })}
             </div>
           )}
 

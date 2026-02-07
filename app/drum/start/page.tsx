@@ -3,6 +3,7 @@
 /* eslint-disable react-hooks-set-state-in-effect */
 import React, { useEffect, useState } from "react";
 import Shell from "../_ui/Shell";
+import { Icon } from "../_ui/Icon";
 import { Profile, loadProfile, loadProfileFromSupabase, saveProfile } from "../_lib/drumMvp";
 import { ErrorBoundary } from "../_ui/ErrorBoundary";
 import { LoadingSpinner, InlineSpinner } from "../_ui/LoadingSpinner";
@@ -98,7 +99,7 @@ function StartPageInner() {
       <section className="card">
         {error && (
           <div className="form-error">
-            <span className="form-error-icon">⚠️</span>
+            <span className="form-error-icon"><Icon name="warning" size={16} /></span>
             <span>{error}</span>
           </div>
         )}

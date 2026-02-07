@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useEffect, useCallback } from "react";
+import { Icon } from "./Icon";
 import {
   getPatternsDueForReview,
   recordPatternPractice,
@@ -286,7 +287,7 @@ export default function MaintenanceMode() {
               className="maintenance-rating-btn"
               onClick={() => handleRating(rating.quality)}
             >
-              <span className="maintenance-rating-emoji">{rating.emoji}</span>
+              <span className="maintenance-rating-emoji"><Icon name={rating.icon} size={24} /></span>
               <span className="maintenance-rating-label">{rating.label}</span>
               <span className="maintenance-rating-desc">{rating.description}</span>
             </button>

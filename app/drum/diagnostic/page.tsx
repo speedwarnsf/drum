@@ -3,6 +3,7 @@
 import React, { useState, useCallback, useEffect } from "react";
 import Shell from "../_ui/Shell";
 import Recorder from "../_ui/Recorder";
+import { Icon } from "../_ui/Icon";
 import { ErrorBoundary } from "../_ui/ErrorBoundary";
 import { OfflineIndicator } from "../_ui/OfflineIndicator";
 import { getModuleProgress } from "../_lib/drumMvp";
@@ -161,28 +162,28 @@ function DiagnosticPageInner() {
           <div className="diagnostic-result-header">
             {overall === "excellent" && (
               <>
-                <span className="diagnostic-result-emoji">🎯</span>
+                <span className="diagnostic-result-emoji"><Icon name="target" size={32} /></span>
                 <h2 className="card-title">Excellent Coordination!</h2>
                 <p>Your limbs are working as ONE drummer. Your "Personal Drum Troupe" is unified.</p>
               </>
             )}
             {overall === "minor-issue" && (
               <>
-                <span className="diagnostic-result-emoji">⚠️</span>
+                <span className="diagnostic-result-emoji"><Icon name="warning" size={32} /></span>
                 <h2 className="card-title">Minor Coordination Issue</h2>
                 <p>One area needs attention. Focus your practice on the exercise marked as "flam."</p>
               </>
             )}
             {overall === "needs-work" && (
               <>
-                <span className="diagnostic-result-emoji">🔧</span>
+                <span className="diagnostic-result-emoji"><Icon name="wrench" size={32} /></span>
                 <h2 className="card-title">Hidden Coordination Flaw Detected</h2>
                 <p>This is common! Most beginners have this. The good news: now you know what to fix.</p>
               </>
             )}
             {overall === "unclear" && (
               <>
-                <span className="diagnostic-result-emoji">🤔</span>
+                <span className="diagnostic-result-emoji"><Icon name="question" size={32} /></span>
                 <h2 className="card-title">Results Unclear</h2>
                 <p>If you're unsure, that's okay. Record again and listen more carefully.</p>
               </>
@@ -196,10 +197,10 @@ function DiagnosticPageInner() {
             {EXERCISES.map((ex) => (
               <li key={ex.id} className="diagnostic-result-item">
                 <span className="diagnostic-result-icon">
-                  {results[ex.id] === "clean" && "✅"}
-                  {results[ex.id] === "flam" && "❌"}
-                  {results[ex.id] === "unsure" && "❓"}
-                  {!results[ex.id] && "⏭️"}
+                  {results[ex.id] === "clean" && <Icon name="success" size={18} />}
+                  {results[ex.id] === "flam" && <Icon name="error" size={18} />}
+                  {results[ex.id] === "unsure" && <Icon name="question" size={18} />}
+                  {!results[ex.id] && <Icon name="skip" size={18} />}
                 </span>
                 <span className="diagnostic-result-title">{ex.title}</span>
                 <span className="diagnostic-result-status">
@@ -248,7 +249,7 @@ function DiagnosticPageInner() {
                 {status === "passed" && (
                   <>
                     <div className="gate-result-header">
-                      <span className="gate-result-emoji">✅</span>
+                      <span className="gate-result-emoji"><Icon name="success" size={24} /></span>
                       <h4>Gate Passed!</h4>
                     </div>
                     <p>You've met the requirements for <strong>{relevantGate.name}</strong>.</p>
@@ -259,7 +260,7 @@ function DiagnosticPageInner() {
                 {status === "failed" && (
                   <>
                     <div className="gate-result-header">
-                      <span className="gate-result-emoji">❌</span>
+                      <span className="gate-result-emoji"><Icon name="error" size={24} /></span>
                       <h4>Gate Not Passed</h4>
                     </div>
                     <p><strong>{relevantGate.name}</strong>: {relevantGate.status.reason}</p>
@@ -270,7 +271,7 @@ function DiagnosticPageInner() {
                 {status === "available" && (
                   <>
                     <div className="gate-result-header">
-                      <span className="gate-result-emoji">🎯</span>
+                      <span className="gate-result-emoji"><Icon name="target" size={24} /></span>
                       <h4>Complete Additional Tests</h4>
                     </div>
                     <p>You need to complete more exercises for <strong>{relevantGate.name}</strong>.</p>
@@ -367,11 +368,11 @@ function DiagnosticPageInner() {
           <p>{exercise.listenFor}</p>
           <div className="diagnostic-outcomes">
             <div className="diagnostic-outcome diagnostic-outcome-good">
-              <span className="diagnostic-outcome-icon">✓</span>
+              <span className="diagnostic-outcome-icon"><Icon name="check" size={16} /></span>
               <span>{exercise.goodSign}</span>
             </div>
             <div className="diagnostic-outcome diagnostic-outcome-bad">
-              <span className="diagnostic-outcome-icon">✗</span>
+              <span className="diagnostic-outcome-icon"><Icon name="close" size={16} /></span>
               <span>{exercise.badSign}</span>
             </div>
           </div>
@@ -385,13 +386,13 @@ function DiagnosticPageInner() {
               className="btn diagnostic-verdict-btn diagnostic-verdict-clean"
               onClick={() => handleResult("clean")}
             >
-              🎯 Clean (THUD)
+              <Icon name="target" size={16} /> Clean (THUD)
             </button>
             <button
               className="btn diagnostic-verdict-btn diagnostic-verdict-flam"
               onClick={() => handleResult("flam")}
             >
-              ⚠️ Flam (Ka-THUNK)
+              <Icon name="warning" size={16} /> Flam (Ka-THUNK)
             </button>
             <button
               className="btn btn-ghost diagnostic-verdict-btn"

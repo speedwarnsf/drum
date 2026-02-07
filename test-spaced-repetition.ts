@@ -123,7 +123,7 @@ section('Quality Ratings - Structure');
 
 test('Has quality ratings defined', QUALITY_RATINGS.length === 6);
 test('Quality values are 0-5', QUALITY_RATINGS.every(r => r.value >= 0 && r.value <= 5));
-test('All ratings have labels', QUALITY_RATINGS.every(r => r.label && r.description && r.emoji));
+test('All ratings have labels', QUALITY_RATINGS.every(r => r.label && r.description && r.icon));
 
 // ============================================================================
 // EDGE CASES
