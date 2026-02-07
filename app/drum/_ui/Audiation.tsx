@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useEffect, useRef, useCallback } from "react";
+import { Icon } from "./Icon";
 
 /**
  * Audiation Component - "Sing Before Play" Exercise
@@ -497,7 +498,7 @@ export default function Audiation({
     return (
       <div className={`audiation ${compact ? "audiation-compact" : ""}`}>
         <div className="audiation-header">
-          <span className="audiation-icon" aria-hidden="true">🎵</span>
+          <span className="audiation-icon" aria-hidden="true"><Icon name="music" size={20} /></span>
           <span className="audiation-title">Sing Before Play</span>
         </div>
         <p className="audiation-intro">

@@ -127,7 +127,7 @@ export default function MobileTapPad({ pattern, onTap, disabled = false }: TapPa
           disabled={disabled}
           aria-label="Hi-hat"
         >
-          <div className="tap-pad-icon">🎵</div>
+          <div className="tap-pad-icon"><Icon name="music" size={32} /></div>
           <div className="tap-pad-label">Hi-Hat</div>
           <div className="tap-pad-key">H</div>
         </button>
