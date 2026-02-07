@@ -61,7 +61,7 @@ export default function DrumMethodPage() {
               Reactors speed up or slow down. Which are you?
               <br />
               <a href="/drum/drills" className="btn btn-ghost" style={{ marginTop: 8 }}>
-                🎯 Try Gap Drills →
+                Try Gap Drills →
               </a>
             </div>
           </article>

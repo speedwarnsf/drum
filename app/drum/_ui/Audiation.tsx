@@ -613,7 +613,7 @@ export default function Audiation({
     return (
       <div className="audiation">
         <div className="audiation-phase-indicator audiation-phase-complete">
-          ✅ Complete!
+          Complete!
         </div>
         <div className="audiation-current-pattern">
           <div className="kicker">{selectedPattern.name}</div>

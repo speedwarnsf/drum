@@ -7,6 +7,7 @@ import {
   generatePrescription,
   getNextRequiredDiagnostic 
 } from "../_lib/competencyGates";
+import { Icon } from "./Icon";
 
 type CompetencyGateDisplayProps = {
   currentModule: number;
@@ -33,12 +34,13 @@ export default function CompetencyGateDisplay({
     const nextGate = relevantGates[0];
     if (!nextGate) return null;
 
-    const statusIcon = {
-      passed: "✅",
-      failed: "❌", 
-      available: "🎯",
-      locked: "🔒"
-    }[nextGate.status.status];
+    const statusIcons: Record<string, React.ReactNode> = {
+      passed: <Icon name="success" size={16} />,
+      failed: <Icon name="error" size={16} />, 
+      available: <Icon name="target" size={16} />,
+      locked: <Icon name="lock" size={16} />
+    };
+    const statusIcon = statusIcons[nextGate.status.status];
 
     return (
       <div className="competency-gate-compact">
@@ -94,10 +96,10 @@ export default function CompetencyGateDisplay({
               >
                 <div className="gate-info">
                   <span className="gate-status-icon">
-                    {gateWithStatus.status.status === "passed" && "✅"}
-                    {gateWithStatus.status.status === "failed" && "❌"}
-                    {gateWithStatus.status.status === "available" && "🎯"}
-                    {gateWithStatus.status.status === "locked" && "🔒"}
+                    {gateWithStatus.status.status === "passed" && <Icon name="success" size={20} />}
+                    {gateWithStatus.status.status === "failed" && <Icon name="error" size={20} />}
+                    {gateWithStatus.status.status === "available" && <Icon name="target" size={20} />}
+                    {gateWithStatus.status.status === "locked" && <Icon name="lock" size={20} />}
                   </span>
                   <div>
                     <h4 className="gate-name">{gateWithStatus.name}</h4>
@@ -140,7 +142,7 @@ export default function CompetencyGateDisplay({
                       <h5>Your Practice Prescription:</h5>
                       <div className="prescription-list">
                         {generatePrescription(gateWithStatus, diagnosticResults).map((item, i) => (
-                          <p key={i} className={item.startsWith("🎯") || item.startsWith("🎧") || item.startsWith("📚") ? "prescription-header" : "prescription-detail"}>
+                          <p key={i} className={item.startsWith("Priority") || item.startsWith("Listen") || item.startsWith("Study") ? "prescription-header" : "prescription-detail"}>
                             {item}
                           </p>
                         ))}

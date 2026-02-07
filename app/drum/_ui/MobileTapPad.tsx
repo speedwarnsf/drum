@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useRef, useCallback, useEffect } from "react";
+import { Icon } from "./Icon";
 
 interface TapPadProps {
   pattern?: string;
@@ -152,7 +153,7 @@ export default function MobileTapPad({ pattern, onTap, disabled = false }: TapPa
           disabled={disabled}
           aria-label="Kick drum"
         >
-          <div className="tap-pad-icon">🔥</div>
+          <div className="tap-pad-icon"><Icon name="drum" size={32} /></div>
           <div className="tap-pad-label">Kick</div>
           <div className="tap-pad-key">K</div>
         </button>

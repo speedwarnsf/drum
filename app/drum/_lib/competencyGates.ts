@@ -288,7 +288,7 @@ export function generatePrescription(
   
   if (flamExercises.length > 0) {
     prescription.push(
-      `🎯 Priority: Fix flams in ${flamExercises.join(", ")}`,
+      `Priority: Fix flams in ${flamExercises.join(", ")}`,
       `• Practice each limb alone for 2 minutes`,
       `• Combine at 40 BPM (very slow) until unified`,
       `• Record and listen - stop immediately on any "ka-thunk"`,
@@ -302,7 +302,7 @@ export function generatePrescription(
   
   if (unsureExercises.length > 0) {
     prescription.push(
-      `🎧 Listen more carefully in ${unsureExercises.join(", ")}`,
+      `Listen more carefully in ${unsureExercises.join(", ")}`,
       `• Use headphones when reviewing recordings`,
       `• Close your eyes - flams are easier to hear than feel`, 
       `• If in doubt, it's probably a flam`,
@@ -312,7 +312,7 @@ export function generatePrescription(
 
   if (prescription.length === 0) {
     prescription.push(
-      `📚 Review Module ${gate.unlocksModule - 1} fundamentals`,
+      `Review Module ${gate.unlocksModule - 1} fundamentals`,
       `• Focus on coordination exercises`,
       `• Use metronome starting at 50 BPM`,
       `• Record every practice session`

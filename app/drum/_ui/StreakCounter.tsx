@@ -1,6 +1,7 @@
 "use client";
 
 import { StreakInfo } from "../_lib/statsUtils";
+import { Icon } from "./Icon";
 
 type StreakCounterProps = {
   streak: StreakInfo;
@@ -25,7 +26,7 @@ export default function StreakCounter({ streak, compact = false }: StreakCounter
   if (compact) {
     return (
       <div className="streak-compact">
-        <span className="streak-compact-fire">{hasStreak ? "🔥" : "⚪"}</span>
+        <span className="streak-compact-fire">{hasStreak ? <Icon name="flame" size={16} /> : <Icon name="circle" size={16} />}</span>
         <span className="streak-compact-count">{current}</span>
         <span className="streak-compact-label">day streak</span>
         {isActive && <span className="streak-compact-active">Active</span>}
@@ -38,7 +39,7 @@ export default function StreakCounter({ streak, compact = false }: StreakCounter
       <div className="streak-main">
         <div className="streak-fire-container">
           <span className={`streak-fire ${hasStreak ? "streak-fire-active" : ""}`}>
-            {hasStreak ? "🔥" : "⚪"}
+            {hasStreak ? <Icon name="flame" size={24} /> : <Icon name="circle" size={24} />}
           </span>
           {hasStreak && isActive && (
             <span className="streak-fire-glow" />
@@ -95,7 +96,7 @@ export function StreakBadge({ streak }: { streak: StreakInfo }) {
 
   return (
     <span className="streak-badge">
-      <span className="streak-badge-fire">🔥</span>
+      <span className="streak-badge-fire"><Icon name="flame" size={16} /></span>
       <span className="streak-badge-count">{streak.current}</span>
     </span>
   );

@@ -213,7 +213,7 @@ export default function ReflectionJournal({
       {/* Continue */}
       <div className="reflection-field">
         <label htmlFor="reflection-continue" className="reflection-label reflection-continue">
-          ✅ CONTINUE
+          CONTINUE
         </label>
         <p className="reflection-prompt">{prompts.continue.prompt}</p>
         <p className="reflection-examples">

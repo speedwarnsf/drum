@@ -389,7 +389,7 @@ export default function ShuffleMode({
     return (
       <div className={`shuffle-mode shuffle-mode-complete ${compact ? "shuffle-mode-compact" : ""}`}>
         <div className="shuffle-complete-header">
-          <span className="shuffle-complete-icon" aria-hidden="true">✅</span>
+          <span className="shuffle-complete-icon" aria-hidden="true"></span>
           <span className="shuffle-complete-title">Sequence Complete</span>
         </div>
         

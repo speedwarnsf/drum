@@ -75,7 +75,7 @@ function SkillNode({ skill, status, progress, isRecommended, onClick }: SkillNod
       )}
       
       {status === "locked" && (
-        <div className="skill-node-lock">🔒</div>
+        <div className="skill-node-lock"><Icon name="lock" size={16} /></div>
       )}
       
       {isRecommended && status !== "mastered" && (

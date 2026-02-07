@@ -9,6 +9,17 @@ import {
   getRecommendedPatterns,
   type DrumPattern 
 } from "../_lib/patternLibrary";
+import { Icon } from "./Icon";
+
+function DifficultyStars({ level }: { level: number }) {
+  return (
+    <span className="difficulty-stars">
+      {Array.from({ length: 5 }).map((_, i) => (
+        <Icon key={i} name={i < level ? "starFilled" : "star"} size={12} />
+      ))}
+    </span>
+  );
+}
 
 interface PatternBrowserProps {
   onPatternSelect?: (pattern: DrumPattern) => void;
@@ -60,7 +71,7 @@ export default function PatternBrowser({
   }, [selectedCategory, difficultyFilter, searchQuery, showOnlyRecommended, currentLevel, completedPatterns]);
 
   const getDifficultyStars = (difficulty: number) => {
-    return "⭐".repeat(difficulty) + "☆".repeat(5 - difficulty);
+    return <DifficultyStars level={difficulty} />;
   };
 
   const getDifficultyLabel = (difficulty: number) => {
@@ -265,14 +276,14 @@ function PatternCard({ pattern, isCompleted, isSelected, onClick }: PatternCardP
         <div className="flex-1 min-w-0">
           <h3 className="font-semibold text-lg flex items-center gap-2">
             {pattern.name}
-            {isCompleted && <span className="text-green-500 text-sm">✅</span>}
+            {isCompleted && <span className="text-green-500 text-sm"><Icon name="check" size={16} /></span>}
           </h3>
           <div className="flex items-center gap-2 text-sm text-gray-600">
             <span className="px-2 py-1 bg-gray-100 rounded text-xs uppercase font-medium">
               {pattern.category}
             </span>
             <span className="text-yellow-600" title={`Difficulty: ${pattern.difficulty}/5`}>
-              {"⭐".repeat(pattern.difficulty)}{"☆".repeat(5 - pattern.difficulty)}
+              <DifficultyStars level={pattern.difficulty} />
             </span>
           </div>
         </div>
@@ -320,14 +331,14 @@ function PatternDetailModal({ pattern, isCompleted, onClose }: PatternDetailModa
             <div>
               <h2 className="text-2xl font-bold flex items-center gap-2">
                 {pattern.name}
-                {isCompleted && <span className="text-green-500">✅</span>}
+                {isCompleted && <span className="text-green-500"><Icon name="check" size={20} /></span>}
               </h2>
               <div className="flex items-center gap-2 mt-2">
                 <span className="px-3 py-1 bg-gray-100 rounded text-sm uppercase font-medium">
                   {pattern.category}
                 </span>
                 <span className="text-yellow-600" title={`Difficulty: ${pattern.difficulty}/5`}>
-                  {"⭐".repeat(pattern.difficulty)}{"☆".repeat(5 - pattern.difficulty)}
+                  <DifficultyStars level={pattern.difficulty} />
                 </span>
                 <span className="text-sm text-gray-600">{pattern.timeSignature}</span>
               </div>

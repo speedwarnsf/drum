@@ -148,7 +148,7 @@ export default function PatternsPage() {
           <h3 className="text-xl font-bold mb-4">Recommended Learning Path</h3>
           <div className="grid md:grid-cols-3 gap-4">
             <div className="bg-white p-4 rounded border">
-              <h4 className="font-semibold text-green-600 mb-2">🎯 Start Here</h4>
+              <h4 className="font-semibold text-green-600 mb-2">Start Here</h4>
               <p className="text-sm text-gray-700 mb-2">Essential foundation patterns</p>
               <ul className="text-xs space-y-1">
                 <li>• Quarter Notes</li>
