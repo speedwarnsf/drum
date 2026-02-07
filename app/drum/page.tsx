@@ -9,8 +9,7 @@ export default async function DrumHome() {
             <div className="kicker">Drum Practice System</div>
             <h1 className="title">Daily practice cards</h1>
             <p className="sub">
-              Built for absolute beginners on an electronic kit. Calm structure
-              with clear stop points.
+              Built for electronic kit players. Calm structure with clear stop points.
             </p>
             <div className="row">
               <AuthSetupButton />

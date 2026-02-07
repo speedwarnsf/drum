@@ -110,9 +110,9 @@ function StartPageInner() {
               value={level}
               onChange={(e) => setLevel(e.target.value as Profile["level"])}
             >
-              <option value="true_beginner">Barely ever drummed</option>
-              <option value="beginner">Beginner</option>
-              <option value="rusty">Rusty</option>
+              <option value="true_beginner">New to drums</option>
+              <option value="beginner">Some experience</option>
+              <option value="rusty">Returning player</option>
             </select>
           </Field>
 

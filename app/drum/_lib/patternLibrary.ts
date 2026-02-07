@@ -33,7 +33,7 @@ export type DrumPattern = {
   id: string;
   name: string;
   category: "basic" | "rock" | "funk" | "jazz" | "latin" | "shuffle" | "modern" | "rudiment" | "fill";
-  difficulty: 1 | 2 | 3 | 4 | 5; // 1 = beginner, 5 = advanced
+  difficulty: 1 | 2 | 3 | 4 | 5; // 1 = foundational, 5 = expert
   syllables: string;
   notation: string;
   sticking?: string; // For rudiments and hand patterns

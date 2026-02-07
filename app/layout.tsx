@@ -61,13 +61,6 @@ export default function RootLayout({
         <meta name="x-ua-compatible" content="IE=edge" />
       </head>
       <body className={`${spaceGrotesk.variable} ${dmMono.variable}`}>
-        {/* Skip link for keyboard accessibility */}
-        <a
-          href="#main-content"
-          className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-50 focus:bg-stone-900 focus:text-amber-500 focus:px-4 focus:py-2 focus:rounded-lg focus:font-semibold"
-        >
-          Skip to main content
-        </a>
         <div className="hero-shell">
           <a href="/drum" aria-label="RepoDrum home">
             <Image

@@ -34,7 +34,7 @@ export default function DrumMethodPage() {
             <p className="pillar-subtitle">The &quot;Personal Drum Troupe&quot;</p>
             <p>
               When all your limbs sound like <strong>one drummer</strong>, you have a &quot;Personal Drum Troupe.&quot; 
-              Most beginners don&apos;t realize their kick and snare hit at slightly different times—creating 
+              Most drummers don&apos;t realize their kick and snare hit at slightly different times—creating 
               a &quot;flam&quot; instead of a unified &quot;thud.&quot;
             </p>
             <div className="pillar-test">

@@ -178,7 +178,7 @@ function DiagnosticPageInner() {
               <>
                 <span className="diagnostic-result-emoji"><Icon name="wrench" size={32} /></span>
                 <h2 className="card-title">Hidden Coordination Flaw Detected</h2>
-                <p>This is common! Most beginners have this. The good news: now you know what to fix.</p>
+                <p>This is common! Most drummers have this early on. The good news: now you know what to fix.</p>
               </>
             )}
             {overall === "unclear" && (
@@ -310,7 +310,7 @@ function DiagnosticPageInner() {
           When they're off, you hear a "flam" — two attacks instead of one.
         </p>
         <p className="sub" style={{ marginTop: 8 }}>
-          Most beginners have a hidden coordination flaw they can't feel but CAN hear.
+          Most drummers have a hidden coordination flaw they can't feel but CAN hear.
           This diagnostic finds it.
         </p>
       </section>

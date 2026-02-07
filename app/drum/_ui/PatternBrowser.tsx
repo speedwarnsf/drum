@@ -65,8 +65,8 @@ export default function PatternBrowser({
 
   const getDifficultyLabel = (difficulty: number) => {
     switch (difficulty) {
-      case 1: return "Beginner";
-      case 2: return "Easy";
+      case 1: return "Foundational";
+      case 2: return "Elementary";
       case 3: return "Intermediate";
       case 4: return "Advanced";
       case 5: return "Expert";
@@ -180,7 +180,7 @@ export default function PatternBrowser({
               className="w-full"
             />
             <div className="flex justify-between text-xs text-gray-500 mt-1">
-              <span>Beginner</span>
+              <span>Foundational</span>
               <span>Expert</span>
             </div>
           </div>

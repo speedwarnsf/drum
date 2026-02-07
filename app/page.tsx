@@ -7,7 +7,7 @@ export default function Home() {
             <div className="kicker">Dyork Music</div>
             <h1 className="title">Drum Practice System</h1>
             <p className="sub">
-              Calm, tactile practice cards for absolute beginners. Designed to
+              Calm, tactile practice cards for focused improvement. Designed to
               feel like a trusted, analog teacher.
             </p>
             <div className="row">
