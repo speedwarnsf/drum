@@ -1,3 +1,5 @@
+import type { SupabaseClient, User } from "@supabase/supabase-js";
+
 export type DrumLevel = "true_beginner" | "beginner" | "rusty";
 export type DrumKit = "roland_edrum" | "other_edrum" | "acoustic";
 export type DrumGoal = "comfort_time" | "basic_grooves" | "play_music";
@@ -299,6 +301,11 @@ const KEY_PROFILE = "drum_mvp_profile";
 const KEY_LOGS = "drum_mvp_logs";
 const KEY_SESSIONS = "drum_mvp_sessions";
 const KEY_LAST_PLAN = "drum_mvp_last_plan";
+const KEY_PENDING_PROFILE_SYNC = "drum_mvp_profile_pending_sync";
+
+let pendingProfileSync: Profile | null = null;
+let pendingProfileSyncUnsubscribe: (() => void) | null = null;
+let pendingProfileSyncAttempted = false;
 
 export type StoredSession = {
   id: string;
@@ -316,8 +323,33 @@ function safeJsonParse<T>(raw: string | null): T | null {
   }
 }
 
+function loadPendingProfileSync(): Profile | null {
+  if (typeof window === "undefined") return null;
+  return safeJsonParse<Profile>(localStorage.getItem(KEY_PENDING_PROFILE_SYNC));
+}
+
+function savePendingProfileSync(profile: Profile) {
+  if (typeof window === "undefined") return;
+  localStorage.setItem(KEY_PENDING_PROFILE_SYNC, JSON.stringify(profile));
+}
+
+function clearPendingProfileSync() {
+  if (typeof window === "undefined") return;
+  localStorage.removeItem(KEY_PENDING_PROFILE_SYNC);
+}
+
+async function syncPendingProfileIfAny() {
+  const pending = loadPendingProfileSync();
+  if (!pending) return;
+  await syncProfileToSupabase(pending);
+}
+
 export function loadProfile(): Profile | null {
   if (typeof window === "undefined") return null;
+  if (!pendingProfileSyncAttempted) {
+    pendingProfileSyncAttempted = true;
+    void syncPendingProfileIfAny();
+  }
   return safeJsonParse<Profile>(localStorage.getItem(KEY_PROFILE));
 }
 
@@ -379,6 +411,7 @@ export function clearAllLocal() {
   localStorage.removeItem(KEY_LOGS);
   localStorage.removeItem(KEY_SESSIONS);
   localStorage.removeItem(KEY_LAST_PLAN);
+  localStorage.removeItem(KEY_PENDING_PROFILE_SYNC);
 }
 
 function lastLog(): LogEntry | null {
@@ -627,25 +660,52 @@ async function syncProfileToSupabase(profile: Profile) {
     const { getSupabaseClient } = await import("./supabaseClient");
     const supabase = getSupabaseClient();
     if (!supabase) return;
-    
-    const { data: userData, error: authError } = await supabase.auth.getUser();
-    if (authError) {
-      console.error("[Drum] Auth error syncing profile:", authError.message);
+
+    const user = await getAuthedUser(supabase);
+    if (!user) {
+      savePendingProfileSync(profile);
+      queueProfileSync(supabase, profile);
       return;
     }
     
-    const user = userData?.user;
-    if (!user) return;
-    
     const localCount = loadLogs().length;
-    const { data: existing, error: existingError } = await supabase
-      .from("drum_profiles")
-      .select("session_count, current_module, module_started_at")
-      .eq("user_id", user.id)
-      .maybeSingle();
-      
-    if (existingError) {
-      console.error("[Drum] Error fetching existing profile:", existingError.message);
+    let existing: any = null;
+    let hasModuleColumns = true;
+    
+    // Try to get existing profile with all columns
+    try {
+      const { data: fullProfile, error: fullError } = await supabase
+        .from("drum_profiles")
+        .select("session_count, current_module, module_started_at")
+        .eq("user_id", user.id)
+        .maybeSingle();
+        
+      if (fullError && (fullError.message.includes("current_module") || fullError.message.includes("column") && fullError.message.includes("does not exist"))) {
+        console.warn("[Drum] Module columns missing from drum_profiles table, using basic columns only");
+        hasModuleColumns = false;
+      } else if (fullError) {
+        console.error("[Drum] Error fetching existing profile:", fullError.message);
+      } else {
+        existing = fullProfile;
+      }
+    } catch (err) {
+      console.warn("[Drum] Failed to fetch full profile, falling back to basic columns");
+      hasModuleColumns = false;
+    }
+    
+    // If module columns don't exist, try with basic columns only
+    if (!hasModuleColumns) {
+      const { data: basicProfile, error: basicError } = await supabase
+        .from("drum_profiles")
+        .select("session_count")
+        .eq("user_id", user.id)
+        .maybeSingle();
+        
+      if (basicError) {
+        console.error("[Drum] Error fetching basic profile:", basicError.message);
+      } else {
+        existing = basicProfile;
+      }
     }
     
     const { count: remoteCount } = await supabase
@@ -658,28 +718,66 @@ async function syncProfileToSupabase(profile: Profile) {
       Number(localCount),
       Number(remoteCount ?? 0)
     );
-    const currentModule = profile.currentModule ?? existing?.current_module ?? 1;
-    const moduleStartedAt = profile.moduleStartedAt ?? existing?.module_started_at ?? new Date().toISOString();
     
-    const { error: upsertError } = await supabase.from("drum_profiles").upsert({
+    // Prepare the profile data based on available columns
+    const profileData: any = {
       user_id: user.id,
       level: profile.level,
       kit: profile.kit,
       minutes: profile.minutes,
       goal: profile.goal,
       session_count: sessionCount,
-      current_module: currentModule,
-      module_started_at: moduleStartedAt,
       updated_at: new Date().toISOString(),
-    });
+    };
+    
+    // Only add module columns if they exist in the database
+    if (hasModuleColumns) {
+      const currentModule = profile.currentModule ?? existing?.current_module ?? 1;
+      const moduleStartedAt = profile.moduleStartedAt ?? existing?.module_started_at ?? new Date().toISOString();
+      profileData.current_module = currentModule;
+      profileData.module_started_at = moduleStartedAt;
+    }
+    
+    const { error: upsertError } = await supabase
+      .from("drum_profiles")
+      .upsert(profileData);
     
     if (upsertError) {
       console.error("[Drum] Failed to sync profile:", upsertError.message);
+    } else {
+      clearPendingProfileSync();
+      console.log("[Drum] Profile synced successfully", hasModuleColumns ? "(with module columns)" : "(basic columns only)");
     }
   } catch (err) {
     console.error("[Drum] Error syncing profile:", err);
     // Fail silently - local data is saved
   }
+}
+
+async function getAuthedUser(supabase: SupabaseClient): Promise<User | null> {
+  const { data: sessionData } = await supabase.auth.getSession();
+  if (sessionData.session?.user) return sessionData.session.user;
+  const { data: userData, error: authError } = await supabase.auth.getUser();
+  if (authError) {
+    console.error("[Drum] Auth error resolving user:", authError.message);
+    return null;
+  }
+  return userData?.user ?? null;
+}
+
+function queueProfileSync(supabase: SupabaseClient, profile: Profile) {
+  pendingProfileSync = profile;
+  if (pendingProfileSyncUnsubscribe) return;
+  const { data } = supabase.auth.onAuthStateChange((_event, session) => {
+    const user = session?.user;
+    if (!user || !pendingProfileSync) return;
+    const queued = pendingProfileSync;
+    pendingProfileSync = null;
+    pendingProfileSyncUnsubscribe?.();
+    pendingProfileSyncUnsubscribe = null;
+    void syncProfileToSupabase(queued);
+  });
+  pendingProfileSyncUnsubscribe = () => data.subscription.unsubscribe();
 }
 
 async function bumpProfileSessionCount() {
