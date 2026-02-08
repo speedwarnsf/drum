@@ -98,6 +98,15 @@ const ICONS: Record<string, React.ReactNode> = {
   
   drum: <><ellipse cx="12" cy="18" rx="8" ry="3" fill="currentColor"/><path d="M4,8v10M20,8v10" stroke="currentColor" strokeWidth="2"/><ellipse cx="12" cy="8" rx="8" ry="3" stroke="currentColor" strokeWidth="2" fill="none"/></>,
   
+  // === Navigation Icons (Added for Drum App) ===
+  today: <path d="M19,4H5A3,3,0,0,0,2,7V19a3,3,0,0,0,3,3H19a3,3,0,0,0,3-3V7A3,3,0,0,0,19,4ZM8,17a1,1,0,0,1-2,0V11a1,1,0,0,1,2,0Zm4,0a1,1,0,0,1-2,0V9a1,1,0,0,1,2,0Zm4,0a1,1,0,0,1-2,0V13a1,1,0,0,1,2,0Zm2-10H4V7A1,1,0,0,1,5,6H19a1,1,0,0,1,1,1Z"/>,
+  
+  patterns: <path d="M5,6A1,1,0,1,1,6,7,1,1,0,0,1,5,6ZM9,6a1,1,0,1,1,1,1A1,1,0,0,1,9,6Zm4,0a1,1,0,1,1,1,1A1,1,0,0,1,13,6Zm4,0a1,1,0,1,1,1,1A1,1,0,0,1,17,6ZM5,10a1,1,0,1,1,1,1A1,1,0,0,1,5,10Zm4,0a1,1,0,1,1,1,1A1,1,0,0,1,9,10Zm8,0a1,1,0,1,1,1,1A1,1,0,0,1,17,10ZM5,14a1,1,0,1,1,1,1A1,1,0,0,1,5,14Zm8,0a1,1,0,1,1,1,1A1,1,0,0,1,13,14Zm4,0a1,1,0,1,1,1,1A1,1,0,0,1,17,14ZM5,18a1,1,0,1,1,1,1A1,1,0,0,1,5,18Zm4,0a1,1,0,1,1,1,1A1,1,0,0,1,9,18Zm4,0a1,1,0,1,1,1,1A1,1,0,0,1,13,18Zm4,0a1,1,0,1,1,1,1A1,1,0,0,1,17,18Z"/>,
+  
+  drills: <><circle cx="12" cy="12" r="2"/><path d="M12,1A11,11,0,1,0,23,12,11,11,0,0,0,12,1Zm0,19a8,8,0,1,1,8-8A8,8,0,0,1,12,20Z"/><path d="M12,6V4M18,12H16M12,20v-2M6,12H4"/></>,
+  
+  progress: <path d="M12,2A10,10,0,1,0,22,12,10,10,0,0,0,12,2Zm0,18a8,8,0,1,1,8-8A8,8,0,0,1,12,20Z"/><path d="M12,6V12l4,2"/>,
+  
   headphones: <path d="M12,3A9,9,0,0,0,3,12v4a3,3,0,0,0,3,3H7a1,1,0,0,0,1-1V13a1,1,0,0,0-1-1H5v0a7,7,0,0,1,14,0v0H17a1,1,0,0,0-1,1v5a1,1,0,0,0,1,1h1a3,3,0,0,0,3-3V12A9,9,0,0,0,12,3Z"/>,
   
   target: <><circle cx="12" cy="12" r="9" stroke="currentColor" strokeWidth="2" fill="none"/><circle cx="12" cy="12" r="5" stroke="currentColor" strokeWidth="2" fill="none"/><circle cx="12" cy="12" r="1.5" fill="currentColor"/></>,
