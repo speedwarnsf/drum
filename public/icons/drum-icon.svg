@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <rect width="512" height="512" rx="96" fill="#1a1a2e"/>
+  <!-- Snare drum body -->
+  <ellipse cx="256" cy="310" rx="140" ry="45" fill="#E8B630" opacity="0.9"/>
+  <rect x="116" y="270" width="280" height="40" fill="#E8B630" opacity="0.9"/>
+  <ellipse cx="256" cy="270" rx="140" ry="45" fill="#F0C850"/>
+  <!-- Drum rim top -->
+  <ellipse cx="256" cy="270" rx="140" ry="45" fill="none" stroke="#D4A020" stroke-width="6"/>
+  <!-- Tension rods -->
+  <line x1="130" y1="280" x2="130" y2="310" stroke="#C0C0C0" stroke-width="3"/>
+  <line x1="180" y1="260" x2="180" y2="318" stroke="#C0C0C0" stroke-width="3"/>
+  <line x1="256" y1="225" x2="256" y2="310" stroke="#C0C0C0" stroke-width="3" opacity="0"/>
+  <line x1="332" y1="260" x2="332" y2="318" stroke="#C0C0C0" stroke-width="3"/>
+  <line x1="382" y1="280" x2="382" y2="310" stroke="#C0C0C0" stroke-width="3"/>
+  <!-- Drumhead shine -->
+  <ellipse cx="240" cy="258" rx="60" ry="20" fill="white" opacity="0.15"/>
+  <!-- Crossed drumsticks -->
+  <line x1="140" y1="150" x2="330" y2="260" stroke="#DEB887" stroke-width="10" stroke-linecap="round"/>
+  <line x1="370" y1="150" x2="180" y2="260" stroke="#DEB887" stroke-width="10" stroke-linecap="round"/>
+  <!-- Stick tips -->
+  <circle cx="330" cy="260" r="8" fill="#F5DEB3"/>
+  <circle cx="180" cy="260" r="8" fill="#F5DEB3"/>
+</svg>
