@@ -469,7 +469,7 @@ function SessionTimer({ startTime }: { startTime: Date }) {
     <div className="session-timer">
       <span className="timer-icon">⏱️</span>
       <span className="timer-text">
-        {minutes:02d}:{seconds.toString().padStart(2, '0')}
+        {minutes.toString().padStart(2, '0')}:{seconds.toString().padStart(2, '0')}
       </span>
     </div>
   );

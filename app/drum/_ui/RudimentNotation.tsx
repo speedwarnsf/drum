@@ -343,7 +343,7 @@ export default function RudimentNotation({
           <span>Left Hand (L)</span>
         </div>
         <div className="legend-item">
-          <span className="legend-symbol">></span>
+          <span className="legend-symbol">&gt;</span>
           <span>Accent</span>
         </div>
         <div className="legend-item">

@@ -129,7 +129,7 @@ export default function DrumTapPad({
       intensity: 100,
       frequency: getFrequencyForPadType(pad.type),
       confidence: 1.0,
-      type: pad.type === 'tom' ? 'snare' : pad.type, // Map tom to snare for simplicity
+      type: pad.type === 'tom' ? 'snare' : pad.type === 'cymbal' ? 'crash' : pad.type, // Map tom→snare, cymbal→crash
     };
 
     setTaps(prev => [...prev.slice(-20), manualTap]);

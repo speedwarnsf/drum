@@ -104,12 +104,12 @@ function testQualityRatings() {
   
   test('Has 6 quality ratings', QUALITY_RATINGS.length === 6);
   test('Ratings have values 0-5', QUALITY_RATINGS.every(r => r.value >= 0 && r.value <= 5));
-  test('All have labels', QUALITY_RATINGS.every(r => r.label && r.description && r.emoji));
+  test('All have labels', QUALITY_RATINGS.every(r => r.label && r.description && r.icon));
   
   // Simple ratings for UI
   test('Has simple ratings', SIMPLE_RATINGS.length >= 2);
   test('Simple ratings have quality values', SIMPLE_RATINGS.every(r => typeof r.quality === 'number'));
-  test('Simple ratings have labels', SIMPLE_RATINGS.every(r => r.label && r.emoji));
+  test('Simple ratings have labels', SIMPLE_RATINGS.every(r => r.label && r.icon));
 }
 
 // ============================================================================

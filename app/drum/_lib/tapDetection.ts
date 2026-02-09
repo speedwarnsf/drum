@@ -35,9 +35,9 @@ export class TapDetector {
 
   // Audio analysis buffers
   private fftSize = 2048;
-  private frequencyData: Uint8Array | null = null;
-  private timeData: Uint8Array | null = null;
-  private previousFrequencyData: Uint8Array | null = null;
+  private frequencyData: Uint8Array<ArrayBuffer> | null = null;
+  private timeData: Uint8Array<ArrayBuffer> | null = null;
+  private previousFrequencyData: Uint8Array<ArrayBuffer> | null = null;
   private spectralFlux: Float32Array | null = null;
 
   // Calibration data
@@ -72,7 +72,7 @@ export class TapDetector {
         echoCancellation: false,
         noiseSuppression: false,
         autoGainControl: false,
-        latency: 0.01, // Request low latency
+        ...({ latency: 0.01 } as any), // Request low latency (non-standard but supported)
       },
     });
 
@@ -365,9 +365,10 @@ export class BeatTracker {
       let error = 0;
       let actualTime: number | undefined;
 
-      if (closestBeat && minTimeDiff <= this.toleranceMs) {
-        actualTime = closestBeat.timestamp;
-        error = closestBeat.timestamp - expectedTime;
+      const matched = closestBeat as TapEvent | null;
+      if (matched && minTimeDiff <= this.toleranceMs) {
+        actualTime = matched.timestamp;
+        error = matched.timestamp - expectedTime;
 
         if (Math.abs(error) <= 10) {
           accuracy = 'perfect';
@@ -385,7 +386,7 @@ export class BeatTracker {
         actualTime,
         error,
         accuracy,
-        intensity: closestBeat?.intensity || 0,
+        intensity: matched?.intensity || 0,
       });
     });
 
