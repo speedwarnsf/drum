@@ -49,8 +49,20 @@ function ProgressPageInner() {
   useEffect(() => {
     async function loadData() {
       try {
-        // Load module progress
-        const progressData = await getModuleProgress();
+        // Load module progress (try remote, fallback to local)
+        let progressData = await getModuleProgress();
+        if (!progressData) {
+          // Fallback: build progress from local sessions
+          const localSessions = loadSessions();
+          if (localSessions.length > 0) {
+            progressData = {
+              currentModule: 1,
+              moduleStartedAt: localSessions[localSessions.length - 1]?.ts ?? null,
+              sessionCount: localSessions.length,
+              sessionsInModule: localSessions.length,
+            };
+          }
+        }
         setProgress(progressData);
 
         // Load diagnostic results from localStorage

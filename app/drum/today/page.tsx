@@ -179,7 +179,11 @@ function DrumTodayInner() {
     if (!profile || !supabase) return;
     supabase.auth.getSession().then(({ data }) => {
       const token = data.session?.access_token;
-      if (!token) return;
+      if (!token) {
+        // No auth session — skip credit check, allow local-only usage
+        setCreditsReady(true);
+        return;
+      }
       const lessonId = `daily:${new Date().toISOString().slice(0, 10)}`;
       fetch("/api/credits/use", {
         method: "POST",
