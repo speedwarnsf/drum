@@ -179,7 +179,7 @@ type OpenAIResponse = {
   }>;
 };
 
-const MODEL_DEFAULT = "gpt-4o";
+const MODEL_DEFAULT = "gpt-5.2";
 
 export async function POST(req: Request) {
   const apiKey = process.env.OPENAI_API_KEY;
@@ -218,7 +218,7 @@ export async function POST(req: Request) {
           { role: "system", content: system },
           { role: "user", content: user },
         ],
-        max_tokens: maxOutputTokens,
+        max_completion_tokens: maxOutputTokens,
         temperature: 0.7,
         response_format: { type: "json_object" },
       }),
