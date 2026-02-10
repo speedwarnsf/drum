@@ -25,13 +25,26 @@ export const viewport: Viewport = {
 };
 
 export const metadata: Metadata = {
-  title: "Dyork Drum Practice",
-  description: "Daily drum practice cards with calm, teacher-style guidance.",
+  title: "RepoDrum — Practice Pad Rudiment Trainer",
+  description: "All 40 PAS Essential Rudiments with notation, metronome, and spaced repetition.",
   manifest: "/manifest.json",
+  openGraph: {
+    type: "website",
+    title: "RepoDrum — Practice Pad Rudiment Trainer",
+    description: "All 40 PAS Essential Rudiments with notation, metronome, and spaced repetition.",
+    url: "https://repodrum.com/",
+    images: [{ url: "https://repodrum.com/media/repodrumlogo.gif" }],
+  },
+  twitter: {
+    card: "summary",
+    title: "RepoDrum — Practice Pad Rudiment Trainer",
+    description: "All 40 PAS Essential Rudiments with notation, metronome, and spaced repetition.",
+    images: ["https://repodrum.com/media/repodrumlogo.gif"],
+  },
   appleWebApp: {
     capable: true,
     statusBarStyle: "default",
-    title: "Drum Practice",
+    title: "RepoDrum",
   },
   formatDetection: {
     telephone: false,
