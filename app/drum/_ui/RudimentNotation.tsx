@@ -27,21 +27,41 @@ export default function RudimentNotation({
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
 
+  // Responsive canvas sizing
   useEffect(() => {
-    drawNotation();
+    const container = containerRef.current;
+    if (!container) return;
+    const observer = new ResizeObserver(() => {
+      const w = container.clientWidth;
+      if (w > 0 && canvasRef.current) {
+        const newWidth = Math.min(width, w - 2); // account for border
+        canvasRef.current.width = newWidth;
+        drawNotation(newWidth);
+      }
+    });
+    observer.observe(container);
+    return () => observer.disconnect();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [rudiment, width]);
+
+  useEffect(() => {
+    drawNotation(canvasRef.current?.width ?? width);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [rudiment, currentBeat, showPlayhead]);
 
-  const drawNotation = () => {
+  const drawNotation = (w?: number) => {
     const canvas = canvasRef.current;
     if (!canvas) return;
 
     const ctx = canvas.getContext("2d");
     if (!ctx) return;
 
+    const canvasWidth = w ?? canvas.width;
+
     // Clear canvas
-    ctx.clearRect(0, 0, width, height);
+    ctx.clearRect(0, 0, canvasWidth, height);
     ctx.fillStyle = "#ffffff";
-    ctx.fillRect(0, 0, width, height);
+    ctx.fillRect(0, 0, canvasWidth, height);
 
     // Draw staff lines
     drawStaff(ctx);
@@ -327,7 +347,9 @@ export default function RudimentNotation({
             border: '1px solid #ddd',
             borderRadius: '4px',
             backgroundColor: '#ffffff',
-            cursor: interactive ? 'pointer' : 'default'
+            cursor: interactive ? 'pointer' : 'default',
+            maxWidth: '100%',
+            height: 'auto',
           }}
           aria-label={`Musical notation for ${rudiment.name}: ${rudiment.pattern.stickingPattern}`}
         />
