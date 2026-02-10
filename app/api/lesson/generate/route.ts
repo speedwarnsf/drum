@@ -172,16 +172,14 @@ type AiResponse = {
 };
 
 type OpenAIResponse = {
-  output_text?: string;
-  output?: Array<{
-    content?: Array<{
-      type?: string;
-      text?: string;
-    }>;
+  choices?: Array<{
+    message?: {
+      content?: string;
+    };
   }>;
 };
 
-const MODEL_DEFAULT = "gpt-5.2";
+const MODEL_DEFAULT = "gpt-4o";
 
 export async function POST(req: Request) {
   const apiKey = process.env.OPENAI_API_KEY;
@@ -208,7 +206,7 @@ export async function POST(req: Request) {
   const user = buildUserPrompt(payload);
 
   try {
-    const response = await fetch("https://api.openai.com/v1/responses", {
+    const response = await fetch("https://api.openai.com/v1/chat/completions", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -216,21 +214,13 @@ export async function POST(req: Request) {
       },
       body: JSON.stringify({
         model,
-        input: [
-          {
-            role: "system",
-            content: [{ type: "input_text", text: system }],
-          },
-          {
-            role: "user",
-            content: [{ type: "input_text", text: user }],
-          },
+        messages: [
+          { role: "system", content: system },
+          { role: "user", content: user },
         ],
-        max_output_tokens: maxOutputTokens,
+        max_tokens: maxOutputTokens,
         temperature: 0.7,
-        text: {
-          format: { type: "json_object" },
-        },
+        response_format: { type: "json_object" },
       }),
     });
 
@@ -422,17 +412,8 @@ function summarizeLogs(logs: LogEntry[]) {
 }
 
 function extractOutputText(data: OpenAIResponse): string | null {
-  if (typeof data?.output_text === "string") return data.output_text;
-  const items = Array.isArray(data?.output) ? data.output : [];
-  for (const item of items) {
-    const content = Array.isArray(item?.content) ? item.content : [];
-    for (const part of content) {
-      if (part?.type === "output_text" && typeof part.text === "string") {
-        return part.text;
-      }
-    }
-  }
-  return null;
+  const content = data?.choices?.[0]?.message?.content;
+  return typeof content === "string" ? content : null;
 }
 
 function safeParseJson(text: string): unknown | null {
