@@ -359,7 +359,13 @@ function DrumTodayInner() {
     );
   }
 
-  if (!plan) return null;
+  if (!plan) {
+    return (
+      <Shell title="Preparing..." subtitle="Setting up your practice session">
+        <SkeletonTodayPage />
+      </Shell>
+    );
+  }
 
   return (
     <Shell

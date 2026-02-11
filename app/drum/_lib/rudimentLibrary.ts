@@ -1281,6 +1281,7 @@ export class RudimentProgression {
   }
 
   private loadProgress(): void {
+    if (typeof window === 'undefined') return;
     try {
       const saved = localStorage.getItem('drum-rudiment-progress');
       if (saved) {
@@ -1295,6 +1296,7 @@ export class RudimentProgression {
   }
 
   private saveProgress(): void {
+    if (typeof window === 'undefined') return;
     try {
       const data = {
         completed: Array.from(this.completedRudiments),

@@ -298,6 +298,7 @@ export class AchievementTracker {
   }
 
   private loadProgress(): void {
+    if (typeof window === 'undefined') return;
     try {
       const savedStats = localStorage.getItem('drum-practice-stats');
       const savedAchievements = localStorage.getItem('drum-achievements');
@@ -328,6 +329,7 @@ export class AchievementTracker {
   }
 
   private saveProgress(): void {
+    if (typeof window === 'undefined') return;
     try {
       localStorage.setItem('drum-practice-stats', JSON.stringify(this.stats));
       

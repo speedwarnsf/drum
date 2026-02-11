@@ -1,29 +1,28 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
+import Shell from "../_ui/Shell";
 import PatternBrowser from "../_ui/PatternBrowser";
 import { Icon } from "../_ui/Icon";
 import { type DrumPattern } from "../_lib/patternLibrary";
-import { loadProfile } from "../_lib/drumMvp";
+import { loadProfile, Profile } from "../_lib/drumMvp";
 
 export default function PatternsPage() {
-  const [profile, setProfile] = useState<any>(null);
+  const [profile, setProfile] = useState<Profile | null>(null);
   const [completedPatterns, setCompletedPatterns] = useState<string[]>([]);
   const [selectedPattern, setSelectedPattern] = useState<DrumPattern | null>(null);
 
   useEffect(() => {
-    // Load user profile to determine skill level
     const userProfile = loadProfile();
     setProfile(userProfile);
 
-    // Load completed patterns from localStorage
     try {
       const saved = localStorage.getItem("drum_completed_patterns");
       if (saved) {
         setCompletedPatterns(JSON.parse(saved));
       }
-    } catch (err) {
-      console.warn("Failed to load completed patterns:", err);
+    } catch {
+      // Ignore parse errors
     }
   }, []);
 
@@ -34,150 +33,148 @@ export default function PatternsPage() {
   const handlePatternComplete = (patternId: string) => {
     const updated = [...completedPatterns, patternId];
     setCompletedPatterns(updated);
-    
-    // Save to localStorage
     try {
       localStorage.setItem("drum_completed_patterns", JSON.stringify(updated));
-    } catch (err) {
-      console.warn("Failed to save completed patterns:", err);
+    } catch {
+      // Ignore storage errors
     }
   };
 
   const getCurrentLevel = (): "beginner" | "intermediate" | "advanced" => {
     if (!profile) return "beginner";
-    
-    // Determine level based on profile
     if (profile.level === "true_beginner") return "beginner";
     if (profile.level === "beginner") return "intermediate";
     return "advanced";
   };
 
   return (
-    <div className="container mx-auto px-4 py-8">
-      <div className="max-w-7xl mx-auto">
-        <PatternBrowser
-          onPatternSelect={handlePatternSelect}
-          currentLevel={getCurrentLevel()}
-          completedPatterns={completedPatterns}
-        />
+    <Shell title="Pattern Library" subtitle="50+ grooves across 9 categories. Tap to explore.">
+      <PatternBrowser
+        onPatternSelect={handlePatternSelect}
+        currentLevel={getCurrentLevel()}
+        completedPatterns={completedPatterns}
+      />
 
-        {selectedPattern && (
-          <div className="mt-8 p-6 bg-blue-50 rounded-lg border border-blue-200">
-            <h3 className="text-xl font-bold mb-2">Practice Session: {selectedPattern.name}</h3>
-            <p className="text-gray-700 mb-4">{selectedPattern.description}</p>
-            
-            <div className="grid md:grid-cols-2 gap-6">
-              <div>
-                <h4 className="font-semibold mb-2">Practice Steps</h4>
-                <ol className="list-decimal list-inside space-y-2 text-sm">
-                  <li>Start with metronome at {selectedPattern.bpm.min} BPM</li>
-                  <li>Practice syllables first: "{selectedPattern.syllables}"</li>
-                  <li>Add hands/feet slowly, focusing on coordination</li>
-                  <li>Gradually increase tempo to {selectedPattern.bpm.target} BPM</li>
-                  <li>Record yourself and listen for flams or timing issues</li>
-                </ol>
-              </div>
-              
-              <div>
-                <h4 className="font-semibold mb-2">Success Criteria</h4>
-                <ul className="list-disc list-inside space-y-1 text-sm">
-                  <li>Can play cleanly at target tempo</li>
-                  <li>No flams between limbs</li>
-                  <li>Even volume and timing</li>
-                  <li>Can start and stop smoothly</li>
-                  <li>Feels comfortable and relaxed</li>
-                </ul>
-                
-                {!completedPatterns.includes(selectedPattern.id) && (
-                  <button
-                    onClick={() => handlePatternComplete(selectedPattern.id)}
-                    className="mt-4 px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700 transition-colors"
-                  >
-                    Mark as Completed ✓
-                  </button>
-                )}
-                
-                {completedPatterns.includes(selectedPattern.id) && (
-                  <div className="mt-4 flex items-center gap-2 text-green-600">
-                    <span>✓</span>
-                    <span className="font-medium">Completed!</span>
-                  </div>
-                )}
-              </div>
+      {selectedPattern && (
+        <section className="card">
+          <h2 className="card-title">Practice: {selectedPattern.name}</h2>
+          <p className="sub">{selectedPattern.description}</p>
+
+          <div className="pattern-detail-grid">
+            <div>
+              <div className="kicker">Practice Steps</div>
+              <ol style={{ marginTop: 8, paddingLeft: 20 }}>
+                <li>Start with metronome at {selectedPattern.bpm.min} BPM</li>
+                <li>Practice syllables first: &quot;{selectedPattern.syllables}&quot;</li>
+                <li>Add hands/feet slowly, focusing on coordination</li>
+                <li>Gradually increase tempo to {selectedPattern.bpm.target} BPM</li>
+                <li>Record yourself and listen for flams or timing issues</li>
+              </ol>
             </div>
 
-            {selectedPattern.tips && selectedPattern.tips.length > 0 && (
-              <div className="mt-6">
-                <h4 className="font-semibold mb-2">Practice Tips</h4>
-                <ul className="grid md:grid-cols-2 gap-2">
-                  {selectedPattern.tips.map((tip, index) => (
-                    <li key={index} className="flex items-start gap-2 text-sm">
-                      <span className="text-blue-600 mt-1"></span>
-                      <span>{tip}</span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            )}
-          </div>
-        )}
+            <div>
+              <div className="kicker">Success Criteria</div>
+              <ul style={{ marginTop: 8 }}>
+                <li>Can play cleanly at target tempo</li>
+                <li>No flams between limbs</li>
+                <li>Even volume and timing</li>
+                <li>Can start and stop smoothly</li>
+                <li>Feels comfortable and relaxed</li>
+              </ul>
 
-        {/* Progress Stats */}
-        <div className="mt-8 grid md:grid-cols-4 gap-4">
-          <div className="bg-white p-4 rounded-lg border">
-            <h4 className="font-semibold text-gray-600">Total Patterns</h4>
-            <p className="text-2xl font-bold text-blue-600">50+</p>
+              {!completedPatterns.includes(selectedPattern.id) ? (
+                <button
+                  onClick={() => handlePatternComplete(selectedPattern.id)}
+                  className="btn"
+                  style={{ marginTop: 12 }}
+                >
+                  Mark as Completed ✓
+                </button>
+              ) : (
+                <div className="meta" style={{ marginTop: 12 }}>
+                  ✓ Completed
+                </div>
+              )}
+            </div>
           </div>
-          <div className="bg-white p-4 rounded-lg border">
-            <h4 className="font-semibold text-gray-600">Completed</h4>
-            <p className="text-2xl font-bold text-green-600">{completedPatterns.length}</p>
+
+          {selectedPattern.tips && selectedPattern.tips.length > 0 && (
+            <div style={{ marginTop: 16 }}>
+              <div className="kicker">Practice Tips</div>
+              <ul style={{ marginTop: 8 }}>
+                {selectedPattern.tips.map((tip, index) => (
+                  <li key={index}>{tip}</li>
+                ))}
+              </ul>
+            </div>
+          )}
+        </section>
+      )}
+
+      {/* Progress Stats */}
+      <section className="card">
+        <h2 className="card-title">Your Progress</h2>
+        <div className="row" style={{ gap: 16, flexWrap: "wrap" }}>
+          <div>
+            <div className="meta">Total Patterns</div>
+            <div style={{ fontSize: "1.5rem", fontWeight: 700 }}>50+</div>
           </div>
-          <div className="bg-white p-4 rounded-lg border">
-            <h4 className="font-semibold text-gray-600">Your Level</h4>
-            <p className="text-2xl font-bold text-purple-600 capitalize">{getCurrentLevel()}</p>
+          <div>
+            <div className="meta">Completed</div>
+            <div style={{ fontSize: "1.5rem", fontWeight: 700 }}>{completedPatterns.length}</div>
           </div>
-          <div className="bg-white p-4 rounded-lg border">
-            <h4 className="font-semibold text-gray-600">Progress</h4>
-            <p className="text-2xl font-bold text-orange-600">
+          <div>
+            <div className="meta">Your Level</div>
+            <div style={{ fontSize: "1.5rem", fontWeight: 700, textTransform: "capitalize" }}>{getCurrentLevel()}</div>
+          </div>
+          <div>
+            <div className="meta">Progress</div>
+            <div style={{ fontSize: "1.5rem", fontWeight: 700 }}>
               {Math.round((completedPatterns.length / 50) * 100)}%
-            </p>
+            </div>
           </div>
         </div>
+      </section>
 
-        {/* Learning Path Suggestions */}
-        <div className="mt-8 p-6 bg-gray-50 rounded-lg">
-          <h3 className="text-xl font-bold mb-4">Recommended Learning Path</h3>
-          <div className="grid md:grid-cols-3 gap-4">
-            <div className="bg-white p-4 rounded border">
-              <h4 className="font-semibold text-green-600 mb-2 flex items-center gap-1"><Icon name="target" size={16} /> Start Here</h4>
-              <p className="text-sm text-gray-700 mb-2">Essential foundation patterns</p>
-              <ul className="text-xs space-y-1">
-                <li>• Quarter Notes</li>
-                <li>• Eighth Notes</li>
-                <li>• Basic Rock Beat</li>
-              </ul>
-            </div>
-            <div className="bg-white p-4 rounded border">
-              <h4 className="font-semibold text-blue-600 mb-2 flex items-center gap-1"><Icon name="arrowUp" size={16} /> Next Level</h4>
-              <p className="text-sm text-gray-700 mb-2">Build coordination and feel</p>
-              <ul className="text-xs space-y-1">
-                <li>• Rock with Hi-Hat</li>
-                <li>• Single Stroke Roll</li>
-                <li>• Basic Funk</li>
-              </ul>
-            </div>
-            <div className="bg-white p-4 rounded border">
-              <h4 className="font-semibold text-purple-600 mb-2 flex items-center gap-1"><Icon name="star" size={16} /> Advanced</h4>
-              <p className="text-sm text-gray-700 mb-2">Complex grooves and styles</p>
-              <ul className="text-xs space-y-1">
-                <li>• Jazz Swing</li>
-                <li>• Linear Fills</li>
-                <li>• Ghost Note Funk</li>
-              </ul>
-            </div>
-          </div>
+      {/* Learning Path */}
+      <section className="card">
+        <h2 className="card-title">Recommended Learning Path</h2>
+        <div className="grid">
+          <article className="card" style={{ background: "var(--panel-deep)" }}>
+            <h3 className="card-title" style={{ display: "flex", alignItems: "center", gap: 6 }}>
+              <Icon name="target" size={16} /> Start Here
+            </h3>
+            <p className="sub">Essential foundation patterns</p>
+            <ul style={{ marginTop: 8 }}>
+              <li>Quarter Notes</li>
+              <li>Eighth Notes</li>
+              <li>Basic Rock Beat</li>
+            </ul>
+          </article>
+          <article className="card" style={{ background: "var(--panel-deep)" }}>
+            <h3 className="card-title" style={{ display: "flex", alignItems: "center", gap: 6 }}>
+              <Icon name="arrowUp" size={16} /> Next Level
+            </h3>
+            <p className="sub">Build coordination and feel</p>
+            <ul style={{ marginTop: 8 }}>
+              <li>Rock with Hi-Hat</li>
+              <li>Single Stroke Roll</li>
+              <li>Basic Funk</li>
+            </ul>
+          </article>
+          <article className="card" style={{ background: "var(--panel-deep)" }}>
+            <h3 className="card-title" style={{ display: "flex", alignItems: "center", gap: 6 }}>
+              <Icon name="star" size={16} /> Advanced
+            </h3>
+            <p className="sub">Complex grooves and styles</p>
+            <ul style={{ marginTop: 8 }}>
+              <li>Jazz Swing</li>
+              <li>Linear Fills</li>
+              <li>Ghost Note Funk</li>
+            </ul>
+          </article>
         </div>
-      </div>
-    </div>
+      </section>
+    </Shell>
   );
 }

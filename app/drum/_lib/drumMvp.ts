@@ -746,7 +746,7 @@ async function syncProfileToSupabase(profile: Profile) {
       console.error("[Drum] Failed to sync profile:", upsertError.message);
     } else {
       clearPendingProfileSync();
-      console.log("[Drum] Profile synced successfully", hasModuleColumns ? "(with module columns)" : "(basic columns only)");
+      // Profile synced successfully
     }
   } catch (err) {
     console.error("[Drum] Error syncing profile:", err);
