@@ -15,7 +15,7 @@ export default function Home() {
                 Start
               </a>
             </div>
-            <p className="tiny">Private beta for dyorkmusic.com/drum</p>
+            <p className="tiny">repodrum.com — Practice smarter</p>
           </div>
         </div>
       </header>

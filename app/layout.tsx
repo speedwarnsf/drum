@@ -28,6 +28,10 @@ export const metadata: Metadata = {
   title: "RepoDrum — Practice Pad Rudiment Trainer",
   description: "All 40 PAS Essential Rudiments with notation, metronome, and spaced repetition.",
   manifest: "/manifest.json",
+  metadataBase: new URL("https://repodrum.com"),
+  alternates: {
+    canonical: "/",
+  },
   openGraph: {
     type: "website",
     title: "RepoDrum — Practice Pad Rudiment Trainer",
@@ -74,12 +78,13 @@ export default function RootLayout({
         <meta name="x-ua-compatible" content="IE=edge" />
       </head>
       <body className={`${spaceGrotesk.variable} ${dmMono.variable}`}>
+        <a href="#main-content" className="skip-link">Skip to content</a>
         <div className="hero-shell">
           <a href="/drum" aria-label="RepoDrum home">
             <Image
               className="global-logo"
               src="/media/repodrumlogo.gif"
-              alt="Drum Repo"
+              alt="RepoDrum — Practice Pad Rudiment Trainer"
               width={200}
               height={200}
               priority
@@ -89,7 +94,7 @@ export default function RootLayout({
             <HeroVideo />
           </section>
         </div>
-        {children}
+        <div id="main-content">{children}</div>
       </body>
     </html>
   );
