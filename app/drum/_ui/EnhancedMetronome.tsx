@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useCallback, useEffect, useRef, useState } from "react";
-import { DrumAudioEngine, TempoTrainer, ClickSound, AudioConfig } from "../_lib/audioEngine";
+import { DrumAudioEngine, TempoTrainer, ClickSound, AudioConfig, Subdivision } from "../_lib/audioEngine";
 import GapDrillControls, { GapPreset, GapSettings, GAP_PRESETS } from "./GapDrillControls";
 
 type EnhancedMetronomeProps = {
@@ -39,11 +39,14 @@ export default function EnhancedMetronome({
   const [currentBpm, setCurrentBpm] = useState(bpm);
   const [tempoTrainerActive, setTempoTrainerActive] = useState(false);
   const [targetBpm, setTargetBpm] = useState(bpm + 20);
+  const [subdivision, setSubdivision] = useState<Subdivision>("quarter");
+  const [tapTimes, setTapTimes] = useState<number[]>([]);
   const [audioConfig, setAudioConfig] = useState<AudioConfig>({
     clickSound: "classic",
     volume: 0.7,
     lookAhead: 25.0,
     scheduleAheadTime: 0.1,
+    subdivision: "quarter",
     ...initialConfig,
   });
   const [gapSettings, setGapSettings] = useState<GapSettings>({
@@ -232,6 +235,66 @@ export default function EnhancedMetronome({
     }
   }, [currentBpm, metroOn, tempoTrainerActive, onBpmChange]);
 
+  // Subdivision change
+  const handleSubdivisionChange = useCallback((sub: Subdivision) => {
+    setSubdivision(sub);
+    setAudioConfig(prev => ({ ...prev, subdivision: sub }));
+    
+    // Restart metronome if running to apply subdivision
+    if (metroOn && audioEngineRef.current) {
+      audioEngineRef.current.stop();
+      audioEngineRef.current.updateConfig({ subdivision: sub });
+      audioEngineRef.current.start(currentBpm);
+    }
+  }, [metroOn, currentBpm]);
+
+  // Tap tempo
+  const handleTapTempo = useCallback(() => {
+    const now = performance.now();
+    setTapTimes(prev => {
+      const recent = [...prev, now].filter(t => now - t < 3000); // Keep taps within 3 seconds
+      if (recent.length >= 2) {
+        const intervals = [];
+        for (let i = 1; i < recent.length; i++) {
+          intervals.push(recent[i] - recent[i - 1]);
+        }
+        const avgInterval = intervals.reduce((a, b) => a + b, 0) / intervals.length;
+        const tappedBpm = Math.round(60000 / avgInterval);
+        const clampedBpm = Math.max(30, Math.min(300, tappedBpm));
+        
+        if (!tempoTrainerActive) {
+          setCurrentBpm(clampedBpm);
+          onBpmChange?.(clampedBpm);
+          
+          if (metroOn && audioEngineRef.current) {
+            audioEngineRef.current.stop();
+            audioEngineRef.current.start(clampedBpm);
+          }
+        }
+      }
+      return recent;
+    });
+  }, [metroOn, tempoTrainerActive, onBpmChange]);
+
+  // BPM slider change
+  const handleBpmSlider = useCallback((value: number) => {
+    if (tempoTrainerActive) return;
+    setCurrentBpm(value);
+    onBpmChange?.(value);
+    
+    if (metroOn && audioEngineRef.current) {
+      audioEngineRef.current.stop();
+      audioEngineRef.current.start(value);
+    }
+  }, [metroOn, tempoTrainerActive, onBpmChange]);
+
+  const subdivisionOptions: { value: Subdivision; label: string; icon: string }[] = [
+    { value: "quarter", label: "♩", icon: "Quarter" },
+    { value: "eighth", label: "♫", icon: "8ths" },
+    { value: "triplet", label: "𝅘𝅥𝅮³", icon: "Triplets" },
+    { value: "sixteenth", label: "𝅘𝅥𝅮𝅘𝅥𝅮", icon: "16ths" },
+  ];
+
   const soundOptions: { value: ClickSound; label: string }[] = [
     { value: "classic", label: "Classic" },
     { value: "woodblock", label: "Wood Block" },
@@ -257,7 +320,7 @@ export default function EnhancedMetronome({
           <div className="metronome-sub">
             {gapEnabled 
               ? `${gapSettings.beatsOn} on, ${gapSettings.beatsOff} off • ${audioConfig.clickSound}`
-              : `Quarter notes • ${audioConfig.clickSound}`
+              : `${subdivision === "quarter" ? "Quarter notes" : subdivision === "eighth" ? "8th notes" : subdivision === "triplet" ? "Triplets" : "16th notes"} • ${audioConfig.clickSound}`
             }
           </div>
         </div>
@@ -284,44 +347,63 @@ export default function EnhancedMetronome({
 
       {/* BPM Controls */}
       {!compact && (
-        <div className="bpm-controls">
+        <div className="bpm-controls-enhanced">
+          <div className="bpm-buttons-row">
+            <button type="button" className="btn btn-small" onClick={() => adjustBpm(-5)} disabled={tempoTrainerActive} aria-label="Decrease BPM by 5">-5</button>
+            <button type="button" className="btn btn-small" onClick={() => adjustBpm(-1)} disabled={tempoTrainerActive} aria-label="Decrease BPM by 1">-1</button>
+            <span className="bpm-display">{currentBpm}</span>
+            <button type="button" className="btn btn-small" onClick={() => adjustBpm(1)} disabled={tempoTrainerActive} aria-label="Increase BPM by 1">+1</button>
+            <button type="button" className="btn btn-small" onClick={() => adjustBpm(5)} disabled={tempoTrainerActive} aria-label="Increase BPM by 5">+5</button>
+          </div>
+          
+          {/* BPM Slider */}
+          <div className="bpm-slider-row">
+            <span className="bpm-slider-label">30</span>
+            <input
+              type="range"
+              min="30"
+              max="300"
+              value={currentBpm}
+              onChange={(e) => handleBpmSlider(parseInt(e.target.value))}
+              disabled={tempoTrainerActive}
+              className="bpm-slider"
+              aria-label="BPM slider"
+            />
+            <span className="bpm-slider-label">300</span>
+          </div>
+
+          {/* Tap Tempo */}
           <button
             type="button"
-            className="btn btn-small"
-            onClick={() => adjustBpm(-5)}
+            className="btn tap-tempo-btn"
+            onClick={handleTapTempo}
             disabled={tempoTrainerActive}
-            aria-label="Decrease BPM by 5"
+            aria-label="Tap tempo"
           >
-            -5
+            👆 Tap Tempo
           </button>
-          <button
-            type="button"
-            className="btn btn-small"
-            onClick={() => adjustBpm(-1)}
-            disabled={tempoTrainerActive}
-            aria-label="Decrease BPM by 1"
-          >
-            -1
-          </button>
-          <span className="bpm-display">{currentBpm}</span>
-          <button
-            type="button"
-            className="btn btn-small"
-            onClick={() => adjustBpm(1)}
-            disabled={tempoTrainerActive}
-            aria-label="Increase BPM by 1"
-          >
-            +1
-          </button>
-          <button
-            type="button"
-            className="btn btn-small"
-            onClick={() => adjustBpm(5)}
-            disabled={tempoTrainerActive}
-            aria-label="Increase BPM by 5"
-          >
-            +5
-          </button>
+        </div>
+      )}
+
+      {/* Subdivision Selector */}
+      {!compact && (
+        <div className="subdivision-controls">
+          <label className="subdivision-label">Subdivision:</label>
+          <div className="subdivision-buttons">
+            {subdivisionOptions.map(opt => (
+              <button
+                key={opt.value}
+                type="button"
+                className={`btn btn-small subdivision-btn ${subdivision === opt.value ? "subdivision-btn-active" : "btn-ghost"}`}
+                onClick={() => handleSubdivisionChange(opt.value)}
+                aria-label={opt.icon}
+                aria-pressed={subdivision === opt.value}
+              >
+                <span className="subdivision-icon">{opt.label}</span>
+                <span className="subdivision-text">{opt.icon}</span>
+              </button>
+            ))}
+          </div>
         </div>
       )}
 
