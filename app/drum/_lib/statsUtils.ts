@@ -10,6 +10,7 @@ export type StreakInfo = {
   current: number;
   longest: number;
   isActive: boolean; // practiced today
+  isAtRisk: boolean; // have a streak but haven't practiced today yet
   lastPracticeDate: string | null;
 };
 
@@ -82,7 +83,7 @@ export function calculateDailyStats(sessions: StoredSession[]): DailyStats[] {
 
 export function calculateStreak(dailyStats: DailyStats[]): StreakInfo {
   if (dailyStats.length === 0) {
-    return { current: 0, longest: 0, isActive: false, lastPracticeDate: null };
+    return { current: 0, longest: 0, isActive: false, isAtRisk: false, lastPracticeDate: null };
   }
 
   // Sort by date ascending for streak calculation
@@ -94,12 +95,15 @@ export function calculateStreak(dailyStats: DailyStats[]): StreakInfo {
   const yesterday = getYesterday();
   const lastPracticeDate = sortedDays[sortedDays.length - 1].date;
 
-  // Check if streak is active (practiced today or yesterday)
-  const isActive = lastPracticeDate === today || lastPracticeDate === yesterday;
+  // practicedToday: used by the UI to show "Practiced today ✓"
+  const practicedToday = lastPracticeDate === today;
+
+  // Streak is alive if practiced today or yesterday (grace window)
+  const streakAlive = lastPracticeDate === today || lastPracticeDate === yesterday;
 
   // Calculate current streak (counting back from most recent practice)
   let currentStreak = 0;
-  if (isActive) {
+  if (streakAlive) {
     currentStreak = 1;
     for (let i = sortedDays.length - 2; i >= 0; i--) {
       const currentDate = sortedDays[i + 1].date;
@@ -131,7 +135,8 @@ export function calculateStreak(dailyStats: DailyStats[]): StreakInfo {
   return {
     current: currentStreak,
     longest: longestStreak,
-    isActive: lastPracticeDate === today,
+    isActive: practicedToday,
+    isAtRisk: !practicedToday && currentStreak > 0,
     lastPracticeDate,
   };
 }

@@ -9,11 +9,11 @@ type StreakCounterProps = {
 };
 
 export default function StreakCounter({ streak, compact = false }: StreakCounterProps) {
-  const { current, longest, isActive, lastPracticeDate } = streak;
+  const { current, longest, isActive, isAtRisk, lastPracticeDate } = streak;
 
   // Determine streak state
   const hasStreak = current > 0;
-  const streakBroken = !isActive && lastPracticeDate !== null && current === 0;
+  const streakBroken = !isActive && !isAtRisk && lastPracticeDate !== null && current === 0;
 
   // Format last practice date
   const lastPracticeText = lastPracticeDate
@@ -60,9 +60,9 @@ export default function StreakCounter({ streak, compact = false }: StreakCounter
             </span>
           )}
 
-          {!isActive && hasStreak && lastPracticeText && (
+          {isAtRisk && lastPracticeText && (
             <span className="streak-status streak-status-warning">
-              Practice today to keep it going
+              Practice today to keep it going!
             </span>
           )}
 
