@@ -16,7 +16,7 @@ export default function DrumError({
   }, [error]);
 
   return (
-    <main className="shell shell-tight">
+    <div className="shell shell-tight" role="alert">
       <div className="shell-header">
         <h1 className="title">Something went off-beat</h1>
         <p className="sub">
@@ -58,6 +58,6 @@ export default function DrumError({
           <a href="/drum/progress" className="btn btn-ghost">Progress</a>
         </div>
       </section>
-    </main>
+    </div>
   );
 }

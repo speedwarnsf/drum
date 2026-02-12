@@ -144,6 +144,8 @@ export function Icon({ name, size = 20, className = '' }: IconProps) {
       fill="currentColor"
       className={`icon ${className}`}
       style={{ flexShrink: 0 }}
+      aria-hidden="true"
+      focusable="false"
     >
       {iconPath}
     </svg>

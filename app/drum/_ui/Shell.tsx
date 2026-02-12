@@ -17,18 +17,42 @@ export default function Shell({
 }) {
   const [mobileNavOpen, setMobileNavOpen] = useState(false);
 
-  // Close mobile nav on escape key
+  const mobileNavRef = React.useRef<HTMLElement>(null);
+
+  // Close mobile nav on escape key + focus trap
   useEffect(() => {
     const handleEscape = (e: KeyboardEvent) => {
       if (e.key === "Escape") setMobileNavOpen(false);
     };
+    const handleFocusTrap = (e: KeyboardEvent) => {
+      if (e.key !== "Tab" || !mobileNavRef.current) return;
+      const focusable = mobileNavRef.current.querySelectorAll<HTMLElement>(
+        'a[href], button:not([disabled]), input:not([disabled]), select:not([disabled]), [tabindex]:not([tabindex="-1"])'
+      );
+      if (focusable.length === 0) return;
+      const first = focusable[0];
+      const last = focusable[focusable.length - 1];
+      if (e.shiftKey && document.activeElement === first) {
+        e.preventDefault();
+        last.focus();
+      } else if (!e.shiftKey && document.activeElement === last) {
+        e.preventDefault();
+        first.focus();
+      }
+    };
     if (mobileNavOpen) {
       document.addEventListener("keydown", handleEscape);
+      document.addEventListener("keydown", handleFocusTrap);
       // Prevent body scroll when nav is open
       document.body.style.overflow = "hidden";
+      // Move focus into nav
+      requestAnimationFrame(() => {
+        mobileNavRef.current?.querySelector<HTMLElement>("button, a")?.focus();
+      });
     }
     return () => {
       document.removeEventListener("keydown", handleEscape);
+      document.removeEventListener("keydown", handleFocusTrap);
       document.body.style.overflow = "";
     };
   }, [mobileNavOpen]);
@@ -112,7 +136,7 @@ export default function Shell({
   );
 
   return (
-    <main className="shell">
+    <div className="shell" role="presentation">
       <header className="shell-header">
         <div className="shell-head">
           <div>
@@ -140,9 +164,12 @@ export default function Shell({
 
             {/* Mobile nav menu (hidden on desktop via CSS) */}
             <nav
+              ref={mobileNavRef}
               id="mobile-nav"
               className={`mobile-nav-menu ${mobileNavOpen ? "mobile-nav-open" : ""}`}
               aria-label="Main navigation"
+              role="dialog"
+              aria-modal={mobileNavOpen ? true : undefined}
             >
               <button
                 type="button"
@@ -173,6 +200,6 @@ export default function Shell({
 
       {children}
       <BuildTag />
-    </main>
+    </div>
   );
 }

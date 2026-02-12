@@ -78,7 +78,7 @@ select {
    HERO LAYOUT - Overlapping logo + drummer with darken blend
    ============================================ */
 
-main.shell {
+.shell {
   max-width: 920px;
   margin: 44px auto 64px;
   padding: 0 18px 32px;
@@ -144,7 +144,7 @@ body:has(.mobile-nav-open) .hero-shell {
   opacity: 1;
 }
 
-main.shell.shell-tight {
+.shell.shell-tight {
   max-width: 620px;
 }
 
@@ -1852,7 +1852,7 @@ li {
 
 .streak-status-warning {
   background: rgba(255, 180, 0, 0.2);
-  color: #8b6914;
+  color: #5a3f00;
 }
 
 .streak-status-gentle {

@@ -2,7 +2,7 @@ import { AuthHomeButtons, AuthSetupButton } from "./_ui/AuthControls";
 
 export default async function DrumHome() {
   return (
-    <main className="shell">
+    <div className="shell">
       <header className="shell-header">
         <div className="shell-head">
           <div>
@@ -61,6 +61,6 @@ export default async function DrumHome() {
           </p>
         </article>
       </section>
-    </main>
+    </div>
   );
 }

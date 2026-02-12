@@ -43,6 +43,7 @@ export default function HeroVideo() {
       onLoadedData={() => setReady(true)}
       onCanPlay={() => setReady(true)}
       onError={() => setReady(true)}
+      aria-hidden="true"
     />
   );
 }

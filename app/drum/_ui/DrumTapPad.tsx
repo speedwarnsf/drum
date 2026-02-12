@@ -259,8 +259,10 @@ export default function DrumTapPad({
               </span>
             </div>
             <button
+              type="button"
               onClick={isPracticing ? stopPracticeSession : startPracticeSession}
               className={`btn ${isPracticing ? 'btn-danger' : 'btn-success'}`}
+              aria-label={isPracticing ? 'Stop practice session' : 'Start practice session'}
             >
               {isPracticing ? 'Stop Practice' : 'Start Practice'}
             </button>

@@ -94,7 +94,7 @@ export default function RootLayout({
             <HeroVideo />
           </section>
         </div>
-        <div id="main-content">{children}</div>
+        <main id="main-content">{children}</main>
       </body>
     </html>
   );
