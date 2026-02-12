@@ -4,11 +4,13 @@
  */
 
 export type ClickSound = "classic" | "woodblock" | "rim" | "digital" | "cowbell" | "hihat";
+export type Subdivision = "quarter" | "eighth" | "sixteenth" | "triplet";
 export type AudioConfig = {
   clickSound: ClickSound;
   volume: number; // 0.0 to 1.0
   lookAhead: number; // milliseconds
   scheduleAheadTime: number; // seconds
+  subdivision: Subdivision;
 };
 
 export class DrumAudioEngine {
@@ -29,6 +31,7 @@ export class DrumAudioEngine {
       volume: 0.7,
       lookAhead: 25.0, // 25ms lookahead
       scheduleAheadTime: 0.1, // 100ms scheduling window
+      subdivision: "quarter",
       ...config
     };
 
@@ -91,16 +94,27 @@ export class DrumAudioEngine {
     this.config = { ...this.config, ...newConfig };
   }
 
+  private getSubdivisionMultiplier(): number {
+    switch (this.config.subdivision) {
+      case "eighth": return 2;
+      case "sixteenth": return 4;
+      case "triplet": return 3;
+      default: return 1;
+    }
+  }
+
   private schedule(bpm: number): void {
     if (!this.audioContext || !this.isPlaying) return;
 
-    const secondsPerBeat = 60.0 / bpm;
+    const subdivMult = this.getSubdivisionMultiplier();
+    const secondsPerSubdiv = 60.0 / (bpm * subdivMult);
     const lookAheadTime = this.config.lookAhead / 1000;
 
     // Schedule beats within the lookahead window
     while (this.nextBeatTime < this.audioContext.currentTime + this.config.scheduleAheadTime) {
-      this.scheduleClick(this.nextBeatTime);
-      this.nextBeatTime += secondsPerBeat;
+      const isDownbeat = this.currentBeat % subdivMult === 0;
+      this.scheduleClick(this.nextBeatTime, isDownbeat);
+      this.nextBeatTime += secondsPerSubdiv;
       this.currentBeat++;
     }
 
@@ -108,11 +122,17 @@ export class DrumAudioEngine {
     this.timerID = window.setTimeout(() => this.schedule(bpm), lookAheadTime);
   }
 
-  private scheduleClick(time: number): void {
+  private scheduleClick(time: number, isDownbeat: boolean = true): void {
     if (!this.audioContext) return;
     
     const generator = this.clickGenerators[this.config.clickSound];
-    generator.call(this, this.audioContext, time, this.config);
+    // Reduce volume for subdivision clicks (non-downbeats)
+    if (!isDownbeat) {
+      const softConfig = { ...this.config, volume: this.config.volume * 0.45 };
+      generator.call(this, this.audioContext, time, softConfig);
+    } else {
+      generator.call(this, this.audioContext, time, this.config);
+    }
   }
 
   // Click sound generators
