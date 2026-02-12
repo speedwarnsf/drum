@@ -7040,6 +7040,49 @@ li {
   letter-spacing: 0.5px;
 }
 
+@media (max-width: 480px) {
+  .insights-metric-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+  }
+
+  .insights-metric-value {
+    font-size: 1.4rem;
+  }
+
+  .insights-dist-label {
+    width: 100px;
+    font-size: 0.78rem;
+  }
+
+  .insights-felt-emoji {
+    font-size: 1.4rem;
+  }
+
+  .insights-felt-percent {
+    font-size: 1.1rem;
+  }
+
+  .insights-hour-grid {
+    grid-template-columns: repeat(auto-fill, minmax(44px, 1fr));
+  }
+}
+
+@media (max-width: 380px) {
+  .goals-type-buttons {
+    flex-direction: column;
+  }
+
+  .goals-presets {
+    flex-direction: column;
+  }
+
+  .goals-active-header {
+    flex-direction: column;
+    gap: 8px;
+  }
+}
+
 .insights-ai {
   background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
   color: white;
@@ -7388,17 +7431,20 @@ li {
   margin-top: 4px;
 }
 
-/* Responsive tweaks */
-@media (max-width: 768px) {
-  .insights-metric-grid {
-    grid-template-columns: repeat(2, 1fr);
+/* Responsive tweaks for warmup */
+@media (max-width: 480px) {
+  .warmup-step {
+    gap: 10px;
+    padding: 10px;
   }
-  .insights-felt-grid {
-    grid-template-columns: repeat(3, 1fr);
-    gap: 8px;
-  }
-  .insights-dist-label {
-    width: 100px;
+
+  .warmup-step-number {
+    width: 28px;
+    height: 28px;
     font-size: 0.75rem;
+  }
+
+  .warmup-step-desc {
+    font-size: 0.8rem;
   }
 }

@@ -79,17 +79,42 @@ export default function Metronome({
     (audioCtx: AudioContext, time: number, shouldPlay: boolean) => {
       if (!shouldPlay) return;
 
+      // Layered click: short noise burst + pitched tone for a warm, musical click
+      const freq = gapSettings.offBeatMode ? 900 : 1500;
+
+      // Pitched component — triangle wave for warmth
       const osc = audioCtx.createOscillator();
-      const gain = audioCtx.createGain();
-      osc.type = "square";
-      osc.frequency.value = gapSettings.offBeatMode ? 800 : 1200; // Lower pitch for off-beat
-      gain.gain.setValueAtTime(0.0001, time);
-      gain.gain.exponentialRampToValueAtTime(0.2, time + 0.001);
-      gain.gain.exponentialRampToValueAtTime(0.0001, time + 0.05);
-      osc.connect(gain);
-      gain.connect(audioCtx.destination);
+      const oscGain = audioCtx.createGain();
+      osc.type = "triangle";
+      osc.frequency.setValueAtTime(freq, time);
+      osc.frequency.exponentialRampToValueAtTime(freq * 0.5, time + 0.03);
+      oscGain.gain.setValueAtTime(0.3, time);
+      oscGain.gain.exponentialRampToValueAtTime(0.0001, time + 0.04);
+      osc.connect(oscGain);
+      oscGain.connect(audioCtx.destination);
       osc.start(time);
-      osc.stop(time + 0.06);
+      osc.stop(time + 0.05);
+
+      // Noise transient for the "click" attack
+      const bufferSize = audioCtx.sampleRate * 0.015; // 15ms noise burst
+      const noiseBuffer = audioCtx.createBuffer(1, bufferSize, audioCtx.sampleRate);
+      const data = noiseBuffer.getChannelData(0);
+      for (let i = 0; i < bufferSize; i++) {
+        data[i] = (Math.random() * 2 - 1) * (1 - i / bufferSize); // Decaying noise
+      }
+      const noise = audioCtx.createBufferSource();
+      const noiseGain = audioCtx.createGain();
+      const noiseFilter = audioCtx.createBiquadFilter();
+      noiseFilter.type = "bandpass";
+      noiseFilter.frequency.value = gapSettings.offBeatMode ? 3000 : 5000;
+      noiseFilter.Q.value = 1.2;
+      noise.buffer = noiseBuffer;
+      noiseGain.gain.setValueAtTime(0.15, time);
+      noiseGain.gain.exponentialRampToValueAtTime(0.0001, time + 0.015);
+      noise.connect(noiseFilter);
+      noiseFilter.connect(noiseGain);
+      noiseGain.connect(audioCtx.destination);
+      noise.start(time);
     },
     [gapSettings.offBeatMode]
   );
