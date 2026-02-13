@@ -14,7 +14,7 @@ type WarmupStep = {
 const WARMUP_ROUTINES: Record<string, { name: string; emoji: string; steps: WarmupStep[] }> = {
   quick: {
     name: "Quick (3 min)",
-    emoji: "⚡",
+    emoji: "bolt",
     steps: [
       { title: "Deep Breaths", description: "3 slow breaths. Shoulders drop on each exhale.", duration: 20, category: "breath" },
       { title: "Wrist Circles", description: "10 circles each direction, each hand. Keep loose.", duration: 30, category: "stretch" },
@@ -233,7 +233,7 @@ function WarmupPageInner() {
           color: "white",
           textAlign: "center",
         }}>
-          <p style={{ fontSize: "2rem", margin: "0 0 8px" }}>✅</p>
+          <p style={{ fontSize: "2rem", margin: "0 0 8px" }}>Done</p>
           <h2 className="card-title" style={{ color: "white" }}>Warm-Up Complete!</h2>
           <p style={{ opacity: 0.9 }}>Your hands and mind are ready. Go practice.</p>
           <div style={{ marginTop: 16 }}>

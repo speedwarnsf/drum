@@ -207,7 +207,7 @@ function InsightsPageInner() {
       {/* What Broke Distribution */}
       {Object.keys(data.brokeCounts).length > 0 && (
         <section className="card">
-          <h3 className="card-title">⚡ Challenge Areas</h3>
+          <h3 className="card-title">Challenge Areas</h3>
           <div className="insights-distribution">
             {Object.entries(data.brokeCounts)
               .sort((a, b) => b[1] - a[1])
@@ -215,7 +215,7 @@ function InsightsPageInner() {
                 const total = Object.values(data.brokeCounts).reduce((a, b) => a + b, 0);
                 const percent = Math.round((count / total) * 100);
                 const label =
-                  key === "nothing" ? "Clean session ✨" :
+                  key === "nothing" ? "Clean session" :
                   key === "time" ? "Timing ⏱️" :
                   key === "control" ? "Control 🎯" :
                   key === "coordination" ? "Coordination 🤝" :

@@ -316,7 +316,7 @@ function GoalsPageInner() {
                     {formatDate(goal.starts_at)} — {formatDate(goal.ends_at)}
                   </span>
                   {goal.completed_at && (
-                    <span className="goals-past-badge">✅ Completed</span>
+                    <span className="goals-past-badge">Completed</span>
                   )}
                 </div>
                 <div className="goals-past-targets">
@@ -422,7 +422,7 @@ function GoalProgressBar({
           {emoji} {label}
         </span>
         <span className={completed ? "goals-complete" : ""}>
-          {current}/{target} {unit} {completed ? "✅" : ""}
+          {current}/{target} {unit} {completed ? "done" : ""}
         </span>
       </div>
       <div className="goals-bar-track">

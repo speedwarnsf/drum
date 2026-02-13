@@ -141,7 +141,7 @@ export default function RudimentDetailPage({ params }: { params: Promise<{ id: s
             </ul>
           </div>
           <div>
-            <h3 style={{ fontSize: "1rem", marginBottom: 8 }}>⚠️ Common Mistakes</h3>
+            <h3 style={{ fontSize: "1rem", marginBottom: 8 }}>Common Mistakes</h3>
             <ul className="rudiment-tip-list">
               {rudiment.commonMistakes.map((mistake, i) => (
                 <li key={i} data-icon="✗">{mistake}</li>

@@ -53,7 +53,7 @@ export function OfflineIndicator({ className = "" }: OfflineIndicatorProps) {
       aria-live="polite"
     >
       <span className="offline-indicator-icon">
-        {isOnline ? "✓" : "⚡"}
+        {isOnline ? "✓" : "--"}
       </span>
       <span className="offline-indicator-text">
         {isOnline
@@ -74,7 +74,7 @@ export function OfflineBadge() {
 
   return (
     <span className="offline-badge" title="Working offline">
-      ⚡
+      Offline
     </span>
   );
 }

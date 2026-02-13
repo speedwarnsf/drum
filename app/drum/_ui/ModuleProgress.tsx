@@ -77,7 +77,7 @@ export default function ModuleProgress({
             className="module-gate-hint"
             onClick={() => setShowAdvancePrompt(true)}
           >
-            ⚠️ Diagnostic required
+            Diagnostic required
           </button>
         )}
         {showAdvancePrompt && (
