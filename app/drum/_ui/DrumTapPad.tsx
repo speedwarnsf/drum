@@ -240,7 +240,7 @@ export default function DrumTapPad({
           <h3>Drum Tap Pad</h3>
           <div className="tap-pad-status">
             {isDetectorReady ? (
-              <span className="status-active">🎙️ Listening</span>
+              <span className="status-active">Listening</span>
             ) : isActive ? (
               <span className="status-initializing">⏳ Initializing...</span>
             ) : (

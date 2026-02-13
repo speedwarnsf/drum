@@ -64,7 +64,7 @@ export function AILoadingState({ stage = "thinking" }: { stage?: "thinking" | "g
 
   return (
     <div className="ai-loading">
-      <div className="ai-loading-icon">🧘</div>
+      <div className="ai-loading-icon">...</div>
       <div className="ai-loading-content">
         <p className="ai-loading-message">{messages[stage]}</p>
         <div className="ai-loading-bar">

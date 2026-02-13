@@ -345,7 +345,7 @@ export default function RudimentNotation({
           onClick={handleCanvasClick}
           style={{ 
             border: '1px solid #ddd',
-            borderRadius: '4px',
+            borderRadius: '0',
             backgroundColor: '#ffffff',
             cursor: interactive ? 'pointer' : 'default',
             maxWidth: '100%',

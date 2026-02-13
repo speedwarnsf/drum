@@ -3,7 +3,7 @@
 /* Enhanced Metronome Styles */
 .enhanced-metronome {
   background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
-  border-radius: 12px;
+  border-radius: 0;
   padding: 20px;
   color: white;
   box-shadow: 0 8px 32px rgba(0,0,0,0.3);
@@ -29,7 +29,7 @@
   background: #f4ba34;
   color: #1e3c72;
   padding: 4px 8px;
-  border-radius: 12px;
+  border-radius: 0;
   font-size: 0.8rem;
   font-weight: 600;
   margin-left: 8px;
@@ -38,7 +38,7 @@
 .metronome-error {
   background: rgba(231, 76, 60, 0.9);
   padding: 12px;
-  border-radius: 6px;
+  border-radius: 0;
   margin: 10px 0;
   font-weight: 500;
 }
@@ -67,13 +67,13 @@
   margin: 15px 0;
   padding: 15px;
   background: rgba(255,255,255,0.1);
-  border-radius: 8px;
+  border-radius: 0;
 }
 
 .sound-select, .tempo-input {
   background: rgba(255,255,255,0.2);
   border: 1px solid rgba(255,255,255,0.3);
-  border-radius: 6px;
+  border-radius: 0;
   padding: 8px;
   color: white;
   font-size: 14px;
@@ -90,7 +90,7 @@
 
 .tempo-trainer {
   background: rgba(255,255,255,0.1);
-  border-radius: 8px;
+  border-radius: 0;
   padding: 15px;
   margin: 15px 0;
 }
@@ -109,7 +109,7 @@
 .tempo-progress-bar {
   height: 8px;
   background: rgba(255,255,255,0.2);
-  border-radius: 4px;
+  border-radius: 0;
   overflow: hidden;
   margin-bottom: 8px;
 }
@@ -117,7 +117,7 @@
 .tempo-progress-fill {
   height: 100%;
   background: linear-gradient(90deg, #f4ba34, #ff6b6b);
-  border-radius: 4px;
+  border-radius: 0;
   transition: width 0.3s ease;
 }
 
@@ -170,14 +170,14 @@
   margin: 20px 0;
   padding: 15px;
   background: rgba(255,255,255,0.1);
-  border-radius: 8px;
+  border-radius: 0;
 }
 
 .gap-visual-bar {
   position: relative;
   height: 20px;
   background: rgba(255,255,255,0.2);
-  border-radius: 10px;
+  border-radius: 0;
   overflow: hidden;
   margin-bottom: 10px;
 }
@@ -185,7 +185,7 @@
 .gap-visual-fill {
   height: 100%;
   transition: width 0.1s linear;
-  border-radius: 10px;
+  border-radius: 0;
 }
 
 .gap-visual-fill-click {
@@ -220,7 +220,7 @@
   width: 3px;
   height: 100%;
   background: #f4ba34;
-  border-radius: 1px;
+  border-radius: 0;
 }
 
 .gap-visual-info {
@@ -235,7 +235,7 @@
 .gap-visual-status {
   font-weight: 600;
   padding: 4px 8px;
-  border-radius: 12px;
+  border-radius: 0;
 }
 
 .gap-visual-status-click {
@@ -271,7 +271,7 @@
 /* Waveform Visualizer */
 .waveform-visualizer {
   background: #1a1a1a;
-  border-radius: 12px;
+  border-radius: 0;
   padding: 20px;
   color: white;
 }
@@ -301,12 +301,12 @@
 .waveform-error {
   background: rgba(231, 76, 60, 0.9);
   padding: 12px;
-  border-radius: 6px;
+  border-radius: 0;
   margin: 10px 0;
 }
 
 .waveform-canvas {
-  border-radius: 6px;
+  border-radius: 0;
   display: block;
   margin: 0 auto;
 }
@@ -346,13 +346,13 @@
 .legend-color {
   width: 12px;
   height: 12px;
-  border-radius: 2px;
+  border-radius: 0;
 }
 
 /* Drum Tap Pad */
 .drum-tap-pad {
   background: #2c2c2c;
-  border-radius: 12px;
+  border-radius: 0;
   padding: 20px;
   color: white;
 }
@@ -394,7 +394,7 @@
   width: 100%;
   height: 300px;
   background: linear-gradient(135deg, #2c2c2c 0%, #1a1a1a 100%);
-  border-radius: 12px;
+  border-radius: 0;
   margin: 20px 0;
   overflow: hidden;
 }
@@ -410,7 +410,7 @@
 .drum-pad {
   position: absolute;
   border: 2px solid rgba(255,255,255,0.3);
-  border-radius: 8px;
+  border-radius: 0;
   cursor: pointer;
   display: flex;
   align-items: center;
@@ -443,7 +443,7 @@
   margin: 20px 0;
   padding: 15px;
   background: rgba(255,255,255,0.1);
-  border-radius: 8px;
+  border-radius: 0;
 }
 
 .tap-list {
@@ -461,7 +461,7 @@
   align-items: center;
   padding: 8px;
   background: rgba(255,255,255,0.05);
-  border-radius: 4px;
+  border-radius: 0;
   font-size: 0.85rem;
 }
 
@@ -494,7 +494,7 @@
 /* Rudiment Notation */
 .rudiment-notation {
   background: white;
-  border-radius: 12px;
+  border-radius: 0;
   padding: 20px;
   color: #333;
   box-shadow: 0 4px 20px rgba(0,0,0,0.1);
@@ -565,7 +565,7 @@
 
 .compact-rudiment-notation {
   background: #f8f9fa;
-  border-radius: 8px;
+  border-radius: 0;
   padding: 15px;
   margin: 10px 0;
 }
@@ -596,7 +596,7 @@
 .progress-dashboard {
   padding: 20px;
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  border-radius: 12px;
+  border-radius: 0;
   color: white;
 }
 
@@ -620,7 +620,7 @@
   text-align: center;
   padding: 15px;
   background: rgba(255,255,255,0.1);
-  border-radius: 8px;
+  border-radius: 0;
 }
 
 .stat-value {
@@ -644,7 +644,7 @@
 
 .dashboard-card {
   background: rgba(255,255,255,0.1);
-  border-radius: 12px;
+  border-radius: 0;
   padding: 20px;
   backdrop-filter: blur(10px);
 }
@@ -678,7 +678,7 @@
 .streak-day {
   width: 30px;
   height: 30px;
-  border-radius: 6px;
+  border-radius: 0;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -777,14 +777,14 @@
 .skill-bar {
   height: 8px;
   background: rgba(255,255,255,0.2);
-  border-radius: 4px;
+  border-radius: 0;
   overflow: hidden;
 }
 
 .skill-fill {
   height: 100%;
   background: linear-gradient(90deg, #4ecdc4, #44a08d);
-  border-radius: 4px;
+  border-radius: 0;
   transition: width 0.3s ease;
 }
 
@@ -797,7 +797,7 @@
 
 .achievement-progress-item {
   background: rgba(255,255,255,0.05);
-  border-radius: 8px;
+  border-radius: 0;
   padding: 15px;
 }
 
@@ -825,7 +825,7 @@
 .progress-bar {
   height: 8px;
   background: rgba(255,255,255,0.2);
-  border-radius: 4px;
+  border-radius: 0;
   overflow: hidden;
   margin-bottom: 8px;
 }
@@ -837,7 +837,7 @@
 .progress-fill {
   height: 100%;
   background: linear-gradient(90deg, #f4ba34, #ff6b6b);
-  border-radius: 4px;
+  border-radius: 0;
   transition: width 0.3s ease;
 }
 
@@ -872,7 +872,7 @@
   border: 1px solid rgba(255,255,255,0.3);
   background: transparent;
   color: white;
-  border-radius: 20px;
+  border-radius: 0;
   font-size: 0.9rem;
   cursor: pointer;
   transition: all 0.2s ease;
@@ -897,7 +897,7 @@
 
 .achievement-card {
   background: rgba(255,255,255,0.1);
-  border-radius: 12px;
+  border-radius: 0;
   padding: 20px;
   text-align: center;
   border: 2px solid transparent;
@@ -1017,7 +1017,7 @@
 
 .stat-card {
   background: rgba(255,255,255,0.1);
-  border-radius: 12px;
+  border-radius: 0;
   padding: 20px;
 }
 
@@ -1045,7 +1045,7 @@
   background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
   color: white;
   padding: 16px;
-  border-radius: 8px;
+  border-radius: 0;
   box-shadow: 0 4px 20px rgba(0,0,0,0.3);
   display: flex;
   align-items: center;
@@ -1286,7 +1286,7 @@
   -webkit-appearance: none;
   appearance: none;
   background: var(--border, #ddd);
-  border-radius: 3px;
+  border-radius: 0;
   outline: none;
   cursor: pointer;
 }
@@ -1322,7 +1322,7 @@
   padding: 10px 24px;
   font-size: 0.95rem;
   font-weight: 600;
-  border-radius: 999px;
+  border-radius: 0;
   transition: transform 0.1s, box-shadow 0.1s;
 }
 
@@ -1357,7 +1357,7 @@
   gap: 2px;
   padding: 6px 12px;
   min-width: 56px;
-  border-radius: 8px;
+  border-radius: 0;
   transition: background 0.15s, color 0.15s;
 }
 
@@ -1386,7 +1386,7 @@
 .rudiment-detail-hero .category-badge {
   display: inline-block;
   padding: 4px 12px;
-  border-radius: 999px;
+  border-radius: 0;
   font-size: 0.75rem;
   font-weight: 600;
   text-transform: uppercase;
@@ -1423,7 +1423,7 @@
 .rudiment-info-item {
   padding: 16px;
   background: var(--panel, #f8f9fa);
-  border-radius: 10px;
+  border-radius: 0;
   text-align: center;
 }
 
@@ -1486,7 +1486,7 @@
 
 .rudiment-nav-links a {
   padding: 6px 14px;
-  border-radius: 999px;
+  border-radius: 0;
   font-size: 0.85rem;
   background: var(--panel, #f0f0f0);
   color: var(--text, #333);

@@ -413,7 +413,7 @@ export function BeatAccuracyVisualizer({
           maxWidth: `${width}px`,
           height: "auto",
           border: "1px solid rgba(255,255,255,0.2)",
-          borderRadius: "4px"
+          borderRadius: "0"
         }}
         aria-label="Beat timing accuracy visualization"
       />

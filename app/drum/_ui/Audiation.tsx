@@ -554,7 +554,7 @@ export default function Audiation({
     return (
       <div className="audiation">
         <div className="audiation-phase-indicator audiation-phase-sing">
-          🎤 SING IT
+          SING IT
         </div>
         <div className="audiation-current-pattern">
           <div className="kicker">{selectedPattern.name}</div>
@@ -584,7 +584,7 @@ export default function Audiation({
     return (
       <div className="audiation">
         <div className="audiation-phase-indicator audiation-phase-play">
-          🥁 NOW PLAY IT
+          NOW PLAY IT
         </div>
         <div className="audiation-current-pattern">
           <div className="kicker">{selectedPattern.name}</div>

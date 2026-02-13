@@ -85,7 +85,7 @@ export default function ProgressDashboard({
 
         {/* Weekly Practice Chart */}
         <div className="dashboard-card weekly-chart">
-          <h3>📊 Weekly Practice</h3>
+          <h3>Weekly Practice</h3>
           <WeeklyChart weeklyMinutes={stats.weeklyMinutes} />
           <div className="weekly-summary">
             <span>Most active: {insights.mostActiveDay}</span>
@@ -95,7 +95,7 @@ export default function ProgressDashboard({
 
         {/* Skill Levels */}
         <div className="dashboard-card skill-levels">
-          <h3>📈 Skill Progress</h3>
+          <h3>Skill Progress</h3>
           <SkillRadar skillLevels={stats.skillLevels} />
           <div className="skill-summary">
             <span>Overall accuracy: {Math.round(stats.averageAccuracy)}%</span>
@@ -126,7 +126,7 @@ export default function ProgressDashboard({
               ))}
             </div>
           ) : (
-            <p>All available achievements unlocked! 🎉</p>
+            <p>All available achievements unlocked! !</p>
           )}
         </div>
       </div>
@@ -136,7 +136,7 @@ export default function ProgressDashboard({
           {/* Achievement Gallery */}
           <div className="achievement-section">
             <div className="section-header">
-              <h3>🏆 Achievements ({unlockedAchievements.length}/{achievements.length})</h3>
+              <h3>Achievements ({unlockedAchievements.length}/{achievements.length})</h3>
               <div className="category-filter">
                 {categories.map(category => (
                   <button
@@ -162,7 +162,7 @@ export default function ProgressDashboard({
 
           {/* Detailed Statistics */}
           <div className="statistics-section">
-            <h3>📋 Detailed Statistics</h3>
+            <h3>Detailed Statistics</h3>
             <div className="stats-grid">
               <div className="stat-card">
                 <h4>Practice History</h4>

@@ -290,7 +290,7 @@ export default function Recorder({
   return (
     <div className={`recorder ${compact ? "recorder-compact" : ""}`}>
       <div className="recorder-header">
-        <span className="recorder-icon" aria-hidden="true">🎙️</span>
+        <span className="recorder-icon" aria-hidden="true"></span>
         <span className="recorder-title">Self-Audit Recording</span>
       </div>
 
@@ -416,7 +416,7 @@ export default function Recorder({
               }}
               disabled={sharing}
             >
-              {sharing ? "Sharing..." : "📤 Share for Community Feedback"}
+              {sharing ? "Sharing..." : "Share for Community Feedback"}
             </button>
           )}
           

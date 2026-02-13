@@ -99,7 +99,7 @@ export default function PatternBrowser({
           <select 
             value={selectedCategory}
             onChange={(e) => setSelectedCategory(e.target.value)}
-            className="text-sm border rounded px-2 py-1"
+            className="text-sm border px-2 py-1"
           >
             <option value="all">All Categories</option>
             {PATTERN_CATEGORIES.map(cat => (
@@ -111,14 +111,14 @@ export default function PatternBrowser({
             placeholder="Search patterns..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="text-sm border rounded px-2 py-1 flex-1"
+            className="text-sm border px-2 py-1 flex-1"
           />
         </div>
         <div className="grid gap-2" style={{ maxHeight: "300px", overflowY: "auto" }}>
           {filteredPatterns.slice(0, 20).map((pattern) => (
             <div
               key={pattern.id}
-              className={`pattern-card-compact p-2 border rounded cursor-pointer hover:bg-gray-50 ${
+              className={`pattern-card-compact p-2 border cursor-pointer hover:bg-gray-50 ${
                 selectedPattern?.id === pattern.id ? 'bg-blue-50 border-blue-300' : ''
               }`}
               onClick={() => handlePatternClick(pattern)}
@@ -158,7 +158,7 @@ export default function PatternBrowser({
       </div>
 
       {/* Filters */}
-      <div className="filters grid gap-4 mb-6 p-4 bg-gray-50 rounded-lg">
+      <div className="filters grid gap-4 mb-6 p-4 bg-gray-50 ">
         <div className="grid md:grid-cols-3 gap-4">
           {/* Category Filter */}
           <div>
@@ -166,7 +166,7 @@ export default function PatternBrowser({
             <select 
               value={selectedCategory}
               onChange={(e) => setSelectedCategory(e.target.value)}
-              className="w-full border rounded px-3 py-2"
+              className="w-full border px-3 py-2"
             >
               <option value="all">All Categories</option>
               {PATTERN_CATEGORIES.map(cat => (
@@ -204,7 +204,7 @@ export default function PatternBrowser({
               placeholder="Pattern name or description..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full border rounded px-3 py-2"
+              className="w-full border px-3 py-2"
             />
           </div>
         </div>
@@ -267,7 +267,7 @@ interface PatternCardProps {
 function PatternCard({ pattern, isCompleted, isSelected, onClick }: PatternCardProps) {
   return (
     <div
-      className={`pattern-card p-4 border rounded-lg cursor-pointer transition-all hover:shadow-md ${
+      className={`pattern-card p-4 border  cursor-pointer transition-all hover:shadow-md ${
         isSelected ? 'ring-2 ring-blue-500 bg-blue-50' : 'hover:bg-gray-50'
       }`}
       onClick={onClick}
@@ -279,7 +279,7 @@ function PatternCard({ pattern, isCompleted, isSelected, onClick }: PatternCardP
             {isCompleted && <span className="text-green-500 text-sm"><Icon name="check" size={16} /></span>}
           </h3>
           <div className="flex items-center gap-2 text-sm text-gray-600">
-            <span className="px-2 py-1 bg-gray-100 rounded text-xs uppercase font-medium">
+            <span className="px-2 py-1 bg-gray-100 text-xs uppercase font-medium">
               {pattern.category}
             </span>
             <span className="text-yellow-600" title={`Difficulty: ${pattern.difficulty}/5`}>
@@ -296,13 +296,13 @@ function PatternCard({ pattern, isCompleted, isSelected, onClick }: PatternCardP
       <div className="space-y-2 text-sm">
         <div>
           <span className="font-medium">Syllables:</span>
-          <div className="font-mono text-xs bg-gray-100 p-2 rounded mt-1">
+          <div className="font-mono text-xs bg-gray-100 p-2 mt-1">
             {pattern.syllables}
           </div>
         </div>
         <div>
           <span className="font-medium">Notation:</span>
-          <div className="font-mono text-xs bg-gray-100 p-2 rounded mt-1">
+          <div className="font-mono text-xs bg-gray-100 p-2 mt-1">
             {pattern.notation}
           </div>
         </div>
@@ -325,7 +325,7 @@ interface PatternDetailModalProps {
 function PatternDetailModal({ pattern, isCompleted, onClose }: PatternDetailModalProps) {
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-      <div className="bg-white rounded-lg max-w-2xl w-full max-h-[90vh] overflow-y-auto">
+      <div className="bg-white  max-w-2xl w-full max-h-[90vh] overflow-y-auto">
         <div className="p-6">
           <div className="flex items-start justify-between mb-4">
             <div>
@@ -334,7 +334,7 @@ function PatternDetailModal({ pattern, isCompleted, onClose }: PatternDetailModa
                 {isCompleted && <span className="text-green-500"><Icon name="check" size={20} /></span>}
               </h2>
               <div className="flex items-center gap-2 mt-2">
-                <span className="px-3 py-1 bg-gray-100 rounded text-sm uppercase font-medium">
+                <span className="px-3 py-1 bg-gray-100 text-sm uppercase font-medium">
                   {pattern.category}
                 </span>
                 <span className="text-yellow-600" title={`Difficulty: ${pattern.difficulty}/5`}>
@@ -356,14 +356,14 @@ function PatternDetailModal({ pattern, isCompleted, onClose }: PatternDetailModa
           <div className="grid gap-4 mb-6">
             <div>
               <h3 className="font-semibold mb-2">Syllables (Gordon Method)</h3>
-              <div className="font-mono text-sm bg-gray-100 p-3 rounded">
+              <div className="font-mono text-sm bg-gray-100 p-3">
                 {pattern.syllables}
               </div>
             </div>
 
             <div>
               <h3 className="font-semibold mb-2">Notation</h3>
-              <div className="font-mono text-sm bg-gray-100 p-3 rounded">
+              <div className="font-mono text-sm bg-gray-100 p-3">
                 {pattern.notation}
               </div>
             </div>
@@ -371,7 +371,7 @@ function PatternDetailModal({ pattern, isCompleted, onClose }: PatternDetailModa
             {pattern.sticking && (
               <div>
                 <h3 className="font-semibold mb-2">Sticking</h3>
-                <div className="font-mono text-sm bg-gray-100 p-3 rounded">
+                <div className="font-mono text-sm bg-gray-100 p-3">
                   {pattern.sticking}
                 </div>
               </div>
@@ -437,7 +437,7 @@ function PatternDetailModal({ pattern, isCompleted, onClose }: PatternDetailModa
                 {pattern.prerequisites.map((prereqId) => (
                   <span
                     key={prereqId}
-                    className="px-2 py-1 bg-blue-100 text-blue-800 text-xs rounded"
+                    className="px-2 py-1 bg-blue-100 text-blue-800 text-xs"
                   >
                     {prereqId.replace(/-/g, ' ')}
                   </span>

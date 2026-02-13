@@ -126,6 +126,35 @@ const ICONS: Record<string, React.ReactNode> = {
   error: <path d="M12,2A10,10,0,1,0,22,12,10,10,0,0,0,12,2Zm4.707,13.293a1,1,0,0,1-1.414,1.414L12,13.414,8.707,16.707a1,1,0,0,1-1.414-1.414L10.586,12,7.293,8.707A1,1,0,0,1,8.707,7.293L12,10.586l3.293-3.293a1,1,0,0,1,1.414,1.414L13.414,12Z"/>,
   
   wrench: <path d="M14.7,6.3a1,1,0,0,0,0,1.4l1.6,1.6a1,1,0,0,0,1.4,0l3.77-3.77a6,6,0,0,1-7.94,7.94l-6.91,6.91a2.12,2.12,0,0,1-3-3l6.91-6.91a6,6,0,0,1,7.94-7.94Z"/>,
+
+  // Additional icons for emoji replacement
+  trophy: <path d="M17,4V2H7V4H4A2,2,0,0,0,2,6V8a4,4,0,0,0,4,4h.28A6,6,0,0,0,11,15.92V18H8v4h8V18H13V15.92A6,6,0,0,0,17.72,12H18a4,4,0,0,0,4-4V6A2,2,0,0,0,20,4ZM6,10a2,2,0,0,1-2-2V6H6v4Zm14-2a2,2,0,0,1-2,2V6h2Z"/>,
+
+  clipboard: <path d="M16,4h2a2,2,0,0,1,2,2V20a2,2,0,0,1-2,2H6a2,2,0,0,1-2-2V6A2,2,0,0,1,6,4H8M9,2h6a1,1,0,0,1,1,1V5a1,1,0,0,1-1,1H9A1,1,0,0,1,8,5V3A1,1,0,0,1,9,2ZM8,12h8M8,16h5"/>,
+
+  'chart-bar': <><rect x="4" y="13" width="4" height="7"/><rect x="10" y="8" width="4" height="12"/><rect x="16" y="4" width="4" height="16"/></>,
+
+  'music-note': <path d="M9,18V5l12-2v13M9,18A3,3,0,1,1,6,15,3,3,0,0,1,9,18Zm12-2a3,3,0,1,1-3-3A3,3,0,0,1,21,16Z"/>,
+
+  graduate: <path d="M12,3L1,9l11,6,9-4.91V17h2V9ZM5,13.18v4L12,21l7-3.82v-4L12,17Z"/>,
+
+  memo: <path d="M14,2H6A2,2,0,0,0,4,4V20a2,2,0,0,0,2,2H18a2,2,0,0,0,2-2V8ZM16,17H8V15h8Zm0-4H8V11h8ZM13,9V3.5L18.5,9Z"/>,
+
+  timer: <path d="M10,2h4M12,6v6l3,3M12,6a8,8,0,1,0,0,16,8,8,0,0,0,0-16Z"/>,
+
+  calendar: <path d="M19,4H5A3,3,0,0,0,2,7V19a3,3,0,0,0,3,3H19a3,3,0,0,0,3-3V7A3,3,0,0,0,19,4ZM7,2V5M17,2V5M2,9H22"/>,
+
+  'volume-off': <path d="M11,5,6,9H2V15H6l5,4ZM23,9l-4,4m0-4,4,4"/>,
+
+  'volume-on': <path d="M11,5,6,9H2V15H6l5,4ZM15.54,8.46a5,5,0,0,1,0,7.07M19.07,4.93a10,10,0,0,1,0,14.14"/>,
+
+  play: <path d="M5,3,19,12,5,21Z"/>,
+
+  microphone: <><rect x="9" y="1" width="6" height="11" rx="3"/><path d="M19,10v2a7,7,0,0,1-14,0V10M12,19v4M8,23h8"/></>,
+
+  sticks: <><line x1="7" y1="2" x2="17" y2="22" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round"/><line x1="17" y1="2" x2="7" y2="22" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round"/></>,
+
+  offline: <><circle cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="2" fill="none"/><line x1="4.93" y1="4.93" x2="19.07" y2="19.07" stroke="currentColor" strokeWidth="2"/></>,
 };
 
 export function Icon({ name, size = 20, className = '' }: IconProps) {

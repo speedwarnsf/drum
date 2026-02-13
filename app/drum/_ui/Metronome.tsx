@@ -234,7 +234,7 @@ export default function Metronome({
       {metroOn && showVisualPulse && (
         <div className="visual-metronome" role="img" aria-label={`Beat ${beatState.beat}`}>
           <div className="visual-metronome-beat-indicator">
-            {gapEnabled && beatState.inGap ? "🤫" : beatState.beat || "—"}
+            {gapEnabled && beatState.inGap ? "—" : beatState.beat || "—"}
           </div>
           <div
             className={`visual-metronome-circle ${
@@ -271,7 +271,7 @@ export default function Metronome({
           </div>
           <div className="gap-visual-info">
             <span className={`gap-visual-status ${beatState.inGap ? "gap-visual-status-gap" : "gap-visual-status-click"}`}>
-              {beatState.inGap ? "🔇 GAP" : "🔊 CLICK"}
+              {beatState.inGap ? "GAP" : "CLICK"}
             </span>
             <span className="gap-visual-beat">
               Beat {beatState.beat} of {beatState.inGap ? gapSettings.beatsOff : gapSettings.beatsOn}

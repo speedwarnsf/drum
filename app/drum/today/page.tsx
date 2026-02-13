@@ -500,13 +500,13 @@ function DrumTodayInner() {
       <section className="card">
         <h2 className="card-title">Tools</h2>
         <div className="row" style={{ flexWrap: "wrap" }}>
-          <a href="/drum/warmup" className="btn btn-ghost">🧘 Warm-Up</a>
+          <a href="/drum/warmup" className="btn btn-ghost">Warm-Up</a>
           <a href="/drum/drills" className="btn btn-ghost">Drills</a>
-          <a href="/drum/goals" className="btn btn-ghost">📋 Goals</a>
-          <a href="/drum/insights" className="btn btn-ghost">📊 Insights</a>
-          <a href="/drum/rudiments" className="btn btn-ghost">📖 Rudiments</a>
-          <a href="/drum/diagnostic" className="btn btn-ghost">🔍 Diagnostic</a>
-          <a href="/drum/practice-enhanced" className="btn btn-ghost">🎵 Enhanced Mode</a>
+          <a href="/drum/goals" className="btn btn-ghost">Goals</a>
+          <a href="/drum/insights" className="btn btn-ghost">Insights</a>
+          <a href="/drum/rudiments" className="btn btn-ghost">Rudiments</a>
+          <a href="/drum/diagnostic" className="btn btn-ghost">Diagnostic</a>
+          <a href="/drum/practice-enhanced" className="btn btn-ghost">Enhanced Mode</a>
         </div>
       </section>
 

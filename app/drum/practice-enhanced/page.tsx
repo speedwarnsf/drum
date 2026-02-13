@@ -413,7 +413,7 @@ function EnhancedPracticeInner() {
             </div>
             
             <div className="practice-section">
-              <h4>🔄 Review ({practiceSession.review.length} rudiments)</h4>
+              <h4>Review ({practiceSession.review.length} rudiments)</h4>
               <div className="rudiment-list">
                 {practiceSession.review.map(rudiment => (
                   <CompactRudimentNotation 
@@ -433,16 +433,16 @@ function EnhancedPracticeInner() {
         <h3>Quick Access</h3>
         <div className="nav-buttons">
           <a href="/drum/today" className="btn btn-ghost">
-            📅 Today's AI Card
+            Today's AI Card
           </a>
           <a href="/drum/progress" className="btn btn-ghost">
-            📊 Full Progress Dashboard
+            Full Progress Dashboard
           </a>
           <a href="/drum/patterns" className="btn btn-ghost">
-            📚 Pattern Library
+            Pattern Library
           </a>
           <a href="/drum/journal" className="btn btn-ghost">
-            📝 Practice Journal
+            Practice Journal
           </a>
         </div>
       </section>
@@ -467,7 +467,7 @@ function SessionTimer({ startTime }: { startTime: Date }) {
 
   return (
     <div className="session-timer">
-      <span className="timer-icon">⏱️</span>
+      <span className="timer-icon"></span>
       <span className="timer-text">
         {minutes.toString().padStart(2, '0')}:{seconds.toString().padStart(2, '0')}
       </span>

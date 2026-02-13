@@ -140,7 +140,7 @@ export default function MobileTapPad({ pattern, onTap, disabled = false }: TapPa
           disabled={disabled}
           aria-label="Snare drum"
         >
-          <div className="tap-pad-icon">🥁</div>
+          <div className="tap-pad-icon"></div>
           <div className="tap-pad-label">Snare</div>
           <div className="tap-pad-key">S</div>
         </button>

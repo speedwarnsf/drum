@@ -44,7 +44,7 @@ export class ErrorBoundary extends Component<Props, State> {
 
       return (
         <div className="error-boundary">
-          <div className="error-boundary-icon">🥁</div>
+          <div className="error-boundary-icon"></div>
           <h2 className="error-boundary-title">Something went off-beat</h2>
           <p className="error-boundary-message">
             Don&apos;t worry—even the best drummers drop a stick sometimes.

@@ -41,7 +41,7 @@ const WARMUP_ROUTINES: Record<string, { name: string; emoji: string; steps: Warm
   },
   deep: {
     name: "Deep (8 min)",
-    emoji: "🧘",
+    emoji: "",
     steps: [
       { title: "Breath Work", description: "4 counts inhale, 4 counts hold, 4 counts exhale. 3 cycles. Center yourself.", duration: 40, category: "breath" },
       { title: "Body Scan", description: "Head to toe: release tension in jaw, neck, shoulders, arms, wrists, fingers.", duration: 30, category: "breath" },

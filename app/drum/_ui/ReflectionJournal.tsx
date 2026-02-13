@@ -147,7 +147,7 @@ export default function ReflectionJournal({
         onClick={() => setExpanded(true)}
         style={{ width: "100%", marginTop: 16 }}
       >
-        📝 Add Reflection (Stop-Start-Continue)
+        Add Reflection (Stop-Start-Continue)
       </button>
     );
   }
@@ -175,7 +175,7 @@ export default function ReflectionJournal({
       {/* Stop */}
       <div className="reflection-field">
         <label htmlFor="reflection-stop" className="reflection-label reflection-stop">
-          🛑 STOP
+          STOP
         </label>
         <p className="reflection-prompt">{prompts.stop.prompt}</p>
         <p className="reflection-examples">
@@ -232,7 +232,7 @@ export default function ReflectionJournal({
       {/* Minute Paper (optional) */}
       <div className="reflection-field reflection-minute-paper">
         <label htmlFor="reflection-minute" className="reflection-label">
-          📄 Minute Paper (optional)
+          Minute Paper (optional)
         </label>
         <p className="reflection-prompt">{prompts.minutePaper}</p>
         <textarea

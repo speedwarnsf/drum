@@ -42,8 +42,8 @@ export default function RudimentsPage() {
           <span style={{ fontWeight: 600 }}>Overall Progress</span>
           <span style={{ fontWeight: 700 }}>{Math.round((stats.completedRudiments / stats.totalRudiments) * 100)}%</span>
         </div>
-        <div style={{ height: 8, background: "var(--border, #eee)", borderRadius: 4, overflow: "hidden" }}>
-          <div style={{ height: "100%", width: `${(stats.completedRudiments / stats.totalRudiments) * 100}%`, background: "var(--accent, #667eea)", borderRadius: 4, transition: "width 0.3s" }} />
+        <div style={{ height: 8, background: "var(--border, #eee)", borderRadius: 0, overflow: "hidden" }}>
+          <div style={{ height: "100%", width: `${(stats.completedRudiments / stats.totalRudiments) * 100}%`, background: "var(--accent, #667eea)", borderRadius: 0, transition: "width 0.3s" }} />
         </div>
       </section>
 
@@ -66,13 +66,15 @@ export default function RudimentsPage() {
           <h2 style={{ textTransform: "capitalize", fontSize: "1.2rem", marginBottom: 12 }}>
             {category} ({items.length})
           </h2>
-          <div className="grid" style={{ gap: 12 }}>
+          <div className="grid" style={{ gap: 12 }} role="list" aria-label={`${category} rudiments`}>
             {items.map(r => {
               const completed = progression.isCompleted(r.id);
               const skill = progression.getSkillLevel(r.id);
               return (
                 <Link
                   key={r.id}
+                  role="listitem"
+                  aria-label={`${r.name}${completed ? ', completed' : ''}${skill > 0 ? `, skill level ${skill}` : ''}`}
                   href={`/drum/rudiments/${r.id}`}
                   className="card"
                   style={{
@@ -111,7 +113,7 @@ export default function RudimentsPage() {
       <section className="card">
         <div className="row" style={{ gap: 8 }}>
           <Link href="/drum/practice-enhanced" className="btn">Practice Mode</Link>
-          <Link href="/drum/progress" className="btn btn-ghost">📊 Progress</Link>
+          <Link href="/drum/progress" className="btn btn-ghost">Progress</Link>
         </div>
       </section>
     </Shell>

@@ -203,7 +203,7 @@ self.addEventListener("message", (event) => {
 // ----- Push Notifications -----
 self.addEventListener("push", (event) => {
   const defaults = {
-    body: "Time for your daily drum practice! 🥁",
+    body: "Time for your daily drum practice!",
     icon: "/icons/icon-192x192.png",
     badge: "/icons/icon-72x72.png",
     data: { url: "/drum/today" },

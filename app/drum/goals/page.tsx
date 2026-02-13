@@ -257,7 +257,7 @@ function GoalsPageInner() {
                     setTargetStreak(3);
                   }}
                 >
-                  🌱 Casual
+                  Casual
                 </button>
                 <button
                   className="btn btn-ghost"
@@ -267,7 +267,7 @@ function GoalsPageInner() {
                     setTargetStreak(4);
                   }}
                 >
-                  💪 Committed
+                  Committed
                 </button>
                 <button
                   className="btn btn-ghost"
@@ -358,7 +358,7 @@ function GoalCard({ goal }: { goal: Goal }) {
       <div className="goals-active-header">
         <div>
           <span className="goals-active-type">
-            {goal.goal_type === "weekly" ? "📅 Weekly Goal" : "📆 Monthly Goal"}
+            {goal.goal_type === "weekly" ? "Weekly Goal" : "Monthly Goal"}
           </span>
           <span className="goals-active-dates">
             {daysLeft} day{daysLeft !== 1 ? "s" : ""} remaining
@@ -376,7 +376,7 @@ function GoalCard({ goal }: { goal: Goal }) {
           target={goal.target_minutes}
           unit="min"
           percent={p.minutesPercent}
-          emoji="⏱️"
+          emoji=""
         />
         <GoalProgressBar
           label="Sessions"

@@ -162,7 +162,7 @@ export default function ShuffleMode({
       <div className={`shuffle-mode ${compact ? "shuffle-mode-compact" : ""}`}>
         <div className="shuffle-header">
           <div className="shuffle-title">
-            <span className="shuffle-icon" aria-hidden="true">🔀</span>
+            <span className="shuffle-icon" aria-hidden="true"></span>
             <span>Interleaved Practice</span>
           </div>
           <button

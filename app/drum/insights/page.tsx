@@ -128,7 +128,7 @@ function InsightsPageInner() {
       {/* Weekly Activity Chart */}
       {data.weeklyBreakdown.length > 0 && (
         <section className="card">
-          <h3 className="card-title">📊 Weekly Activity</h3>
+          <h3 className="card-title">Weekly Activity</h3>
           <div className="insights-chart">
             {data.weeklyBreakdown.map((w) => {
               const maxSessions = Math.max(...data.weeklyBreakdown.map((wk) => wk.sessions), 1);
@@ -153,7 +153,7 @@ function InsightsPageInner() {
 
       {/* Day of Week Distribution */}
       <section className="card">
-        <h3 className="card-title">📅 Practice by Day</h3>
+        <h3 className="card-title">Practice by Day</h3>
         <div className="insights-day-grid">
           {data.dayOfWeekCounts.map((count, i) => {
             const max = Math.max(...data.dayOfWeekCounts, 1);
@@ -177,7 +177,7 @@ function InsightsPageInner() {
 
       {/* Time of Day Heatmap */}
       <section className="card">
-        <h3 className="card-title">🕐 Practice by Time of Day</h3>
+        <h3 className="card-title">Practice by Time of Day</h3>
         <div className="insights-hour-grid">
           {data.hourCounts.map((count, hour) => {
             if (hour < 5 || hour > 23) return null; // Skip unlikely hours
@@ -216,10 +216,10 @@ function InsightsPageInner() {
                 const percent = Math.round((count / total) * 100);
                 const label =
                   key === "nothing" ? "Clean session" :
-                  key === "time" ? "Timing ⏱️" :
+                  key === "time" ? "Timing" :
                   key === "control" ? "Control " :
-                  key === "coordination" ? "Coordination 🤝" :
-                  key === "feel" ? "Feel 🎵" : key;
+                  key === "coordination" ? "Coordination" :
+                  key === "feel" ? "Feel" : key;
                 return (
                   <div key={key} className="insights-dist-row">
                     <span className="insights-dist-label">{label}</span>
@@ -240,12 +240,12 @@ function InsightsPageInner() {
       {/* How Sessions Felt */}
       {Object.keys(data.feltCounts).length > 0 && (
         <section className="card">
-          <h3 className="card-title">🎭 How Sessions Felt</h3>
+          <h3 className="card-title">How Sessions Felt</h3>
           <div className="insights-felt-grid">
             {[
-              { key: "easier", emoji: "😊", label: "Easier" },
-              { key: "right", emoji: "😌", label: "Just Right" },
-              { key: "harder", emoji: "😤", label: "Harder" },
+              { key: "easier", emoji: "^", label: "Easier" },
+              { key: "right", emoji: "~", label: "Just Right" },
+              { key: "harder", emoji: "v", label: "Harder" },
             ].map(({ key, emoji, label }) => {
               const count = data.feltCounts[key] || 0;
               const total = Object.values(data.feltCounts).reduce((a, b) => a + b, 0);

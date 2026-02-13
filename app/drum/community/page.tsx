@@ -145,7 +145,7 @@ function CommunityPageInner() {
           className={`community-tab ${tab === "my-recordings" ? "community-tab-active" : ""}`}
           onClick={() => setTab("my-recordings")}
         >
-          📤 My Shared
+          My Shared
         </button>
       </div>
 
@@ -240,7 +240,7 @@ function ReviewTab({
     return (
       <section className="card">
         <div className="community-empty">
-          <span className="community-empty-icon">🎉</span>
+          <span className="community-empty-icon"></span>
           <h3>All caught up!</h3>
           <p className="sub">
             No recordings need feedback right now. Check back later, or share your own!
@@ -457,7 +457,7 @@ function MyRecordingsTab({ recordings }: { recordings: SharedRecording[] }) {
     return (
       <section className="card">
         <div className="community-empty">
-          <span className="community-empty-icon">📤</span>
+          <span className="community-empty-icon"></span>
           <h3>No shared recordings yet</h3>
           <p className="sub">
             After a practice session, use the recorder and tap "Share for Feedback"
