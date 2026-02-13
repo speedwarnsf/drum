@@ -5,7 +5,7 @@ import Link from "next/link";
 
 const NAV_ITEMS = [
   { href: "/drum/today", icon: "🥁", label: "Practice" },
-  { href: "/drum/drills", icon: "🎯", label: "Drills" },
+  { href: "/drum/drills", icon: "", label: "Drills" },
   { href: "/drum/goals", icon: "📋", label: "Goals" },
   { href: "/drum/insights", icon: "📊", label: "Insights" },
   { href: "/drum/progress", icon: "🏆", label: "Progress" },

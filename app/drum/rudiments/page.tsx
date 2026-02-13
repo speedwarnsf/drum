@@ -110,7 +110,7 @@ export default function RudimentsPage() {
       {/* Nav */}
       <section className="card">
         <div className="row" style={{ gap: 8 }}>
-          <Link href="/drum/practice-enhanced" className="btn">🎯 Practice Mode</Link>
+          <Link href="/drum/practice-enhanced" className="btn">Practice Mode</Link>
           <Link href="/drum/progress" className="btn btn-ghost">📊 Progress</Link>
         </div>
       </section>

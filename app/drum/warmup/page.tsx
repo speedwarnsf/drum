@@ -26,7 +26,7 @@ const WARMUP_ROUTINES: Record<string, { name: string; emoji: string; steps: Warm
   },
   standard: {
     name: "Standard (5 min)",
-    emoji: "🎯",
+    emoji: "",
     steps: [
       { title: "Body Scan", description: "Sit on throne. Close eyes. Notice tension in shoulders, jaw, hands. Release it.", duration: 20, category: "breath" },
       { title: "Shoulder Rolls", description: "5 forward, 5 backward. Big, slow circles.", duration: 20, category: "stretch" },

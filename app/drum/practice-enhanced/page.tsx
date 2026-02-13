@@ -296,7 +296,7 @@ function EnhancedPracticeInner() {
               className="btn btn-primary btn-large"
               onClick={startPracticeSession}
             >
-              🎯 Start Practice Session
+              Start Practice Session
             </button>
           ) : (
             <button
@@ -387,7 +387,7 @@ function EnhancedPracticeInner() {
           
           <div className="practice-sections">
             <div className="practice-section">
-              <h4>🔥 Warm-Up ({practiceSession.warmUp.length} rudiments)</h4>
+              <h4>Warm-Up ({practiceSession.warmUp.length} rudiments)</h4>
               <div className="rudiment-list">
                 {practiceSession.warmUp.map(rudiment => (
                   <CompactRudimentNotation 
@@ -400,7 +400,7 @@ function EnhancedPracticeInner() {
             </div>
             
             <div className="practice-section">
-              <h4>🎯 Main Practice ({practiceSession.main.length} rudiments)</h4>
+              <h4>Main Practice ({practiceSession.main.length} rudiments)</h4>
               <div className="rudiment-list">
                 {practiceSession.main.map(rudiment => (
                   <CompactRudimentNotation 

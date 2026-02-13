@@ -133,7 +133,7 @@ export default function RudimentDetailPage({ params }: { params: Promise<{ id: s
         <h2 className="card-title">Practice Guide</h2>
         <div className="rudiment-tips-grid">
           <div>
-            <h3 style={{ fontSize: "1rem", marginBottom: 8 }}>💡 Practice Tips</h3>
+            <h3 style={{ fontSize: "1rem", marginBottom: 8 }}>Practice Tips</h3>
             <ul className="rudiment-tip-list">
               {rudiment.practiceNotes.map((note, i) => (
                 <li key={i} data-icon="✓">{note}</li>
@@ -211,7 +211,7 @@ export default function RudimentDetailPage({ params }: { params: Promise<{ id: s
             ← All Rudiments
           </Link>
           <Link href="/drum/practice-enhanced" className="btn">
-            🎯 Practice Mode
+            Practice Mode
           </Link>
         </div>
       </section>

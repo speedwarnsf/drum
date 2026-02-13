@@ -66,7 +66,7 @@ export default function ProgressDashboard({
         {/* Streak Card */}
         <div className="dashboard-card streak-card">
           <h3>
-            🔥 Practice Streak
+            Practice Streak
           </h3>
           <div className="streak-display">
             <div className="streak-number">{stats.currentStreak}</div>
@@ -105,7 +105,7 @@ export default function ProgressDashboard({
 
         {/* Next Achievements */}
         <div className="dashboard-card next-achievements">
-          <h3>🎯 Next Goals</h3>
+          <h3>Next Goals</h3>
           {nextAchievements.length > 0 ? (
             <div className="achievement-progress-list">
               {nextAchievements.map(achievement => (

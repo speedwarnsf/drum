@@ -147,7 +147,7 @@ function GoalsPageInner() {
       ) : (
         <section className="card">
           <div style={{ textAlign: "center", padding: "20px 0" }}>
-            <p style={{ fontSize: "2rem", marginBottom: 8 }}>🎯</p>
+            <p style={{ fontSize: "2rem", marginBottom: 8 }}></p>
             <h3 className="card-title">No Active Goals</h3>
             <p className="sub">Set a goal to stay on track with your practice.</p>
           </div>
@@ -277,7 +277,7 @@ function GoalsPageInner() {
                     setTargetStreak(7);
                   }}
                 >
-                  🔥 Intense
+                  Intense
                 </button>
               </div>
             </div>
@@ -384,7 +384,7 @@ function GoalCard({ goal }: { goal: Goal }) {
           target={goal.target_sessions}
           unit=""
           percent={p.sessionsPercent}
-          emoji="🎯"
+          emoji=""
         />
         <GoalProgressBar
           label="Streak"
@@ -392,7 +392,7 @@ function GoalCard({ goal }: { goal: Goal }) {
           target={goal.target_streak}
           unit="days"
           percent={p.streakPercent}
-          emoji="🔥"
+          emoji=""
         />
       </div>
     </section>

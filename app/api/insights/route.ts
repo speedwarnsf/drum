@@ -120,11 +120,11 @@ export async function GET(req: NextRequest) {
     .filter((s: any) => s.log?.broke === "nothing").length / recentSessions.length;
 
   if (allSessions.length >= 10 && recentNothingRate > earlyNothingRate + 0.1) {
-    insights.push("Your recent sessions show improvement — fewer breakdowns than when you started! 🎯");
+    insights.push("Your recent sessions show improvement — fewer breakdowns than when you started! ");
   }
 
   if (currentStreak >= 3) {
-    insights.push(`You're on a ${currentStreak}-day streak! Keep the momentum going. 🔥`);
+    insights.push(`You're on a ${currentStreak}-day streak! Keep the momentum going. `);
   }
 
   // Preferred practice time

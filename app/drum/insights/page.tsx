@@ -116,7 +116,7 @@ function InsightsPageInner() {
       {/* AI Insights */}
       {data.insights.length > 0 && (
         <section className="card insights-ai">
-          <h3 className="card-title">💡 Personalized Insights</h3>
+          <h3 className="card-title">Personalized Insights</h3>
           <ul className="insights-list">
             {data.insights.map((insight, i) => (
               <li key={i} className="insights-item">{insight}</li>
@@ -217,7 +217,7 @@ function InsightsPageInner() {
                 const label =
                   key === "nothing" ? "Clean session" :
                   key === "time" ? "Timing ⏱️" :
-                  key === "control" ? "Control 🎯" :
+                  key === "control" ? "Control " :
                   key === "coordination" ? "Coordination 🤝" :
                   key === "feel" ? "Feel 🎵" : key;
                 return (
@@ -266,7 +266,7 @@ function InsightsPageInner() {
       {/* Focus Areas */}
       {Object.keys(data.focusCounts).length > 0 && (
         <section className="card">
-          <h3 className="card-title">🎯 Practice Focus Areas</h3>
+          <h3 className="card-title">Practice Focus Areas</h3>
           <div className="insights-focus-list">
             {Object.entries(data.focusCounts)
               .sort((a, b) => b[1] - a[1])
