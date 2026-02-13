@@ -1,9 +1,11 @@
 "use client";
 
-import React, { useState, useMemo } from "react";
+import React, { useState, useMemo, useCallback } from "react";
 import Shell from "../_ui/Shell";
+import { Icon } from "../_ui/Icon";
 import { ESSENTIAL_RUDIMENTS, RudimentProgression, Rudiment } from "../_lib/rudimentLibrary";
 import Link from "next/link";
+import { playSelect, playNav } from "../_lib/uiSounds";
 
 const CATEGORIES = [
   { value: "all", label: "All" },
@@ -53,7 +55,7 @@ export default function RudimentsPage() {
           <button
             key={cat.value}
             className={`btn btn-small ${filter === cat.value ? "" : "btn-ghost"}`}
-            onClick={() => setFilter(cat.value)}
+            onClick={() => { setFilter(cat.value); playSelect(); }}
           >
             {cat.label}
           </button>
@@ -76,6 +78,7 @@ export default function RudimentsPage() {
                   role="listitem"
                   aria-label={`${r.name}${completed ? ', completed' : ''}${skill > 0 ? `, skill level ${skill}` : ''}`}
                   href={`/drum/rudiments/${r.id}`}
+                  onClick={() => playNav()}
                   className="card"
                   style={{
                     textDecoration: "none",
@@ -91,7 +94,7 @@ export default function RudimentsPage() {
                 >
                   <div>
                     <div style={{ fontWeight: 700, fontSize: "1rem" }}>
-                      {completed && "✓ "}{r.name}
+                      {completed && <><Icon name="check" size={14} /> </>}{r.name}
                     </div>
                     <div style={{ fontSize: "0.8rem", color: "var(--text-muted, #888)", marginTop: 2 }}>
                       {r.pattern.stickingPattern} · Difficulty {"★".repeat(r.pattern.difficulty)}{"☆".repeat(5 - r.pattern.difficulty)}
@@ -112,8 +115,8 @@ export default function RudimentsPage() {
       {/* Nav */}
       <section className="card">
         <div className="row" style={{ gap: 8 }}>
-          <Link href="/drum/practice-enhanced" className="btn">Practice Mode</Link>
-          <Link href="/drum/progress" className="btn btn-ghost">Progress</Link>
+          <Link href="/drum/practice-enhanced" className="btn" onClick={() => playNav()}>Practice Mode</Link>
+          <Link href="/drum/progress" className="btn btn-ghost" onClick={() => playNav()}>Progress</Link>
         </div>
       </section>
     </Shell>

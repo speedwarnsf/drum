@@ -524,7 +524,7 @@ const styles = `
   text-align: center;
   padding: 15px;
   background: rgba(255,255,255,0.1);
-  border-radius: 8px;
+  border-radius: 0;
 }
 
 .stat-label {
@@ -634,7 +634,7 @@ const styles = `
   background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
   background-size: 200% 100%;
   animation: shimmer 1.5s infinite;
-  border-radius: 8px;
+  border-radius: 0;
   display: flex;
   align-items: center;
   justify-content: center;

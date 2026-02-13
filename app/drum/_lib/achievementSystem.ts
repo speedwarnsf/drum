@@ -630,7 +630,7 @@ export class AchievementNotificationManager {
         background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
         color: white;
         padding: 16px;
-        border-radius: 8px;
+        border-radius: 0;
         box-shadow: 0 4px 20px rgba(0,0,0,0.3);
         display: flex;
         align-items: center;

@@ -25,12 +25,14 @@ import {
 } from "../_lib/drumMvp";
 import ModuleProgress from "../_ui/ModuleProgress";
 import { CompactStats } from "../_ui/StatsCard";
+import StreakCounter from "../_ui/StreakCounter";
 import { calculatePracticeStats, StreakInfo } from "../_lib/statsUtils";
 import { ErrorBoundary } from "../_ui/ErrorBoundary";
 import { AILoadingState } from "../_ui/LoadingSpinner";
 import { SkeletonTodayPage } from "../_ui/SkeletonCard";
 import { OfflineIndicator, useOnlineStatus } from "../_ui/OfflineIndicator";
 import ReflectionJournal, { loadReflectionEntry, ReflectionEntry } from "../_ui/ReflectionJournal";
+import { playNav, playSelect } from "../_lib/uiSounds";
 
 export default function DrumTodayPage() {
   return (
@@ -398,11 +400,14 @@ function DrumTodayInner() {
       )}
 
       {!sessionMeta && streakInfo && (
-        <CompactStats
-          totalSessions={sessions.length}
-          streak={streakInfo.current}
-          isStreakActive={streakInfo.isActive}
-        />
+        <>
+          <StreakCounter streak={streakInfo} />
+          <CompactStats
+            totalSessions={sessions.length}
+            streak={streakInfo.current}
+            isStreakActive={streakInfo.isActive}
+          />
+        </>
       )}
 
       <section className="card">
@@ -500,13 +505,13 @@ function DrumTodayInner() {
       <section className="card">
         <h2 className="card-title">Tools</h2>
         <div className="row" style={{ flexWrap: "wrap" }}>
-          <a href="/drum/warmup" className="btn btn-ghost">Warm-Up</a>
-          <a href="/drum/drills" className="btn btn-ghost">Drills</a>
-          <a href="/drum/goals" className="btn btn-ghost">Goals</a>
-          <a href="/drum/insights" className="btn btn-ghost">Insights</a>
-          <a href="/drum/rudiments" className="btn btn-ghost">Rudiments</a>
-          <a href="/drum/diagnostic" className="btn btn-ghost">Diagnostic</a>
-          <a href="/drum/practice-enhanced" className="btn btn-ghost">Enhanced Mode</a>
+          <a href="/drum/warmup" className="btn btn-ghost" onClick={() => playNav()}>Warm-Up</a>
+          <a href="/drum/drills" className="btn btn-ghost" onClick={() => playNav()}>Drills</a>
+          <a href="/drum/goals" className="btn btn-ghost" onClick={() => playNav()}>Goals</a>
+          <a href="/drum/insights" className="btn btn-ghost" onClick={() => playNav()}>Insights</a>
+          <a href="/drum/rudiments" className="btn btn-ghost" onClick={() => playNav()}>Rudiments</a>
+          <a href="/drum/diagnostic" className="btn btn-ghost" onClick={() => playNav()}>Diagnostic</a>
+          <a href="/drum/practice-enhanced" className="btn btn-ghost" onClick={() => playNav()}>Enhanced Mode</a>
         </div>
       </section>
 

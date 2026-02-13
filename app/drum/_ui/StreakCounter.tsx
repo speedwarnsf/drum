@@ -8,14 +8,18 @@ type StreakCounterProps = {
   compact?: boolean;
 };
 
+const MILESTONES = [
+  { days: 7, label: "1 Week", desc: "Week warrior" },
+  { days: 30, label: "30 Days", desc: "Steady hand" },
+  { days: 100, label: "100 Days", desc: "Centurion" },
+];
+
 export default function StreakCounter({ streak, compact = false }: StreakCounterProps) {
   const { current, longest, isActive, isAtRisk, lastPracticeDate } = streak;
 
-  // Determine streak state
   const hasStreak = current > 0;
   const streakBroken = !isActive && !isAtRisk && lastPracticeDate !== null && current === 0;
 
-  // Format last practice date
   const lastPracticeText = lastPracticeDate
     ? new Date(lastPracticeDate).toLocaleDateString(undefined, {
         month: "short",
@@ -56,7 +60,7 @@ export default function StreakCounter({ streak, compact = false }: StreakCounter
 
           {isActive && (
             <span className="streak-status streak-status-active">
-              Practiced today ✓
+              Practiced today
             </span>
           )}
 
@@ -68,10 +72,28 @@ export default function StreakCounter({ streak, compact = false }: StreakCounter
 
           {streakBroken && (
             <span className="streak-status streak-status-gentle">
-              Start fresh — every session counts
+              Start fresh -- every session counts
             </span>
           )}
         </div>
+      </div>
+
+      {/* Milestones */}
+      <div className="streak-milestones">
+        {MILESTONES.map((m) => {
+          const reached = longest >= m.days;
+          const approaching = !reached && current >= m.days - 3 && current > 0;
+          return (
+            <div
+              key={m.days}
+              className={`streak-milestone ${reached ? "streak-milestone-reached" : ""} ${approaching ? "streak-milestone-approaching" : ""}`}
+            >
+              <Icon name="flame" size={14} />
+              <span className="streak-milestone-label">{m.label}</span>
+              {reached && <Icon name="check" size={12} />}
+            </div>
+          );
+        })}
       </div>
 
       <div className="streak-secondary">

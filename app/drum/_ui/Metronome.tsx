@@ -125,9 +125,13 @@ export default function Metronome({
 
     const secondsPerBeat = 60 / clampedBpm;
     const secondsPerHalfBeat = secondsPerBeat / 2;
-    const lookahead = 0.2;
+    // Schedule-ahead pattern: use a tight setTimeout loop (25ms)
+    // with a generous lookahead window (100ms) so the Web Audio
+    // scheduler always has notes queued. This prevents drift that
+    // would occur with naive setTimeout-per-beat approaches.
+    const scheduleAheadSec = 0.1;
 
-    while (nextTimeRef.current < audioCtx.currentTime + lookahead) {
+    while (nextTimeRef.current < audioCtx.currentTime + scheduleAheadSec) {
       const totalCycle = gapSettings.beatsOn + gapSettings.beatsOff;
       const cyclePosition = beatCountRef.current % totalCycle;
       const inGap = gapEnabled && cyclePosition >= gapSettings.beatsOn;
@@ -153,7 +157,7 @@ export default function Metronome({
       beatCountRef.current++;
     }
 
-    schedulerRef.current = window.setTimeout(schedule, 60);
+    schedulerRef.current = window.setTimeout(schedule, 25);
   }, [clampedBpm, gapEnabled, gapSettings, tick]);
 
   useEffect(() => {
