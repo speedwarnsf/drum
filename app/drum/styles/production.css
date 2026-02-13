@@ -2,7 +2,7 @@
 
 /* Enhanced Metronome Styles */
 .enhanced-metronome {
-  background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+  background: linear-gradient(135deg, var(--ink, #2f1a00) 0%, var(--ink-muted, #6a3e00) 100%);
   border-radius: 0;
   padding: 20px;
   color: white;
@@ -27,7 +27,7 @@
 
 .tempo-trainer-badge {
   background: #f4ba34;
-  color: #1e3c72;
+  color: var(--ink, #2f1a00);
   padding: 4px 8px;
   border-radius: 0;
   font-size: 0.8rem;
@@ -189,7 +189,7 @@
 }
 
 .gap-visual-fill-click {
-  background: linear-gradient(90deg, #4ecdc4, #44a08d);
+  background: linear-gradient(90deg, #a67c00, #8a6500);
 }
 
 .gap-visual-fill-gap {
@@ -240,7 +240,7 @@
 
 .gap-visual-status-click {
   background: rgba(78, 205, 196, 0.3);
-  color: #4ecdc4;
+  color: #a67c00;
 }
 
 .gap-visual-status-gap {
@@ -259,7 +259,7 @@
 }
 
 .metronome-led-on {
-  background: #4ecdc4;
+  background: #a67c00;
   box-shadow: 0 0 15px rgba(78, 205, 196, 0.7);
 }
 
@@ -284,7 +284,7 @@
 }
 
 .waveform-status .status-active {
-  color: #4ecdc4;
+  color: #a67c00;
   font-weight: 600;
 }
 
@@ -294,7 +294,7 @@
 }
 
 .waveform-status .status-inactive {
-  color: #95a5a6;
+  color: var(--stroke);
   font-weight: 600;
 }
 
@@ -380,7 +380,7 @@
 }
 
 .accuracy.good {
-  color: #4ecdc4;
+  color: #a67c00;
   font-weight: 600;
 }
 
@@ -595,7 +595,7 @@
 /* Progress Dashboard */
 .progress-dashboard {
   padding: 20px;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, var(--ink, #2f1a00) 0%, var(--ink-muted, #6a3e00) 100%);
   border-radius: 0;
   color: white;
 }
@@ -688,7 +688,7 @@
 }
 
 .streak-day.practiced {
-  background: #4ecdc4;
+  background: #a67c00;
   color: white;
 }
 
@@ -709,11 +709,11 @@
   flex-shrink: 0;
 }
 .streak-fire { opacity: 0.4; }
-.streak-fire-active { opacity: 1; color: var(--accent, #667eea); }
+.streak-fire-active { opacity: 1; color: var(--accent, var(--ink, #2f1a00)); }
 .streak-fire-glow {
   position: absolute;
   inset: -4px;
-  background: var(--accent, #667eea);
+  background: var(--accent, var(--ink, #2f1a00));
   opacity: 0.15;
   border-radius: 0;
 }
@@ -722,7 +722,7 @@
 .streak-current-number { font-size: 1.8rem; font-weight: 800; line-height: 1; }
 .streak-current-label { font-size: 0.85rem; opacity: 0.7; }
 .streak-status { display: block; font-size: 0.8rem; margin-top: 4px; }
-.streak-status-active { color: var(--accent, #667eea); font-weight: 600; }
+.streak-status-active { color: var(--accent, var(--ink, #2f1a00)); font-weight: 600; }
 .streak-status-warning { color: #e6a23c; }
 .streak-status-gentle { opacity: 0.6; }
 .streak-milestones {
@@ -743,8 +743,8 @@
 }
 .streak-milestone-reached {
   opacity: 1;
-  color: var(--accent, #667eea);
-  border-color: var(--accent, #667eea);
+  color: var(--accent, var(--ink, #2f1a00));
+  border-color: var(--accent, var(--ink, #2f1a00));
 }
 .streak-milestone-approaching {
   opacity: 0.8;
@@ -766,7 +766,7 @@
 .streak-compact-fire { display: flex; }
 .streak-compact-count { font-weight: 700; }
 .streak-compact-label { font-size: 0.85rem; opacity: 0.7; }
-.streak-compact-active { font-size: 0.75rem; color: var(--accent, #667eea); font-weight: 600; }
+.streak-compact-active { font-size: 0.75rem; color: var(--accent, var(--ink, #2f1a00)); font-weight: 600; }
 .streak-badge {
   display: inline-flex;
   align-items: center;
@@ -794,8 +794,8 @@
 }
 
 .chart-bar {
-  background: linear-gradient(0deg, #4ecdc4, #44a08d);
-  border-radius: 4px 4px 0 0;
+  background: linear-gradient(0deg, #a67c00, #8a6500);
+  border-radius: 0;
   width: 100%;
   max-width: 20px;
   transition: height 0.3s ease;
@@ -861,7 +861,7 @@
 
 .skill-fill {
   height: 100%;
-  background: linear-gradient(90deg, #4ecdc4, #44a08d);
+  background: linear-gradient(90deg, #a67c00, #8a6500);
   border-radius: 0;
   transition: width 0.3s ease;
 }
@@ -958,7 +958,7 @@
 
 .filter-btn.active {
   background: #f4ba34;
-  color: #1e3c72;
+  color: var(--ink, #2f1a00);
   border-color: #f4ba34;
 }
 
@@ -1040,26 +1040,26 @@
 
 /* Rarity Styles */
 .rarity-common {
-  border-color: #95a5a6;
+  border-color: var(--stroke);
 }
 
 .rarity-uncommon {
-  border-color: #3498db;
+  border-color: var(--ink-muted, #6a3e00);
   background: linear-gradient(135deg, rgba(52, 152, 219, 0.1) 0%, rgba(255,255,255,0.1) 100%);
 }
 
 .rarity-rare {
-  border-color: #9b59b6;
+  border-color: var(--ink-muted, #6a3e00);
   background: linear-gradient(135deg, rgba(155, 89, 182, 0.1) 0%, rgba(255,255,255,0.1) 100%);
 }
 
 .rarity-epic {
-  border-color: #f39c12;
+  border-color: #a67c00;
   background: linear-gradient(135deg, rgba(243, 156, 18, 0.1) 0%, rgba(255,255,255,0.1) 100%);
 }
 
 .rarity-legendary {
-  border-color: #e74c3c;
+  border-color: #8a3a3a;
   background: linear-gradient(135deg, rgba(231, 76, 60, 0.1) 0%, rgba(255,255,255,0.1) 100%);
   position: relative;
 }
@@ -1120,7 +1120,7 @@
 
 /* Achievement Notification */
 .achievement-notification {
-  background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+  background: linear-gradient(135deg, var(--ink, #2f1a00) 0%, var(--ink-muted, #6a3e00) 100%);
   color: white;
   padding: 16px;
   border-radius: 0;
@@ -1374,7 +1374,7 @@
   width: 22px;
   height: 22px;
   border-radius: 0;
-  background: var(--accent, #667eea);
+  background: var(--accent, var(--ink, #2f1a00));
   cursor: pointer;
   box-shadow: 0 2px 6px rgba(0,0,0,0.2);
 }
@@ -1383,7 +1383,7 @@
   width: 22px;
   height: 22px;
   border-radius: 0;
-  background: var(--accent, #667eea);
+  background: var(--accent, var(--ink, #2f1a00));
   cursor: pointer;
   border: none;
 }
@@ -1440,7 +1440,7 @@
 }
 
 .subdivision-btn-active {
-  background: var(--accent, #667eea) !important;
+  background: var(--accent, var(--ink, #2f1a00)) !important;
   color: white !important;
 }
 
@@ -1469,7 +1469,7 @@
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.5px;
-  background: var(--accent, #667eea);
+  background: var(--accent, var(--ink, #2f1a00));
   color: white;
   margin-bottom: 8px;
 }
@@ -1574,7 +1574,7 @@
 }
 
 .rudiment-nav-links a:hover {
-  background: var(--accent, #667eea);
+  background: var(--accent, var(--ink, #2f1a00));
   color: white;
 }
 
