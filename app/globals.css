@@ -687,7 +687,7 @@ li {
   width: 10px;
   height: 10px;
   border-radius: 0;
-  background: #c02020;
+  background: #8b6914;
   animation: recorderPulse 1s ease-in-out infinite;
 }
 
@@ -1245,11 +1245,11 @@ li {
 }
 
 .gap-visual-marker-click {
-  background: #2a6a2a;
+  background: #a67c00;
 }
 
 .gap-visual-marker-gap {
-  background: #6a2a2a;
+  background: #8b6914;
 }
 
 .gap-visual-marker-active {
@@ -1275,12 +1275,12 @@ li {
 }
 
 .gap-visual-status-click {
-  background: rgba(90, 184, 92, 0.3);
+  background: rgba(166, 124, 0, 0.3);
   color: #3a3a3a;
 }
 
 .gap-visual-status-gap {
-  background: rgba(199, 80, 80, 0.3);
+  background: rgba(139, 105, 20, 0.3);
   color: #3a3a3a;
 }
 
@@ -1849,7 +1849,7 @@ li {
 }
 
 .streak-status-active {
-  background: rgba(90, 184, 92, 0.2);
+  background: rgba(166, 124, 0, 0.2);
   color: #3a3a3a;
 }
 
@@ -1920,7 +1920,7 @@ li {
   margin-left: 6px;
   padding: 2px 8px;
   border-radius: 0;
-  background: rgba(90, 184, 92, 0.2);
+  background: rgba(166, 124, 0, 0.2);
   color: #3a3a3a;
   font-size: 10px;
   text-transform: uppercase;
@@ -3316,7 +3316,7 @@ li {
 }
 
 .offline-indicator-restored {
-  background: #2a6a2a;
+  background: #a67c00;
   animation: slideUp 300ms ease, fadeOut 300ms ease 2.5s forwards;
 }
 
@@ -3366,7 +3366,7 @@ li {
 
 .field-error {
   border-color: #a04a4a !important;
-  background: rgba(160, 74, 74, 0.08) !important;
+  background: rgba(139, 105, 20, 0.08) !important;
 }
 
 .field-error-message {
@@ -3388,7 +3388,7 @@ li {
   gap: 10px;
   padding: 12px 14px;
   border-radius: 0;
-  background: rgba(160, 74, 74, 0.1);
+  background: rgba(139, 105, 20, 0.1);
   color: #6b1000;
   font-size: 14px;
   margin-bottom: 16px;
@@ -3406,7 +3406,7 @@ li {
   gap: 10px;
   padding: 12px 14px;
   border-radius: 0;
-  background: rgba(90, 184, 92, 0.1);
+  background: rgba(166, 124, 0, 0.1);
   color: #3a3a3a;
   font-size: 14px;
   margin-bottom: 16px;
@@ -3572,12 +3572,12 @@ li {
 }
 
 .diagnostic-outcome-good {
-  background: rgba(90, 184, 92, 0.15);
+  background: rgba(166, 124, 0, 0.15);
   color: #3a3a3a;
 }
 
 .diagnostic-outcome-bad {
-  background: rgba(199, 80, 80, 0.15);
+  background: rgba(139, 105, 20, 0.15);
   color: #3a3a3a;
 }
 
@@ -3709,7 +3709,7 @@ li {
 
 .visual-metronome-circle-gap {
   opacity: 0.4;
-  background: rgba(199, 80, 80, 0.3);
+  background: rgba(139, 105, 20, 0.3);
   border-color: rgba(199, 80, 80, 0.5);
 }
 
@@ -4434,7 +4434,7 @@ li {
 }
 
 .skill-detail-status-unlocked {
-  background: rgba(90, 184, 92, 0.2);
+  background: rgba(166, 124, 0, 0.2);
   color: #3a3a3a;
 }
 
@@ -4471,7 +4471,7 @@ li {
   font-size: 14px;
   padding: 10px 12px;
   border-radius: 0;
-  background: rgba(90, 184, 92, 0.1);
+  background: rgba(166, 124, 0, 0.1);
   color: #3a3a3a;
   margin: 0;
 }
@@ -4880,7 +4880,7 @@ li {
 .community-tab-badge {
   padding: 2px 8px;
   border-radius: 0;
-  background: rgba(255, 255, 255, 0.2);
+  background: rgba(244, 186, 52, 0.15);
   font-size: 12px;
 }
 
@@ -5225,7 +5225,7 @@ li {
   margin-top: 10px;
   padding: 10px 14px;
   border-radius: 0;
-  background: rgba(90, 184, 92, 0.15);
+  background: rgba(166, 124, 0, 0.15);
   color: #3a3a3a;
   font-size: 13px;
   text-align: center;
@@ -5723,7 +5723,7 @@ li {
 }
 
 .shuffle-weakness {
-  background: rgba(199, 80, 80, 0.1);
+  background: rgba(139, 105, 20, 0.1);
   border-radius: 0;
   padding: 12px;
 }
