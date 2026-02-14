@@ -152,7 +152,7 @@ export default function CompellingTodayCard({
       // Match skill level or one level above for growth
       const skillLevels = ['beginner', 'intermediate', 'advanced'];
       const currentIndex = skillLevels.indexOf(skillLevel);
-      const allowedLevels = [skillLevel];
+      const allowedLevels: string[] = [skillLevel];
       if (currentIndex < skillLevels.length - 1) {
         allowedLevels.push(skillLevels[currentIndex + 1]);
       }
