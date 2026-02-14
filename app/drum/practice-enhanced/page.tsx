@@ -568,7 +568,7 @@ const styles = `
 }
 
 .session-summary {
-  background: linear-gradient(135deg, #2c3e50 0%, #3498db 100%);
+  background: linear-gradient(135deg, #d4a940 0%, #c49a30 100%);
   color: white;
 }
 
