@@ -457,7 +457,7 @@ export default function DrumMethodPage() {
           padding: 20px;
           padding-left: 60px;
           background: var(--surface);
-          border-radius: 12px;
+          border-radius: 0;
           border: 1px solid var(--border);
         }
         
@@ -469,7 +469,7 @@ export default function DrumMethodPage() {
           height: 32px;
           background: var(--accent);
           color: var(--bg);
-          border-radius: 50%;
+          border-radius: 0;
           display: flex;
           align-items: center;
           justify-content: center;
@@ -493,7 +493,7 @@ export default function DrumMethodPage() {
           margin-top: 12px;
           padding: 12px;
           background: var(--bg);
-          border-radius: 8px;
+          border-radius: 0;
           font-size: 0.9rem;
         }
         
@@ -509,7 +509,7 @@ export default function DrumMethodPage() {
           flex-direction: column;
           padding: 12px;
           background: var(--surface);
-          border-radius: 8px;
+          border-radius: 0;
           text-align: center;
         }
         
@@ -529,7 +529,7 @@ export default function DrumMethodPage() {
           padding: 12px 16px;
           background: var(--surface);
           border-left: 3px solid var(--accent);
-          border-radius: 0 8px 8px 0;
+          border-radius: 0;
         }
         
         .method-metaphors {
@@ -565,7 +565,7 @@ export default function DrumMethodPage() {
         .audit-method {
           padding: 16px;
           background: var(--surface);
-          border-radius: 8px;
+          border-radius: 0;
         }
         
         .audit-method h3 {
@@ -605,7 +605,7 @@ export default function DrumMethodPage() {
           padding: 16px 20px;
           background: var(--surface);
           border-left: 4px solid var(--accent);
-          border-radius: 0 8px 8px 0;
+          border-radius: 0;
           font-style: italic;
           font-size: 1.1rem;
         }
@@ -639,7 +639,7 @@ export default function DrumMethodPage() {
           padding: 12px 12px 12px 48px;
           margin-bottom: 8px;
           background: var(--surface);
-          border-radius: 8px;
+          border-radius: 0;
           counter-increment: stage;
         }
         
@@ -652,7 +652,7 @@ export default function DrumMethodPage() {
           height: 24px;
           background: var(--muted);
           color: var(--bg);
-          border-radius: 50%;
+          border-radius: 0;
           display: flex;
           align-items: center;
           justify-content: center;
@@ -695,7 +695,7 @@ export default function DrumMethodPage() {
           gap: 10px;
           padding: 12px 16px;
           background: var(--surface);
-          border-radius: 10px;
+          border-radius: 0;
           flex: 1;
           min-width: 140px;
         }
@@ -705,7 +705,7 @@ export default function DrumMethodPage() {
           height: 28px;
           background: var(--accent);
           color: var(--bg);
-          border-radius: 50%;
+          border-radius: 0;
           display: flex;
           align-items: center;
           justify-content: center;
@@ -739,7 +739,7 @@ export default function DrumMethodPage() {
           padding: 12px 16px;
           background: rgba(231, 76, 60, 0.1);
           border-left: 3px solid #e74c3c;
-          border-radius: 0 8px 8px 0;
+          border-radius: 0;
         }
         
         /* Learning Types */
@@ -752,7 +752,7 @@ export default function DrumMethodPage() {
         .learning-type {
           padding: 16px;
           background: var(--surface);
-          border-radius: 10px;
+          border-radius: 0;
         }
         
         .learning-type h3 {
@@ -786,7 +786,7 @@ export default function DrumMethodPage() {
           padding: 14px 16px;
           margin-bottom: 10px;
           background: var(--surface);
-          border-radius: 8px;
+          border-radius: 0;
         }
         
         .algorithm-list li strong {

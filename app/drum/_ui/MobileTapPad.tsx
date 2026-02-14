@@ -180,7 +180,7 @@ export const TAP_PAD_STYLES = `
 .mobile-tap-pad {
   background: var(--panel);
   border: 1px solid var(--stroke);
-  border-radius: 16px;
+  border-radius: 0;
   padding: 16px;
   user-select: none;
   -webkit-user-select: none;
@@ -219,7 +219,7 @@ export const TAP_PAD_STYLES = `
   color: var(--ink);
   background: var(--bg);
   padding: 8px 16px;
-  border-radius: 20px;
+  border-radius: 0;
   border: 1px solid var(--stroke);
 }
 
@@ -229,7 +229,7 @@ export const TAP_PAD_STYLES = `
   color: var(--ink-muted);
   background: var(--bg);
   padding: 8px 12px;
-  border-radius: 8px;
+  border-radius: 0;
   min-height: 32px;
   display: flex;
   align-items: center;
@@ -270,7 +270,7 @@ export const TAP_PAD_STYLES = `
   justify-content: center;
   background: var(--panel-deep);
   border: 2px solid var(--stroke);
-  border-radius: 16px;
+  border-radius: 0;
   font-size: 14px;
   font-weight: 600;
   text-align: center;
@@ -345,7 +345,7 @@ export const TAP_PAD_STYLES = `
   left: 50%;
   width: 0;
   height: 0;
-  border-radius: 50%;
+  border-radius: 0;
   background: var(--ink);
   opacity: 0.3;
   transform: translate(-50%, -50%);

@@ -267,7 +267,7 @@ export default function ReflectionJournal({
           margin-top: 24px;
           padding: 20px;
           background: var(--surface);
-          border-radius: 12px;
+          border-radius: 0;
           border: 1px solid var(--border);
         }
         
@@ -315,7 +315,7 @@ export default function ReflectionJournal({
           width: 100%;
           padding: 12px;
           border: 1px solid var(--border);
-          border-radius: 8px;
+          border-radius: 0;
           background: var(--bg);
           color: var(--text);
           font-size: 1rem;
@@ -325,7 +325,7 @@ export default function ReflectionJournal({
           width: 100%;
           padding: 12px;
           border: 1px solid var(--border);
-          border-radius: 8px;
+          border-radius: 0;
           background: var(--bg);
           color: var(--text);
           font-size: 1rem;
