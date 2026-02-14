@@ -14,7 +14,7 @@ type WarmupStep = {
 const WARMUP_ROUTINES: Record<string, { name: string; emoji: string; steps: WarmupStep[] }> = {
   quick: {
     name: "Quick (3 min)",
-    emoji: "bolt",
+    emoji: "",
     steps: [
       { title: "Deep Breaths", description: "3 slow breaths. Shoulders drop on each exhale.", duration: 20, category: "breath" },
       { title: "Wrist Circles", description: "10 circles each direction, each hand. Keep loose.", duration: 30, category: "stretch" },
@@ -200,7 +200,7 @@ function WarmupPageInner() {
       {isRunning && currentStep >= 0 && (
         <section className="card" style={{
           background: "linear-gradient(135deg, var(--ink, #3c3c3c) 0%, var(--ink-muted, #5a5040) 100%)",
-          color: "white",
+          color: "#3a3a3a",
           textAlign: "center",
         }}>
           <div style={{ fontSize: "0.85rem", opacity: 0.8, marginBottom: 8 }}>
@@ -216,10 +216,10 @@ function WarmupPageInner() {
             {timeLeft}s
           </div>
           <div style={{ display: "flex", gap: 8, justifyContent: "center", marginTop: 16 }}>
-            <button className="btn" style={{ background: "rgba(255,255,255,0.2)", color: "white" }} onClick={skipStep}>
+            <button className="btn" style={{ background: "var(--surface-warm, #e8c87a)", color: "#3a3a3a" }} onClick={skipStep}>
               Skip →
             </button>
-            <button className="btn" style={{ background: "rgba(255,255,255,0.2)", color: "white" }} onClick={stopWarmup}>
+            <button className="btn" style={{ background: "var(--surface-warm, #e8c87a)", color: "#3a3a3a" }} onClick={stopWarmup}>
               Stop
             </button>
           </div>
@@ -229,15 +229,15 @@ function WarmupPageInner() {
       {/* Completion */}
       {allDone && !isRunning && (
         <section className="card" style={{
-          background: "linear-gradient(135deg, #11998e 0%, #38ef7d 100%)",
-          color: "white",
+          background: "var(--surface-warm, #deb760)",
+          color: "#3a3a3a",
           textAlign: "center",
         }}>
           <p style={{ fontSize: "2rem", margin: "0 0 8px" }}>Done</p>
-          <h2 className="card-title" style={{ color: "white" }}>Warm-Up Complete!</h2>
+          <h2 className="card-title" style={{ color: "#3a3a3a" }}>Warm-Up Complete!</h2>
           <p style={{ opacity: 0.9 }}>Your hands and mind are ready. Go practice.</p>
           <div style={{ marginTop: 16 }}>
-            <a href="/drum/today" className="btn" style={{ background: "rgba(255,255,255,0.25)", color: "white" }}>
+            <a href="/drum/today" className="btn" style={{ background: "var(--surface-warm, #e8c87a)", color: "#3a3a3a" }}>
               Start Practice →
             </a>
           </div>

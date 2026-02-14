@@ -116,7 +116,7 @@
 
 .tempo-progress-fill {
   height: 100%;
-  background: linear-gradient(90deg, #f4ba34, #ff6b6b);
+  background: linear-gradient(90deg, #f4ba34, #d4760a);
   border-radius: 0;
   transition: width 0.3s ease;
 }
@@ -149,7 +149,7 @@
 }
 
 .visual-metronome-circle-gap {
-  border-color: #ff6b6b;
+  border-color: #d4760a;
   background: rgba(255, 107, 107, 0.2);
 }
 
@@ -193,7 +193,7 @@
 }
 
 .gap-visual-fill-gap {
-  background: linear-gradient(90deg, #ff6b6b, #ff5252);
+  background: linear-gradient(90deg, #d4760a, #c46a08);
 }
 
 .gap-visual-markers {
@@ -245,7 +245,7 @@
 
 .gap-visual-status-gap {
   background: rgba(255, 107, 107, 0.3);
-  color: #ff6b6b;
+  color: #d4760a;
 }
 
 /* Metronome LED */
@@ -264,7 +264,7 @@
 }
 
 .metronome-led-gap {
-  background: #ff6b6b;
+  background: #d4760a;
   box-shadow: 0 0 15px rgba(255, 107, 107, 0.7);
 }
 
@@ -694,7 +694,7 @@
 
 .streak-day.missed {
   background: rgba(255,255,255,0.05);
-  color: rgba(255,255,255,0.5);
+  color: #3a3a3a;
 }
 
 /* Streak full card (Today page) */
@@ -833,7 +833,7 @@
 
 .chart-month .chart-bar {
   width: 8px;
-  background: linear-gradient(0deg, #f4ba34, #ff6b6b);
+  background: linear-gradient(0deg, #f4ba34, #d4760a);
 }
 
 /* Skill Radar */
@@ -914,7 +914,7 @@
 
 .progress-fill {
   height: 100%;
-  background: linear-gradient(90deg, #f4ba34, #ff6b6b);
+  background: linear-gradient(90deg, #f4ba34, #d4760a);
   border-radius: 0;
   transition: width 0.3s ease;
 }

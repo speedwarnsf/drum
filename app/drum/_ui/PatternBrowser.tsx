@@ -119,7 +119,7 @@ export default function PatternBrowser({
             <div
               key={pattern.id}
               className={`pattern-card-compact p-2 border cursor-pointer hover:bg-gray-50 ${
-                selectedPattern?.id === pattern.id ? 'bg-blue-50 border-blue-300' : ''
+                selectedPattern?.id === pattern.id ? 'bg-amber-50 border-amber-300' : ''
               }`}
               onClick={() => handlePatternClick(pattern)}
             >
@@ -268,7 +268,7 @@ function PatternCard({ pattern, isCompleted, isSelected, onClick }: PatternCardP
   return (
     <div
       className={`pattern-card p-4 border  cursor-pointer transition-all hover:shadow-md ${
-        isSelected ? 'ring-2 ring-blue-500 bg-blue-50' : 'hover:bg-gray-50'
+        isSelected ? 'ring-2 ring-amber-500 bg-amber-50' : 'hover:bg-gray-50'
       }`}
       onClick={onClick}
     >
@@ -422,7 +422,7 @@ function PatternDetailModal({ pattern, isCompleted, onClose }: PatternDetailModa
               <ul className="space-y-1 text-sm">
                 {pattern.tips.map((tip, index) => (
                   <li key={index} className="flex items-start gap-2">
-                    <span className="text-blue-500 mt-1">•</span>
+                    <span className="text-amber-700 mt-1">•</span>
                     <span>{tip}</span>
                   </li>
                 ))}
@@ -437,7 +437,7 @@ function PatternDetailModal({ pattern, isCompleted, onClose }: PatternDetailModa
                 {pattern.prerequisites.map((prereqId) => (
                   <span
                     key={prereqId}
-                    className="px-2 py-1 bg-blue-100 text-blue-800 text-xs"
+                    className="px-2 py-1 bg-amber-100 text-amber-800 text-xs"
                   >
                     {prereqId.replace(/-/g, ' ')}
                   </span>

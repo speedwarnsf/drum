@@ -520,7 +520,7 @@ const styles = `
 }
 
 .stat-value.good {
-  color: #4ecdc4;
+  color: #3a3a3a;
 }
 
 .stat-value.needs-work {
