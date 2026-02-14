@@ -3,9 +3,9 @@
   --bg-deep: #cfa23c;
   --panel: #f6c447;
   --panel-deep: #efad2f;
-  --ink: #2f1a00;
-  --ink-muted: #6a3e00;
-  --stroke: rgba(79, 44, 0, 0.25);
+  --ink: #3a3a3a;
+  --ink-muted: #7a7a7a;
+  --stroke: rgba(60, 60, 60, 0.2);
   --shadow-hi: rgba(255, 255, 255, 0.45);
   --shadow-lo: rgba(123, 60, 0, 0.35);
   --focus: #1a1200;
