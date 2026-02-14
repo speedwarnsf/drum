@@ -11,6 +11,8 @@ function SettingsInner() {
   const [sessionTarget, setSessionTarget] = useState(20);
   const [soundEnabled, setSoundEnabled] = useState(true);
   const [visualPulse, setVisualPulse] = useState(false);
+  const [countIn, setCountIn] = useState(true);
+  const [practiceReminder, setPracticeReminder] = useState(false);
   const [saved, setSaved] = useState(false);
 
   useEffect(() => {
@@ -25,12 +27,28 @@ function SettingsInner() {
         setSessionTarget(s.sessionTarget ?? 20);
         setSoundEnabled(s.soundEnabled ?? true);
         setVisualPulse(s.visualPulse ?? false);
+        setCountIn(s.countIn ?? true);
+        setPracticeReminder(s.practiceReminder ?? false);
       } catch {}
     }
   }, []);
 
+  function handleExportData() {
+    const data: Record<string, string | null> = {};
+    ["drum_sessions", "drum_profile", "drum_settings", "drum_last_plan", "drum_diagnostic_results"].forEach(key => {
+      data[key] = localStorage.getItem(key);
+    });
+    const blob = new Blob([JSON.stringify(data, null, 2)], { type: "application/json" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = `repodrum-backup-${new Date().toISOString().slice(0, 10)}.json`;
+    a.click();
+    URL.revokeObjectURL(url);
+  }
+
   function handleSave() {
-    const settings = { defaultBpm, sessionTarget, soundEnabled, visualPulse };
+    const settings = { defaultBpm, sessionTarget, soundEnabled, visualPulse, countIn, practiceReminder };
     localStorage.setItem("drum_settings", JSON.stringify(settings));
     setSaved(true);
     setTimeout(() => setSaved(false), 2000);
@@ -107,13 +125,31 @@ function SettingsInner() {
           <span>UI sound effects</span>
         </label>
 
-        <label style={{ display: "flex", alignItems: "center", gap: 10, cursor: "pointer" }}>
+        <label style={{ display: "flex", alignItems: "center", gap: 10, cursor: "pointer", marginBottom: 12 }}>
           <input
             type="checkbox"
             checked={visualPulse}
             onChange={(e) => setVisualPulse(e.target.checked)}
           />
           <span>Show visual metronome pulse by default</span>
+        </label>
+
+        <label style={{ display: "flex", alignItems: "center", gap: 10, cursor: "pointer", marginBottom: 12 }}>
+          <input
+            type="checkbox"
+            checked={countIn}
+            onChange={(e) => setCountIn(e.target.checked)}
+          />
+          <span>4-beat count-in before metronome starts</span>
+        </label>
+
+        <label style={{ display: "flex", alignItems: "center", gap: 10, cursor: "pointer" }}>
+          <input
+            type="checkbox"
+            checked={practiceReminder}
+            onChange={(e) => setPracticeReminder(e.target.checked)}
+          />
+          <span>Daily practice reminder (browser notification)</span>
         </label>
       </section>
 
@@ -150,19 +186,34 @@ function SettingsInner() {
       {/* Save */}
       <section className="card" style={{ textAlign: "center" }}>
         <button className="btn" onClick={handleSave} style={{ marginRight: 8 }}>
-          {saved ? "✓ Saved" : "Save Settings"}
+          {saved ? "Saved" : "Save Settings"}
         </button>
       </section>
 
-      {/* Danger Zone */}
+      {/* Data Management */}
       <section className="card">
         <h2 className="card-title" style={{ color: "var(--ink)" }}>Data Management</h2>
+        <div style={{ display: "flex", gap: 8, flexWrap: "wrap", marginBottom: 16 }}>
+          <button className="btn btn-ghost" onClick={handleExportData}>
+            Export Backup
+          </button>
+        </div>
         <p style={{ fontSize: "0.85rem", color: "var(--ink-muted)", marginBottom: 12 }}>
           Clear all local data and start fresh. This cannot be undone.
         </p>
         <button className="btn btn-ghost" onClick={handleClearData}>
           Clear All Local Data
         </button>
+      </section>
+
+      {/* About */}
+      <section className="card">
+        <h2 className="card-title">About RepoDrum</h2>
+        <div style={{ fontSize: "0.85rem", color: "var(--ink-muted)" }}>
+          <p style={{ marginBottom: 6 }}>Adaptive drum practice system by Dyork Music.</p>
+          <p style={{ marginBottom: 6 }}>Calm, tactile practice cards for focused improvement.</p>
+          <p>repodrum.com</p>
+        </div>
       </section>
 
       <section className="card">

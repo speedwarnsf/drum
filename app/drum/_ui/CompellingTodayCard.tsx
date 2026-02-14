@@ -151,8 +151,10 @@ export default function CompellingTodayCard({
     const relevant = PRACTICE_ROUTINES.filter(routine => {
       // Match skill level or one level above for growth
       const skillLevels = ['beginner', 'intermediate', 'advanced'];
-      const currentIndex = skillLevels.indexOf(skillLevel);
-      const allowedLevels: string[] = [skillLevel];
+      // Normalize: treat anything not in the list (e.g. true_beginner) as beginner
+      const normalizedLevel = skillLevels.includes(skillLevel) ? skillLevel : 'beginner';
+      const currentIndex = skillLevels.indexOf(normalizedLevel);
+      const allowedLevels: string[] = [normalizedLevel];
       if (currentIndex < skillLevels.length - 1) {
         allowedLevels.push(skillLevels[currentIndex + 1]);
       }

@@ -2,11 +2,11 @@
 
 /* Enhanced Metronome Styles */
 .enhanced-metronome {
-  background: linear-gradient(135deg, var(--ink, #2f1a00) 0%, var(--ink-muted, #6a3e00) 100%);
+  background: var(--panel, #f6c447);
   border-radius: 0;
   padding: 20px;
   color: #3a3a3a;
-  box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+  border: 2px solid var(--stroke);
 }
 
 .metronome-header {

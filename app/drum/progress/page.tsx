@@ -171,11 +171,20 @@ function ProgressPageInner() {
     return (
       <Shell title="Progress" subtitle="Your drumming journey">
         <section className="card">
-          <p className="sub">Sign in to track your progress.</p>
-          <div className="row">
-            <a href="/drum/login" className="btn">
-              Sign in
-            </a>
+          <div style={{ textAlign: "center", padding: "24px 0" }}>
+            <Icon name="progress" size={48} />
+            <h2 className="card-title" style={{ marginTop: 16 }}>Your journey starts here</h2>
+            <p className="sub" style={{ maxWidth: 360, margin: "8px auto 0" }}>
+              Complete your first practice session to begin tracking progress. Sign in to sync across devices.
+            </p>
+            <div className="row" style={{ marginTop: 20, justifyContent: "center" }}>
+              <a href="/drum/today" className="btn">
+                Start practicing
+              </a>
+              <a href="/drum/login" className="btn btn-ghost">
+                Sign in
+              </a>
+            </div>
           </div>
         </section>
       </Shell>
