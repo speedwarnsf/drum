@@ -383,7 +383,7 @@ function DrumTodayInner() {
             streak={{
               current: streakInfo?.current || 0,
               longest: streakInfo?.longest || 0,
-              lastSession: streakInfo?.lastSessionDate || null,
+              lastSession: streakInfo?.lastPracticeDate || null,
               isActive: streakInfo?.isActive || false
             }}
             lastSession={sessions.length > 0 ? {
