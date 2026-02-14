@@ -161,11 +161,6 @@ export default function CompellingTodayCard({
       
       if (!allowedLevels.includes(routine.difficulty)) return false;
       
-      // Prefer routines that match focus areas
-      if (focusAreas.length > 0) {
-        return routine.focus.some(focus => focusAreas.includes(focus));
-      }
-      
       return true;
     }).sort((a, b) => {
       // Prioritize by time of day
