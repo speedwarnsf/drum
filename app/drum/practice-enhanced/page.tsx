@@ -469,7 +469,7 @@ const styles = `
 
 .practice-controls {
   background: linear-gradient(135deg, var(--ink, #3c3c3c) 0%, var(--ink-muted, #5a5040) 100%);
-  color: white;
+  color: #3a3a3a;
 }
 
 .practice-header {
@@ -502,7 +502,7 @@ const styles = `
 .stat {
   text-align: center;
   padding: 15px;
-  background: rgba(255,255,255,0.1);
+  background: rgba(244, 186, 52, 0.08);
   border-radius: 0;
 }
 
@@ -539,7 +539,7 @@ const styles = `
 }
 
 .display-options {
-  background: #f8f9fa;
+  background: var(--surface-warm, #f5e6c8);
 }
 
 .option-checkboxes {
@@ -569,7 +569,7 @@ const styles = `
 
 .session-summary {
   background: linear-gradient(135deg, #d4a940 0%, #c49a30 100%);
-  color: white;
+  color: #3a3a3a;
 }
 
 .practice-sections {
@@ -591,8 +591,8 @@ const styles = `
 }
 
 .quick-nav {
-  background: #34495e;
-  color: white;
+  background: #c49a30;
+  color: #3a3a3a;
 }
 
 .nav-buttons {
@@ -610,7 +610,7 @@ const styles = `
 
 .skeleton-card {
   height: 120px;
-  background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+  background: linear-gradient(90deg, #f5e6c8 25%, #e8d4a8 50%, #f5e6c8 75%);
   background-size: 200% 100%;
   animation: shimmer 1.5s infinite;
   border-radius: 0;
