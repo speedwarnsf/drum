@@ -105,6 +105,9 @@ export default function Shell({
       <a href="/drum/journal" className="btn btn-ghost btn-sm" onClick={handleNavClick}>
         Journal
       </a>
+      <a href="/drum/settings" className="btn btn-ghost btn-sm" onClick={handleNavClick}>
+        Settings
+      </a>
     </>
   );
 

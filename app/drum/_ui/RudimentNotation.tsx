@@ -58,22 +58,26 @@ export default function RudimentNotation({
 
     const canvasWidth = w ?? canvas.width;
 
-    // Clear canvas
+    // Clear canvas — use theme-aware background
     ctx.clearRect(0, 0, canvasWidth, height);
-    ctx.fillStyle = "#ffffff";
+    const styles = getComputedStyle(canvas);
+    const bgColor = styles.getPropertyValue('--bg').trim() || "#f4ba34";
+    const inkColor = styles.getPropertyValue('--ink').trim() || "#3a3a3a";
+    const inkMuted = styles.getPropertyValue('--ink-muted').trim() || "#5a5a5a";
+    ctx.fillStyle = bgColor;
     ctx.fillRect(0, 0, canvasWidth, height);
 
     // Draw staff lines
-    drawStaff(ctx);
+    drawStaff(ctx, inkColor);
     
     // Draw time signature
-    drawTimeSignature(ctx, rudiment.pattern.timeSignature);
+    drawTimeSignature(ctx, rudiment.pattern.timeSignature, inkColor);
     
     // Draw notes
-    drawNotes(ctx, rudiment.pattern);
+    drawNotes(ctx, rudiment.pattern, inkColor, inkMuted);
     
     // Draw sticking pattern
-    drawStickingPattern(ctx, rudiment.pattern);
+    drawStickingPattern(ctx, rudiment.pattern, inkColor, inkMuted);
     
     // Draw playhead if active
     if (showPlayhead) {
@@ -81,16 +85,16 @@ export default function RudimentNotation({
     }
 
     // Draw tempo marking
-    drawTempoMarking(ctx, rudiment.pattern.suggestedTempo.target);
+    drawTempoMarking(ctx, rudiment.pattern.suggestedTempo.target, inkColor);
   };
 
-  const drawStaff = (ctx: CanvasRenderingContext2D) => {
+  const drawStaff = (ctx: CanvasRenderingContext2D, inkColor: string) => {
     const staffY = height / 2;
     const lineSpacing = 8;
     const staffWidth = width - 80;
     const startX = 60;
 
-    ctx.strokeStyle = "#000000";
+    ctx.strokeStyle = inkColor;
     ctx.lineWidth = 1;
 
     // Draw single staff line for snare drum
@@ -112,11 +116,11 @@ export default function RudimentNotation({
     }
   };
 
-  const drawTimeSignature = (ctx: CanvasRenderingContext2D, timeSignature: [number, number]) => {
+  const drawTimeSignature = (ctx: CanvasRenderingContext2D, timeSignature: [number, number], inkColor: string) => {
     const [numerator, denominator] = timeSignature;
     const staffY = height / 2;
     
-    ctx.fillStyle = "#000000";
+    ctx.fillStyle = inkColor;
     ctx.font = "bold 20px serif";
     ctx.textAlign = "center";
     
@@ -126,7 +130,7 @@ export default function RudimentNotation({
     ctx.fillText(denominator.toString(), 35, staffY + 15);
   };
 
-  const drawNotes = (ctx: CanvasRenderingContext2D, pattern: any) => {
+  const drawNotes = (ctx: CanvasRenderingContext2D, pattern: any, inkColor: string, inkMuted: string) => {
     const staffY = height / 2;
     const staffWidth = width - 80;
     const startX = 60;
@@ -136,26 +140,26 @@ export default function RudimentNotation({
       const x = startX + (note.timing * staffWidth);
       
       // Draw note head
-      drawNoteHead(ctx, x, staffY, note, index);
+      drawNoteHead(ctx, x, staffY, note, index, inkColor, inkMuted);
       
       // Draw stem if needed
       if (note.duration < 0.5) {
-        drawNoteStem(ctx, x, staffY, note);
+        drawNoteStem(ctx, x, staffY, note, inkColor);
       }
       
       // Draw beams or flags for eighth notes and shorter
       if (note.duration <= 0.125) {
-        drawNoteFlag(ctx, x, staffY, note);
+        drawNoteFlag(ctx, x, staffY, note, inkColor);
       }
     });
   };
 
-  const drawNoteHead = (ctx: CanvasRenderingContext2D, x: number, y: number, note: RudimentNote, index: number) => {
+  const drawNoteHead = (ctx: CanvasRenderingContext2D, x: number, y: number, note: RudimentNote, index: number, inkColor: string, inkMuted: string) => {
     const radius = 6;
     
     // Determine note head style based on duration and accent
-    ctx.fillStyle = note.accent === 'accent' ? "#000000" : 
-                   note.accent === 'ghost' ? "#cccccc" : "#666666";
+    ctx.fillStyle = note.accent === 'accent' ? inkColor : 
+                   note.accent === 'ghost' ? inkMuted + '80' : inkMuted;
     
     // Draw note head
     ctx.beginPath();
@@ -172,7 +176,7 @@ export default function RudimentNotation({
 
     // Draw accent mark
     if (note.accent === 'accent') {
-      ctx.strokeStyle = "#000000";
+      ctx.strokeStyle = inkColor;
       ctx.lineWidth = 2;
       ctx.beginPath();
       ctx.moveTo(x - 8, y - 15);
@@ -183,7 +187,7 @@ export default function RudimentNotation({
 
     // Ghost note parentheses
     if (note.accent === 'ghost') {
-      ctx.strokeStyle = "#999999";
+      ctx.strokeStyle = inkMuted;
       ctx.beginPath();
       ctx.arc(x - 10, y, 8, -Math.PI/2, Math.PI/2);
       ctx.stroke();
@@ -206,8 +210,8 @@ export default function RudimentNotation({
     }
   };
 
-  const drawNoteStem = (ctx: CanvasRenderingContext2D, x: number, y: number, note: RudimentNote) => {
-    ctx.strokeStyle = "#000000";
+  const drawNoteStem = (ctx: CanvasRenderingContext2D, x: number, y: number, note: RudimentNote, inkColor: string) => {
+    ctx.strokeStyle = inkColor;
     ctx.lineWidth = 2;
     ctx.beginPath();
     
@@ -224,8 +228,8 @@ export default function RudimentNotation({
     ctx.lineWidth = 1;
   };
 
-  const drawNoteFlag = (ctx: CanvasRenderingContext2D, x: number, y: number, note: RudimentNote) => {
-    ctx.fillStyle = "#000000";
+  const drawNoteFlag = (ctx: CanvasRenderingContext2D, x: number, y: number, note: RudimentNote, inkColor: string) => {
+    ctx.fillStyle = inkColor;
     
     if (note.hand === 'R') {
       // Flag going right from stem top
@@ -244,12 +248,12 @@ export default function RudimentNotation({
     }
   };
 
-  const drawStickingPattern = (ctx: CanvasRenderingContext2D, pattern: any) => {
+  const drawStickingPattern = (ctx: CanvasRenderingContext2D, pattern: any, inkColor: string, inkMuted: string) => {
     const staffY = height / 2;
     const staffWidth = width - 80;
     const startX = 60;
     
-    ctx.fillStyle = "#000000";
+    ctx.fillStyle = inkColor;
     ctx.font = "bold 14px sans-serif";
     ctx.textAlign = "center";
 
@@ -258,7 +262,7 @@ export default function RudimentNotation({
       
       // Draw hand indicator below staff
       const handY = note.hand === 'R' ? staffY + 35 : staffY + 50;
-      ctx.fillStyle = note.hand === 'R' ? "#ff6b6b" : "#4ecdc4";
+      ctx.fillStyle = note.hand === 'R' ? "#c0392b" : "#2980b9";
       
       ctx.fillText(note.hand, x, handY);
       
@@ -269,7 +273,7 @@ export default function RudimentNotation({
     });
 
     // Draw pattern description
-    ctx.fillStyle = "#666666";
+    ctx.fillStyle = inkMuted;
     ctx.font = "12px sans-serif";
     ctx.textAlign = "left";
     ctx.fillText(`Pattern: ${pattern.stickingPattern}`, 10, height - 20);
@@ -292,8 +296,8 @@ export default function RudimentNotation({
     ctx.lineWidth = 1;
   };
 
-  const drawTempoMarking = (ctx: CanvasRenderingContext2D, bpm: number) => {
-    ctx.fillStyle = "#000000";
+  const drawTempoMarking = (ctx: CanvasRenderingContext2D, bpm: number, inkColor: string) => {
+    ctx.fillStyle = inkColor;
     ctx.font = "12px sans-serif";
     ctx.textAlign = "left";
     
@@ -344,9 +348,9 @@ export default function RudimentNotation({
           className="notation-canvas"
           onClick={handleCanvasClick}
           style={{ 
-            border: '1px solid #ddd',
+            border: '1px solid var(--stroke)',
             borderRadius: '0',
-            backgroundColor: '#ffffff',
+            backgroundColor: 'var(--bg)',
             cursor: interactive ? 'pointer' : 'default',
             maxWidth: '100%',
             height: 'auto',
@@ -357,11 +361,11 @@ export default function RudimentNotation({
 
       <div className="notation-legend">
         <div className="legend-item">
-          <span className="legend-color" style={{ backgroundColor: "#ff6b6b" }}></span>
+          <span className="legend-color" style={{ backgroundColor: "#c0392b" }}></span>
           <span>Right Hand (R)</span>
         </div>
         <div className="legend-item">
-          <span className="legend-color" style={{ backgroundColor: "#4ecdc4" }}></span>
+          <span className="legend-color" style={{ backgroundColor: "#2980b9" }}></span>
           <span>Left Hand (L)</span>
         </div>
         <div className="legend-item">

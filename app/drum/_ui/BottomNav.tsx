@@ -5,11 +5,11 @@ import Link from "next/link";
 import { Icon } from "./Icon";
 
 const NAV_ITEMS = [
-  { href: "/drum/today", icon: "drum", label: "Practice" },
-  { href: "/drum/drills", icon: "drills", label: "Drills" },
-  { href: "/drum/goals", icon: "clipboard", label: "Goals" },
-  { href: "/drum/insights", icon: "chart-bar", label: "Insights" },
+  { href: "/drum/today", icon: "drum", label: "Today" },
+  { href: "/drum/rudiments", icon: "patterns", label: "Rudiments" },
+  { href: "/drum/warmup", icon: "drills", label: "Warmup" },
   { href: "/drum/progress", icon: "trophy", label: "Progress" },
+  { href: "/drum/settings", icon: "settings", label: "Settings" },
 ];
 
 export default function BottomNav() {

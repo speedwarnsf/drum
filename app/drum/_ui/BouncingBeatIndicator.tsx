@@ -90,7 +90,7 @@ export default function BouncingBeatIndicator({
             ball.style.transition = `transform ${beatInterval * 0.5}s cubic-bezier(0.55, 0.055, 0.675, 0.19)`;
             ball.style.transform = `translateY(0px)`;
           }, beatInterval * 400);
-          
+
         }, beatInterval * 100);
       });
     };

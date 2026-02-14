@@ -200,7 +200,7 @@ function WarmupPageInner() {
       {isRunning && currentStep >= 0 && (
         <section className="card" style={{
           background: "linear-gradient(135deg, var(--ink, #3c3c3c) 0%, var(--ink-muted, #5a5040) 100%)",
-          color: "#3a3a3a",
+          color: "var(--bg, #f4ba34)",
           textAlign: "center",
         }}>
           <div style={{ fontSize: "0.85rem", opacity: 0.8, marginBottom: 8 }}>

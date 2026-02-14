@@ -210,6 +210,22 @@ export default function Metronome({
 
   const toggleMetro = () => setMetroOn((prev) => !prev);
 
+  // Keyboard shortcuts: Space = toggle, Escape = stop
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      // Don't fire if user is typing in an input
+      if (e.target instanceof HTMLInputElement || e.target instanceof HTMLTextAreaElement || e.target instanceof HTMLSelectElement) return;
+      if (e.key === ' ' || e.key === 'Spacebar') {
+        e.preventDefault();
+        setMetroOn((prev) => !prev);
+      } else if (e.key === 'Escape') {
+        setMetroOn(false);
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, []);
+
   return (
     <section className="card">
       <div className="metronome">
