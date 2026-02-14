@@ -204,7 +204,7 @@ function ProgressPageInner() {
             Array.from({ length: day.sessionCount || 0 }, () => ({
               date: day.date,
               duration: (day.totalMinutes || 0) / (day.sessionCount || 1),
-              accuracy: day.avgAccuracy,
+              accuracy: (day as any).avgAccuracy ?? 0,
               bpm: 120, // Default, could be enhanced with real data
               mode: 'practice'
             }))
