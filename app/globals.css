@@ -7389,8 +7389,8 @@ li {
 }
 
 .warmup-step.warmup-step-active {
-  background: linear-gradient(135deg, rgba(102,126,234,0.1), rgba(118,75,162,0.1));
-  border: 1px solid rgba(102,126,234,0.3);
+  background: linear-gradient(135deg, rgba(60,60,60,0.1), rgba(80,70,50,0.1));
+  border: 1px solid rgba(60,60,60,0.3);
 }
 
 .warmup-step.warmup-step-done {

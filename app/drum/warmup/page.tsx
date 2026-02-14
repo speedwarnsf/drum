@@ -199,7 +199,7 @@ function WarmupPageInner() {
       {/* Timer Display */}
       {isRunning && currentStep >= 0 && (
         <section className="card" style={{
-          background: "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
+          background: "linear-gradient(135deg, var(--ink, #3c3c3c) 0%, var(--ink-muted, #5a5040) 100%)",
           color: "white",
           textAlign: "center",
         }}>

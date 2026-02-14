@@ -188,7 +188,7 @@ function InsightsPageInner() {
                 key={hour}
                 className="insights-hour-cell"
                 style={{
-                  backgroundColor: `rgba(102, 126, 234, ${Math.max(0.05, intensity)})`,
+                  backgroundColor: `rgba(60, 60, 60, ${Math.max(0.05, intensity)})`,
                 }}
                 title={`${hour}:00 — ${count} sessions`}
               >

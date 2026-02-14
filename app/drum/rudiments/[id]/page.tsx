@@ -67,7 +67,7 @@ export default function RudimentDetailPage({ params }: { params: Promise<{ id: s
           ))}
         </div>
         {isCompleted && (
-          <div style={{ marginTop: 8, color: "var(--accent, #667eea)", fontWeight: 600 }}>
+          <div style={{ marginTop: 8, color: "var(--accent, var(--ink, #3c3c3c))", fontWeight: 600 }}>
             ✓ Mastered (Skill Level {skillLevel}/5)
           </div>
         )}

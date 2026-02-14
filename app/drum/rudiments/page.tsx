@@ -45,7 +45,7 @@ export default function RudimentsPage() {
           <span style={{ fontWeight: 700 }}>{Math.round((stats.completedRudiments / stats.totalRudiments) * 100)}%</span>
         </div>
         <div style={{ height: 8, background: "var(--border, #eee)", borderRadius: 0, overflow: "hidden" }}>
-          <div style={{ height: "100%", width: `${(stats.completedRudiments / stats.totalRudiments) * 100}%`, background: "var(--accent, #667eea)", borderRadius: 0, transition: "width 0.3s" }} />
+          <div style={{ height: "100%", width: `${(stats.completedRudiments / stats.totalRudiments) * 100}%`, background: "var(--accent, var(--ink, #3c3c3c))", borderRadius: 0, transition: "width 0.3s" }} />
         </div>
       </section>
 
@@ -88,7 +88,7 @@ export default function RudimentsPage() {
                     justifyContent: "space-between",
                     alignItems: "center",
                     opacity: completed ? 1 : 0.85,
-                    borderLeft: completed ? "3px solid var(--accent, #667eea)" : "3px solid transparent",
+                    borderLeft: completed ? "3px solid var(--accent, var(--ink, #3c3c3c))" : "3px solid transparent",
                     transition: "transform 0.15s, box-shadow 0.15s",
                   }}
                 >
@@ -101,7 +101,7 @@ export default function RudimentsPage() {
                     </div>
                   </div>
                   {completed && skill > 0 && (
-                    <span style={{ fontSize: "0.75rem", fontWeight: 600, color: "var(--accent, #667eea)" }}>
+                    <span style={{ fontSize: "0.75rem", fontWeight: 600, color: "var(--accent, var(--ink, #3c3c3c))" }}>
                       Lvl {skill}
                     </span>
                   )}
