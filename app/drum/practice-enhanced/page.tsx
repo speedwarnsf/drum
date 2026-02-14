@@ -7,6 +7,8 @@ import WaveformVisualizer, { BeatAccuracyVisualizer } from "../_ui/WaveformVisua
 import DrumTapPad from "../_ui/DrumTapPad";
 import RudimentNotation, { CompactRudimentNotation } from "../_ui/RudimentNotation";
 import { CompactProgressDashboard } from "../_ui/ProgressDashboard";
+import PracticeSessionTracker from "../_ui/PracticeSessionTracker";
+import { PageTransition, BeatPulse } from "../_ui/MusicalAnimations";
 import { RudimentProgression, generateRudimentPracticeSession, ESSENTIAL_RUDIMENTS } from "../_lib/rudimentLibrary";
 import { AchievementTracker, AchievementNotificationManager } from "../_lib/achievementSystem";
 import { TapEvent, BeatTracker } from "../_lib/tapDetection";
@@ -191,6 +193,8 @@ function EnhancedPracticeInner() {
         @import url('./styles/production.css');
       `}</style>
 
+      <PageTransition direction="fade" duration={600}>
+
       {/* Practice Mode Selection */}
       <section className="card practice-mode-selector">
         <h3>Practice Mode</h3>
@@ -260,54 +264,28 @@ function EnhancedPracticeInner() {
         </div>
       )}
 
-      {/* Practice Session Controls */}
-      <section className="card practice-controls">
-        <div className="practice-header">
-          <h3>Practice Session</h3>
-          {isPracticing && sessionStartTime && (
-            <div className="session-timer">
-              <SessionTimer startTime={sessionStartTime} />
-            </div>
-          )}
-        </div>
-        
-        {isPracticing && (
-          <div className="live-stats">
-            <div className="stat">
-              <span className="stat-label">Accuracy:</span>
-              <span className={`stat-value ${currentAccuracy >= 80 ? 'good' : 'needs-work'}`}>
-                {Math.round(currentAccuracy)}%
-              </span>
-            </div>
-            <div className="stat">
-              <span className="stat-label">BPM:</span>
-              <span className="stat-value">{bpm}</span>
-            </div>
-            <div className="stat">
-              <span className="stat-label">Beats:</span>
-              <span className="stat-value">{actualBeats.length}/{expectedBeats.length}</span>
-            </div>
-          </div>
-        )}
-
-        <div className="session-buttons">
-          {!isPracticing ? (
-            <button
-              className="btn btn-primary btn-large"
-              onClick={startPracticeSession}
-            >
-              Start Practice Session
-            </button>
-          ) : (
-            <button
-              className="btn btn-danger btn-large"
-              onClick={endPracticeSession}
-            >
-              ⏹️ End Session
-            </button>
-          )}
-        </div>
-      </section>
+      {/* Enhanced Practice Session Tracker */}
+      <PracticeSessionTracker
+        isActive={isPracticing}
+        onStart={startPracticeSession}
+        onStop={(session) => {
+          console.log('Session completed:', session);
+          endPracticeSession();
+          // Here you could save the session to localStorage or send to backend
+        }}
+        onPause={() => {
+          // Implement pause logic if needed
+          console.log('Session paused');
+        }}
+        onResume={() => {
+          // Implement resume logic if needed
+          console.log('Session resumed');
+        }}
+        bpm={bpm}
+        mode={practiceMode}
+        accuracy={currentAccuracy}
+        targetDuration={20}
+      />
 
       {/* Audio Visualization */}
       {showWaveform && (
@@ -446,6 +424,7 @@ function EnhancedPracticeInner() {
           </a>
         </div>
       </section>
+      </PageTransition>
     </Shell>
   );
 }

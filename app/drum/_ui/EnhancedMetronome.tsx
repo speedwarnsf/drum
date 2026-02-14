@@ -3,6 +3,7 @@
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import { DrumAudioEngine, TempoTrainer, ClickSound, AudioConfig, Subdivision } from "../_lib/audioEngine";
 import GapDrillControls, { GapPreset, GapSettings, GAP_PRESETS } from "./GapDrillControls";
+import BouncingBeatIndicator from "./BouncingBeatIndicator";
 
 type EnhancedMetronomeProps = {
   bpm: number;
@@ -248,33 +249,94 @@ export default function EnhancedMetronome({
     }
   }, [metroOn, currentBpm]);
 
-  // Tap tempo
+  // Enhanced tap tempo with accuracy feedback
+  const [tapFeedback, setTapFeedback] = useState<string>("");
+  const [lastTapTime, setLastTapTime] = useState<number>(0);
+
   const handleTapTempo = useCallback(() => {
     const now = performance.now();
-    setTapTimes(prev => {
-      const recent = [...prev, now].filter(t => now - t < 3000); // Keep taps within 3 seconds
-      if (recent.length >= 2) {
-        const intervals = [];
-        for (let i = 1; i < recent.length; i++) {
-          intervals.push(recent[i] - recent[i - 1]);
-        }
-        const avgInterval = intervals.reduce((a, b) => a + b, 0) / intervals.length;
-        const tappedBpm = Math.round(60000 / avgInterval);
-        const clampedBpm = Math.max(30, Math.min(300, tappedBpm));
+    const timeSinceLastTap = now - lastTapTime;
+    
+    // Reset if too much time passed (more than 3 seconds)
+    if (timeSinceLastTap > 3000 || tapTimes.length === 0) {
+      setTapTimes([now]);
+      setTapFeedback("Keep tapping...");
+      setLastTapTime(now);
+      return;
+    }
+
+    const newTapTimes = [...tapTimes, now].slice(-12); // Keep more taps for accuracy
+    setTapTimes(newTapTimes);
+    setLastTapTime(now);
+
+    if (newTapTimes.length >= 3) {
+      // Calculate intervals between taps
+      const intervals = [];
+      for (let i = 1; i < newTapTimes.length; i++) {
+        intervals.push(newTapTimes[i] - newTapTimes[i - 1]);
+      }
+      
+      // Remove obvious outliers (more than 50% different from median)
+      intervals.sort((a, b) => a - b);
+      const median = intervals[Math.floor(intervals.length / 2)];
+      const cleanIntervals = intervals.filter(interval => {
+        const deviation = Math.abs(interval - median) / median;
+        return deviation < 0.5; // Within 50% of median
+      });
+      
+      if (cleanIntervals.length >= 2) {
+        // Use weighted average, giving more weight to recent taps
+        let totalWeight = 0;
+        let weightedSum = 0;
         
-        if (!tempoTrainerActive) {
-          setCurrentBpm(clampedBpm);
-          onBpmChange?.(clampedBpm);
+        cleanIntervals.forEach((interval, index) => {
+          const weight = index + 1; // Linear weighting favoring recent taps
+          weightedSum += interval * weight;
+          totalWeight += weight;
+        });
+        
+        const avgInterval = weightedSum / totalWeight;
+        const tapBpm = Math.round(60000 / avgInterval);
+        
+        if (tapBpm >= 30 && tapBpm <= 300 && !tempoTrainerActive) {
+          const newBpm = Math.max(30, Math.min(300, tapBpm));
+          setCurrentBpm(newBpm);
+          onBpmChange?.(newBpm);
           
           if (metroOn && audioEngineRef.current) {
             audioEngineRef.current.stop();
-            audioEngineRef.current.start(clampedBpm);
+            audioEngineRef.current.start(newBpm);
           }
+          
+          // Provide feedback on accuracy
+          const consistency = 1 - (Math.sqrt(cleanIntervals.reduce((sum, interval) => {
+            return sum + Math.pow(interval - avgInterval, 2);
+          }, 0) / cleanIntervals.length) / avgInterval);
+          
+          if (consistency > 0.95) {
+            setTapFeedback(`${tapBpm} BPM - Excellent timing!`);
+          } else if (consistency > 0.85) {
+            setTapFeedback(`${tapBpm} BPM - Good consistency`);
+          } else {
+            setTapFeedback(`${tapBpm} BPM - Keep steady`);
+          }
+        } else if (tapBpm < 30 || tapBpm > 300) {
+          setTapFeedback("Tap within 30-300 BPM range");
+        } else if (tempoTrainerActive) {
+          setTapFeedback("Disable tempo trainer first");
         }
+      } else {
+        setTapFeedback(`${newTapTimes.length} taps - continue tapping`);
       }
-      return recent;
-    });
-  }, [metroOn, tempoTrainerActive, onBpmChange]);
+    } else {
+      setTapFeedback(`${newTapTimes.length} taps - need more`);
+    }
+
+    // Clear feedback after 2.5 seconds
+    setTimeout(() => {
+      setTapFeedback("");
+    }, 2500);
+  }, [tapTimes, lastTapTime, metroOn, tempoTrainerActive, onBpmChange]);
 
   // BPM slider change
   const handleBpmSlider = useCallback((value: number) => {
@@ -372,16 +434,57 @@ export default function EnhancedMetronome({
             <span className="bpm-slider-label">300</span>
           </div>
 
-          {/* Tap Tempo */}
-          <button
-            type="button"
-            className="btn tap-tempo-btn"
-            onClick={handleTapTempo}
-            disabled={tempoTrainerActive}
-            aria-label="Tap tempo"
-          >
-            Tap Tempo
-          </button>
+          {/* Tap Tempo with Enhanced Feedback */}
+          <div className="tap-tempo-section" style={{ textAlign: 'center' }}>
+            <button
+              type="button"
+              className={`btn tap-tempo-btn ${tapTimes.length > 0 ? 'tap-tempo-active' : ''}`}
+              onClick={handleTapTempo}
+              disabled={tempoTrainerActive}
+              aria-label="Tap tempo"
+              style={{
+                position: 'relative',
+                transition: 'all 0.2s ease',
+                transform: tapTimes.length > 0 && Date.now() - lastTapTime < 500 ? 'scale(0.95)' : 'scale(1)',
+                background: tapTimes.length > 2 ? 'var(--ink)' : undefined,
+                color: tapTimes.length > 2 ? 'var(--bg)' : undefined
+              }}
+            >
+              Tap Tempo {tapTimes.length > 0 && `(${tapTimes.length})`}
+            </button>
+            
+            {/* Tap Feedback Display */}
+            {tapFeedback && (
+              <div 
+                className="tap-feedback"
+                style={{
+                  marginTop: '8px',
+                  fontSize: '13px',
+                  fontWeight: 600,
+                  color: tapFeedback.includes('Excellent') ? 'var(--ink)' : 
+                         tapFeedback.includes('Good') ? 'var(--ink)' : 
+                         'var(--ink-muted)',
+                  opacity: tapFeedback ? 1 : 0,
+                  transition: 'opacity 0.3s ease',
+                  fontFamily: 'var(--font-dm-mono), monospace'
+                }}
+              >
+                {tapFeedback}
+              </div>
+            )}
+            
+            {/* Tap Reset Helper */}
+            {tapTimes.length > 0 && !tapFeedback && (
+              <div style={{
+                marginTop: '6px',
+                fontSize: '11px',
+                color: 'var(--ink-muted)',
+                opacity: 0.7
+              }}>
+                {tapTimes.length < 3 ? 'Need more taps for BPM' : 'Taps reset after 3s pause'}
+              </div>
+            )}
+          </div>
         </div>
       )}
 
@@ -487,21 +590,54 @@ export default function EnhancedMetronome({
         </div>
       )}
 
-      {/* Visual Pulse */}
-      {showVisualPulse && metroOn && (
-        <div className="visual-metronome" role="img" aria-label={`Beat ${beatState.beat}`}>
-          <div className="visual-metronome-beat-indicator">
-            {gapEnabled && beatState.inGap ? "—" : beatState.beat || "—"}
-          </div>
-          <div
-            className={`visual-metronome-circle ${
-              beatState.isPulse ? "visual-metronome-circle-pulse" : ""
-            } ${gapEnabled && beatState.inGap ? "visual-metronome-circle-gap" : ""}`}
+      {/* Enhanced Visual Pulse with Bouncing Beat Indicator */}
+      {showVisualPulse && (
+        <div className="enhanced-visual-pulse" style={{ margin: '20px 0', textAlign: 'center' }}>
+          <BouncingBeatIndicator
+            bpm={currentBpm}
+            isPlaying={metroOn}
+            beat={beatState.beat}
+            subdivision={subdivision}
+            size="medium"
+            showTrail={!gapEnabled}
           />
-          <div className="visual-metronome-status">
-            {gapEnabled ? (beatState.inGap ? "GAP" : "CLICK") : "QUARTER"}
+          
+          {/* Additional pulse status info */}
+          <div style={{ 
+            marginTop: '15px',
+            display: 'flex',
+            justifyContent: 'center',
+            gap: '20px',
+            fontSize: '14px',
+            color: 'var(--ink-muted)'
+          }}>
+            <span>
+              Status: {metroOn ? (gapEnabled && beatState.inGap ? "GAP" : "PLAYING") : "STOPPED"}
+            </span>
+            {metroOn && (
+              <span>
+                Beat: {gapEnabled && beatState.inGap ? "—" : beatState.beat || "—"}
+              </span>
+            )}
           </div>
         </div>
+      )}
+
+      {/* Legacy simple LED indicator for when visual pulse is off */}
+      {!showVisualPulse && (
+        <div 
+          className={`metronome-led ${metroOn ? "metronome-led-on" : ""}`} 
+          role="img" 
+          aria-label={metroOn ? "Metronome active" : "Metronome inactive"} 
+          style={{
+            width: '20px',
+            height: '20px',
+            background: metroOn ? 'var(--ink)' : 'var(--stroke)',
+            margin: '10px auto',
+            transition: 'background 0.2s ease',
+            border: '2px solid var(--stroke)'
+          }}
+        />
       )}
 
       {/* Gap visualization for gap drills */}
@@ -536,14 +672,7 @@ export default function EnhancedMetronome({
         </div>
       )}
 
-      {/* Simple LED indicator */}
-      {!gapEnabled && (
-        <div 
-          className={`metronome-led ${metroOn ? "metronome-led-on" : ""}`} 
-          role="img" 
-          aria-label={metroOn ? "Metronome active" : "Metronome inactive"} 
-        />
-      )}
+      {/* LED indicator removed - now using enhanced bouncing beat indicator */}
 
       {/* Gap drill controls */}
       {showGapControls && (
