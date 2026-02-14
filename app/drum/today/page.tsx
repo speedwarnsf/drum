@@ -8,8 +8,6 @@ import { Icon } from "../_ui/Icon";
 import Metronome from "../_ui/Metronome";
 import Timer from "../_ui/Timer";
 import Recorder from "../_ui/Recorder";
-import CompellingTodayCard from "../_ui/CompellingTodayCard";
-import { PageTransition, SlideUpSequence } from "../_ui/MusicalAnimations";
 import { getSupabaseClient } from "../_lib/supabaseClient";
 import {
   buildTodaysPlan,
@@ -376,50 +374,19 @@ function DrumTodayInner() {
       title={sessionMeta ? "Saved Practice Card" : "Today's Practice Card"}
       subtitle={`${plan.minutes} minutes • Metronome: ${plan.metronome} • Focus: ${plan.focus}`}
     >
-      <PageTransition direction="fade" duration={500}>
-        {/* Add compelling today card for current sessions */}
-        {!sessionMeta && profile && (
-          <CompellingTodayCard
-            streak={{
-              current: streakInfo?.current || 0,
-              longest: streakInfo?.longest || 0,
-              lastSession: streakInfo?.lastSessionDate || null,
-              isActive: streakInfo?.isActive || false
-            }}
-            lastSession={sessions.length > 0 ? {
-              date: formatDate(sessions[0].ts),
-              duration: Math.round((new Date(sessions[0].ts).getTime() - new Date(sessions[0].ts).getTime()) / 60000) || 20,
-              mode: sessions[0].plan.focus,
-              bpm: parseBpm(sessions[0].plan.metronome) || 120,
-              accuracy: undefined,
-              incomplete: false
-            } : null}
-            skillLevel={profile.level as 'beginner' | 'intermediate' | 'advanced' || 'beginner'}
-            focusAreas={plan.focus ? [plan.focus.toLowerCase()] : ['timing']}
-            onStartRoutine={(routine) => {
-              // Navigate to enhanced practice with routine
-              window.location.href = `/drum/practice-enhanced?routine=${routine.id}`;
-            }}
-            onContinueSession={(session) => {
-              // Continue previous session
-              window.location.href = '/drum/practice-enhanced?continue=true';
-            }}
-          />
-        )}
-
-        {sessionMeta ? (
-          <section className="card">
-            <div className="kicker">History</div>
-            <p className="sub">
-              Viewing a saved session from {formatDate(sessionMeta.ts)}.
-            </p>
-            <div className="row">
-              <a href="/drum/today" className="btn btn-ghost">
-                Back to today
-              </a>
-            </div>
-          </section>
-        ) : null}
+      {sessionMeta ? (
+        <section className="card">
+          <div className="kicker">History</div>
+          <p className="sub">
+            Viewing a saved session from {formatDate(sessionMeta.ts)}.
+          </p>
+          <div className="row">
+            <a href="/drum/today" className="btn btn-ghost">
+              Back to today
+            </a>
+          </div>
+        </section>
+      ) : null}
 
       {!sessionMeta && moduleProgress && (
         <ModuleProgress
@@ -466,37 +433,35 @@ function DrumTodayInner() {
 
       <Metronome bpm={metroBpm} showGapControls />
 
-      <SlideUpSequence stagger={150} startDelay={sessionMeta ? 0 : 800}>
-        {plan.blocks.map((b, idx) => (
-          <article key={idx} className="card">
-            <div style={{ display: "flex", justifyContent: "space-between", gap: 12, flexWrap: "wrap" }}>
-              <h2 className="card-title">{b.title}</h2>
-              <div className="meta">{b.time}</div>
+      {plan.blocks.map((b, idx) => (
+        <article key={idx} className="card">
+          <div style={{ display: "flex", justifyContent: "space-between", gap: 12, flexWrap: "wrap" }}>
+            <h2 className="card-title">{b.title}</h2>
+            <div className="meta">{b.time}</div>
+          </div>
+
+          <Timer
+            id={`block-${idx}`}
+            durationSeconds={Math.round(parseMinutes(b.time) * 60)}
+            activeId={activeBlock}
+            onActiveChange={setActiveBlock}
+          />
+
+          <ul style={{ marginTop: 0 }}>
+            {b.bullets.map((x, i) => (
+              <li key={i}>
+                {x}
+              </li>
+            ))}
+          </ul>
+
+          {b.stop?.length ? (
+            <div className="stop">
+              <strong>Stop if:</strong> {b.stop.join(" ")}
             </div>
-
-            <Timer
-              id={`block-${idx}`}
-              durationSeconds={Math.round(parseMinutes(b.time) * 60)}
-              activeId={activeBlock}
-              onActiveChange={setActiveBlock}
-            />
-
-            <ul style={{ marginTop: 0 }}>
-              {b.bullets.map((x, i) => (
-                <li key={i}>
-                  {x}
-                </li>
-              ))}
-            </ul>
-
-            {b.stop?.length ? (
-              <div className="stop">
-                <strong>Stop if:</strong> {b.stop.join(" ")}
-              </div>
-            ) : null}
-          </article>
-        ))}
-      </SlideUpSequence>
+          ) : null}
+        </article>
+      ))}
 
       <article className="card">
         <h2 className="card-title">Reflection (30-60s)</h2>
@@ -566,7 +531,6 @@ function DrumTodayInner() {
           <p className="sub">No history yet. Log a session to save it here.</p>
         )}
       </section>
-      </PageTransition>
     </Shell>
   );
 }
