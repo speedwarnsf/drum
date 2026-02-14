@@ -5,7 +5,7 @@
   background: linear-gradient(135deg, var(--ink, #2f1a00) 0%, var(--ink-muted, #6a3e00) 100%);
   border-radius: 0;
   padding: 20px;
-  color: white;
+  color: #3a3a3a;
   box-shadow: 0 8px 32px rgba(0,0,0,0.3);
 }
 
@@ -75,7 +75,7 @@
   border: 1px solid rgba(255,255,255,0.3);
   border-radius: 0;
   padding: 8px;
-  color: white;
+  color: #3a3a3a;
   font-size: 14px;
 }
 
@@ -273,7 +273,7 @@
   background: #1a1a1a;
   border-radius: 0;
   padding: 20px;
-  color: white;
+  color: #3a3a3a;
 }
 
 .waveform-header {
@@ -354,7 +354,7 @@
   background: #2c2c2c;
   border-radius: 0;
   padding: 20px;
-  color: white;
+  color: #3a3a3a;
 }
 
 .tap-pad-header {
@@ -428,7 +428,7 @@
 }
 
 .drum-pad-active {
-  border-color: white !important;
+  border-color: #3a3a3a !important;
   transform: scale(1.05);
 }
 
@@ -597,7 +597,7 @@
   padding: 20px;
   background: linear-gradient(135deg, var(--ink, #2f1a00) 0%, var(--ink-muted, #6a3e00) 100%);
   border-radius: 0;
-  color: white;
+  color: #3a3a3a;
 }
 
 .progress-dashboard.compact {
@@ -689,7 +689,7 @@
 
 .streak-day.practiced {
   background: #a67c00;
-  color: white;
+  color: #3a3a3a;
 }
 
 .streak-day.missed {
@@ -949,7 +949,7 @@
   padding: 6px 12px;
   border: 1px solid rgba(255,255,255,0.3);
   background: transparent;
-  color: white;
+  color: #3a3a3a;
   border-radius: 0;
   font-size: 0.9rem;
   cursor: pointer;
@@ -1121,7 +1121,7 @@
 /* Achievement Notification */
 .achievement-notification {
   background: linear-gradient(135deg, var(--ink, #2f1a00) 0%, var(--ink-muted, #6a3e00) 100%);
-  color: white;
+  color: #3a3a3a;
   padding: 16px;
   border-radius: 0;
   box-shadow: 0 4px 20px rgba(0,0,0,0.3);
@@ -1441,7 +1441,7 @@
 
 .subdivision-btn-active {
   background: var(--accent, var(--ink, #2f1a00)) !important;
-  color: white !important;
+  color: #3a3a3a !important;
 }
 
 .subdivision-icon {
@@ -1470,7 +1470,7 @@
   text-transform: uppercase;
   letter-spacing: 0.5px;
   background: var(--accent, var(--ink, #2f1a00));
-  color: white;
+  color: #3a3a3a;
   margin-bottom: 8px;
 }
 
@@ -1575,7 +1575,7 @@
 
 .rudiment-nav-links a:hover {
   background: var(--accent, var(--ink, #2f1a00));
-  color: white;
+  color: #3a3a3a;
 }
 
 @media (max-width: 768px) {

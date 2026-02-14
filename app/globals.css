@@ -1276,12 +1276,12 @@ li {
 
 .gap-visual-status-click {
   background: rgba(90, 184, 92, 0.3);
-  color: #2a6a2a;
+  color: #3a3a3a;
 }
 
 .gap-visual-status-gap {
   background: rgba(199, 80, 80, 0.3);
-  color: #8a2a2a;
+  color: #3a3a3a;
 }
 
 .gap-visual-beat {
@@ -1446,17 +1446,17 @@ li {
 .drill-start-btn {
   padding: 14px 32px;
   font-size: 16px;
-  background: linear-gradient(135deg, #5cb85c 0%, #4a9f4a 100%);
-  color: white;
-  border-color: #3d8b3d;
+  background: var(--surface-warm, #deb760);
+  color: #3a3a3a;
+  border-color: #3a3a3a;
 }
 
 .drill-stop-btn {
   padding: 14px 32px;
   font-size: 16px;
-  background: linear-gradient(135deg, #c75050 0%, #a04a4a 100%);
-  color: white;
-  border-color: #8a3a3a;
+  background: var(--surface-warm, #c49a30);
+  color: #3a3a3a;
+  border-color: #3a3a3a;
 }
 
 /* Active drill display */
@@ -1505,7 +1505,7 @@ li {
 }
 
 .drill-pattern-dot-on {
-  background: linear-gradient(135deg, #5cb85c 0%, #4a9f4a 100%);
+  background: var(--surface-warm, #deb760);
   box-shadow: 0 2px 8px rgba(92, 184, 92, 0.4);
 }
 
@@ -1523,7 +1523,7 @@ li {
 }
 
 .drill-pattern-label-on {
-  color: #3d8b3d;
+  color: #3a3a3a;
 }
 
 .drill-pattern-label-off {
@@ -1850,7 +1850,7 @@ li {
 
 .streak-status-active {
   background: rgba(90, 184, 92, 0.2);
-  color: #2a6a2a;
+  color: #3a3a3a;
 }
 
 .streak-status-warning {
@@ -1921,7 +1921,7 @@ li {
   padding: 2px 8px;
   border-radius: 0;
   background: rgba(90, 184, 92, 0.2);
-  color: #2a6a2a;
+  color: #3a3a3a;
   font-size: 10px;
   text-transform: uppercase;
   letter-spacing: 0.08em;
@@ -2010,11 +2010,11 @@ li {
 }
 
 .stat-item-trend-up {
-  color: #2a6a2a;
+  color: #3a3a3a;
 }
 
 .stat-item-trend-down {
-  color: #8a4a4a;
+  color: #3a3a3a;
 }
 
 /* Compact stats for today page */
@@ -2052,7 +2052,7 @@ li {
 
 .compact-stat-check {
   font-size: 12px;
-  color: #2a6a2a;
+  color: #3a3a3a;
   margin-left: 2px;
 }
 
@@ -3370,7 +3370,7 @@ li {
 }
 
 .field-error-message {
-  color: #8a3a3a;
+  color: #3a3a3a;
   font-size: 12px;
   margin-top: 4px;
   display: flex;
@@ -3407,7 +3407,7 @@ li {
   padding: 12px 14px;
   border-radius: 0;
   background: rgba(90, 184, 92, 0.1);
-  color: #2a6a2a;
+  color: #3a3a3a;
   font-size: 14px;
   margin-bottom: 16px;
   border: 1px solid rgba(90, 184, 92, 0.2);
@@ -3528,9 +3528,9 @@ li {
 
 .diagnostic-hit-btn:disabled {
   cursor: default;
-  background: linear-gradient(145deg, #5cb85c 0%, #4a9f4a 100%);
-  border-color: #3d8b3d;
-  color: white;
+  background: var(--surface-warm, #deb760);
+  border-color: #3a3a3a;
+  color: #3a3a3a;
 }
 
 .diagnostic-hit-btn-active {
@@ -3573,12 +3573,12 @@ li {
 
 .diagnostic-outcome-good {
   background: rgba(90, 184, 92, 0.15);
-  color: #2a6a2a;
+  color: #3a3a3a;
 }
 
 .diagnostic-outcome-bad {
   background: rgba(199, 80, 80, 0.15);
-  color: #8a3a3a;
+  color: #3a3a3a;
 }
 
 .diagnostic-outcome-icon {
@@ -3601,14 +3601,14 @@ li {
 }
 
 .diagnostic-verdict-clean {
-  background: linear-gradient(135deg, #5cb85c 0%, #4a9f4a 100%);
-  color: white;
-  border-color: #3d8b3d;
+  background: var(--surface-warm, #deb760);
+  color: #3a3a3a;
+  border-color: #3a3a3a;
 }
 
 .diagnostic-verdict-flam {
-  background: linear-gradient(135deg, #e08080 0%, #c75050 100%);
-  color: white;
+  background: var(--surface-warm, #c49a30);
+  color: #3a3a3a;
   border-color: #a04a4a;
 }
 
@@ -3888,17 +3888,17 @@ li {
 
 .audiation-phase-sing {
   background: linear-gradient(135deg, #a8d4e8 0%, #7bb8d4 100%);
-  color: #1a4a5a;
+  color: #3a3a3a;
 }
 
 .audiation-phase-play {
   background: linear-gradient(135deg, #e8d4a8 0%, #d4b87b 100%);
-  color: #5a4a1a;
+  color: #3a3a3a;
 }
 
 .audiation-phase-complete {
   background: linear-gradient(135deg, #a8e8b4 0%, #7bd488 100%);
-  color: #1a5a2a;
+  color: #3a3a3a;
 }
 
 .audiation-current-pattern {
@@ -3939,9 +3939,9 @@ li {
   width: 100%;
   padding: 16px;
   font-size: 16px;
-  background: linear-gradient(135deg, #5cb85c 0%, #4a9f4a 100%);
-  color: white;
-  border-color: #3d8b3d;
+  background: var(--surface-warm, #deb760);
+  color: #3a3a3a;
+  border-color: #3a3a3a;
   margin-bottom: 10px;
 }
 
@@ -4435,7 +4435,7 @@ li {
 
 .skill-detail-status-unlocked {
   background: rgba(90, 184, 92, 0.2);
-  color: #2a6a2a;
+  color: #3a3a3a;
 }
 
 .skill-detail-status-mastered {
@@ -4472,7 +4472,7 @@ li {
   padding: 10px 12px;
   border-radius: 0;
   background: rgba(90, 184, 92, 0.1);
-  color: #2a6a2a;
+  color: #3a3a3a;
   margin: 0;
 }
 
@@ -5090,9 +5090,9 @@ li {
 
 .feedback-submit-btn {
   flex: 1;
-  background: linear-gradient(135deg, #5cb85c 0%, #4a9f4a 100%);
-  color: white;
-  border-color: #3d8b3d;
+  background: var(--surface-warm, #deb760);
+  color: #3a3a3a;
+  border-color: #3a3a3a;
 }
 
 /* My Recordings */
@@ -5217,7 +5217,7 @@ li {
   margin-top: 10px;
   width: 100%;
   background: linear-gradient(135deg, #a8d4e8 0%, #7bb8d4 100%);
-  color: #1a4a5a;
+  color: #3a3a3a;
   border-color: #5a9ab8;
 }
 
@@ -5226,7 +5226,7 @@ li {
   padding: 10px 14px;
   border-radius: 0;
   background: rgba(90, 184, 92, 0.15);
-  color: #2a6a2a;
+  color: #3a3a3a;
   font-size: 13px;
   text-align: center;
 }
@@ -5500,7 +5500,7 @@ li {
   height: 64px;
   border-radius: 0;
   background: linear-gradient(135deg, #a8e8b4 0%, #7bd488 100%);
-  color: #1a5a2a;
+  color: #3a3a3a;
   font-size: 32px;
   font-weight: 700;
   display: flex;
@@ -5868,7 +5868,7 @@ li {
 .shuffle-rating-smooth {
   background: linear-gradient(135deg, #b8e8b8 0%, #8ed88e 100%);
   border-color: #6abf6a;
-  color: #1a5a2a;
+  color: #3a3a3a;
 }
 
 .shuffle-rating-smooth:hover {
@@ -5887,7 +5887,7 @@ li {
 .shuffle-rating-struggled {
   background: linear-gradient(135deg, #e8c8c8 0%, #d8a0a0 100%);
   border-color: #c08080;
-  color: #6a2a2a;
+  color: #3a3a3a;
 }
 
 .shuffle-rating-struggled:hover {
@@ -5950,7 +5950,7 @@ li {
 }
 
 .shuffle-summary-smooth .shuffle-summary-value {
-  color: #2a7a3a;
+  color: #3a3a3a;
 }
 
 .shuffle-summary-struggled .shuffle-summary-value {
@@ -6072,14 +6072,14 @@ li {
 
 .next-diagnostic-card {
   background: linear-gradient(135deg, var(--primary), var(--primary-dark));
-  color: white;
+  color: #3a3a3a;
   padding: var(--space-5);
   border-radius: 0;
   margin-bottom: var(--space-4);
 }
 
 .next-diagnostic-card .kicker {
-  color: rgba(255, 255, 255, 0.8);
+  color: #3a3a3a;
   font-size: var(--font-size-sm);
   text-transform: uppercase;
   letter-spacing: 0.05em;
@@ -6910,7 +6910,7 @@ li {
 
 .goals-active-card {
   background: linear-gradient(135deg, var(--ink) 0%, var(--ink-muted) 100%);
-  color: white;
+  color: #3a3a3a;
 }
 
 .goals-active-header {
@@ -7402,7 +7402,7 @@ li {
   height: 32px;
   border-radius: 0;
   background: var(--accent, var(--ink));
-  color: white;
+  color: #3a3a3a;
   display: flex;
   align-items: center;
   justify-content: center;
