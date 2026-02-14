@@ -485,7 +485,7 @@ const styles = `
   gap: 8px;
   font-size: 1.2rem;
   font-weight: 600;
-  color: #f4ba34;
+  color: #3a3a3a;
 }
 
 .timer-icon {
@@ -524,7 +524,7 @@ const styles = `
 }
 
 .stat-value.needs-work {
-  color: #f4ba34;
+  color: #3a3a3a;
 }
 
 .session-buttons {
@@ -617,7 +617,7 @@ const styles = `
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #999;
+  color: #3a3a3a;
   font-weight: 600;
 }
 

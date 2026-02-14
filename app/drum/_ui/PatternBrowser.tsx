@@ -127,11 +127,11 @@ export default function PatternBrowser({
                 <div className="flex-1 min-w-0">
                   <h4 className="font-medium text-sm truncate flex items-center gap-2">
                     {pattern.name}
-                    {isCompleted(pattern.id) && <span className="text-green-500">✓</span>}
+                    {isCompleted(pattern.id) && <span className="text-[#3a3a3a]">✓</span>}
                   </h4>
-                  <p className="text-xs text-gray-600 truncate">{pattern.description}</p>
+                  <p className="text-xs text-[#3a3a3a] truncate">{pattern.description}</p>
                 </div>
-                <div className="flex flex-col items-end text-xs text-gray-500">
+                <div className="flex flex-col items-end text-xs text-[#3a3a3a]">
                   <span>{getDifficultyStars(pattern.difficulty)}</span>
                   <span className="text-xs uppercase">{pattern.category}</span>
                 </div>
@@ -140,7 +140,7 @@ export default function PatternBrowser({
           ))}
         </div>
         {filteredPatterns.length > 20 && (
-          <p className="text-xs text-gray-500 mt-2">
+          <p className="text-xs text-[#3a3a3a] mt-2">
             Showing 20 of {filteredPatterns.length} patterns. Refine your search to see more.
           </p>
         )}
@@ -152,7 +152,7 @@ export default function PatternBrowser({
     <div className="pattern-browser">
       <div className="pattern-browser-header mb-6">
         <h2 className="text-2xl font-bold mb-2">Drum Pattern Library</h2>
-        <p className="text-gray-600">
+        <p className="text-[#3a3a3a]">
           {DRUM_PATTERNS.length} patterns across {PATTERN_CATEGORIES.length} categories
         </p>
       </div>
@@ -190,7 +190,7 @@ export default function PatternBrowser({
               onChange={(e) => setDifficultyFilter(Number(e.target.value))}
               className="w-full"
             />
-            <div className="flex justify-between text-xs text-gray-500 mt-1">
+            <div className="flex justify-between text-xs text-[#3a3a3a] mt-1">
               <span>Foundational</span>
               <span>Expert</span>
             </div>
@@ -219,7 +219,7 @@ export default function PatternBrowser({
             />
             <span className="text-sm">Show only recommended for my level</span>
           </label>
-          <div className="text-sm text-gray-600">
+          <div className="text-sm text-[#3a3a3a]">
             {completedPatterns.length} patterns completed
           </div>
         </div>
@@ -239,7 +239,7 @@ export default function PatternBrowser({
       </div>
 
       {filteredPatterns.length === 0 && (
-        <div className="text-center py-12 text-gray-500">
+        <div className="text-center py-12 text-[#3a3a3a]">
           <p className="text-lg mb-2">No patterns found</p>
           <p>Try adjusting your filters or search terms.</p>
         </div>
@@ -276,9 +276,9 @@ function PatternCard({ pattern, isCompleted, isSelected, onClick }: PatternCardP
         <div className="flex-1 min-w-0">
           <h3 className="font-semibold text-lg flex items-center gap-2">
             {pattern.name}
-            {isCompleted && <span className="text-green-500 text-sm"><Icon name="check" size={16} /></span>}
+            {isCompleted && <span className="text-[#3a3a3a] text-sm"><Icon name="check" size={16} /></span>}
           </h3>
-          <div className="flex items-center gap-2 text-sm text-gray-600">
+          <div className="flex items-center gap-2 text-sm text-[#3a3a3a]">
             <span className="px-2 py-1 bg-gray-100 text-xs uppercase font-medium">
               {pattern.category}
             </span>
@@ -306,7 +306,7 @@ function PatternCard({ pattern, isCompleted, isSelected, onClick }: PatternCardP
             {pattern.notation}
           </div>
         </div>
-        <div className="flex items-center justify-between text-xs text-gray-600">
+        <div className="flex items-center justify-between text-xs text-[#3a3a3a]">
           <span>BPM: {pattern.bpm.min}-{pattern.bpm.max}</span>
           <span>Feel: {pattern.feel}</span>
           <span>{pattern.timeSignature}</span>
@@ -331,7 +331,7 @@ function PatternDetailModal({ pattern, isCompleted, onClose }: PatternDetailModa
             <div>
               <h2 className="text-2xl font-bold flex items-center gap-2">
                 {pattern.name}
-                {isCompleted && <span className="text-green-500"><Icon name="check" size={20} /></span>}
+                {isCompleted && <span className="text-[#3a3a3a]"><Icon name="check" size={20} /></span>}
               </h2>
               <div className="flex items-center gap-2 mt-2">
                 <span className="px-3 py-1 bg-gray-100 text-sm uppercase font-medium">
@@ -340,12 +340,12 @@ function PatternDetailModal({ pattern, isCompleted, onClose }: PatternDetailModa
                 <span className="text-yellow-600" title={`Difficulty: ${pattern.difficulty}/5`}>
                   <DifficultyStars level={pattern.difficulty} />
                 </span>
-                <span className="text-sm text-gray-600">{pattern.timeSignature}</span>
+                <span className="text-sm text-[#3a3a3a]">{pattern.timeSignature}</span>
               </div>
             </div>
             <button
               onClick={onClose}
-              className="text-gray-500 hover:text-gray-700 text-xl"
+              className="text-[#3a3a3a] hover:text-[#3a3a3a] text-xl"
             >
               ✕
             </button>
@@ -422,7 +422,7 @@ function PatternDetailModal({ pattern, isCompleted, onClose }: PatternDetailModa
               <ul className="space-y-1 text-sm">
                 {pattern.tips.map((tip, index) => (
                   <li key={index} className="flex items-start gap-2">
-                    <span className="text-amber-700 mt-1">•</span>
+                    <span className="text-[#3a3a3a] mt-1">•</span>
                     <span>{tip}</span>
                   </li>
                 ))}
@@ -437,7 +437,7 @@ function PatternDetailModal({ pattern, isCompleted, onClose }: PatternDetailModa
                 {pattern.prerequisites.map((prereqId) => (
                   <span
                     key={prereqId}
-                    className="px-2 py-1 bg-amber-100 text-amber-800 text-xs"
+                    className="px-2 py-1 bg-amber-100 text-[#3a3a3a] text-xs"
                   >
                     {prereqId.replace(/-/g, ' ')}
                   </span>

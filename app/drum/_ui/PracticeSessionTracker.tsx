@@ -171,10 +171,10 @@ export default function PracticeSessionTracker({
 
   // Quick note buttons
   const quickNotes = [
-    { type: 'milestone' as const, icon: '🎯', label: 'Milestone', color: 'var(--ink)' },
-    { type: 'struggle' as const, icon: '⚠', label: 'Challenge', color: 'var(--ink-muted)' },
-    { type: 'breakthrough' as const, icon: '💡', label: 'Breakthrough', color: 'var(--ink)' },
-    { type: 'note' as const, icon: '📝', label: 'Note', color: 'var(--ink-muted)' }
+    { type: 'milestone' as const, icon: '--', label: 'Milestone', color: 'var(--ink)' },
+    { type: 'struggle' as const, icon: '--', label: 'Challenge', color: 'var(--ink-muted)' },
+    { type: 'breakthrough' as const, icon: '--', label: 'Breakthrough', color: 'var(--ink)' },
+    { type: 'note' as const, icon: '--', label: 'Note', color: 'var(--ink-muted)' }
   ];
 
   const addQuickNote = (type: SessionNote['type'], defaultContent: string) => {

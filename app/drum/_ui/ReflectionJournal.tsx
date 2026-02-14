@@ -295,9 +295,9 @@ export default function ReflectionJournal({
           margin-bottom: 4px;
         }
         
-        .reflection-stop { color: #e74c3c; }
-        .reflection-start { color: #3498db; }
-        .reflection-continue { color: #27ae60; }
+        .reflection-stop { color: #3a3a3a; }
+        .reflection-start { color: #3a3a3a; }
+        .reflection-continue { color: #3a3a3a; }
         
         .reflection-prompt {
           font-size: 0.95rem;

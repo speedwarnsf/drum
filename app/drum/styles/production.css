@@ -56,7 +56,7 @@
   font-weight: 700;
   min-width: 60px;
   text-align: center;
-  color: #f4ba34;
+  color: #3a3a3a;
 }
 
 .sound-controls {
@@ -80,7 +80,7 @@
 }
 
 .volume-slider, .sensitivity-slider {
-  accent-color: #f4ba34;
+  accent-color: #3a3a3a;
 }
 
 .volume-display {
@@ -142,7 +142,7 @@
 }
 
 .visual-metronome-circle-pulse {
-  border-color: #f4ba34;
+  border-color: #3a3a3a;
   background: rgba(244, 186, 52, 0.3);
   transform: scale(1.2);
   box-shadow: 0 0 20px rgba(244, 186, 52, 0.5);
@@ -240,7 +240,7 @@
 
 .gap-visual-status-click {
   background: rgba(78, 205, 196, 0.3);
-  color: #a67c00;
+  color: #3a3a3a;
 }
 
 .gap-visual-status-gap {
@@ -284,12 +284,12 @@
 }
 
 .waveform-status .status-active {
-  color: #a67c00;
+  color: #3a3a3a;
   font-weight: 600;
 }
 
 .waveform-status .status-initializing {
-  color: #f4ba34;
+  color: #3a3a3a;
   font-weight: 600;
 }
 
@@ -380,12 +380,12 @@
 }
 
 .accuracy.good {
-  color: #a67c00;
+  color: #3a3a3a;
   font-weight: 600;
 }
 
 .accuracy.needs-work {
-  color: #f4ba34;
+  color: #3a3a3a;
   font-weight: 600;
 }
 
@@ -467,7 +467,7 @@
 
 .tap-type {
   font-weight: 600;
-  color: #f4ba34;
+  color: #3a3a3a;
   text-transform: uppercase;
 }
 
@@ -496,7 +496,7 @@
   background: white;
   border-radius: 0;
   padding: 20px;
-  color: #333;
+  color: #3a3a3a;
   box-shadow: 0 4px 20px rgba(0,0,0,0.1);
 }
 
@@ -542,7 +542,7 @@
 .description {
   font-style: italic;
   margin-bottom: 15px;
-  color: #666;
+  color: #3a3a3a;
 }
 
 .practice-notes, .common-mistakes, .variations {
@@ -583,13 +583,13 @@
 
 .rudiment-name {
   font-weight: 600;
-  color: #333;
+  color: #3a3a3a;
 }
 
 .sticking-pattern {
   font-family: 'Courier New', monospace;
   font-weight: 600;
-  color: #666;
+  color: #3a3a3a;
 }
 
 /* Progress Dashboard */
@@ -627,7 +627,7 @@
   display: block;
   font-size: 2rem;
   font-weight: 700;
-  color: #f4ba34;
+  color: #3a3a3a;
 }
 
 .stat-label {
@@ -660,7 +660,7 @@
 .streak-number {
   font-size: 3rem;
   font-weight: 700;
-  color: #f4ba34;
+  color: #3a3a3a;
 }
 
 .streak-label {
@@ -897,7 +897,7 @@
 
 .achievement-percentage {
   font-weight: 700;
-  color: #f4ba34;
+  color: #3a3a3a;
 }
 
 .progress-bar {
@@ -959,7 +959,7 @@
 .filter-btn.active {
   background: #f4ba34;
   color: var(--ink, #2f1a00);
-  border-color: #f4ba34;
+  border-color: #3a3a3a;
 }
 
 .filter-btn:hover {
@@ -1054,7 +1054,7 @@
 }
 
 .rarity-epic {
-  border-color: #a67c00;
+  border-color: #3a3a3a;
   background: linear-gradient(135deg, rgba(243, 156, 18, 0.1) 0%, rgba(255,255,255,0.1) 100%);
 }
 

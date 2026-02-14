@@ -16,11 +16,11 @@ export default function OfflinePage() {
       }}
     >
       <h1 style={{ fontSize: "2rem", marginBottom: 8 }}>You are Offline</h1>
-      <p style={{ color: "#666", lineHeight: 1.6, marginBottom: 24 }}>
+      <p style={{ color: "#3a3a3a", lineHeight: 1.6, marginBottom: 24 }}>
         No internet connection right now. Some features need the network, but
         you can still use the metronome and review your cached practice data.
       </p>
-      <p style={{ color: "#888", fontSize: "0.9rem" }}>
+      <p style={{ color: "#3a3a3a", fontSize: "0.9rem" }}>
         Your practice sessions will sync automatically when you reconnect.
       </p>
       <a
@@ -30,7 +30,7 @@ export default function OfflinePage() {
           marginTop: 24,
           padding: "12px 28px",
           backgroundColor: "#f4ba34",
-          color: "#1a1a1a",
+          color: "#3a3a3a",
           borderRadius: 0,
           textDecoration: "none",
           fontWeight: 600,
