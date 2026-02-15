@@ -269,17 +269,17 @@ function EnhancedPracticeInner() {
         isActive={isPracticing}
         onStart={startPracticeSession}
         onStop={(session) => {
-          console.log('Session completed:', session);
+          // session completed
           endPracticeSession();
           // Here you could save the session to localStorage or send to backend
         }}
         onPause={() => {
           // Implement pause logic if needed
-          console.log('Session paused');
+          // session paused
         }}
         onResume={() => {
           // Implement resume logic if needed
-          console.log('Session resumed');
+          // session resumed
         }}
         bpm={bpm}
         mode={practiceMode}
