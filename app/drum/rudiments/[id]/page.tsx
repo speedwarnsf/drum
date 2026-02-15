@@ -4,7 +4,11 @@ import React, { useState, useEffect, useCallback, useRef, use } from "react";
 import Shell from "../../_ui/Shell";
 import RudimentNotation from "../../_ui/RudimentNotation";
 import EnhancedMetronome from "../../_ui/EnhancedMetronome";
+import TempoGoalWidget from "../../_ui/TempoGoalWidget";
+import PendulumMetronome from "../../_ui/PendulumMetronome";
+import { RelatedRudimentsPanel } from "../../_ui/RudimentRelationshipMap";
 import { ESSENTIAL_RUDIMENTS, Rudiment, RudimentProgression } from "../../_lib/rudimentLibrary";
+import { recordTempoProgress } from "../../_lib/tempoGoals";
 import {
   getRudimentStats,
   startActiveSession,
@@ -70,9 +74,10 @@ export default function RudimentDetailPage({ params }: { params: Promise<{ id: s
     const entry = endActiveSession();
     setIsPracticing(false);
     if (entry && rudiment) {
+      recordTempoProgress(rudiment.id, bpm);
       setStats(getRudimentStats(rudiment.id));
     }
-  }, [rudiment]);
+  }, [rudiment, bpm]);
 
   const formatTime = (seconds: number) => {
     const m = Math.floor(seconds / 60);
@@ -243,6 +248,30 @@ export default function RudimentDetailPage({ params }: { params: Promise<{ id: s
         </section>
       )}
 
+      {/* Tempo Goal */}
+      <section className="card">
+        <TempoGoalWidget
+          rudimentId={rudiment.id}
+          rudimentName={rudiment.name}
+          suggestedMax={rudiment.pattern.suggestedTempo.max}
+          currentSessionBpm={isPracticing ? bpm : undefined}
+        />
+      </section>
+
+      {/* Focus Mode */}
+      <section className="card" style={{ textAlign: "center" }}>
+        <Link
+          href={`/drum/focus?rudiment=${rudiment.id}`}
+          className="btn"
+          style={{ display: "inline-block", padding: "12px 24px", fontSize: "1rem", fontWeight: 700 }}
+        >
+          Enter Focus Mode
+        </Link>
+        <p className="sub" style={{ marginTop: 8, fontSize: "0.8rem" }}>
+          Fullscreen practice with just the pattern, metronome, and timer.
+        </p>
+      </section>
+
       {/* Notation */}
       <section className="card">
         <h2 className="card-title">Notation</h2>
@@ -259,6 +288,7 @@ export default function RudimentDetailPage({ params }: { params: Promise<{ id: s
         <p className="sub" style={{ marginBottom: 12 }}>
           Start at {rudiment.pattern.suggestedTempo.min} BPM, work up to {rudiment.pattern.suggestedTempo.max} BPM.
         </p>
+        <PendulumMetronome bpm={bpm} isPlaying={isPracticing} beat={isPracticing ? (practiceSeconds % 4) + 1 : 0} size="medium" />
         <EnhancedMetronome
           bpm={bpm}
           onBpmChange={setBpm}
@@ -314,36 +344,11 @@ export default function RudimentDetailPage({ params }: { params: Promise<{ id: s
         </section>
       )}
 
-      {/* Prerequisites & Next */}
-      {(prereqRudiments.length > 0 || nextRudiments.length > 0) && (
-        <section className="card">
-          <h2 className="card-title">Learning Path</h2>
-          {prereqRudiments.length > 0 && (
-            <div style={{ marginBottom: 16 }}>
-              <h3 style={{ fontSize: "0.9rem", color: "var(--text-muted)" }}>Prerequisites</h3>
-              <div className="rudiment-nav-links">
-                {prereqRudiments.map(r => (
-                  <Link key={r.id} href={`/drum/rudiments/${r.id}`}>
-                    {progression.isCompleted(r.id) ? "[done] " : ""}{r.name}
-                  </Link>
-                ))}
-              </div>
-            </div>
-          )}
-          {nextRudiments.length > 0 && (
-            <div>
-              <h3 style={{ fontSize: "0.9rem", color: "var(--text-muted)" }}>Learn Next</h3>
-              <div className="rudiment-nav-links">
-                {nextRudiments.map(r => (
-                  <Link key={r.id} href={`/drum/rudiments/${r.id}`}>
-                    {r.name} &rarr;
-                  </Link>
-                ))}
-              </div>
-            </div>
-          )}
-        </section>
-      )}
+      {/* Rudiment Relationships */}
+      <section className="card">
+        <h2 className="card-title">Rudiment Relationships</h2>
+        <RelatedRudimentsPanel rudimentId={rudiment.id} />
+      </section>
 
       {/* Navigation */}
       <section className="card">
@@ -351,11 +356,14 @@ export default function RudimentDetailPage({ params }: { params: Promise<{ id: s
           <Link href="/drum/rudiments" className="btn btn-ghost">
             All Rudiments
           </Link>
+          <Link href="/drum/relationships" className="btn btn-ghost">
+            Relationship Map
+          </Link>
           <Link href="/drum/routines" className="btn btn-ghost">
             Routines
           </Link>
-          <Link href="/drum/practice-enhanced" className="btn">
-            Practice Mode
+          <Link href={`/drum/focus?rudiment=${rudiment.id}`} className="btn">
+            Focus Mode
           </Link>
         </div>
       </section>
