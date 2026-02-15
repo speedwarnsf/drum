@@ -13,6 +13,7 @@ function SettingsInner() {
   const [visualPulse, setVisualPulse] = useState(false);
   const [countIn, setCountIn] = useState(true);
   const [practiceReminder, setPracticeReminder] = useState(false);
+  const [highContrast, setHighContrast] = useState(false);
   const [saved, setSaved] = useState(false);
 
   useEffect(() => {
@@ -29,6 +30,7 @@ function SettingsInner() {
         setVisualPulse(s.visualPulse ?? false);
         setCountIn(s.countIn ?? true);
         setPracticeReminder(s.practiceReminder ?? false);
+        setHighContrast(s.highContrast ?? false);
       } catch {}
     }
   }, []);
@@ -47,8 +49,16 @@ function SettingsInner() {
     URL.revokeObjectURL(url);
   }
 
+  useEffect(() => {
+    if (highContrast) {
+      document.documentElement.classList.add("high-contrast");
+    } else {
+      document.documentElement.classList.remove("high-contrast");
+    }
+  }, [highContrast]);
+
   function handleSave() {
-    const settings = { defaultBpm, sessionTarget, soundEnabled, visualPulse, countIn, practiceReminder };
+    const settings = { defaultBpm, sessionTarget, soundEnabled, visualPulse, countIn, practiceReminder, highContrast };
     localStorage.setItem("drum_settings", JSON.stringify(settings));
     setSaved(true);
     setTimeout(() => setSaved(false), 2000);
@@ -143,13 +153,22 @@ function SettingsInner() {
           <span>4-beat count-in before metronome starts</span>
         </label>
 
-        <label style={{ display: "flex", alignItems: "center", gap: 10, cursor: "pointer" }}>
+        <label style={{ display: "flex", alignItems: "center", gap: 10, cursor: "pointer", marginBottom: 12 }}>
           <input
             type="checkbox"
             checked={practiceReminder}
             onChange={(e) => setPracticeReminder(e.target.checked)}
           />
           <span>Daily practice reminder (browser notification)</span>
+        </label>
+
+        <label style={{ display: "flex", alignItems: "center", gap: 10, cursor: "pointer" }}>
+          <input
+            type="checkbox"
+            checked={highContrast}
+            onChange={(e) => setHighContrast(e.target.checked)}
+          />
+          <span>High contrast mode (accessibility)</span>
         </label>
       </section>
 

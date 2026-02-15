@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useMemo, useCallback } from "react";
+import { useRouter } from "next/navigation";
 import Shell from "../_ui/Shell";
 import { Icon } from "../_ui/Icon";
 import { ESSENTIAL_RUDIMENTS, RudimentProgression, Rudiment } from "../_lib/rudimentLibrary";
@@ -17,9 +18,17 @@ const CATEGORIES = [
 ] as const;
 
 export default function RudimentsPage() {
+  const router = useRouter();
   const [filter, setFilter] = useState<string>("all");
   const [progression] = useState(() => new RudimentProgression());
   const stats = progression.getProgressStats();
+
+  const handleRandomRudiment = useCallback(() => {
+    const allIds = Object.keys(ESSENTIAL_RUDIMENTS);
+    const randomId = allIds[Math.floor(Math.random() * allIds.length)];
+    playNav();
+    router.push(`/drum/rudiments/${randomId}`);
+  }, [router]);
 
   const rudiments = useMemo(() => {
     const all = Object.values(ESSENTIAL_RUDIMENTS);
@@ -47,6 +56,17 @@ export default function RudimentsPage() {
         <div style={{ height: 8, background: "var(--border, #eee)", borderRadius: 0, overflow: "hidden" }}>
           <div style={{ height: "100%", width: `${(stats.completedRudiments / stats.totalRudiments) * 100}%`, background: "var(--accent, var(--ink, #3c3c3c))", borderRadius: 0, transition: "width 0.3s" }} />
         </div>
+      </section>
+
+      {/* Random rudiment button */}
+      <section className="card" style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "12px 16px" }}>
+        <div>
+          <div style={{ fontWeight: 600 }}>Feeling spontaneous?</div>
+          <div style={{ fontSize: "0.8rem", color: "var(--ink-muted)" }}>Jump to a random rudiment and practice it.</div>
+        </div>
+        <button className="btn" onClick={handleRandomRudiment} aria-label="Practice a random rudiment">
+          <Icon name="shuffle" size={16} /> Random
+        </button>
       </section>
 
       {/* Category filter */}

@@ -155,6 +155,18 @@ const ICONS: Record<string, React.ReactNode> = {
   sticks: <><line x1="7" y1="2" x2="17" y2="22" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round"/><line x1="17" y1="2" x2="7" y2="22" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round"/></>,
 
   offline: <><circle cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="2" fill="none"/><line x1="4.93" y1="4.93" x2="19.07" y2="19.07" stroke="currentColor" strokeWidth="2"/></>,
+
+  shuffle: <><path d="M16,3h5v5" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/><path d="M4,20L21,3" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/><path d="M16,21h5v-5" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/><path d="M4,4L21,21" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/></>,
+
+  speed: <path d="M12,2A10,10,0,1,0,22,12,10,10,0,0,0,12,2Zm0,18a8,8,0,1,1,8-8A8,8,0,0,1,12,20Zm1-13H11v6l5.25,3.15.75-1.23-4.5-2.67Z"/>,
+
+  gem: <path d="M6,3H18l4,6L12,21,2,9Z M2,9H22"/>,
+
+  temple: <path d="M12,2L3,7V9H21V7ZM5,11V18H7V11Zm4,0V18h2V11Zm4,0V18h2V11Zm4,0V18h2V11ZM3,20V22H21V20Z"/>,
+
+  contrast: <path d="M12,2A10,10,0,1,0,22,12,10,10,0,0,0,12,2Zm0,18V4a8,8,0,0,1,0,16Z"/>,
+
+  download: <><path d="M21,14a1,1,0,0,0-1,1v4a1,1,0,0,1-1,1H5a1,1,0,0,1-1-1V15a1,1,0,0,0-2,0v4a3,3,0,0,0,3,3H19a3,3,0,0,0,3-3V15A1,1,0,0,0,21,14Z"/><path d="M12,15a1,1,0,0,0,.707-.293l4-4a1,1,0,0,0-1.414-1.414L13,11.586V3a1,1,0,0,0-2,0v8.586L8.707,9.293A1,1,0,0,0,7.293,10.707l4,4A1,1,0,0,0,12,15Z"/></>,
 };
 
 export function Icon({ name, size = 20, className = '' }: IconProps) {

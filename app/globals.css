@@ -7603,3 +7603,127 @@ li {
     font-size: 0.8rem;
   }
 }
+
+/* ===== HIGH CONTRAST MODE ===== */
+html.high-contrast {
+  --bg: #000;
+  --ink: #fff;
+  --ink-muted: #ccc;
+  --accent: #ffff00;
+  --panel: #111;
+  --panel-deep: #1a1a1a;
+  --border: #555;
+  --stroke: #666;
+}
+
+html.high-contrast body {
+  background: #000;
+  color: #fff;
+}
+
+html.high-contrast .card {
+  background: #111;
+  border-color: #555;
+}
+
+html.high-contrast .btn {
+  background: #ffff00;
+  color: #000;
+  border-color: #ffff00;
+}
+
+html.high-contrast .btn-ghost {
+  background: transparent;
+  color: #ffff00;
+  border-color: #ffff00;
+}
+
+html.high-contrast .btn:hover,
+html.high-contrast .btn:focus-visible {
+  background: #fff;
+  color: #000;
+}
+
+html.high-contrast .btn-ghost:hover,
+html.high-contrast .btn-ghost:focus-visible {
+  background: #ffff00;
+  color: #000;
+}
+
+html.high-contrast a {
+  color: #ffff00;
+}
+
+html.high-contrast .kicker {
+  color: #ffff00;
+}
+
+html.high-contrast .shell-header {
+  border-color: #555;
+}
+
+html.high-contrast select,
+html.high-contrast input,
+html.high-contrast textarea {
+  background: #1a1a1a;
+  color: #fff;
+  border-color: #555;
+}
+
+/* ===== SKIP LINK ===== */
+.skip-link {
+  position: absolute;
+  top: -100px;
+  left: 0;
+  background: var(--accent, #000);
+  color: var(--bg, #fff);
+  padding: 8px 16px;
+  z-index: 10000;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.skip-link:focus {
+  top: 0;
+}
+
+/* ===== FOCUS VISIBLE (keyboard navigation) ===== */
+*:focus-visible {
+  outline: 3px solid var(--accent, #3c3c3c);
+  outline-offset: 2px;
+}
+
+button:focus-visible,
+a:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible {
+  outline: 3px solid var(--accent, #3c3c3c);
+  outline-offset: 2px;
+}
+
+/* Reduce motion for users who prefer it */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Prefers high contrast (OS-level) */
+@media (prefers-contrast: high) {
+  :root {
+    --border: #555;
+    --ink-muted: #666;
+  }
+  .card {
+    border-width: 2px;
+  }
+  .btn {
+    border-width: 2px;
+  }
+}

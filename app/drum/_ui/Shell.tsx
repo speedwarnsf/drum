@@ -105,8 +105,14 @@ export default function Shell({
       <a href="/drum/history" className="btn btn-ghost btn-sm" onClick={handleNavClick}>
         History
       </a>
+      <a href="/drum/practice-log" className="btn btn-ghost btn-sm" onClick={handleNavClick}>
+        Practice Log
+      </a>
       <a href="/drum/journal" className="btn btn-ghost btn-sm" onClick={handleNavClick}>
         Journal
+      </a>
+      <a href="/drum/profile" className="btn btn-ghost btn-sm" onClick={handleNavClick}>
+        Profile
       </a>
       <a href="/drum/settings" className="btn btn-ghost btn-sm" onClick={handleNavClick}>
         Settings
