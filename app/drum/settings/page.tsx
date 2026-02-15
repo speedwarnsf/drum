@@ -35,9 +35,48 @@ function SettingsInner() {
     }
   }, []);
 
+  const [showResetConfirm, setShowResetConfirm] = useState(false);
+
+  const ALL_DRUM_KEYS = [
+    "drum_sessions",
+    "drum_profile",
+    "drum_settings",
+    "drum_last_plan",
+    "drum_diagnostic_results",
+    "drum_stats_cache",
+    "drum_practice_log",
+    "drum_practice_routines",
+    "drum_active_session",
+    "drum_journal_notes",
+    "drum_completed_patterns",
+    "drum_leaderboard",
+    "drum_community_profile",
+    "drum_challenge_results",
+    "drum_interleave_logs",
+    "drum_tempo_goals",
+    "drum_tempo_progress",
+    "drum_skill_progress",
+    "pwa-install-dismissed",
+  ];
+
+  const PRACTICE_DATA_KEYS = [
+    "drum_sessions",
+    "drum_practice_log",
+    "drum_practice_routines",
+    "drum_active_session",
+    "drum_stats_cache",
+    "drum_completed_patterns",
+    "drum_challenge_results",
+    "drum_interleave_logs",
+    "drum_tempo_goals",
+    "drum_tempo_progress",
+    "drum_skill_progress",
+    "drum_journal_notes",
+  ];
+
   function handleExportData() {
     const data: Record<string, string | null> = {};
-    ["drum_sessions", "drum_profile", "drum_settings", "drum_last_plan", "drum_diagnostic_results"].forEach(key => {
+    ALL_DRUM_KEYS.forEach(key => {
       data[key] = localStorage.getItem(key);
     });
     const blob = new Blob([JSON.stringify(data, null, 2)], { type: "application/json" });
@@ -64,14 +103,15 @@ function SettingsInner() {
     setTimeout(() => setSaved(false), 2000);
   }
 
+  function handleResetPracticeData() {
+    PRACTICE_DATA_KEYS.forEach((key) => localStorage.removeItem(key));
+    setShowResetConfirm(false);
+    window.location.reload();
+  }
+
   function handleClearData() {
-    if (confirm("This will clear all local practice data. Are you sure?")) {
-      localStorage.removeItem("drum_sessions");
-      localStorage.removeItem("drum_profile");
-      localStorage.removeItem("drum_settings");
-      localStorage.removeItem("drum_last_plan");
-      localStorage.removeItem("drum_diagnostic_results");
-      localStorage.removeItem("drum_stats_cache");
+    if (confirm("This will clear ALL local data and reset everything. Are you sure?")) {
+      ALL_DRUM_KEYS.forEach((key) => localStorage.removeItem(key));
       window.location.href = "/drum/start";
     }
   }
@@ -217,6 +257,33 @@ function SettingsInner() {
             Export Backup
           </button>
         </div>
+
+        {/* Reset Practice Data */}
+        <div style={{ marginBottom: 16, padding: 16, border: "1px solid var(--stroke)", background: "var(--panel-deep)" }}>
+          <h3 style={{ fontSize: "0.95rem", fontWeight: 600, marginBottom: 8 }}>Reset Practice Data</h3>
+          <p style={{ fontSize: "0.85rem", color: "var(--ink-muted)", marginBottom: 12 }}>
+            Clears all practice sessions, logs, goals, and progress. Your profile and settings are kept.
+          </p>
+          {!showResetConfirm ? (
+            <button className="btn btn-ghost" onClick={() => setShowResetConfirm(true)}>
+              Reset Practice Data
+            </button>
+          ) : (
+            <div style={{ display: "flex", gap: 8, alignItems: "center" }}>
+              <span style={{ fontSize: "0.85rem", fontWeight: 600, color: "var(--accent-red, #c44)" }}>
+                Are you sure? This cannot be undone.
+              </span>
+              <button className="btn btn-ghost" onClick={handleResetPracticeData} style={{ color: "var(--accent-red, #c44)" }}>
+                Yes, Reset
+              </button>
+              <button className="btn btn-ghost" onClick={() => setShowResetConfirm(false)}>
+                Cancel
+              </button>
+            </div>
+          )}
+        </div>
+
+        {/* Clear All */}
         <p style={{ fontSize: "0.85rem", color: "var(--ink-muted)", marginBottom: 12 }}>
           Clear all local data and start fresh. This cannot be undone.
         </p>
