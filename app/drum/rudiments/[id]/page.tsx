@@ -6,6 +6,9 @@ import RudimentNotation from "../../_ui/RudimentNotation";
 import EnhancedMetronome from "../../_ui/EnhancedMetronome";
 import TempoGoalWidget from "../../_ui/TempoGoalWidget";
 import PendulumMetronome from "../../_ui/PendulumMetronome";
+import StickingAnimation from "../../_ui/StickingAnimation";
+import SpeedTrainer from "../../_ui/SpeedTrainer";
+import PrecountMetronome from "../../_ui/PrecountMetronome";
 import { RelatedRudimentsPanel } from "../../_ui/RudimentRelationshipMap";
 import { ESSENTIAL_RUDIMENTS, Rudiment, RudimentProgression } from "../../_lib/rudimentLibrary";
 import { recordTempoProgress } from "../../_lib/tempoGoals";
@@ -29,6 +32,8 @@ export default function RudimentDetailPage({ params }: { params: Promise<{ id: s
   const [isPracticing, setIsPracticing] = useState(false);
   const [practiceSeconds, setPracticeSeconds] = useState(0);
   const [stats, setStats] = useState<RudimentPracticeStats | null>(null);
+  const [showPrecount, setShowPrecount] = useState(false);
+  const [speedTrainerBpm, setSpeedTrainerBpm] = useState<number | null>(null);
   const timerRef = useRef<number | null>(null);
 
   useEffect(() => {
@@ -66,10 +71,20 @@ export default function RudimentDetailPage({ params }: { params: Promise<{ id: s
 
   const handleStartPractice = useCallback(() => {
     if (!rudiment) return;
+    setShowPrecount(true);
+  }, [rudiment]);
+
+  const handlePrecountComplete = useCallback(() => {
+    if (!rudiment) return;
+    setShowPrecount(false);
     startActiveSession(rudiment.id, bpm);
     setIsPracticing(true);
     setPracticeSeconds(0);
   }, [rudiment, bpm]);
+
+  const handlePrecountCancel = useCallback(() => {
+    setShowPrecount(false);
+  }, []);
 
   const handleStopPractice = useCallback(() => {
     const entry = endActiveSession();
@@ -166,6 +181,26 @@ export default function RudimentDetailPage({ params }: { params: Promise<{ id: s
           <span style={{ color: "#2980b9" }}>L = Left</span>
           <span>lowercase = ghost</span>
         </div>
+      </section>
+
+      {/* Precount Overlay */}
+      {showPrecount && (
+        <PrecountMetronome
+          bpm={bpm}
+          precountBeats={4}
+          onPrecountComplete={handlePrecountComplete}
+          onCancel={handlePrecountCancel}
+        />
+      )}
+
+      {/* Sticking Animation */}
+      <section className="card">
+        <div className="kicker">Sticking Animation</div>
+        <StickingAnimation
+          stickingPattern={rudiment.pattern.stickingPattern}
+          bpm={speedTrainerBpm ?? bpm}
+          isPlaying={isPracticing}
+        />
       </section>
 
       {/* Practice Timer */}
@@ -280,6 +315,22 @@ export default function RudimentDetailPage({ params }: { params: Promise<{ id: s
           rudiment={rudiment}
           showVariations={rudiment.variations.length > 0}
           interactive={false}
+        />
+      </section>
+
+      {/* Speed Trainer */}
+      <section className="card">
+        <SpeedTrainer
+          startBpm={bpm}
+          maxBpm={rudiment.pattern.suggestedTempo.max}
+          incrementBpm={5}
+          barsPerStep={4}
+          beatsPerBar={rudiment.pattern.timeSignature[0]}
+          onBpmChange={(newBpm) => {
+            setSpeedTrainerBpm(newBpm);
+            setBpm(newBpm);
+          }}
+          onStop={() => setSpeedTrainerBpm(null)}
         />
       </section>
 
