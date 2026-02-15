@@ -5,10 +5,12 @@ import GapDrillControls, { GapPreset, GapSettings, GAP_PRESETS } from "./GapDril
 
 type MetronomeProps = {
   bpm: number;
+  onBpmChange?: (bpm: number) => void;
   showGapControls?: boolean;
   initialGapSettings?: Partial<GapSettings>;
   compact?: boolean;
-  showVisualPulse?: boolean; // Show visual pulse circle for visual learners
+  showVisualPulse?: boolean;
+  showBpmControls?: boolean;
 };
 
 type BeatState = {
@@ -21,15 +23,23 @@ type BeatState = {
 
 export default function Metronome({
   bpm,
+  onBpmChange,
   showGapControls = false,
   initialGapSettings,
   compact = false,
   showVisualPulse: initialShowVisualPulse = false,
+  showBpmControls = false,
 }: MetronomeProps) {
   const [metroOn, setMetroOn] = useState(false);
+  const [localBpm, setLocalBpm] = useState(bpm);
   const [gapEnabled, setGapEnabled] = useState(false);
   const [gapPreset, setGapPreset] = useState<GapPreset>("medium");
   const [showVisualPulse, setShowVisualPulse] = useState(initialShowVisualPulse);
+
+  // Sync local BPM when prop changes
+  useEffect(() => {
+    setLocalBpm(bpm);
+  }, [bpm]);
   const [gapSettings, setGapSettings] = useState<GapSettings>({
     beatsOn: initialGapSettings?.beatsOn ?? GAP_PRESETS.medium.beatsOn,
     beatsOff: initialGapSettings?.beatsOff ?? GAP_PRESETS.medium.beatsOff,
@@ -73,7 +83,13 @@ export default function Metronome({
     };
   }, [beatState.isPulse]);
 
-  const clampedBpm = Math.max(30, Math.min(240, Math.round(bpm)));
+  const clampedBpm = Math.max(30, Math.min(240, Math.round(localBpm)));
+
+  const adjustBpm = useCallback((delta: number) => {
+    const newBpm = Math.max(30, Math.min(240, localBpm + delta));
+    setLocalBpm(newBpm);
+    onBpmChange?.(newBpm);
+  }, [localBpm, onBpmChange]);
 
   const tick = useCallback(
     (audioCtx: AudioContext, time: number, shouldPlay: boolean) => {
@@ -249,6 +265,17 @@ export default function Metronome({
           {metroOn ? "Stop click" : "Start click"}
         </button>
       </div>
+
+      {/* Inline BPM controls */}
+      {showBpmControls && (
+        <div className="bpm-inline-controls">
+          <button type="button" className="btn btn-ghost bpm-adj-btn" onClick={() => adjustBpm(-5)} aria-label="Decrease 5 BPM">-5</button>
+          <button type="button" className="btn btn-ghost bpm-adj-btn" onClick={() => adjustBpm(-1)} aria-label="Decrease 1 BPM">-1</button>
+          <span className="bpm-inline-display">{clampedBpm}</span>
+          <button type="button" className="btn btn-ghost bpm-adj-btn" onClick={() => adjustBpm(1)} aria-label="Increase 1 BPM">+1</button>
+          <button type="button" className="btn btn-ghost bpm-adj-btn" onClick={() => adjustBpm(5)} aria-label="Increase 5 BPM">+5</button>
+        </div>
+      )}
 
       {/* Visual Pulse Circle - for visual learners */}
       {metroOn && showVisualPulse && (

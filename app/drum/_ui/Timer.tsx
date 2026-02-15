@@ -1,13 +1,14 @@
 "use client";
 
 /* eslint-disable react-hooks/set-state-in-effect */
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useEffect, useMemo, useState, useCallback } from "react";
 
 type TimerProps = {
   id: string;
   durationSeconds: number;
   activeId?: string | null;
   onActiveChange?: (id: string | null) => void;
+  onComplete?: (id: string) => void;
 };
 
 export default function Timer({
@@ -15,6 +16,7 @@ export default function Timer({
   durationSeconds,
   activeId,
   onActiveChange,
+  onComplete,
 }: TimerProps) {
   const [secondsLeft, setSecondsLeft] = useState<number>(durationSeconds);
   const [isRunning, setIsRunning] = useState(false);
@@ -33,13 +35,14 @@ export default function Timer({
     if (secondsLeft <= 0) {
       setIsRunning(false);
       setIsComplete(true);
+      onComplete?.(id);
       return;
     }
-    const id = window.setInterval(() => {
+    const tid = window.setInterval(() => {
       setSecondsLeft((prev) => Math.max(0, prev - 1));
     }, 1000);
-    return () => window.clearInterval(id);
-  }, [isRunning, secondsLeft]);
+    return () => window.clearInterval(tid);
+  }, [isRunning, secondsLeft, id, onComplete]);
 
   useEffect(() => {
     if (isRunning) return;
@@ -51,6 +54,10 @@ export default function Timer({
     () => (isSelected ? secondsLeft : durationSeconds),
     [isSelected, secondsLeft, durationSeconds]
   );
+
+  const progress = isSelected
+    ? Math.max(0, 1 - secondsLeft / durationSeconds)
+    : 0;
 
   const toggle = () => {
     if (onActiveChange) onActiveChange(id);
@@ -71,51 +78,34 @@ export default function Timer({
     setIsRunning(true);
   };
 
-  const dismissComplete = () => setIsComplete(false);
-
   return (
-    <>
-      {isComplete ? (
-        <div
-          className="timer-flash"
-          onClick={dismissComplete}
-          onTouchEnd={(e) => {
-            e.preventDefault();
-            dismissComplete();
-          }}
-          role="button"
-          tabIndex={0}
-          onKeyDown={(e) => {
-            if (e.key === "Enter" || e.key === " ") dismissComplete();
-          }}
-          aria-label="Timer complete. Tap to dismiss."
-        >
-          <div className="timer-flash-inner">
-            <div className="kicker">Time</div>
-            <div className="timer-flash-title">Block Complete</div>
-            <div className="timer-flash-sub">Tap anywhere to continue.</div>
-          </div>
-        </div>
-      ) : null}
-
+    <div className="timer-wrapper">
       <button
         type="button"
-        className={`timer touch-target ${isSelected && isRunning ? "timer-active" : ""}`}
+        className={`timer touch-target ${isSelected && isRunning ? "timer-active" : ""} ${isComplete ? "timer-done" : ""}`}
         onClick={toggle}
         aria-pressed={isSelected && isRunning}
-        aria-label={`Timer ${formatTime(displaySeconds)}. ${isSelected && isRunning ? "Running, tap to pause" : "Paused, tap to start"}`}
+        aria-label={`Timer ${formatTime(displaySeconds)}. ${isComplete ? "Complete" : isSelected && isRunning ? "Running, tap to pause" : "Paused, tap to start"}`}
       >
+        {/* Progress bar fill */}
+        {isSelected && (isRunning || progress > 0) && (
+          <div
+            className="timer-progress"
+            style={{ width: `${progress * 100}%` }}
+            aria-hidden="true"
+          />
+        )}
         <span className="timer-label">
-          Tap to {isSelected && isRunning ? "pause" : "start"}
+          {isComplete ? "Done" : isSelected && isRunning ? "Tap to pause" : "Tap to start"}
         </span>
         <span className="timer-readout" aria-live="polite">
           {formatTime(displaySeconds)}
         </span>
         <span className="timer-state">
-          {isSelected && isRunning ? "Running" : "Idle"}
+          {isComplete ? "Complete — tap to restart" : isSelected && isRunning ? "Running" : "Idle"}
         </span>
       </button>
-    </>
+    </div>
   );
 }
 

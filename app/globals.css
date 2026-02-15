@@ -274,6 +274,8 @@ body:has(.mobile-nav-open) .hero-shell {
 }
 
 .timer {
+  position: relative;
+  overflow: hidden;
   width: 100%;
   border: 1px solid var(--stroke);
   border-radius: 0;
@@ -389,34 +391,181 @@ body:has(.mobile-nav-open) .hero-shell {
   margin-top: 10px;
 }
 
-.timer-flash {
-  position: fixed;
-  inset: 0;
-  background: radial-gradient(circle at 50% 40%, #ffe08e 0%, #f5b124 60%, #d98c12 100%);
-  z-index: 20;
-  display: grid;
-  place-items: center;
-  animation: flashPulse 900ms ease-in-out infinite;
-  cursor: pointer;
+/* Timer progress bar */
+.timer-wrapper {
+  position: relative;
+  margin: 10px 0 12px;
 }
 
-.timer-flash-inner {
-  background: var(--panel);
-  border-radius: 0;
-  padding: 22px 26px;
-  border: 1px solid var(--stroke);
+.timer-progress {
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  background: rgba(60, 60, 60, 0.1);
+  transition: width 1s linear;
+  pointer-events: none;
+}
+
+.timer-done {
+  border-color: var(--ink);
+  background: var(--panel-deep);
+}
+
+.timer-done .timer-state {
+  font-weight: 600;
+  color: var(--ink);
+}
+
+/* Session progress bar */
+.session-progress {
+  margin-bottom: 16px;
+}
+
+.session-progress-bar {
+  width: 100%;
+  height: 6px;
+  background: var(--stroke);
+  overflow: hidden;
+}
+
+.session-progress-fill {
+  height: 100%;
+  background: var(--ink);
+  transition: width 0.5s ease;
+}
+
+.session-progress-label {
+  font-size: 12px;
+  color: var(--ink-muted);
+  margin-top: 4px;
+  font-family: var(--font-dm-mono), monospace;
+  letter-spacing: 0.05em;
+}
+
+/* Compact streak bar */
+.today-streak-bar {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  padding: 8px 0;
+  margin-bottom: 8px;
+  font-size: 13px;
+  font-family: var(--font-dm-mono), monospace;
+  color: var(--ink-muted);
+}
+
+.today-streak-count {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-weight: 600;
+  color: var(--ink);
+}
+
+.today-streak-risk {
+  font-size: 12px;
+  padding: 2px 8px;
+  background: var(--ink);
+  color: var(--bg);
+  font-weight: 600;
+}
+
+.today-streak-active {
+  font-size: 12px;
+  padding: 2px 8px;
+  background: var(--panel-deep);
+  color: var(--ink);
+  font-weight: 600;
+}
+
+.today-streak-total {
+  margin-left: auto;
+}
+
+/* Coach line */
+.today-coach {
+  border-left: 4px solid var(--ink);
+}
+
+.today-coach-text {
+  font-weight: 600;
+  font-size: 15px;
+}
+
+/* Practice block styling */
+.practice-block-header {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  margin-bottom: 6px;
+}
+
+.practice-block-index {
+  font-family: var(--font-dm-mono), monospace;
+  font-size: 14px;
+  font-weight: 700;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--ink);
+  color: var(--bg);
+  flex-shrink: 0;
+}
+
+.practice-block-done {
+  opacity: 0.6;
+}
+
+.practice-block-done .practice-block-index {
+  background: var(--panel-deep);
+  color: var(--ink);
+}
+
+/* BPM inline controls */
+.bpm-inline-controls {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 1px solid var(--stroke);
+}
+
+.bpm-adj-btn {
+  min-width: 40px;
+  padding: 6px 10px;
+  font-family: var(--font-dm-mono), monospace;
+  font-size: 13px;
+}
+
+.bpm-inline-display {
+  font-family: var(--font-dm-mono), monospace;
+  font-size: 18px;
+  font-weight: 700;
+  min-width: 50px;
   text-align: center;
 }
 
+/* Legacy timer-flash kept but hidden (replaced by inline completion) */
+.timer-flash {
+  display: none;
+}
+
+.timer-flash-inner {
+  display: none;
+}
+
 .timer-flash-title {
-  font-size: clamp(24px, 4vw, 36px);
-  margin-top: 8px;
+  display: none;
 }
 
 .timer-flash-sub {
-  margin-top: 6px;
-  color: var(--ink-muted);
-  font-size: 13px;
+  display: none;
 }
 
 .btn {
