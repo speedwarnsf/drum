@@ -8,8 +8,8 @@ const NAV_ITEMS = [
   { href: "/drum/today", icon: "drum", label: "Today" },
   { href: "/drum/rudiments", icon: "patterns", label: "Rudiments" },
   { href: "/drum/routines", icon: "drills", label: "Routines" },
+  { href: "/drum/community", icon: "entities", label: "Community" },
   { href: "/drum/progress", icon: "trophy", label: "Progress" },
-  { href: "/drum/settings", icon: "settings", label: "Settings" },
 ];
 
 export default function BottomNav() {
