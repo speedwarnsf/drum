@@ -1,5 +1,6 @@
 import { AuthHomeButtons, AuthSetupButton } from "./_ui/AuthControls";
 import RandomRudimentButton from "./_ui/RandomRudimentButton";
+import { WhatsNewButton } from "./_ui/WhatsNew";
 
 export default async function DrumHome() {
   return (
@@ -83,6 +84,7 @@ export default async function DrumHome() {
             <a className="btn btn-ghost" href="/drum/progress">Progress</a>
             <a className="btn btn-ghost" href="/drum/profile">Achievements</a>
             <a className="btn btn-ghost" href="/drum/relationships">Rudiment Map</a>
+            <WhatsNewButton />
           </div>
         </div>
       </section>

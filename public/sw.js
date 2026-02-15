@@ -10,7 +10,7 @@
  *   - Auth/admin APIs: network-only
  */
 
-const CACHE_VERSION = "v2.0.0";
+const CACHE_VERSION = "v2.2.0";
 const PRECACHE = `drum-precache-${CACHE_VERSION}`;
 const RUNTIME  = `drum-runtime-${CACHE_VERSION}`;
 
@@ -22,6 +22,7 @@ const PRECACHE_URLS = [
   "/drum/patterns",
   "/drum/progress",
   "/drum/journal",
+  "/drum/rudiments",
   "/drum/offline",
   "/manifest.json",
   "/media/repodrumlogo.gif",

@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useEffect, useCallback, useRef, use } from "react";
+import { useSearchParams } from "next/navigation";
 import Shell from "../../_ui/Shell";
 import RudimentNotation from "../../_ui/RudimentNotation";
 import EnhancedMetronome from "../../_ui/EnhancedMetronome";
@@ -21,14 +22,19 @@ import {
 } from "../../_lib/practiceTracker";
 import Link from "next/link";
 import Recorder from "../../_ui/Recorder";
+import ShareRudiment from "../../_ui/ShareRudiment";
 
 export default function RudimentDetailPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = use(params);
+  const searchParams = useSearchParams();
   const [rudiment, setRudiment] = useState<Rudiment | null>(null);
   const [progression] = useState(() => new RudimentProgression());
   const [isCompleted, setIsCompleted] = useState(false);
   const [skillLevel, setSkillLevel] = useState(0);
-  const [bpm, setBpm] = useState(80);
+  const [bpm, setBpm] = useState(() => {
+    const bpmParam = searchParams.get("bpm");
+    return bpmParam ? Math.min(300, Math.max(30, parseInt(bpmParam, 10) || 80)) : 80;
+  });
   const [isPracticing, setIsPracticing] = useState(false);
   const [practiceSeconds, setPracticeSeconds] = useState(0);
   const [stats, setStats] = useState<RudimentPracticeStats | null>(null);
@@ -148,6 +154,9 @@ export default function RudimentDetailPage({ params }: { params: Promise<{ id: s
           </div>
         )}
       </div>
+
+      {/* Share */}
+      <ShareRudiment rudimentId={rudiment.id} rudimentName={rudiment.name} bpm={bpm} sticking={rudiment.pattern.stickingPattern} />
 
       {/* Sticking Pattern - prominent display */}
       <section className="card" style={{ textAlign: "center" }}>
