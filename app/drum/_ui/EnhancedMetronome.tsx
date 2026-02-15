@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useCallback, useEffect, useRef, useState } from "react";
-import { DrumAudioEngine, TempoTrainer, ClickSound, AudioConfig, Subdivision } from "../_lib/audioEngine";
+import { DrumAudioEngine, TempoTrainer, ClickSound, AudioConfig, Subdivision, ACCENT_PATTERNS, AccentPattern } from "../_lib/audioEngine";
 import GapDrillControls, { GapPreset, GapSettings, GAP_PRESETS } from "./GapDrillControls";
 import BouncingBeatIndicator from "./BouncingBeatIndicator";
 
@@ -42,12 +42,14 @@ export default function EnhancedMetronome({
   const [targetBpm, setTargetBpm] = useState(bpm + 20);
   const [subdivision, setSubdivision] = useState<Subdivision>("quarter");
   const [tapTimes, setTapTimes] = useState<number[]>([]);
+  const [accentPatternKey, setAccentPatternKey] = useState<string>("none");
   const [audioConfig, setAudioConfig] = useState<AudioConfig>({
     clickSound: "classic",
     volume: 0.7,
     lookAhead: 25.0,
     scheduleAheadTime: 0.1,
     subdivision: "quarter",
+    accentPattern: undefined,
     ...initialConfig,
   });
   const [gapSettings, setGapSettings] = useState<GapSettings>({
@@ -507,6 +509,31 @@ export default function EnhancedMetronome({
               </button>
             ))}
           </div>
+        </div>
+      )}
+
+      {/* Accent Pattern Selector */}
+      {!compact && (
+        <div className="sound-controls" style={{ gridTemplateColumns: "auto 1fr" }}>
+          <label htmlFor="accent-pattern">Accent Pattern:</label>
+          <select
+            id="accent-pattern"
+            value={accentPatternKey}
+            onChange={(e) => {
+              const key = e.target.value;
+              setAccentPatternKey(key);
+              const pattern = key === "none" ? undefined : ACCENT_PATTERNS[key]?.pattern;
+              setAudioConfig((prev) => ({ ...prev, accentPattern: pattern }));
+              if (metroOn && audioEngineRef.current) {
+                audioEngineRef.current.updateConfig({ accentPattern: pattern });
+              }
+            }}
+            className="sound-select"
+          >
+            {Object.entries(ACCENT_PATTERNS).map(([key, { name }]) => (
+              <option key={key} value={key}>{name}</option>
+            ))}
+          </select>
         </div>
       )}
 

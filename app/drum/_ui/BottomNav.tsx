@@ -7,7 +7,7 @@ import { Icon } from "./Icon";
 const NAV_ITEMS = [
   { href: "/drum/today", icon: "drum", label: "Today" },
   { href: "/drum/rudiments", icon: "patterns", label: "Rudiments" },
-  { href: "/drum/warmup", icon: "drills", label: "Warmup" },
+  { href: "/drum/routines", icon: "drills", label: "Routines" },
   { href: "/drum/progress", icon: "trophy", label: "Progress" },
   { href: "/drum/settings", icon: "settings", label: "Settings" },
 ];

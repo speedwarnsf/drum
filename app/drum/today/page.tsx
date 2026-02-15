@@ -30,6 +30,8 @@ import { AILoadingState } from "../_ui/LoadingSpinner";
 import { SkeletonTodayPage } from "../_ui/SkeletonCard";
 import { OfflineIndicator, useOnlineStatus } from "../_ui/OfflineIndicator";
 import ReflectionJournal, { loadReflectionEntry, ReflectionEntry } from "../_ui/ReflectionJournal";
+import { getRudimentsNeedingWork, getAllRudimentStats, getPracticeMinutesByDate } from "../_lib/practiceTracker";
+import { ESSENTIAL_RUDIMENTS } from "../_lib/rudimentLibrary";
 
 export default function DrumTodayPage() {
   return (
@@ -411,13 +413,18 @@ function DrumTodayInner() {
           </div>
         </article>
 
+        {/* Smart Rudiment Suggestions */}
+        {!sessionMeta && (
+          <RudimentSuggestions />
+        )}
+
         {/* Quick tools - compact */}
         <section className="card">
           <div className="row" style={{ flexWrap: "wrap" }}>
             <a href="/drum/warmup" className="btn btn-ghost">Warm-Up</a>
             <a href="/drum/drills" className="btn btn-ghost">Drills</a>
             <a href="/drum/rudiments" className="btn btn-ghost">Rudiments</a>
-            <a href="/drum/practice-enhanced" className="btn btn-ghost">Enhanced Mode</a>
+            <a href="/drum/routines" className="btn btn-ghost">Routines</a>
           </div>
         </section>
 
@@ -465,4 +472,48 @@ function parseBpm(text: string) {
 function formatDate(ts: string) {
   return new Date(ts).toLocaleDateString(undefined, { month: "short", day: "numeric", year: "numeric" });
 }
+function RudimentSuggestions() {
+  const allIds = Object.keys(ESSENTIAL_RUDIMENTS);
+  const needWork = getRudimentsNeedingWork(allIds, 4);
+  const stats = getAllRudimentStats();
+  const weeklyData = getPracticeMinutesByDate(7);
+  const weekTotal = weeklyData.reduce((s, d) => s + d.minutes, 0);
+
+  if (needWork.length === 0) return null;
+
+  return (
+    <section className="card">
+      <div className="kicker">Focus Rudiments</div>
+      {weekTotal > 0 && (
+        <div style={{ fontSize: "0.85rem", color: "var(--ink-muted)", marginBottom: 8 }}>
+          {weekTotal} min practiced this week
+        </div>
+      )}
+      <p className="sub" style={{ marginBottom: 12 }}>
+        Based on your practice history -- these need the most attention:
+      </p>
+      <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
+        {needWork.map((id) => {
+          const r = ESSENTIAL_RUDIMENTS[id];
+          if (!r) return null;
+          const s = stats[id];
+          return (
+            <a
+              key={id}
+              href={`/drum/rudiments/${id}`}
+              className="btn btn-ghost"
+              style={{ justifyContent: "flex-start", textAlign: "left", display: "flex", gap: 12 }}
+            >
+              <span style={{ flex: 1, fontWeight: 600 }}>{r.name}</span>
+              <span style={{ fontSize: "0.8rem", color: "var(--ink-muted)" }}>
+                {s ? `${Math.round(s.totalSeconds / 60)}m total` : "Not practiced"}
+              </span>
+            </a>
+          );
+        })}
+      </div>
+    </section>
+  );
+}
+
 /* eslint-enable react-hooks/set-state-in-effect */

@@ -82,6 +82,9 @@ export default function Shell({
   const secondaryNavLinks = (
     <>
       <div className="nav-section-label">Learning Tools</div>
+      <a href="/drum/routines" className="btn btn-ghost btn-sm" onClick={handleNavClick}>
+        Routines
+      </a>
       <a href="/drum/skills" className="btn btn-ghost btn-sm" onClick={handleNavClick}>
         Skills Tree
       </a>

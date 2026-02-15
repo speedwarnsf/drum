@@ -5,12 +5,25 @@
 
 export type ClickSound = "classic" | "woodblock" | "rim" | "digital" | "cowbell" | "hihat";
 export type Subdivision = "quarter" | "eighth" | "sixteenth" | "triplet";
+export type AccentPattern = number[]; // Array of volumes (0-1) per beat in the pattern, e.g. [1, 0.5, 0.7, 0.5] for 4/4
+
+export const ACCENT_PATTERNS: Record<string, { name: string; pattern: AccentPattern }> = {
+  none: { name: "None (flat)", pattern: [1] },
+  "4-4-standard": { name: "4/4 Standard", pattern: [1, 0.5, 0.7, 0.5] },
+  "3-4-waltz": { name: "3/4 Waltz", pattern: [1, 0.5, 0.5] },
+  "6-8-compound": { name: "6/8 Compound", pattern: [1, 0.4, 0.4, 0.7, 0.4, 0.4] },
+  "2-4-march": { name: "2/4 March", pattern: [1, 0.5] },
+  "5-4-odd": { name: "5/4 (3+2)", pattern: [1, 0.4, 0.4, 0.8, 0.4] },
+  "7-8-odd": { name: "7/8 (3+2+2)", pattern: [1, 0.4, 0.4, 0.8, 0.4, 0.8, 0.4] },
+};
+
 export type AudioConfig = {
   clickSound: ClickSound;
   volume: number; // 0.0 to 1.0
   lookAhead: number; // milliseconds
   scheduleAheadTime: number; // seconds
   subdivision: Subdivision;
+  accentPattern?: AccentPattern;
 };
 
 export class DrumAudioEngine {
@@ -113,7 +126,8 @@ export class DrumAudioEngine {
     // Schedule beats within the lookahead window
     while (this.nextBeatTime < this.audioContext.currentTime + this.config.scheduleAheadTime) {
       const isDownbeat = this.currentBeat % subdivMult === 0;
-      this.scheduleClick(this.nextBeatTime, isDownbeat);
+      const quarterBeatIdx = Math.floor(this.currentBeat / subdivMult);
+      this.scheduleClick(this.nextBeatTime, isDownbeat, quarterBeatIdx);
       this.nextBeatTime += secondsPerSubdiv;
       this.currentBeat++;
     }
@@ -122,17 +136,21 @@ export class DrumAudioEngine {
     this.timerID = window.setTimeout(() => this.schedule(bpm), lookAheadTime);
   }
 
-  private scheduleClick(time: number, isDownbeat: boolean = true): void {
+  private scheduleClick(time: number, isDownbeat: boolean = true, quarterBeatIdx: number = 0): void {
     if (!this.audioContext) return;
     
     const generator = this.clickGenerators[this.config.clickSound];
-    // Reduce volume for subdivision clicks (non-downbeats)
+    const accentPattern = this.config.accentPattern;
+
+    let volumeScale = 1;
     if (!isDownbeat) {
-      const softConfig = { ...this.config, volume: this.config.volume * 0.45 };
-      generator.call(this, this.audioContext, time, softConfig);
-    } else {
-      generator.call(this, this.audioContext, time, this.config);
+      volumeScale = 0.45; // Subdivision clicks are softer
+    } else if (accentPattern && accentPattern.length > 0) {
+      volumeScale = accentPattern[quarterBeatIdx % accentPattern.length];
     }
+
+    const adjustedConfig = { ...this.config, volume: this.config.volume * volumeScale };
+    generator.call(this, this.audioContext, time, adjustedConfig);
   }
 
   // Click sound generators
