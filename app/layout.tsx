@@ -66,6 +66,23 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "WebApplication",
+              "name": "RepoDrum",
+              "url": "https://repodrum.com",
+              "description": "All 40 PAS Essential Rudiments with notation, metronome, and spaced repetition.",
+              "applicationCategory": "EducationalApplication",
+              "operatingSystem": "Web",
+              "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+              "browserRequirements": "Requires JavaScript",
+              "image": "https://repodrum.com/media/repodrumlogo.gif"
+            })
+          }}
+        />
         {/* Preload hero video for faster loading */}
         <link rel="preload" href="/media/YellowDrum.mp4" as="video" type="video/mp4" />
         <link rel="preload" href="/media/YellowDrum-poster.jpg" as="image" />
