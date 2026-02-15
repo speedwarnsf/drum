@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://repodrum.com/sitemap.xml

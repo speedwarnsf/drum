@@ -34,16 +34,32 @@ export const metadata: Metadata = {
   },
   openGraph: {
     type: "website",
+    siteName: "RepoDrum",
+    locale: "en_US",
     title: "RepoDrum — Practice Pad Rudiment Trainer",
-    description: "All 40 PAS Essential Rudiments with notation, metronome, and spaced repetition.",
+    description: "All 40 PAS Essential Rudiments with notation, metronome, and spaced repetition. Track progress, build muscle memory, and master your drumming fundamentals.",
     url: "https://repodrum.com/",
-    images: [{ url: "https://repodrum.com/media/repodrumlogo.gif" }],
+    images: [
+      {
+        url: "https://repodrum.com/media/repodrumlogo.gif",
+        width: 200,
+        height: 200,
+        alt: "RepoDrum logo",
+      },
+    ],
   },
   twitter: {
-    card: "summary",
+    card: "summary_large_image",
+    site: "@repodrum",
+    creator: "@repodrum",
     title: "RepoDrum — Practice Pad Rudiment Trainer",
-    description: "All 40 PAS Essential Rudiments with notation, metronome, and spaced repetition.",
-    images: ["https://repodrum.com/media/repodrumlogo.gif"],
+    description: "All 40 PAS Essential Rudiments with notation, metronome, and spaced repetition. Track progress, build muscle memory, and master your drumming fundamentals.",
+    images: [
+      {
+        url: "https://repodrum.com/media/repodrumlogo.gif",
+        alt: "RepoDrum logo",
+      },
+    ],
   },
   appleWebApp: {
     capable: true,
@@ -73,13 +89,30 @@ export default function RootLayout({
               "@context": "https://schema.org",
               "@type": "WebApplication",
               "name": "RepoDrum",
+              "alternateName": "RepoDrum Practice Pad Trainer",
               "url": "https://repodrum.com",
-              "description": "All 40 PAS Essential Rudiments with notation, metronome, and spaced repetition.",
+              "description": "All 40 PAS Essential Rudiments with notation, metronome, and spaced repetition. Track progress, build muscle memory, and master your drumming fundamentals.",
               "applicationCategory": "EducationalApplication",
-              "operatingSystem": "Web",
-              "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+              "applicationSubCategory": "Music Education",
+              "operatingSystem": "Any",
+              "offers": {
+                "@type": "Offer",
+                "price": "0",
+                "priceCurrency": "USD",
+                "availability": "https://schema.org/InStock"
+              },
               "browserRequirements": "Requires JavaScript",
-              "image": "https://repodrum.com/media/repodrumlogo.gif"
+              "image": "https://repodrum.com/media/repodrumlogo.gif",
+              "screenshot": "https://repodrum.com/media/repodrumlogo.gif",
+              "featureList": "40 PAS Essential Rudiments, Built-in Metronome, Spaced Repetition, Progress Tracking, Practice Journal, Skill Assessment",
+              "softwareVersion": "1.0",
+              "creator": {
+                "@type": "Organization",
+                "name": "RepoDrum",
+                "url": "https://repodrum.com"
+              },
+              "inLanguage": "en",
+              "isAccessibleForFree": true
             })
           }}
         />
