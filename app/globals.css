@@ -940,6 +940,102 @@ li {
   }
 }
 
+/* Recorder Waveform */
+.recorder-waveform-container {
+  margin: 8px 0 12px;
+  border: 1px solid var(--stroke);
+  background: #1a1a1a;
+  overflow: hidden;
+}
+
+.recorder-waveform-canvas {
+  width: 100%;
+  height: 80px;
+  display: block;
+}
+
+/* Recorder Accuracy Score */
+.recorder-accuracy {
+  margin: 12px 0;
+  padding: 12px;
+  border: 1px solid var(--stroke);
+  background: var(--bg, #fff);
+}
+
+.recorder-accuracy-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.recorder-accuracy-label {
+  font-weight: 700;
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.recorder-accuracy-score {
+  font-size: 1.5rem;
+  font-weight: 700;
+  font-family: monospace;
+}
+
+.recorder-accuracy-bar {
+  height: 8px;
+  background: rgba(0,0,0,0.15);
+  margin-bottom: 8px;
+  overflow: hidden;
+}
+
+.recorder-accuracy-fill {
+  height: 100%;
+  background: #c0392b;
+  transition: width 0.5s ease;
+}
+
+.recorder-accuracy-breakdown {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  font-size: 0.75rem;
+  font-family: monospace;
+}
+
+.accuracy-stat {
+  font-weight: 600;
+}
+
+.accuracy-perfect { color: #27ae60; }
+.accuracy-good { color: #2980b9; }
+.accuracy-ok { color: #f39c12; }
+.accuracy-miss { color: #c0392b; }
+
+/* Recorder comparison hint */
+.recorder-comparison-hint {
+  margin-top: 8px;
+  font-size: 0.8rem;
+  color: var(--ink-muted);
+  font-style: italic;
+  padding: 6px 8px;
+  border-left: 3px solid var(--ink);
+}
+
+/* Recorder history extras */
+.recorder-history-bpm {
+  font-size: 0.75rem;
+  font-family: monospace;
+  color: var(--ink-muted);
+}
+
+.recorder-history-score {
+  font-size: 0.75rem;
+  font-weight: 700;
+  font-family: monospace;
+  color: #c0392b;
+}
+
 /* Module Progress styles */
 .module-progress {
   margin-bottom: 16px;

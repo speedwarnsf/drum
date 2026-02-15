@@ -17,6 +17,7 @@ import {
   RudimentPracticeStats,
 } from "../../_lib/practiceTracker";
 import Link from "next/link";
+import Recorder from "../../_ui/Recorder";
 
 export default function RudimentDetailPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = use(params);
@@ -296,6 +297,21 @@ export default function RudimentDetailPage({ params }: { params: Promise<{ id: s
           showTempoTrainer={true}
           showSoundOptions={true}
           showVisualPulse={true}
+        />
+      </section>
+
+      {/* Recording & Self-Audit */}
+      <section className="card">
+        <h2 className="card-title">Record & Analyze</h2>
+        <p className="sub" style={{ marginBottom: 12 }}>
+          Record yourself playing at {bpm} BPM. Get a rhythm accuracy score and compare against the metronome.
+        </p>
+        <Recorder
+          rudimentId={rudiment.id}
+          rudimentName={rudiment.name}
+          bpm={bpm}
+          showHistory={true}
+          sessionId={isPracticing ? `practice_${rudiment.id}_${Date.now()}` : null}
         />
       </section>
 

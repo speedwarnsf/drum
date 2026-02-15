@@ -1,85 +1,212 @@
 /**
- * Audio recording storage utilities
- * Stores recordings in localStorage as base64
- * Max 5 recordings, auto-cleanup older ones
+ * Audio recording storage using IndexedDB
+ * Stores recordings as Blobs (not base64) for efficiency
  */
 
-const KEY_RECORDINGS = "drum_recordings";
-const MAX_RECORDINGS = 5;
-const MAX_DURATION_MS = 60_000;
+const DB_NAME = "drum_recordings_db";
+const DB_VERSION = 1;
+const STORE_NAME = "recordings";
+const MAX_RECORDINGS = 50;
+const MAX_DURATION_MS = 120_000;
 
 export type AudioRecording = {
   id: string;
   sessionId: string | null;
+  rudimentId: string | null;
   ts: string;
   durationMs: number;
   mimeType: string;
-  data: string; // base64
+  data: string; // object URL (runtime only, regenerated from blob)
+  blob?: Blob;
+  bpm?: number;
+  accuracyScore?: number;
 };
 
-function safeJsonParse<T>(raw: string | null): T | null {
-  if (!raw) return null;
-  try {
-    return JSON.parse(raw) as T;
-  } catch {
-    return null;
-  }
-}
-
-export function loadRecordings(): AudioRecording[] {
-  if (typeof window === "undefined") return [];
-  return safeJsonParse<AudioRecording[]>(localStorage.getItem(KEY_RECORDINGS)) ?? [];
-}
-
-export function loadRecordingsForSession(sessionId: string): AudioRecording[] {
-  return loadRecordings().filter((r) => r.sessionId === sessionId);
-}
-
-export function loadRecentRecordings(limit = 5): AudioRecording[] {
-  return loadRecordings().slice(0, limit);
-}
-
-export function saveRecording(
-  blob: Blob,
-  durationMs: number,
-  sessionId: string | null = null
-): Promise<AudioRecording> {
+function openDB(): Promise<IDBDatabase> {
   return new Promise((resolve, reject) => {
-    const reader = new FileReader();
-    reader.onloadend = () => {
-      const base64 = reader.result as string;
-      const recording: AudioRecording = {
-        id: makeId(),
-        sessionId,
-        ts: new Date().toISOString(),
-        durationMs: Math.min(durationMs, MAX_DURATION_MS),
-        mimeType: blob.type || "audio/webm",
-        data: base64,
-      };
-
-      const recordings = loadRecordings();
-      recordings.unshift(recording);
-
-      // Keep only the last MAX_RECORDINGS
-      const trimmed = recordings.slice(0, MAX_RECORDINGS);
-      localStorage.setItem(KEY_RECORDINGS, JSON.stringify(trimmed));
-
-      resolve(recording);
+    if (typeof window === "undefined") {
+      reject(new Error("Not in browser"));
+      return;
+    }
+    const request = indexedDB.open(DB_NAME, DB_VERSION);
+    request.onupgradeneeded = () => {
+      const db = request.result;
+      if (!db.objectStoreNames.contains(STORE_NAME)) {
+        const store = db.createObjectStore(STORE_NAME, { keyPath: "id" });
+        store.createIndex("rudimentId", "rudimentId", { unique: false });
+        store.createIndex("ts", "ts", { unique: false });
+      }
     };
-    reader.onerror = () => reject(new Error("Failed to read audio blob"));
-    reader.readAsDataURL(blob);
+    request.onsuccess = () => resolve(request.result);
+    request.onerror = () => reject(request.error);
   });
 }
 
-export function deleteRecording(id: string): void {
-  if (typeof window === "undefined") return;
-  const recordings = loadRecordings().filter((r) => r.id !== id);
-  localStorage.setItem(KEY_RECORDINGS, JSON.stringify(recordings));
+type StoredRecording = {
+  id: string;
+  sessionId: string | null;
+  rudimentId: string | null;
+  ts: string;
+  durationMs: number;
+  mimeType: string;
+  blob: Blob;
+  bpm?: number;
+  accuracyScore?: number;
+};
+
+function storedToAudio(stored: StoredRecording): AudioRecording {
+  const url = URL.createObjectURL(stored.blob);
+  return {
+    id: stored.id,
+    sessionId: stored.sessionId,
+    rudimentId: stored.rudimentId,
+    ts: stored.ts,
+    durationMs: stored.durationMs,
+    mimeType: stored.mimeType,
+    data: url,
+    blob: stored.blob,
+    bpm: stored.bpm,
+    accuracyScore: stored.accuracyScore,
+  };
 }
 
-export function clearRecordings(): void {
-  if (typeof window === "undefined") return;
-  localStorage.removeItem(KEY_RECORDINGS);
+export async function saveRecording(
+  blob: Blob,
+  durationMs: number,
+  sessionId: string | null = null,
+  rudimentId: string | null = null,
+  bpm?: number,
+  accuracyScore?: number
+): Promise<AudioRecording> {
+  const db = await openDB();
+  const stored: StoredRecording = {
+    id: makeId(),
+    sessionId,
+    rudimentId,
+    ts: new Date().toISOString(),
+    durationMs: Math.min(durationMs, MAX_DURATION_MS),
+    mimeType: blob.type || "audio/webm",
+    blob,
+    bpm,
+    accuracyScore,
+  };
+
+  return new Promise((resolve, reject) => {
+    const tx = db.transaction(STORE_NAME, "readwrite");
+    tx.objectStore(STORE_NAME).put(stored);
+    tx.oncomplete = async () => {
+      await trimOldRecordings();
+      resolve(storedToAudio(stored));
+    };
+    tx.onerror = () => reject(tx.error);
+  });
+}
+
+export async function loadRecentRecordings(limit = 10): Promise<AudioRecording[]> {
+  const db = await openDB();
+  return new Promise((resolve, reject) => {
+    const tx = db.transaction(STORE_NAME, "readonly");
+    const store = tx.objectStore(STORE_NAME);
+    const request = store.index("ts").openCursor(null, "prev");
+    const results: AudioRecording[] = [];
+    request.onsuccess = () => {
+      const cursor = request.result;
+      if (cursor && results.length < limit) {
+        results.push(storedToAudio(cursor.value));
+        cursor.continue();
+      } else {
+        resolve(results);
+      }
+    };
+    request.onerror = () => reject(request.error);
+  });
+}
+
+export async function loadRecordingsForRudiment(rudimentId: string): Promise<AudioRecording[]> {
+  const db = await openDB();
+  return new Promise((resolve, reject) => {
+    const tx = db.transaction(STORE_NAME, "readonly");
+    const store = tx.objectStore(STORE_NAME);
+    const index = store.index("rudimentId");
+    const request = index.getAll(rudimentId);
+    request.onsuccess = () => {
+      const results = (request.result as StoredRecording[])
+        .map(storedToAudio)
+        .sort((a, b) => new Date(b.ts).getTime() - new Date(a.ts).getTime());
+      resolve(results);
+    };
+    request.onerror = () => reject(request.error);
+  });
+}
+
+export async function deleteRecording(id: string): Promise<void> {
+  const db = await openDB();
+  return new Promise((resolve, reject) => {
+    const tx = db.transaction(STORE_NAME, "readwrite");
+    tx.objectStore(STORE_NAME).delete(id);
+    tx.oncomplete = () => resolve();
+    tx.onerror = () => reject(tx.error);
+  });
+}
+
+export async function updateRecordingScore(id: string, accuracyScore: number): Promise<void> {
+  const db = await openDB();
+  return new Promise((resolve, reject) => {
+    const tx = db.transaction(STORE_NAME, "readwrite");
+    const store = tx.objectStore(STORE_NAME);
+    const getReq = store.get(id);
+    getReq.onsuccess = () => {
+      if (getReq.result) {
+        getReq.result.accuracyScore = accuracyScore;
+        store.put(getReq.result);
+      }
+    };
+    tx.oncomplete = () => resolve();
+    tx.onerror = () => reject(tx.error);
+  });
+}
+
+async function trimOldRecordings(): Promise<void> {
+  const db = await openDB();
+  return new Promise((resolve, reject) => {
+    const tx = db.transaction(STORE_NAME, "readwrite");
+    const store = tx.objectStore(STORE_NAME);
+    const countReq = store.count();
+    countReq.onsuccess = () => {
+      if (countReq.result <= MAX_RECORDINGS) {
+        resolve();
+        return;
+      }
+      const toDelete = countReq.result - MAX_RECORDINGS;
+      const cursor = store.index("ts").openCursor(null, "next");
+      let deleted = 0;
+      cursor.onsuccess = () => {
+        const c = cursor.result;
+        if (c && deleted < toDelete) {
+          c.delete();
+          deleted++;
+          c.continue();
+        }
+      };
+    };
+    tx.oncomplete = () => resolve();
+    tx.onerror = () => reject(tx.error);
+  });
+}
+
+export async function clearRecordings(): Promise<void> {
+  const db = await openDB();
+  return new Promise((resolve, reject) => {
+    const tx = db.transaction(STORE_NAME, "readwrite");
+    tx.objectStore(STORE_NAME).clear();
+    tx.oncomplete = () => resolve();
+    tx.onerror = () => reject(tx.error);
+  });
+}
+
+// Synchronous stubs for backward compat (return empty, use async versions)
+export function loadRecordings(): AudioRecording[] {
+  return [];
 }
 
 export function getMaxDurationMs(): number {
