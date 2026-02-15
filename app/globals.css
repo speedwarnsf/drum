@@ -7823,3 +7823,171 @@ textarea:focus-visible {
     border-width: 2px;
   }
 }
+
+/* ============================================
+   LANDING PAGE - Stats bar
+   ============================================ */
+.landing-stats {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+  margin-top: 20px;
+}
+.landing-stat {
+  background: var(--panel);
+  border: 1px solid var(--stroke);
+  padding: 16px 12px;
+  text-align: center;
+}
+.landing-stat-number {
+  font-family: var(--font-dm-mono), monospace;
+  font-size: 1.8rem;
+  font-weight: 700;
+  line-height: 1;
+  margin-bottom: 4px;
+}
+.landing-stat-label {
+  font-size: 0.78rem;
+  color: var(--ink-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+@media (max-width: 560px) {
+  .landing-stats { grid-template-columns: repeat(2, 1fr); }
+}
+
+/* ============================================
+   LANDING PAGE - Comparison table
+   ============================================ */
+.compare-table {
+  display: grid;
+  gap: 0;
+  overflow-x: auto;
+  font-size: 0.85rem;
+}
+.compare-header, .compare-row {
+  display: grid;
+  grid-template-columns: 1.4fr repeat(4, 1fr);
+  border-bottom: 1px solid var(--stroke);
+}
+.compare-header {
+  font-weight: 700;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+.compare-cell {
+  padding: 10px 8px;
+  text-align: center;
+}
+.compare-feature {
+  text-align: left;
+  font-weight: 600;
+}
+.compare-yes { color: #1a5c1a; font-weight: 600; }
+.compare-no { color: var(--ink-muted); }
+.compare-neutral { color: var(--ink-muted); font-style: italic; }
+@media (max-width: 560px) {
+  .compare-header, .compare-row {
+    grid-template-columns: 1.2fr repeat(4, 0.8fr);
+  }
+  .compare-cell { padding: 8px 4px; font-size: 0.75rem; }
+}
+
+/* ============================================
+   LANDING PAGE - Testimonials
+   ============================================ */
+.testimonial-card {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+.testimonial-quote {
+  font-size: 0.95rem;
+  line-height: 1.6;
+  margin-bottom: 14px;
+  font-style: italic;
+}
+.testimonial-author {
+  border-top: 1px solid var(--stroke);
+  padding-top: 10px;
+}
+.testimonial-name {
+  font-weight: 700;
+  font-size: 0.9rem;
+}
+.testimonial-role {
+  font-size: 0.78rem;
+  color: var(--ink-muted);
+}
+
+/* ============================================
+   LANDING PAGE - Footer
+   ============================================ */
+.landing-footer {
+  margin-top: 0;
+  border-top: 2px solid var(--stroke);
+  padding-top: 28px;
+}
+.landing-footer-inner {
+  display: grid;
+  grid-template-columns: 1.2fr 2fr;
+  gap: 32px;
+  margin-bottom: 24px;
+}
+.landing-footer-brand {
+  font-family: var(--font-dm-mono), monospace;
+  font-weight: 700;
+  font-size: 1.1rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  margin-bottom: 8px;
+}
+.landing-footer-desc {
+  font-size: 0.85rem;
+  color: var(--ink-muted);
+  line-height: 1.6;
+  max-width: 300px;
+}
+.landing-footer-links {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+.landing-footer-col {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.landing-footer-heading {
+  font-weight: 700;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin-bottom: 4px;
+}
+.landing-footer-col a {
+  font-size: 0.85rem;
+  color: var(--ink-muted);
+  transition: color 0.15s;
+}
+.landing-footer-col a:hover {
+  color: var(--ink);
+}
+.landing-footer-bottom {
+  border-top: 1px solid var(--stroke);
+  padding-top: 16px;
+  padding-bottom: 8px;
+  font-size: 0.78rem;
+  color: var(--ink-muted);
+  text-align: center;
+}
+@media (max-width: 640px) {
+  .landing-footer-inner {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+  .landing-footer-links {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
