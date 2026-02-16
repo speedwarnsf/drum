@@ -419,7 +419,7 @@ function GoalProgressBar({
     <div className="goals-progress-bar">
       <div className="goals-progress-label">
         <span>
-          {emoji} {label}
+          {label}
         </span>
         <span className={completed ? "goals-complete" : ""}>
           {current}/{target} {unit} {completed ? "done" : ""}

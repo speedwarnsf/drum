@@ -190,7 +190,7 @@ function WarmupPageInner() {
               }}
               disabled={isRunning}
             >
-              {r.emoji} {r.name}
+              {r.name}
             </button>
           ))}
         </div>
