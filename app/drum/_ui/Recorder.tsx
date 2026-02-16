@@ -249,18 +249,20 @@ export default function Recorder({
     setAccuracyResult(null);
     setShowBeatComparison(false);
     tapTimestampsRef.current = [];
-
     setState("requesting");
+    setError("Requesting microphone access...");
     let stream: MediaStream;
     try {
       stream = await navigator.mediaDevices.getUserMedia({
-        audio: { echoCancellation: false, noiseSuppression: false, autoGainControl: false },
+        audio: true,
       });
+      setError(null);
     } catch (err) {
       const errorName = (err as Error).name;
-      if (errorName === "NotAllowedError") setError("Microphone access denied.");
+      const errorMsg = (err as Error).message;
+      if (errorName === "NotAllowedError") setError("Microphone access denied. Check Settings → Safari → Microphone.");
       else if (errorName === "NotFoundError") setError("No microphone found.");
-      else setError("Could not access microphone.");
+      else setError(`Could not access microphone: ${errorName} - ${errorMsg}`);
       setState("idle");
       return;
     }
