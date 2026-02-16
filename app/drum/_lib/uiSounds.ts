@@ -1,7 +1,13 @@
 /**
- * UI Sound Effects — short Web Audio oscillator tones for interaction feedback.
- * No audio files. Pure synthesis.
+ * UI Sound Effects — sample-based with Web Audio synthesis fallback.
  */
+
+import { preloadSamples, playSample } from "./samplePlayer";
+
+// Preload samples on module init (browser only)
+if (typeof window !== "undefined") {
+  preloadSamples();
+}
 
 let audioCtx: AudioContext | null = null;
 
@@ -55,4 +61,21 @@ export function playMilestone() {
   playTone(523, 0.1, "sine", 0.12);
   setTimeout(() => playTone(659, 0.1, "sine", 0.12), 80);
   setTimeout(() => playTone(784, 0.15, "sine", 0.12), 160);
+}
+
+/** Play when starting a practice session */
+export function playPracticeStart() {
+  if (playSample("practice-start", 0.6)) return;
+  // Synthesis fallback: ascending two-note chime
+  playTone(440, 0.12, "sine", 0.15);
+  setTimeout(() => playTone(660, 0.15, "sine", 0.15), 100);
+}
+
+/** Play when completing a practice session */
+export function playPracticeComplete() {
+  if (playSample("practice-complete", 0.6)) return;
+  // Synthesis fallback: triumphant three-note arpeggio
+  playTone(523, 0.12, "sine", 0.15);
+  setTimeout(() => playTone(659, 0.12, "sine", 0.15), 100);
+  setTimeout(() => playTone(784, 0.2, "sine", 0.18), 200);
 }

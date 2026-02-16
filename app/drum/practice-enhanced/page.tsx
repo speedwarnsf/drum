@@ -12,6 +12,7 @@ import { PageTransition, BeatPulse } from "../_ui/MusicalAnimations";
 import { RudimentProgression, generateRudimentPracticeSession, ESSENTIAL_RUDIMENTS } from "../_lib/rudimentLibrary";
 import { AchievementTracker, AchievementNotificationManager } from "../_lib/achievementSystem";
 import { TapEvent, BeatTracker } from "../_lib/tapDetection";
+import { playPracticeStart, playPracticeComplete } from "../_lib/uiSounds";
 import { ErrorBoundary } from "../_ui/ErrorBoundary";
 
 export default function EnhancedPracticePage() {
@@ -108,6 +109,7 @@ function EnhancedPracticeInner() {
 
   // Start practice session
   const startPracticeSession = () => {
+    playPracticeStart();
     const now = new Date();
     setIsPracticing(true);
     setSessionStartTime(now);
@@ -124,6 +126,7 @@ function EnhancedPracticeInner() {
 
   // End practice session
   const endPracticeSession = () => {
+    playPracticeComplete();
     if (sessionStartTime) {
       const durationMinutes = (Date.now() - sessionStartTime.getTime()) / (1000 * 60);
       

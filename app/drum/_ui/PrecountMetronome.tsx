@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useEffect, useRef, useState, useCallback } from "react";
+import { preloadSamples, playSample, hasSample } from "../_lib/samplePlayer";
 
 type PrecountMetronomeProps = {
   bpm: number;
@@ -22,6 +23,11 @@ export default function PrecountMetronome({
   const intervalRef = useRef<number | null>(null);
 
   const playClick = useCallback((audioCtx: AudioContext, isFirst: boolean) => {
+    // Try sample-based playback first
+    const sampleName = isFirst ? "metronome-accent" : "metronome-click";
+    if (playSample(sampleName as any, 0.8)) return;
+
+    // Synthesis fallback
     const freq = isFirst ? 1800 : 1200;
     const osc = audioCtx.createOscillator();
     const gain = audioCtx.createGain();
@@ -36,6 +42,7 @@ export default function PrecountMetronome({
   }, []);
 
   const start = useCallback(async () => {
+    await preloadSamples();
     const AudioCtx = window.AudioContext || (window as any).webkitAudioContext;
     if (!AudioCtx) return;
     audioCtxRef.current = new AudioCtx();

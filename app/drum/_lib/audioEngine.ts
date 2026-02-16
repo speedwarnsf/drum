@@ -3,6 +3,8 @@
  * Features: Multiple click sounds, low-latency scheduling, Web Audio API optimization
  */
 
+import { preloadSamples, scheduleSample, hasSample } from "./samplePlayer";
+
 export type ClickSound = "classic" | "woodblock" | "rim" | "digital" | "cowbell" | "hihat";
 export type Subdivision = "quarter" | "eighth" | "sixteenth" | "triplet";
 export type AccentPattern = number[]; // Array of volumes (0-1) per beat in the pattern, e.g. [1, 0.5, 0.7, 0.5] for 4/4
@@ -77,6 +79,9 @@ export class DrumAudioEngine {
       if (this.audioContext.state === "suspended") {
         await this.audioContext.resume();
       }
+
+      // Preload MP3 samples for sample-based playback
+      await preloadSamples();
     } catch (error) {
       console.error("Failed to initialize audio engine:", error);
       throw error;
@@ -139,16 +144,24 @@ export class DrumAudioEngine {
   private scheduleClick(time: number, isDownbeat: boolean = true, quarterBeatIdx: number = 0): void {
     if (!this.audioContext) return;
     
-    const generator = this.clickGenerators[this.config.clickSound];
     const accentPattern = this.config.accentPattern;
 
     let volumeScale = 1;
     if (!isDownbeat) {
-      volumeScale = 0.45; // Subdivision clicks are softer
+      volumeScale = 0.45;
     } else if (accentPattern && accentPattern.length > 0) {
       volumeScale = accentPattern[quarterBeatIdx % accentPattern.length];
     }
 
+    // Try sample-based playback first (accent on beat 1, click otherwise)
+    const isAccentBeat = isDownbeat && quarterBeatIdx % 4 === 0 && volumeScale >= 0.8;
+    const sampleName = isAccentBeat ? "metronome-accent" : "metronome-click";
+    if (scheduleSample(this.audioContext, sampleName as any, time, this.config.volume * volumeScale)) {
+      return;
+    }
+
+    // Synthesis fallback
+    const generator = this.clickGenerators[this.config.clickSound];
     const adjustedConfig = { ...this.config, volume: this.config.volume * volumeScale };
     generator.call(this, this.audioContext, time, adjustedConfig);
   }

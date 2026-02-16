@@ -2,6 +2,7 @@
 
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import GapDrillControls, { GapPreset, GapSettings, GAP_PRESETS } from "./GapDrillControls";
+import { preloadSamples, scheduleSample, hasSample } from "../_lib/samplePlayer";
 
 type MetronomeProps = {
   bpm: number;
@@ -53,6 +54,11 @@ export default function Metronome({
     isPulse: false,
   });
 
+  // Preload audio samples on mount
+  useEffect(() => {
+    preloadSamples();
+  }, []);
+
   // Refs for audio scheduling
   const audioCtxRef = useRef<AudioContext | null>(null);
   const schedulerRef = useRef<number | null>(null);
@@ -92,13 +98,20 @@ export default function Metronome({
   }, [localBpm, onBpmChange]);
 
   const tick = useCallback(
-    (audioCtx: AudioContext, time: number, shouldPlay: boolean) => {
+    (audioCtx: AudioContext, time: number, shouldPlay: boolean, beatIndex: number) => {
       if (!shouldPlay) return;
 
-      // Layered click: short noise burst + pitched tone for a warm, musical click
-      const freq = gapSettings.offBeatMode ? 900 : 1500;
+      const isAccent = beatIndex % 4 === 0;
+      const sampleName = isAccent ? "metronome-accent" : "metronome-click";
 
-      // Pitched component — triangle wave for warmth
+      // Try sample-based playback first; fall back to synthesis
+      if (scheduleSample(audioCtx, sampleName as any, time, 0.8)) {
+        return;
+      }
+
+      // Synthesis fallback
+      const freq = gapSettings.offBeatMode ? 900 : (isAccent ? 1800 : 1500);
+
       const osc = audioCtx.createOscillator();
       const oscGain = audioCtx.createGain();
       osc.type = "triangle";
@@ -111,12 +124,11 @@ export default function Metronome({
       osc.start(time);
       osc.stop(time + 0.05);
 
-      // Noise transient for the "click" attack
-      const bufferSize = audioCtx.sampleRate * 0.015; // 15ms noise burst
+      const bufferSize = audioCtx.sampleRate * 0.015;
       const noiseBuffer = audioCtx.createBuffer(1, bufferSize, audioCtx.sampleRate);
       const data = noiseBuffer.getChannelData(0);
       for (let i = 0; i < bufferSize; i++) {
-        data[i] = (Math.random() * 2 - 1) * (1 - i / bufferSize); // Decaying noise
+        data[i] = (Math.random() * 2 - 1) * (1 - i / bufferSize);
       }
       const noise = audioCtx.createBufferSource();
       const noiseGain = audioCtx.createGain();
@@ -164,9 +176,9 @@ export default function Metronome({
 
       // For off-beat mode, schedule click at half-beat offset
       if (gapSettings.offBeatMode) {
-        tick(audioCtx, nextTimeRef.current + secondsPerHalfBeat, shouldPlay);
+        tick(audioCtx, nextTimeRef.current + secondsPerHalfBeat, shouldPlay, beatCountRef.current);
       } else {
-        tick(audioCtx, nextTimeRef.current, shouldPlay);
+        tick(audioCtx, nextTimeRef.current, shouldPlay, beatCountRef.current);
       }
 
       nextTimeRef.current += secondsPerBeat;
