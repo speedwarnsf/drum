@@ -392,7 +392,7 @@ function DrumTodayInner() {
             {plan.reflection.map((x, i) => <li key={i}>{x}</li>)}
           </ul>
 
-          <Recorder sessionId={sessionMeta?.id ?? null} disabled={activeBlock !== null} />
+          <Recorder sessionId={sessionMeta?.id ?? null} disabled={false} />
 
           <ReflectionJournal
             key={sessionMeta?.id ?? `today-${new Date().toISOString().slice(0, 10)}`}
