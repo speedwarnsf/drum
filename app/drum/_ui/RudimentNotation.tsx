@@ -393,14 +393,14 @@ export default function RudimentNotation({
         )}
 
         {rudiment.commonMistakes.length > 0 && (
-          <details className="common-mistakes">
-            <summary>Common Mistakes</summary>
+          <div className="common-mistakes">
+            <h4>Common Mistakes</h4>
             <ul>
               {rudiment.commonMistakes.map((mistake, index) => (
                 <li key={index}>{mistake}</li>
               ))}
             </ul>
-          </details>
+          </div>
         )}
 
         {showVariations && rudiment.variations.length > 0 && (
