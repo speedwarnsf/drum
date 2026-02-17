@@ -194,7 +194,7 @@ export default function ReflectionJournal({
       {/* Start */}
       <div className="reflection-field">
         <label htmlFor="reflection-start" className="reflection-label reflection-start">
-          ▶️ START
+          START
         </label>
         <p className="reflection-prompt">{prompts.start.prompt}</p>
         <p className="reflection-examples">

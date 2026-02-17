@@ -117,7 +117,7 @@ export default function RudimentsPage() {
                       {completed && <><Icon name="check" size={14} /> </>}{r.name}
                     </div>
                     <div style={{ fontSize: "0.8rem", color: "var(--text-muted, #888)", marginTop: 2 }}>
-                      {r.pattern.stickingPattern} · Difficulty {"★".repeat(r.pattern.difficulty)}{"☆".repeat(5 - r.pattern.difficulty)}
+                      {r.pattern.stickingPattern} - Difficulty {r.pattern.difficulty}/5
                     </div>
                   </div>
                   {completed && skill > 0 && (

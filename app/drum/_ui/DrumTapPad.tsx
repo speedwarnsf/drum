@@ -242,9 +242,9 @@ export default function DrumTapPad({
             {isDetectorReady ? (
               <span className="status-active">Listening</span>
             ) : isActive ? (
-              <span className="status-initializing">⏳ Initializing...</span>
+              <span className="status-initializing">Initializing...</span>
             ) : (
-              <span className="status-inactive">⏸️ Inactive</span>
+              <span className="status-inactive">Inactive</span>
             )}
           </div>
         </div>

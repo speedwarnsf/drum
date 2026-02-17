@@ -157,7 +157,7 @@ const ACHIEVEMENT_DEFINITIONS: Achievement[] = [
     name: 'Metronome Master',
     description: 'Achieve 95% timing accuracy in a session',
     category: 'timing',
-    icon: '⏰',
+    icon: 'clock',
     rarity: 'rare',
     requirement: { type: 'accuracy_score', target: 95 },
     unlocked: false,
