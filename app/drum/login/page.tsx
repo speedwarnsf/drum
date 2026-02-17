@@ -58,6 +58,11 @@ export default function DrumLoginPage() {
       setError(signInError.message);
       return;
     }
+    // Migrate localStorage data to cloud on login
+    import("../_lib/cloudSync").then((m) => {
+      m.resetAuthCache();
+      m.migrateLocalStorageToCloud().catch(() => {});
+    });
     window.location.href = "/drum/today";
   }
 

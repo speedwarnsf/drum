@@ -2,6 +2,8 @@
  * Tempo Goals — per-rudiment target BPM tracking with history
  */
 
+import { syncTempoGoal, syncGoalAchieved, syncRemoveGoal, syncTempoProgress } from "./cloudSync";
+
 export type TempoGoal = {
   rudimentId: string;
   targetBpm: number;
@@ -51,6 +53,7 @@ export function setTempoGoal(rudimentId: string, targetBpm: number): TempoGoal {
   };
   goals.push(goal);
   save(GOALS_KEY, goals);
+  syncTempoGoal(rudimentId, targetBpm).catch(() => {});
   return goal;
 }
 
@@ -61,10 +64,12 @@ export function markGoalAchieved(rudimentId: string): void {
     goals[idx].achievedAt = new Date().toISOString();
     save(GOALS_KEY, goals);
   }
+  syncGoalAchieved(rudimentId).catch(() => {});
 }
 
 export function removeTempoGoal(rudimentId: string): void {
   save(GOALS_KEY, getTempoGoals().filter(g => g.rudimentId !== rudimentId));
+  syncRemoveGoal(rudimentId).catch(() => {});
 }
 
 // --- Progress History ---
@@ -89,6 +94,7 @@ export function recordTempoProgress(rudimentId: string, bpm: number): void {
     all.push({ rudimentId, date: today, bpm });
   }
   save(PROGRESS_KEY, all);
+  syncTempoProgress(rudimentId, today, bpm).catch(() => {});
 
   // Check if goal achieved
   const goal = getTempoGoal(rudimentId);

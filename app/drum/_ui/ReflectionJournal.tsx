@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
+import { syncReflection } from "../_lib/cloudSync";
 
 /**
  * ReflectionJournal - Formative Evaluation Component
@@ -126,10 +127,11 @@ export default function ReflectionJournal({
       timestamp: new Date().toISOString(),
     };
     
-    // Store locally
+    // Store locally + cloud
     if (sessionId) {
       const key = `reflection_${sessionId}`;
       localStorage.setItem(key, JSON.stringify(entry));
+      syncReflection(sessionId, entry).catch(() => {});
     }
     
     onSave?.(entry);

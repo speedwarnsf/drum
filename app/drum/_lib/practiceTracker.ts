@@ -1,8 +1,10 @@
 /**
  * Practice Time Tracker
  * Tracks time spent on each rudiment and stores practice history.
- * All data persisted to localStorage.
+ * Data persisted to localStorage + cloud sync when authenticated.
  */
+
+import { syncPracticeEntry, syncCreateRoutine, syncUpdateRoutine, syncDeleteRoutine } from "./cloudSync";
 
 export type RudimentPracticeEntry = {
   rudimentId: string;
@@ -65,6 +67,8 @@ export function recordPractice(entry: RudimentPracticeEntry): void {
   const log = loadLog();
   log.push(entry);
   saveLog(log);
+  // Background cloud sync
+  syncPracticeEntry(entry).catch(() => {});
 }
 
 export function getPracticeLog(): RudimentPracticeEntry[] {
@@ -236,6 +240,7 @@ export function createRoutine(name: string, steps: RoutineStep[]): PracticeRouti
   const routines = loadRoutines();
   routines.push(routine);
   saveRoutines(routines);
+  syncCreateRoutine(name, steps).catch(() => {});
   return routine;
 }
 
@@ -247,9 +252,11 @@ export function updateRoutine(id: string, updates: Partial<Pick<PracticeRoutine,
   if (updates.steps !== undefined) routines[idx].steps = updates.steps;
   routines[idx].updatedAt = new Date().toISOString();
   saveRoutines(routines);
+  syncUpdateRoutine(id, updates).catch(() => {});
 }
 
 export function deleteRoutine(id: string): void {
   const routines = loadRoutines().filter((r) => r.id !== id);
   saveRoutines(routines);
+  syncDeleteRoutine(id).catch(() => {});
 }
