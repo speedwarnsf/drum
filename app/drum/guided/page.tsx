@@ -2,7 +2,6 @@
 
 import React, { useState, useEffect, useRef, useCallback } from "react";
 import Shell from "../_ui/Shell";
-import { Icon } from "../_ui/Icon";
 import {
   GuidedSessionTemplate,
   GuidedStep,

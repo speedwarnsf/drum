@@ -4,8 +4,8 @@ import React, { useState, useEffect } from "react";
 import Shell from "../_ui/Shell";
 import PatternBrowser from "../_ui/PatternBrowser";
 import { Icon } from "../_ui/Icon";
-import { type DrumPattern } from "../_lib/patternLibrary";
 import { loadProfile, Profile } from "../_lib/drumMvp";
+import { type DrumPattern } from "../_lib/patternLibrary";
 
 export default function PatternsPage() {
   const [profile, setProfile] = useState<Profile | null>(null);

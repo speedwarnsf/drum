@@ -7,7 +7,7 @@ import { Icon } from "../_ui/Icon";
 import { ErrorBoundary } from "../_ui/ErrorBoundary";
 import { OfflineIndicator } from "../_ui/OfflineIndicator";
 import { getModuleProgress } from "../_lib/drumMvp";
-import { getCompetencyGateStatus, generatePrescription } from "../_lib/competencyGates";
+import { getCompetencyGateStatus } from "../_lib/competencyGates";
 
 /**
  * Diagnostic Page - The "Hidden Coordination Flaw" Test

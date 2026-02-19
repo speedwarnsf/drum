@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from "react";
 import Shell from "../_ui/Shell";
 import { ErrorBoundary } from "../_ui/ErrorBoundary";
-import { loadProfile, saveProfile, Profile } from "../_lib/drumMvp";
+import { loadProfile, Profile } from "../_lib/drumMvp";
 
 function SettingsInner() {
   const [profile, setProfile] = useState<Profile | null>(null);

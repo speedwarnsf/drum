@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useEffect, useRef, useState, useCallback } from "react";
-import { preloadSamples, playSample, hasSample } from "../_lib/samplePlayer";
+import { preloadSamples, playSample } from "../_lib/samplePlayer";
 
 type PrecountMetronomeProps = {
   bpm: number;

@@ -10,7 +10,6 @@ import StreakCounter from "../_ui/StreakCounter";
 import StatsCard, { AchievementsCard } from "../_ui/StatsCard";
 import CompetencyGateDisplay from "../_ui/CompetencyGateDisplay";
 import ProgressCharts from "../_ui/ProgressCharts";
-import { PageTransition, SlideUpSequence } from "../_ui/MusicalAnimations";
 import { getModuleProgress, loadRemoteSessions, loadSessions, MODULE_INFO, StoredSession } from "../_lib/drumMvp";
 import {
   calculatePracticeStats,

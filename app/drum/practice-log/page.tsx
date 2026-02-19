@@ -4,8 +4,8 @@ import React, { useState, useEffect, useMemo } from "react";
 import Shell from "../_ui/Shell";
 import { Icon } from "../_ui/Icon";
 import { ErrorBoundary } from "../_ui/ErrorBoundary";
-import { loadSessions, StoredSession } from "../_lib/drumMvp";
-import { getPracticeLog, RudimentPracticeEntry } from "../_lib/practiceTracker";
+import { loadSessions } from "../_lib/drumMvp";
+import { getPracticeLog } from "../_lib/practiceTracker";
 import { ESSENTIAL_RUDIMENTS } from "../_lib/rudimentLibrary";
 
 type JournalEntry = {

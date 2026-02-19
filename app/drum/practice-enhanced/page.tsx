@@ -8,7 +8,7 @@ import DrumTapPad from "../_ui/DrumTapPad";
 import RudimentNotation, { CompactRudimentNotation } from "../_ui/RudimentNotation";
 import { CompactProgressDashboard } from "../_ui/ProgressDashboard";
 import PracticeSessionTracker from "../_ui/PracticeSessionTracker";
-import { PageTransition, BeatPulse } from "../_ui/MusicalAnimations";
+import { PageTransition } from "../_ui/MusicalAnimations";
 import { RudimentProgression, generateRudimentPracticeSession, ESSENTIAL_RUDIMENTS } from "../_lib/rudimentLibrary";
 import { AchievementTracker, AchievementNotificationManager } from "../_lib/achievementSystem";
 import { TapEvent, BeatTracker } from "../_lib/tapDetection";

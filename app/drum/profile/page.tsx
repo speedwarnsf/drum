@@ -4,10 +4,9 @@ import React, { useState, useEffect, useMemo } from "react";
 import Shell from "../_ui/Shell";
 import { Icon } from "../_ui/Icon";
 import { ErrorBoundary } from "../_ui/ErrorBoundary";
-import { loadProfile, loadSessions, StoredSession, Profile } from "../_lib/drumMvp";
-import { calculatePracticeStats, checkAchievements, formatPracticeTime, PracticeStats, Achievement } from "../_lib/statsUtils";
+import { loadProfile, loadSessions, Profile } from "../_lib/drumMvp";
+import { calculatePracticeStats, formatPracticeTime, PracticeStats, Achievement } from "../_lib/statsUtils";
 import { getPracticeLog, RudimentPracticeEntry } from "../_lib/practiceTracker";
-import { ESSENTIAL_RUDIMENTS } from "../_lib/rudimentLibrary";
 
 const BADGE_DEFS: {
   id: string;

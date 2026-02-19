@@ -2,7 +2,6 @@
 
 import React, { useEffect, useState, useMemo } from "react";
 import Shell from "../_ui/Shell";
-import { Icon } from "../_ui/Icon";
 import { ErrorBoundary } from "../_ui/ErrorBoundary";
 import { OfflineIndicator, useOnlineStatus } from "../_ui/OfflineIndicator";
 import { getSupabaseClient } from "../_lib/supabaseClient";

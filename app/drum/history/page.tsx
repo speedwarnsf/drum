@@ -7,7 +7,7 @@ import { Icon } from "../_ui/Icon";
 import Recorder from "../_ui/Recorder";
 import { loadRemoteSessions, loadSessions, StoredSession } from "../_lib/drumMvp";
 import { ErrorBoundary } from "../_ui/ErrorBoundary";
-import { SkeletonSessionList, SkeletonCard } from "../_ui/SkeletonCard";
+import { SkeletonSessionList } from "../_ui/SkeletonCard";
 import { OfflineIndicator, useOnlineStatus } from "../_ui/OfflineIndicator";
 
 export default function DrumHistoryPage() {
