@@ -3,7 +3,7 @@
  * Features: Multiple click sounds, low-latency scheduling, Web Audio API optimization
  */
 
-import { preloadSamples, scheduleSample, hasSample } from "./samplePlayer";
+import { preloadSamples, scheduleSample } from "./samplePlayer";
 
 export type ClickSound = "classic" | "woodblock" | "rim" | "digital" | "cowbell" | "hihat";
 export type Subdivision = "quarter" | "eighth" | "sixteenth" | "triplet";

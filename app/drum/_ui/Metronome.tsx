@@ -2,7 +2,7 @@
 
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import GapDrillControls, { GapPreset, GapSettings, GAP_PRESETS } from "./GapDrillControls";
-import { preloadSamples, scheduleSample, hasSample } from "../_lib/samplePlayer";
+import { preloadSamples, scheduleSample } from "../_lib/samplePlayer";
 
 type MetronomeProps = {
   bpm: number;
