@@ -332,7 +332,7 @@ export async function migrateLocalStorageToCloud(): Promise<boolean> {
     }
 
     localStorage.setItem(LS_MIGRATED, new Date().toISOString());
-    console.log("[cloud-sync] Migration complete");
+    // Migration complete
     return true;
   } catch (err) {
     console.error("[cloud-sync] Migration error:", err);

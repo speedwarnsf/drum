@@ -375,7 +375,6 @@ function GoalCard({ goal }: { goal: Goal }) {
           target={goal.target_minutes}
           unit="min"
           percent={p.minutesPercent}
-          emoji=""
         />
         <GoalProgressBar
           label="Sessions"
@@ -383,7 +382,6 @@ function GoalCard({ goal }: { goal: Goal }) {
           target={goal.target_sessions}
           unit=""
           percent={p.sessionsPercent}
-          emoji=""
         />
         <GoalProgressBar
           label="Streak"
@@ -391,7 +389,6 @@ function GoalCard({ goal }: { goal: Goal }) {
           target={goal.target_streak}
           unit="days"
           percent={p.streakPercent}
-          emoji=""
         />
       </div>
     </section>
@@ -404,14 +401,12 @@ function GoalProgressBar({
   target,
   unit,
   percent,
-  emoji,
 }: {
   label: string;
   current: number;
   target: number;
   unit: string;
   percent: number;
-  emoji: string;
 }) {
   const completed = percent >= 100;
   return (

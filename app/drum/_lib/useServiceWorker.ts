@@ -41,7 +41,6 @@ export function useServiceWorker() {
           }
         });
 
-        console.log("[App] Service worker registered, scope:", reg.scope);
       } catch (err) {
         console.error("[App] Service worker registration failed:", err);
       }
