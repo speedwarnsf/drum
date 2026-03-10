@@ -103,7 +103,7 @@ export const ESSENTIAL_RUDIMENTS: Record<string, Rudiment> = {
       'Different tones between hands',
     ],
     prerequisites: ['single-stroke-roll'],
-    nextRudiments: ['long-roll', 'five-stroke-roll'],
+    nextRudiments: ['single-stroke-roll-4-variant', 'five-stroke-roll'],
     pfa: true,
   },
 
