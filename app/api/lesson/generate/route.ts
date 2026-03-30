@@ -171,20 +171,22 @@ type AiResponse = {
   plan: PracticePlan;
 };
 
-type OpenAIResponse = {
-  choices?: Array<{
-    message?: {
-      content?: string;
+type GeminiResponse = {
+  candidates?: Array<{
+    content?: {
+      parts?: Array<{
+        text?: string;
+      }>;
     };
   }>;
 };
 
-const MODEL_DEFAULT = "gpt-5.2";
+const MODEL_DEFAULT = "gemini-2.5-flash";
 
 export async function POST(req: Request) {
-  const apiKey = process.env.OPENAI_API_KEY;
+  const apiKey = process.env.GEMINI_API_KEY;
   if (!apiKey) {
-    return NextResponse.json({ error: "OPENAI_API_KEY missing" }, { status: 500 });
+    return NextResponse.json({ error: "GEMINI_API_KEY missing" }, { status: 500 });
   }
 
   let payload: LessonRequest;
@@ -198,38 +200,37 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: "Missing profile" }, { status: 400 });
   }
 
-  const model = process.env.OPENAI_MODEL || MODEL_DEFAULT;
-  const maxOutputTokens = Number(process.env.OPENAI_MAX_OUTPUT_TOKENS || 2000);
+  const model = process.env.GEMINI_MODEL || MODEL_DEFAULT;
+  const maxOutputTokens = Number(process.env.GEMINI_MAX_OUTPUT_TOKENS || 2000);
   const moduleNum = payload.currentModule ?? 1;
 
   const system = buildSystemPrompt(moduleNum);
   const user = buildUserPrompt(payload);
 
   try {
-    const response = await fetch("https://api.openai.com/v1/chat/completions", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${apiKey}`,
-      },
-      body: JSON.stringify({
-        model,
-        messages: [
-          { role: "system", content: system },
-          { role: "user", content: user },
-        ],
-        max_completion_tokens: maxOutputTokens,
-        temperature: 0.7,
-        response_format: { type: "json_object" },
-      }),
-    });
+    const response = await fetch(
+      `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${apiKey}`,
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          contents: [{ role: "user", parts: [{ text: user }] }],
+          systemInstruction: { parts: [{ text: system }] },
+          generationConfig: {
+            maxOutputTokens,
+            temperature: 0.7,
+            responseMimeType: "application/json",
+          },
+        }),
+      }
+    );
 
     if (!response.ok) {
       const errorText = await response.text();
       return NextResponse.json({ error: errorText }, { status: 500 });
     }
 
-    const data = (await response.json()) as OpenAIResponse;
+    const data = (await response.json()) as GeminiResponse;
     const text = extractOutputText(data);
     if (!text) {
       return NextResponse.json({ error: "No output text" }, { status: 500 });
@@ -411,8 +412,8 @@ function summarizeLogs(logs: LogEntry[]) {
   return `Last session: broke=${broke}, felt=${felt}. ${note}`.trim();
 }
 
-function extractOutputText(data: OpenAIResponse): string | null {
-  const content = data?.choices?.[0]?.message?.content;
+function extractOutputText(data: GeminiResponse): string | null {
+  const content = data?.candidates?.[0]?.content?.parts?.[0]?.text;
   return typeof content === "string" ? content : null;
 }
 
